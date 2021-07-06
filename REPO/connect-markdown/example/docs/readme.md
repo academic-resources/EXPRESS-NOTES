@@ -1,5 +1,4 @@
-connect-markdown readme
-=======
+# connect-markdown readme
 
 [![Build Status](https://secure.travis-ci.org/fengmk2/connect-markdown.png)](http://travis-ci.org/fengmk2/connect-markdown) [![Coverage Status](https://coveralls.io/repos/fengmk2/connect-markdown/badge.png)](https://coveralls.io/r/fengmk2/connect-markdown) [![Build Status](https://drone.io/github.com/fengmk2/connect-markdown/status.png)](https://drone.io/github.com/fengmk2/connect-markdown/latest)
 
@@ -16,20 +15,23 @@ $ npm install connect-markdown
 ## Usage
 
 ```js
-var connect = require('connect');
-var connectMarkdown = require('connect-markdown');
+var connect = require("connect");
+var connectMarkdown = require("connect-markdown");
 
 var app = connect();
 
 /**
- * GET /docs      <= marked() = /docs/index.md 
+ * GET /docs      <= marked() = /docs/index.md
  * GET /docs/rest <= marked() = /docs/rest.md
  */
-app.use('/docs', connectMarkdown({
-  root: __dirname + '/docs',
-  // layout: root + '/layout.html',
-  // indexName: 'index', // you can change to `readme` or `README`
-}));
+app.use(
+  "/docs",
+  connectMarkdown({
+    root: __dirname + "/docs",
+    // layout: root + '/layout.html',
+    // indexName: 'index', // you can change to `readme` or `README`
+  })
+);
 
 app.listen(1984);
 ```
@@ -37,18 +39,18 @@ app.listen(1984);
 ## Authors
 
 ```bash
-$ git summary 
+$ git summary
 
  project  : connect-markdown
  repo age : 14 hours
  active   : 1 days
  commits  : 3
  files    : 15
- authors  : 
+ authors  :
      3  fengmk2                 100.0%
 ```
 
-## License 
+## License
 
 (The MIT License)
 

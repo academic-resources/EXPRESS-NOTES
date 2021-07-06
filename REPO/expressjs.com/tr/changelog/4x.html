@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Express 4.x Sürüm Notları</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Express 4.x Sürüm Notları</h1>
+</header>
+<div id="page-doc" markdown="1">
+<h1 id="release-change-log">Release Change Log</h1>
+<h2 id="release-date-2017-05-16">4.15.3 - Release date: 2017-05-16</h2>
+<p>{: id=“4.15.3”}</p>
+<p>The 4.15.3 patch release including some minor bug fixes:</p>
+<ul>
+<li class="changelog-item">
+Fix error when <code>res.set</code> cannot add charset to <code>Content-Type</code>.
+</li>
+<li class="changelog-item">
+Fix missing <code>&lt;/html&gt;</code> in HTML document.
+</li>
+</ul>
+<p>For a complete list of changes in this release, see <a href="https://github.com/expressjs/express/blob/master/History.md#4153--2017-05-16">History.md</a>.</p>
+<h2 id="release-date-2017-03-06">4.15.2 - Release date: 2017-03-06</h2>
+<p>{: id=“4.15.2”}</p>
+<p>The 4.15.2 patch release including a minor bug fix:</p>
+<ul>
+<li class="changelog-item">
+Fix regression parsing keys starting with <code>[</code> in the extended (default) query parser.
+</li>
+</ul>
+<p>For a complete list of changes in this release, see <a href="https://github.com/expressjs/express/blob/master/History.md#4152--2017-03-06">History.md</a>.</p>
+<h2 id="release-date-2017-03-05">4.15.1 - Release date: 2017-03-05</h2>
+<p>{: id=“4.15.1”}</p>
+<p>The 4.15.1 patch release including a minor bug fix:</p>
+<ul>
+<li class="changelog-item">
+Fix compatibility issue when using the datejs 1.x library where the <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#express.static"><code>express.static()</code> middleware</a> and <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendFile"><code>res.sendFile()</code> method</a> would incorrectly respond with 412 Precondition Failed.
+</li>
+</ul>
+<p>For a complete list of changes in this release, see <a href="https://github.com/expressjs/express/blob/master/History.md#4151--2017-03-05">History.md</a>.</p>
+<h2 id="release-date-2017-03-01">4.15.0 - Release date: 2017-03-01</h2>
+<p>{: id=“4.15.0”}</p>
+<p>The 4.15.0 minor release includes bug fixes, performance improvements, and other minor feature additions, including:</p>
+<ul>
+<li class="changelog-item">
+Starting with this version, Express supports Node.js 7.x.
+</li>
+<li class="changelog-item">
+The <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#express.static"><code>express.static()</code> middleware</a> and <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendFile"><code>res.sendFile()</code> method</a> now support the <code>If-Match</code> and <code>If-Unmodified-Since</code> request headers.
+</li>
+<li class="changelog-item">
+Update to <a href="https://www.npmjs.com/package/etag">jshttp/etag module</a> to generate the default ETags for responses which work when Node.js has <a href="https://nodejs.org/dist/latest/docs/api/cli.html#cli_enable_fips">FIPS-compliant crypto enabled</a>.
+</li>
+<li class="changelog-item">
+Various auto-generated HTML responses like the default not found and error handlers will respond with complete HTML 5 documents and additional security headers.
+</li>
+</ul>
+<p>For a complete list of changes in this release, see <a href="https://github.com/expressjs/express/blob/master/History.md#4150--2017-03-01">History.md</a>.</p>
+<h2 id="release-date-2017-01-28">4.14.1 - Release date: 2017-01-28</h2>
+<p>{: id=“4.14.1”}</p>
+<p>The 4.14.1 patch release includes bug fixes and performance improvements, including:</p>
+<ul>
+<li class="changelog-item">
+Update to <a href="https://www.npmjs.com/package/finalhandler">pillarjs/finalhandler module</a> fixes an exception when Express handles an <code>Error</code> object which has a <code>headers</code> property that is not an object.
+</li>
+</ul>
+<p>For a complete list of changes in this release, see <a href="https://github.com/expressjs/express/blob/master/History.md#4141--2017-01-28">History.md</a>.</p>
+<h2 id="release-date-2016-06-16">4.14.0 - Release date: 2016-06-16</h2>
+<p>{: id=“4.14.0”}</p>
+<p>The 4.14.0 minor release includes bug fixes, security update, performance improvements, and other minor feature additions, including:</p>
+<ul>
+<li class="changelog-item">
+Starting with this version, Express supports Node.js 6.x.
+</li>
+<li class="changelog-item">
+Update to <a href="https://www.npmjs.com/package/negotiator">jshttp/negotiator module</a> fixes a <a href="https://npmjs.com/advisories/106">regular expression denial of service vulnerability</a>.
+</li>
+<li markdown="1" class="changelog-item">
+<p>The <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendFile"><code>res.sendFile()</code> method</a> now accepts two new options: <code>acceptRanges</code> and <code>cacheControl</code>.</p>
+<ul>
+<li><p><code>acceptRanges</code> (defaut is <code>true</code>), enables or disables accepting ranged requests. When disabled, the response does not send the <code>Accept-Ranges</code> header and ignores the contents of the <code>Range</code> request header.</p>
+<ul>
+<li><p><code>cacheControl</code>, (default is <code>true</code>), enables or disables the <code>Cache-Control</code> response header. Disabling it will ignore the <code>maxAge</code> option.</p></li>
+<li><code>res.sendFile</code> has also been updated to handle <code>Range</code> header and redirections better.</li>
+</ul>
+</li>
+<li class="changelog-item">
+The <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.location"><code>res.location()</code> method</a> and <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.redirect"><code>res.redirect()</code> method</a> will now URL-encode the URL string, if it is not already encoded.
+</li>
+<li class="changelog-item">
+The performance of the <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.json"><code>res.json()</code> method</a> and <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.jsonp"><code>res.jsonp()</code> method</a> have been improved in the common cases.
+</li>
+<li class="changelog-item">
+<p>The <a href="https://www.npmjs.com/package/cookie">jshttp/cookie module</a> (in addition to a number of other improvements) has been updated and now the <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.cookie"><code>res.cookie()</code> method</a> supports the <code>sameSite</code> option to let you specify the <a href="https://tools.ietf.org/html/draft-west-first-party-cookies-07">SameSite cookie attribute</a>. NOTE: This attribute has not yet been fully standardized, may change in the future, and many clients may ignore it.</p>
+<p>The possible value for the <code>sameSite</code> option are:</p>
+<ul>
+<li><code>true</code>, which sets the <code>SameSite</code> attribute to <code>Strict</code> for strict same site enforcement.</li>
+<li><code>false</code>, which does not set the <code>SameSite</code> attribute.</li>
+<li><code>'lax'</code>, which sets the <code>SameSite</code> attribute to <code>Lax</code> for lax same site enforcement.</li>
+<li><code>'strict'</code>, which sets the <code>SameSite</code> attribute to <code>Strict</code> for strict same site enforcement.</li>
+</ul>
+</li>
+<li class="changelog-item">
+Absolute path checking on Windows, which was incorrect for some cases, has been fixed.
+</li>
+<li class="changelog-item">
+IP address resolution with proxies has been greatly improved.
+</li>
+<li class="changelog-item">
+The <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#req.range"><code>req.range()</code> method</a> options object now supports a <code>combine</code> option (<code>false</code> by default), which when <code>true</code>, combines overlapping and adjacent ranges and returns them as if they were specified that way in the header.
+</li>
+</ul></li>
+</ul>
+For a complete list of changes in this release, see <a href="https://github.com/expressjs/express/blob/master/History.md#4140--2016-06-16">History.md</a>.
+</div>
+</body>
+</html>

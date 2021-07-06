@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Express 미들웨어</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Express 미들웨어</h1>
+</header>
+<h2 id="express-미들웨어">Express 미들웨어</h2>
+<p>목록에 적힌 Express 미들웨어 모듈들은 <a href="https://github.com/orgs/expressjs/people">Expressjs 팀</a>이 유지보수합니다.</p>
+<table>
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 30%" />
+<col style="width: 31%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>미들웨어 모듈</th>
+<th>설명</th>
+<th>내장 함수 (Express 3)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="/resources/middleware/body-parser.html">body-parser</a></td>
+<td>HTTP 요청 body를 파싱합니다. <a href="https://github.com/raynos/body">body</a>, <a href="https://github.com/visionmedia/co-body">co-body</a>, 그리고 <a href="https://github.com/stream-utils/raw-body">raw-body</a>도 참고하세요.</td>
+<td>express.bodyParser</td>
+</tr>
+<tr class="even">
+<td><a href="/resources/middleware/compression.html">compression</a></td>
+<td>HTTP 요청들을 압축합니다.</td>
+<td>express.compress</td>
+</tr>
+<tr class="odd">
+<td><a href="/resources/middleware/connect-rid.html">connect-rid</a></td>
+<td>고유한 요청 ID를 생성합니다.</td>
+<td>없음</td>
+</tr>
+<tr class="even">
+<td><a href="/resources/middleware/cookie-parser.html">cookie-parser</a></td>
+<td>쿠키 헤더를 파싱하고 <code>req.cookies</code>에 할당합니다. <a href="https://github.com/jed/cookies">cookies</a>와 <a href="https://github.com/jed/keygrip">keygrip</a>도 참고하세요.</td>
+<td>express.cookieParser</td>
+</tr>
+<tr class="odd">
+<td><a href="/resources/middleware/cookie-session.html">cookie-session</a></td>
+<td>쿠키 기반의 세션을 만듭니다.</td>
+<td>express.cookieSession</td>
+</tr>
+<tr class="even">
+<td><a href="/resources/middleware/cors.html">cors</a></td>
+<td>다양한 옵션들을 이용하여 Cross-origin resource sharing (CORS)를 활성화합니다.</td>
+<td>없음</td>
+</tr>
+<tr class="odd">
+<td><a href="/resources/middleware/csurf.html">csurf</a></td>
+<td>CSRF 취약점을 방어합니다.</td>
+<td>express.csrf</td>
+</tr>
+<tr class="even">
+<td><a href="/resources/middleware/errorhandler.html">errorhandler</a></td>
+<td>개발 중에 발생하는 에러를 핸들링하고 디버깅합니다.</td>
+<td>express.errorHandler</td>
+</tr>
+<tr class="odd">
+<td><a href="/resources/middleware/method-override.html">method-override</a></td>
+<td>헤더를 이용해 HTTP method를 덮어씁니다.</td>
+<td>express.methodOverride</td>
+</tr>
+<tr class="even">
+<td><a href="/resources/middleware/morgan.html">morgan</a></td>
+<td>HTTP 요청 로그를 남깁니다.</td>
+<td>express.logger</td>
+</tr>
+<tr class="odd">
+<td><a href="/resources/middleware/multer.html">multer</a></td>
+<td>multi-part 폼 데이터를 처리합니다.</td>
+<td>express.bodyParser</td>
+</tr>
+<tr class="even">
+<td><a href="/resources/middleware/response-time.html">response-time</a></td>
+<td>응답 시간을 기록합니다.</td>
+<td>express.responseTime</td>
+</tr>
+<tr class="odd">
+<td><a href="/resources/middleware/serve-favicon.html">serve-favicon</a></td>
+<td>파비콘을 제공합니다.</td>
+<td>express.favicon</td>
+</tr>
+<tr class="even">
+<td><a href="/resources/middleware/serve-index.html">serve-index</a></td>
+<td>주어진 경로의 디렉토리 리스트를 제공합니다.</td>
+<td>express.directory</td>
+</tr>
+<tr class="odd">
+<td><a href="/resources/middleware/serve-static.html">serve-static</a></td>
+<td>정적 파일을 제공합니다.</td>
+<td>express.static</td>
+</tr>
+<tr class="even">
+<td><a href="/resources/middleware/session.html">session</a></td>
+<td>서버 기반의 세션을 만듭니다 (개발 전용).</td>
+<td>express.session</td>
+</tr>
+<tr class="odd">
+<td><a href="/resources/middleware/timeout.html">timeout</a></td>
+<td>HTTP 요청 처리를 위해 timeout을 만듭니다.</td>
+<td>express.timeout</td>
+</tr>
+<tr class="even">
+<td><a href="/resources/middleware/vhost.html">vhost</a></td>
+<td>가상 도메인을 만듭니다.</td>
+<td>express.vhost</td>
+</tr>
+</tbody>
+</table>
+<h2 id="추가-미들웨어-모듈">추가 미들웨어 모듈</h2>
+<p>몇몇 유명한 외부 미들웨어 모듈들입니다.</p>
+<p>{% include community-caveat.html %}</p>
+<table>
+<colgroup>
+<col style="width: 56%" />
+<col style="width: 43%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>미들웨어 모듈</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://github.com/msemenistyi/connect-image-optimus">connect-image-optimus</a></td>
+<td>이미지 제공을 최적화힙니다. 할 수 있다면 이미지를 <code>.webp</code>나 <code>.jxr</code>로 바꿉니다.</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/devoidfury/express-debug">express-debug</a></td>
+<td>템플릿 변수 (지역), 현재 세션, 기타 등등에 대한 정보를 제공하는 개발 도구입니다.</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/nemtsov/express-partial-response">express-partial-response</a></td>
+<td>JSON 응답을 URL의 <code>fields</code>를 받아서 필터링합니다. Google API의 Partial Response를 활용합니다.</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/jamiesteven/express-simple-cdn">express-simple-cdn</a></td>
+<td>정적 요소들을 위해 CDN을 사용하도록 도와줍니다. 다양한 호스트를 지원합니다.</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/ericf/express-slash">express-slash</a></td>
+<td>구현된 루터에 맟춰서 슬래쉬 유무를 맞춰줍니다.</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/stormpath/stormpath-express">express-stormpath</a></td>
+<td>사용자 저장소, 인증 확인, 인증, SSO, 그리고 데이터 보안에 관련된 모듈입니다. (Okta로 합쳐졌습니다)</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/jamiesteven/express-uncapitalize">express-uncapitalize</a></td>
+<td>대문자를 포함하는 HTTP 요청들을 표준 소문자 폼으로 리다이렉트시킵니다. containing uppercase to a canonical lowercase form.</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/helmetjs/helmet">helmet</a></td>
+<td>다양한 HTTP 헤더를 설정해 앱이 안전하게 도와줍니다.</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/coderaiser/join-io">join-io</a></td>
+<td>요청 횟수를 줄이기 위해 파일들을 묶어줍니다.</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/jaredhanson/passport">passport</a></td>
+<td>OAuth, OpenID 같은 방법들을 사용하는 인증 체계입니다. 자세한 정보는 <a href="http://passportjs.org/">http://passportjs.org/</a>에서 확인하세요.</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/paulwalker/connect-static-expiry">static-expiry</a></td>
+<td>정적 에셋을 위해 헤더를 캐싱하거나 URL을 고유화합니다.</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/madhums/node-view-helpers">view-helpers</a></td>
+<td>뷰 엔진들을 위한 일반적인 도움을 제공합니다.</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/hdngr/siracha">sriracha-admin</a></td>
+<td>동적으로 Mongoose의 관리 사이트를 만듭니다.</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://github.com/Raynos/http-framework#modules">http-framework</a>에서 더 많은 모듈들을 찾을 수 있습니다.</p>
+</body>
+</html>

@@ -6,8 +6,7 @@
   "scripts": {
     "test": "make test"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "connect": "*",
     "should": "*",
@@ -20,7 +19,11 @@
     "url": "git://github.com/fengmk2/domain-middleware.git"
   },
   "keywords": [
-    "domain", "uncaughtException", "error", "connect", "cluster"
+    "domain",
+    "uncaughtException",
+    "error",
+    "connect",
+    "cluster"
   ],
   "engines": {
     "node": ">= 0.8.0"

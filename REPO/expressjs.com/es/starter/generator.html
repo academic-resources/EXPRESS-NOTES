@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Generador de aplicaciones Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Generador de aplicaciones Express</h1>
+</header>
+<h1 id="generador-de-aplicaciones-express">Generador de aplicaciones Express</h1>
+<p>Utilice la herramienta de generador de aplicaciones, <code>express</code>, para crear rápidamente un esqueleto de aplicación.</p>
+<p>Instale <code>express</code> con el siguiente mandato:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install express-generator -g
+</code>
+</pre>
+<p>Muestre las opciones de mandato con la opción <code>-h</code>:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ express -h
+
+  Usage: express [options][dir]
+
+  Options:
+
+    -h, --help          output usage information
+        --version       output the version number
+    -e, --ejs           add ejs engine support
+        --hbs           add handlebars engine support
+        --pug           add pug engine support
+    -H, --hogan         add hogan.js engine support
+        --no-view       generate without view engine
+    -v, --view &lt;engine&gt; add view &lt;engine&gt; support (ejs|hbs|hjs|jade|pug|twig|vash) (defaults to jade)
+    -c, --css &lt;engine&gt;  add stylesheet &lt;engine&gt; support (less|stylus|compass|sass) (defaults to plain css)
+        --git           add .gitignore
+    -f, --force         force on non-empty directory
+</code>
+</pre>
+<p>Por ejemplo, el código siguiente crea una aplicación Express denominada <em>myapp</em>. La aplicación será creada en una carpeta llamada <em>myapp</em> en el directorio de trabajo actual y el motor de vistas será asignado a <a href="https://pugjs.org/" target="_blank" title="Documentación de Pug">Pug</a>:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ express --view=pug myapp
+
+   create : myapp
+   create : myapp/package.json
+   create : myapp/app.js
+   create : myapp/public
+   create : myapp/public/javascripts
+   create : myapp/public/images
+   create : myapp/routes
+   create : myapp/routes/index.js
+   create : myapp/routes/users.js
+   create : myapp/public/stylesheets
+   create : myapp/public/stylesheets/style.css
+   create : myapp/views
+   create : myapp/views/index.pug
+   create : myapp/views/layout.pug
+   create : myapp/views/error.pug
+   create : myapp/bin
+   create : myapp/bin/www
+</code>
+</pre>
+<p>A continuación, instale las dependencias:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ cd myapp
+$ npm install
+</code>
+</pre>
+<p>En MacOS o Linux, ejecute la aplicación con este mandato:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ DEBUG=myapp:* npm start
+</code>
+</pre>
+<p>En Windows, utilice este mandato:</p>
+<pre>
+<code class="language-sh" translate="no">
+> set DEBUG=myapp:* & npm start
+</code>
+</pre>
+<p>A continuación, cargue <code>http://localhost:3000/</code> en el navegador para acceder a la aplicación.</p>
+<p>La aplicación generada tiene la siguiente estructura de directorios:</p>
+<pre>
+<code class="language-sh" translate="no">
+.
+├── app.js
+├── bin
+│   └── www
+├── package.json
+├── public
+│   ├── images
+│   ├── javascripts
+│   └── stylesheets
+│       └── style.css
+├── routes
+│   ├── index.js
+│   └── users.js
+└── views
+    ├── error.pug
+    ├── index.pug
+    └── layout.pug
+
+7 directories, 9 files
+</code>
+</pre>
+<div class="doc-box doc-info" data-markdown="1">
+<p>La estructura de la aplicación creada por el generador es sólo una de las muchas formas de estructurar las aplicaciones Express. Puede utilizar esta estructura o modificarla según sus necesidades.</p>
+</div>
+</body>
+</html>

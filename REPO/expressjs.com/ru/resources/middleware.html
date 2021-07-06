@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Промежуточные обработчики в Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Промежуточные обработчики в Express</h1>
+</header>
+<h1 id="промежуточные-обработчики-сторонних-поставщиков-по">Промежуточные обработчики сторонних поставщиков ПО</h1>
+<p>Ниже представлен список некоторых модулей Express:</p>
+<ul>
+<li><a href="https://github.com/expressjs/body-parser">body-parser</a>: ранее <code>express.bodyParser</code>, <code>json</code> и <code>urlencoded</code>. См. также:
+<ul>
+<li><a href="https://github.com/raynos/body">body</a></li>
+<li><a href="https://github.com/visionmedia/co-body">co-body</a></li>
+<li><a href="https://github.com/stream-utils/raw-body">raw-body</a></li>
+</ul></li>
+<li><a href="https://github.com/expressjs/compression">compression</a>: ранее <code>express.compress</code></li>
+<li><a href="https://github.com/msemenistyi/connect-image-optimus">connect-image-optimus</a>: Модули промежуточных обработчиков Connect/Express для оптимального предоставления файлов изображений. Преобразует изображения в <code>.webp</code> или <code>.jxr</code>, если это возможно.</li>
+<li><a href="https://github.com/expressjs/timeout">connect-timeout</a>: ранее <code>express.timeout</code></li>
+<li><a href="https://github.com/expressjs/cookie-parser">cookie-parser</a>: ранее <code>express.cookieParser</code></li>
+<li><a href="https://github.com/expressjs/cookie-session">cookie-session</a>: ранее <code>express.cookieSession</code></li>
+<li><a href="https://github.com/expressjs/csurf">csurf</a>: ранее <code>express.csrf</code></li>
+<li><a href="https://github.com/expressjs/errorhandler">errorhandler</a>: ранее <code>express.errorHandler</code></li>
+<li><a href="https://github.com/devoidfury/express-debug">express-debug</a>: простой инструмент разработки, предназначенный для добавления вкладки с информацией о переменных шаблона (локалях), текущем сеансе, полезных данных запроса и т.д. для приложения.</li>
+<li><a href="https://github.com/nemtsov/express-partial-response">express-partial-response</a>: Модуль промежуточного обработчика Express для отфильтровывания частей ответов JSON на основе строки запроса <code>fields</code>; используется Частичный ответ API Google.</li>
+<li><a href="https://github.com/expressjs/session">express-session</a>: ранее <code>express.session</code></li>
+<li><a href="https://github.com/jamiesteven/express-simple-cdn">express-simple-cdn</a>: Модуль промежуточного обработчика Express для использования CDN для статических ресурсов, с поддержкой нескольких хостов (например: cdn1.host.com, cdn2.host.com).</li>
+<li><a href="https://github.com/ericf/express-slash">express-slash</a>: Модуль промежуточного обработчика Express для тех пользователей, которые строго следят за символами наклонной косой черты в конце строки.</li>
+<li><a href="https://github.com/stormpath/stormpath-express">express-stormpath</a>: Модуль промежуточного обработчика Express для хранения имен пользователей, аутентификации, авторизации, SSO и защиты данных.</li>
+<li><a href="https://github.com/jamiesteven/express-uncapitalize">express-uncapitalize</a>: Модуль промежуточного обработчика для перенаправления запросов HTTP, содержащих символы в верхнем регистре, в традиционный формат нижнего регистра.</li>
+<li><a href="https://github.com/helmetjs/helmet">helmet</a>: Модуль для обеспечения защиты приложений путем настройки различных заголовков HTTP.</li>
+<li><a href="https://github.com/coderaiser/join-io" title="join-io">join-io</a>: Модуль для оперативного объединения файлов с целью сокращения числа запросов.</li>
+<li><a href="https://github.com/expressjs/method-override">method-override</a>: ранее <code>express.methodOverride</code></li>
+<li><a href="https://github.com/expressjs/morgan">morgan</a>: ранее <code>logger</code></li>
+<li><a href="https://github.com/jaredhanson/passport">passport</a>: Модуль промежуточного обработчика Express для аутентификации.</li>
+<li><a href="https://github.com/expressjs/response-time">response-time</a>: ранее <code>express.responseTime</code></li>
+<li><a href="https://github.com/expressjs/serve-favicon">serve-favicon</a>: ранее <code>express.favicon</code></li>
+<li><a href="https://github.com/expressjs/serve-index">serve-index</a>: ранее <code>express.directory</code></li>
+<li><a href="https://github.com/expressjs/serve-static">serve-static</a>: Модуль для предоставления статического содержимого.</li>
+<li><a href="https://github.com/paulwalker/connect-static-expiry">static-expiry</a>: URL с идентификационными метками или заголовки кеширования для статических ресурсов, включая поддержку одного или нескольких внешних доменов.</li>
+<li><a href="https://github.com/expressjs/vhost">vhost</a>: ранее <code>express.vhost</code></li>
+<li><a href="https://github.com/madhums/node-view-helpers">view-helpers</a>: Модуль промежуточного обработчика Express, предоставляющий общие вспомогательные методы для представлений.</li>
+<li><a href="https://github.com/hdngr/siracha">sriracha-admin</a>: Модуль промежуточного обработчика Express, в динамическом режиме генерирующий административный сайт для Mongoose.</li>
+</ul>
+<p>Некоторые модули промежуточных обработчиков, ранее входившие в состав Connect, больше не поддерживаются командой разработчиков Connect/Express. Эти модули заменяются альтернативными, либо вместо них предоставляются усовершенствованные модули. Воспользуйтесь одним из перечисленных ниже альтернативных вариантов:</p>
+<ul>
+<li>express.cookieParser
+<ul>
+<li><a href="https://github.com/jed/cookies">cookies</a> и <a href="https://github.com/jed/keygrip">keygrip</a></li>
+</ul></li>
+<li>express.limit
+<ul>
+<li><a href="https://github.com/stream-utils/raw-body">raw-body</a></li>
+</ul></li>
+<li>express.multipart
+<ul>
+<li><a href="https://github.com/mscdex/connect-busboy">connect-busboy</a></li>
+<li><a href="https://github.com/expressjs/multer">multer</a></li>
+<li><a href="https://github.com/superjoe30/connect-multiparty">connect-multiparty</a></li>
+</ul></li>
+<li>express.query
+<ul>
+<li><a href="https://github.com/visionmedia/node-querystring">qs</a></li>
+</ul></li>
+<li>express.staticCache
+<ul>
+<li><a href="https://github.com/isaacs/st">st</a></li>
+<li><a href="https://github.com/andrewrk/connect-static">connect-static</a></li>
+</ul></li>
+</ul>
+<p>Другие модули промежуточных обработчиков описаны в разделах:</p>
+<ul>
+<li><a href="https://github.com/Raynos/http-framework/wiki/Modules">http-framework</a></li>
+<li><a href="https://github.com/expressjs">expressjs</a></li>
+</ul>
+</body>
+</html>

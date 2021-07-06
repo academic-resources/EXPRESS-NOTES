@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Express の「Hello World」の例</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Express の「Hello World」の例</h1>
+</header>
+<h1 id="hello-world-の例">Hello World の例</h1>
+<div class="doc-box doc-info" data-markdown="1">
+<p>ここで紹介するのは基本的に、作成できる最も単純な Express アプリケーションです。このアプリケーションは単一ファイル・アプリケーションであり、<a href="/%7B%7B%20page.lang%20%7D%7D/starter/generator.html">Express ジェネレーター</a> を使用して得られるものでは <em>ありません</em> 。このジェネレーターは、さまざまな目的で多数の JavaScript ファイル、Jade テンプレート、サブディレクトリーを使用する完全なアプリケーション用のスキャフォールディングを作成します。</p>
+</div>
+<p>最初に、<code>myapp</code> という名前のディレクトリーを作成して、そのディレクトリーに移動し、<code>npm init</code> を実行します。次に、<a href="/%7B%7B%20page.lang%20%7D%7D/starter/installing.html">インストール・ガイド</a>に従い、依存関係として <code>express</code> をインストールします。</p>
+<p><code>myapp</code> ディレクトリーで、<code>app.js</code> というファイルを作成して、以下のコードを追加します。</p>
+<pre>
+<code class="language-javascript" translate="no">
+const express = require('express')
+const app = express()
+const port = 3000
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
+</code>
+</pre>
+<p>アプリケーションは、サーバーを始動して、ポート 3000 で接続を listen します。アプリケーションは、ルート URL (<code>/</code>) または<em>ルート</em> に対する要求に「Hello World!」と応答します。その他すべてのパスについては、「<strong>404 Not Found</strong>」と応答します。</p>
+<div class="doc-box doc-notice" data-markdown="1">
+<p><code>req</code> (要求) と <code>res</code> (応答) は、Node が提供するのとまったく同じオブジェクトであるため、Express が関与しない場合と同じように、<code>req.pipe()</code>、<code>req.on('data', callback)</code> などを呼び出すことができます。</p>
+</div>
+<p>次のコマンドを使用してアプリケーションを実行します。</p>
+<pre>
+<code class="language-sh" translate="no">
+$ node app.js
+</code>
+</pre>
+<p>次に、ブラウザーに <a href="http://localhost:3000/">http://localhost:3000/</a> をロードして、出力を確認します。</p>
+</body>
+</html>

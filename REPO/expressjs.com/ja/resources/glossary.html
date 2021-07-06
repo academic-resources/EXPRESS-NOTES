@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Express の用語集</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Express の用語集</h1>
+</header>
+<h1 id="用語集">用語集</h1>
+<h3 id="アプリケーション">アプリケーション</h3>
+<p>一般に、特定の目的で操作を実行するよう設計された 1 つ以上のプログラム。Express のコンテキストでは、Node.js プラットフォームで稼働する Express API を使用するプログラム。<a href="/%7B%7B%20page.lang%20%7D%7D/api.html#express">アプリケーション・オブジェクト</a>と呼ばれることもある。</p>
+<h3 id="api">API</h3>
+<p>アプリケーション・プログラミング・インターフェース。最初に使用するときは、略語のスペルを略さない。</p>
+<h3 id="express">Express</h3>
+<p>特定の意見に固執しない、Node.js アプリケーション向けの高速で最小限の Web フレームワーク。一般に、「Express」の望ましい呼び方は「Express.js」であるが、後者でも問題はない。</p>
+<h3 id="libuv">libuv</h3>
+<p>主に Node.js で使用するために開発された、非同期入出力に重点を置いたマルチプラットフォーム・サポート・ライブラリー。</p>
+<h3 id="ミドルウェア">ミドルウェア</h3>
+<p>最後のリクエストハンドラーの前に Express ルーティング層によって呼び出される関数。そのため、未加工要求と最後の目的のルートの間に配置される。ミドルウェアの用語に関しては、微妙な点がいくつかある。</p>
+<ul>
+<li><code>var foo = require('middleware')</code> は、Node.js モジュールを<em>要求</em> または<em>使用</em> することで呼び出される。その後、通常はステートメント <code>var mw = foo()</code> がミドルウェアを返す。</li>
+<li><code>app.use(mw)</code> は、<em>グローバル処理スタックにミドルウェアを追加</em> することで呼び出される。</li>
+<li><code>app.get('/foo', mw, function (req, res) { ... })</code> は、<em>「GET /foo」処理スタックにミドルウェアを追加</em> することで呼び出される。</li>
+</ul>
+<h3 id="node.js">Node.js</h3>
+<p>スケーラブルなネットワーク・アプリケーションを作成するために使用されるソフトウェア・プラットフォーム。Node.js は、スクリプト言語として JavaScript を使用し、ノンブロッキング入出力と単一スレッドのイベント・ループを通して高スループットを実現する。<a href="http://nodejs.org/">nodejs.org</a> を参照。<strong>使用上の注意</strong>: 初回は「Node.js」を使用し、その後は「Node」を使用する。</p>
+<h3 id="オープンソース">オープン・ソース</h3>
+<p>形容詞として使用する場合は、ハイフンを付ける (例:「This is open-source software.」)。<a href="http://en.wikipedia.org/wiki/Open-source_software">Wikipedia の「Open-source software」</a>を参照。注: 一般的にはこの用語にハイフンを付けないが、ここでは複合形容詞にハイフンを付けるという標準英語の規則に従う。</p>
+<h3 id="リクエスト">リクエスト</h3>
+<p>HTTP リクエスト。クライアントは HTTP リクエストメッセージをサーバーに送信して、サーバーはレスポンスを返す。リクエストでは、いずれかの<a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods">リクエストメソッド</a> (GET、POST など) を使用する必要がある。</p>
+<h3 id="レスポンス">レスポンス</h3>
+<p>HTTP レスポンス。サーバーは、HTTP レスポンスメッセージをクライアントに返す。レスポンスにはリクエストの完了状況情報が含まれ、リクエストされた内容がメッセージの本文に入っている場合もある。</p>
+<h3 id="ルート">ルート</h3>
+<p>リソースを識別する URL の一部。例えば、<code>http://foo.com/products/id</code> の中では「/products/id」がルートである。</p>
+<h3 id="ルーター">ルーター</h3>
+<p>API リファレンスで<a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router">ルーター</a>を参照。</p>
+</body>
+</html>

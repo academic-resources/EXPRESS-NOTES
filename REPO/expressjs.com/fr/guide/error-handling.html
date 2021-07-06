@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Traitement d’erreurs Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Traitement d’erreurs Express</h1>
+</header>
+<h1 id="traitement-derreurs">Traitement d’erreurs</h1>
+<p>Définissez les fonctions middleware de traitement d’erreurs de la même manière que les autres fonctions middleware, à l’exception près que les fonctions de traitement d’erreurs se composent de quatre arguments et non de trois : <code>(err, req, res, next)</code>. Par exemple :</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+</code>
+</pre>
+<p>Définissez le middleware de traitement d’erreurs en dernier, après les autres appels <code>app.use()</code> et de routes ; par exemple :</p>
+<pre>
+<code class="language-javascript" translate="no">
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(function(err, req, res, next) {
+  // logic
+});
+</code>
+</pre>
+<p>Les réponses issues d’une fonction middleware peuvent être au format de votre choix, par exemple une page d’erreur HTML, un simple message ou une chaîne JSON.</p>
+<p>A des fins organisationnelles (et d’infrastructure de niveau supérieur), vous pouvez définir plusieurs fonctions middleware de traitement d’erreurs, tout comme vous le feriez avec d’autres fonctions middleware ordinaires. Par exemple, si vous vouliez définir un gestionnaire d’erreurs pour les demandes réalisées avec <code>XHR</code> et pour celles réalisées sans, vous pourriez utiliser les commandes suivantes :</p>
+<pre>
+<code class="language-javascript" translate="no">
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);
+</code>
+</pre>
+<p>Dans cet exemple, les erreurs <code>logErrors</code> génériques pourraient écrire des informations de demande et d’erreur dans <code>stderr</code>, par exemple :</p>
+<pre>
+<code class="language-javascript" translate="no">
+function logErrors(err, req, res, next) {
+  console.error(err.stack);
+  next(err);
+}
+</code>
+</pre>
+<p>Egalement dans cet exemple, <code>clientErrorHandler</code> est défini comme suit ; dans ce cas, l’erreur est explicitement transmise à la fonction suivante :</p>
+<pre>
+<code class="language-javascript" translate="no">
+function clientErrorHandler(err, req, res, next) {
+  if (req.xhr) {
+    res.status(500).send({ error: 'Something failed!' });
+  } else {
+    next(err);
+  }
+}
+</code>
+</pre>
+<p>La fonction “catch-all” <code>errorHandler</code> peut être mise en oeuvre comme suit :</p>
+<pre>
+<code class="language-javascript" translate="no">
+function errorHandler(err, req, res, next) {
+  res.status(500);
+  res.render('error', { error: err });
+}
+</code>
+</pre>
+<p>Si vous transmettez tout à la fonction <code>next()</code> (sauf la chaîne <code>'route'</code>), Express considère la demande en cours comme étant erronée et ignorera tout routage de gestion non lié à une erreur et toute fonction middleware restants. Si vous voulez gérer cette erreur de quelque façon que ce soit, vous devrez créer une route de gestion d’erreur tel que décrit dans la section suivante.</p>
+<p>Si vous disposez d’un gestionnaire de routage avec plusieurs fonctions callback, vour pouvez utiliser le paramètre <code>route</code> pour passer au gestionnaire de routage suivant. Par exemple :</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.get('/a_route_behind_paywall',
+  function checkIfPaidSubscriber(req, res, next) {
+    if(!req.user.hasPaid) {
+
+      // continue handling this request
+      next('route');
+    }
+  }, function getPaidContent(req, res, next) {
+    PaidContent.find(function(err, doc) {
+      if(err) return next(err);
+      res.json(doc);
+    });
+  });
+</code>
+</pre>
+<p>Dans cet exemple, le gestionnaire <code>getPaidContent</code> sera ignoré, mais tous les gestionnaires restants dans <code>app</code> pour <code>/a_route_behind_paywall</code> continueront d’être exécutés.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Les appels <code>next()</code> et <code>next(err)</code> indiquent que le gestionnaire en cours a fini et quel est son état. <code>next(err)</code> ignorera tous les gestionnaires restants dans la chaîne, sauf ceux définis pour gérer les erreurs tel que décrit ci-dessus.</p>
+</div>
+<h2 id="le-gestionnaire-de-traitement-derreurs-par-défaut">Le gestionnaire de traitement d’erreurs par défaut</h2>
+<p>Express propose un gestionnaire d’erreurs intégré, qui traite toutes les erreurs qui pourraient survenir dans l’application. Cette fonction middleware de traitement d’erreurs par défaut est ajoutée à la fin de la pile de fonctions middleware.</p>
+<p>Si vous transmettez l’erreur à <code>next()</code> et que vous ne voulez pas la gérer dans un gestionnaire d’erreurs, elle sera gérée par le gestionnaire d’erreurs intégré ; l’erreur sera alors écrite dans le client avec la trace de pile. La trace de pile n’est pas incluse dans l’environnement de production.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Définissez la variable d’environnement <code>NODE_ENV</code> sur <code>production</code> afin d’exécuter l’application en mode production.</p>
+</div>
+<p>Si vous appelez <code>next()</code> avec une erreur après avoir démarré l’écriture de la réponse (par exemple, si vous rencontrez une erreur lors de la diffusion en flux de la réponse au client) le gestionnaire de traitement d’erreurs par défaut Express ferme la connexion et met la demande en échec.</p>
+<p>De ce fait, lorsque vous ajoutez un gestionnaire d’erreurs personnalisé, vous devriez déléguer les mécanismes de gestion d’erreur par défaut à Express, lorsque les en-têtes ont déjà été envoyés au client :</p>
+<pre>
+<code class="language-javascript" translate="no">
+function errorHandler(err, req, res, next) {
+  if (res.headersSent) {
+    return next(err);
+  }
+  res.status(500);
+  res.render('error', { error: err });
+}
+</code>
+</pre>
+</body>
+</html>

@@ -6,9 +6,9 @@ Open issues for the expressjs.com website in https://github.com/expressjs/expres
 
 ## PRs and Code contributions
 
-* Tests must pass.
-* Follow the [JavaScript Standard Style](http://standardjs.com/) and `npm run lint`.
-* If you fix a bug, add a test.
+- Tests must pass.
+- Follow the [JavaScript Standard Style](http://standardjs.com/) and `npm run lint`.
+- If you fix a bug, add a test.
 
 ## Branches
 
@@ -42,10 +42,10 @@ being trigger happy with posting a question issue.
 
 Things that will help get your question issue looked at:
 
-* Full and runnable JS code.
-* Clear description of the problem or unexpected behavior.
-* Clear description of the expected result.
-* Steps you have taken to debug it yourself.
+- Full and runnable JS code.
+- Clear description of the problem or unexpected behavior.
+- Clear description of the expected result.
+- Steps you have taken to debug it yourself.
 
 If you post a question and do not outline the above items or make it easy for
 us to understand and reproduce your issue, it will be closed.

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Express con i proxy</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Express con i proxy</h1>
+</header>
+<h1 id="express-con-i-proxy">Express con i proxy</h1>
+<p>Quando si esegue un’applicazione Express con un proxy, impostare (utilizzando <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.set">app.set()</a>) la variabile dell’applicazione <code>trust proxy</code> su uno dei valori elencati nella seguente tabella.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Anche se l’applicazione non presenterà errori nell’esecuzione se la variabile dell’applicazione <code>trust proxy</code> non è impostata, registrerà comunque in modo errato l’indirizzo IP del proxy come indirizzo IP del client a meno che non venga configurato <code>trust proxy</code>.</p>
+</div>
+<table class="doctable" border="1" markdown="1">
+<thead>
+<tr>
+<th>
+Tipo
+</th>
+<th>
+Valore
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Booleano
+</td>
+<td>
+<p>Se impostato su <code>true</code>, l’indirizzo IP del client viene considerato come la voce a sinistra dell’intestazione <code>X-Forwarded-*</code>.</p>
+Se impostato su <code>false</code>, significa che l’applicazione abbia una connessione diretta a Internet e l’indirizzo IP del client sia arrivato da <code>req.connection.remoteAddress</code>. Questa è l’impostazione predefinita.
+</td>
+</tr>
+<tr>
+<td>
+Indirizzi IP
+</td>
+<td>
+<p>Un indirizzo IP, una subnet o un array di indirizzi IP e subnet a cui fornire attendibilità. Il seguente elenco mostra i nomi di subnet preconfigurate:</p>
+<ul>
+<li>loopback - <code>127.0.0.1/8</code>, <code>::1/128</code></li>
+<li>linklocal - <code>169.254.0.0/16</code>, <code>fe80::/10</code></li>
+<li>uniquelocal - <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code>, <code>fc00::/7</code></li>
+</ul>
+<p>È possibile impostare gli indirizzi IP in uno dei seguenti modi:</p>
+<pre>
+<code class="language-js" translate="no">app.set('trust proxy', 'loopback') // specify a single subnet
+app.set('trust proxy', 'loopback, 123.123.123.123') // specify a subnet and an address
+app.set('trust proxy', 'loopback, linklocal, uniquelocal') // specify multiple subnets as CSV
+app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']) // specify multiple subnets as an array</code>
+</pre>
+Quando specificati, gli indirizzi IP o le subnet vengono esclusi dal processo di determinazione dell’indirizzo e l’indirizzo IP non attendibile più vicino al server delle applicazioni viene considerato come indirizzo IP del client.
+</td>
+</tr>
+<tr>
+<td>
+Numero
+</td>
+<td>
+Considerare attendibile una parte del percorso <code>n</code>th dal server proxy principale come client.
+</td>
+</tr>
+<tr>
+<td>
+Funzione
+</td>
+<td>
+Implementazione attendibilità personalizzata. Questa funzione deve essere utilizzata solo da esperti.
+<pre>
+<code class="language-js" translate="no">app.set('trust proxy', function (ip) {
+  if (ip === '127.0.0.1' || ip === '123.123.123.123') return true; // trusted IPs
+  else return false;
+});</code>
+</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Se si imposta un valore non <code>false</code> <code>trust proxy</code> si verificano tre importanti cambiamenti:</p>
+<ul>
+<li>
+Il valore di <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.hostname">req.hostname</a> viene rilevato dalla serie di valori nell’intestazione <code>X-Forwarded-Host</code>, la quale può essere impostata dal client o dal proxy.
+</li>
+<li>
+<code>X-Forwarded-Proto</code> può essere impostata dal proxy inverso per far capire all’applicazione se si tratta di <code>https</code> o <code>http</code> oppure di un nome non valido. Questo valore viene riportato da <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.protocol">req.protocol</a>.
+</li>
+<li>
+I valori <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.ip">req.ip</a> e <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.ips">req.ips</a> vengono popolati con l’elenco di indirizzi da <code>X-Forwarded-For</code>.
+</li>
+</ul>
+<p>L’impostazione <code>trust proxy</code> viene implementata utilizzando il pacchetto <a href="https://www.npmjs.com/package/proxy-addr">proxy-addr</a>. Per ulteriori informazioni, consultare la relativa documentazione.</p>
+</body>
+</html>

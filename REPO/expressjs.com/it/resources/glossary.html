@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Glossario di Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Glossario di Express</h1>
+</header>
+<h1 id="glossario">Glossario</h1>
+<h3 id="applicazione">applicazione</h3>
+<p>Solitamente, uno o più programmi progettati per gestire operazioni per uno scopo specifico. In ambito di Express, un programma che utilizza API Express in esecuzione su una piattaforma Node.js. Potrebbe inoltre fare riferimento a <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#express">app object</a>.</p>
+<h3 id="api">API</h3>
+<p>Interfaccia di programmazione dell’applicazione. Si consiglia di scrivere per intero l’acronimo quando lo si usa per la prima volta.</p>
+<h3 id="express">Express</h3>
+<p>Un framework web veloce, non categorico e minimalista per le applicazioni Node.js. Solitamente, si preferisce utilizzare “Express” piuttosto che “Express.js,” anche se il secondo è accettabile.</p>
+<h3 id="libuv">libuv</h3>
+<p>Una libreria di supporto multi-piattaforma che si focalizza su I/O asincrono, in principio sviluppato per essere utilizzato da Node.js.</p>
+<h3 id="middleware">middleware</h3>
+<p>Una funzione che viene richiamata dal livello di routing Express prima dell’handler di richiesta finale, pertanto si trova al centro tra una richiesta base e la route prevista. Segue un elenco che indica alcune terminologie utilizzate per middleware:</p>
+<ul>
+<li><code>var foo = require('middleware')</code> significa <em>richiesta</em> o <em>utilizzo</em> di un modulo Node.js. E l’istruzione <code>var mw = foo()</code> solitamente restituisce il middleware.</li>
+<li><code>app.use(mw)</code> significa <em>aggiunta del middleware allo stack di elaborazione globale</em>.</li>
+<li><code>app.get('/foo', mw, function (req, res) { ... })</code> significa <em>aggiunta del middleware allo stack di elaborazione “GET /foo”</em>.</li>
+</ul>
+<h3 id="node.js">Node.js</h3>
+<p>Una piattaforma software utilizzata per creare applicazioni di rete scalabili. Node.js utilizza JavaScript e il relativo linguaggio di scripting e raggiunge una trasmissione di dati elevata tramite un I/O non a blocchi e un loop di evento a thread singolo. Consultare <a href="http://nodejs.org/">nodejs.org</a>. <strong>Nota di utilizzo</strong>: Inizialmente, “Node.js,” successivamente “Node”.</p>
+<h3 id="open-source-open-source">open-source, open source</h3>
+<p>Quando utilizzato come aggettivo, viene aggiunto un trattino; ad esempio: “Questo è un software open-source.” Consultare <a href="http://en.wikipedia.org/wiki/Open-source_software">Software open-source su Wikipedia</a>. Nota: anche se è molto comune scriverlo senza trattino, stiamo utilizzando le regole dell’inglese standard che richiedono di inserire un trattino in un aggettivo composto.</p>
+<h3 id="richiesta">richiesta</h3>
+<p>Una richiesta HTTP. Un client un messaggio di richiesta HTTP a un server, il quale restituisce una risposta. La richiesta deve utilizzare uno dei diversi <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods">metodi di richiesta</a> ad esempio GET, POST e così via.</p>
+<h3 id="risposta">risposta</h3>
+<p>Una risposta HTTP. Un server restituisce un messaggio di risposta HTTP al client. La risposta contiene le informazioni sullo stato di completamento su una richiesta e potrebbe inoltre contenere del contenuto richiesto nel corpo del messaggio.</p>
+<h3 id="route">route</h3>
+<p>Parte di un URL che identifica una risorsa. Ad esempio, in <code>http://foo.com/products/id</code>, “/products/id” è la route.</p>
+<h3 id="router">router</h3>
+<p>Consultare <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router">router</a> nei riferimenti API.</p>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-tw" xml:lang="zh-tw">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Express 資料庫整合</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Express 資料庫整合</h1>
+</header>
+<h1 id="資料庫整合">資料庫整合</h1>
+<p>如果要在 Express 應用程式中新增連接資料庫的功能，只需在您的應用程式中載入資料庫的適當 Node.js 驅動程式即可。本文件簡要說明如何在您的 Express 應用程式中新增和使用一些最常用的 Node.js 資料庫系統模組。</p>
+<ul>
+<li><a href="#cassandra">Cassandra</a></li>
+<li><a href="#couchdb">CouchDB</a></li>
+<li><a href="#leveldb">LevelDB</a></li>
+<li><a href="#mysql">MySQL</a></li>
+<li><a href="#mongo">MongoDB</a></li>
+<li><a href="#neo4j">Neo4j</a></li>
+<li><a href="#postgres">PostgreSQL</a></li>
+<li><a href="#redis">Redis</a></li>
+<li><a href="#sqlite">SQLite</a></li>
+<li><a href="#elasticsearch">ElasticSearch</a></li>
+</ul>
+<div class="doc-box doc-notice" data-markdown="1">
+<p>這些資料庫驅動程式只是眾多可用驅動程式中的一部分。如需其他選項，請在 <a href="https://www.npmjs.com/">npm</a> 網站中搜尋。</p>
+</div>
+<p><a name="cassandra"></a></p>
+<h2 id="cassandra">Cassandra</h2>
+<p><strong>模組</strong>：<a href="https://github.com/datastax/nodejs-driver">cassandra-driver</a> <strong>安裝</strong></p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install cassandra-driver
+</code>
+</pre>
+<p><strong>範例</strong></p>
+<pre>
+<code class="language-javascript" translate="no">
+var cassandra = require('cassandra-driver');
+var client = new cassandra.Client({ contactPoints: ['localhost']});
+
+client.execute('select key from system.local', function(err, result) {
+  if (err) throw err;
+  console.log(result.rows[0]);
+});
+</code>
+</pre>
+<p><a name="couchdb"></a></p>
+<h2 id="couchdb">CouchDB</h2>
+<p><strong>模組</strong>：<a href="https://github.com/dscape/nano">nano</a> <strong>安裝</strong></p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install nano
+</code>
+</pre>
+<p><strong>範例</strong></p>
+<pre>
+<code class="language-javascript" translate="no">
+var nano = require('nano')('http://localhost:5984');
+nano.db.create('books');
+var books = nano.db.use('books');
+
+//Insert a book document in the books database
+books.insert({name: 'The Art of war'}, null, function(err, body) {
+  if (!err){
+    console.log(body);
+  }
+});
+
+//Get a list of all books
+books.list(function(err, body){
+  console.log(body.rows);
+}
+</code>
+</pre>
+<p><a name="leveldb"></a></p>
+<h2 id="leveldb">LevelDB</h2>
+<p><strong>模組</strong>：<a href="https://github.com/rvagg/node-levelup">levelup</a> <strong>安裝</strong></p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install level levelup leveldown
+</code>
+</pre>
+<p><strong>範例</strong></p>
+<pre>
+<code class="language-javascript" translate="no">
+var levelup = require('levelup');
+var db = levelup('./mydb');
+
+db.put('name', 'LevelUP', function (err) {
+
+  if (err) return console.log('Ooops!', err);
+  db.get('name', function (err, value) {
+    if (err) return console.log('Ooops!', err);
+    console.log('name=' + value)
+  });
+
+});
+</code>
+</pre>
+<p><a name="mysql"></a></p>
+<h2 id="mysql">MySQL</h2>
+<p><strong>模組</strong>：<a href="https://github.com/felixge/node-mysql/">mysql</a> <strong>安裝</strong></p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install mysql
+</code>
+</pre>
+<p><strong>範例</strong></p>
+<pre>
+<code class="language-javascript" translate="no">
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'dbuser',
+  password : 's3kreee7'
+});
+
+connection.connect();
+
+connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
+  if (err) throw err;
+  console.log('The solution is: ', rows[0].solution);
+});
+
+connection.end();
+</code>
+</pre>
+<p><a name="mongo"></a></p>
+<h2 id="mongodb">MongoDB</h2>
+<p><strong>模組</strong>：<a href="https://github.com/mongodb/node-mongodb-native">mongodb</a> <strong>安裝</strong></p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install mongodb
+</code>
+</pre>
+<p><strong>範例</strong></p>
+<pre>
+<code class="language-javascript" translate="no">
+var MongoClient = require('mongodb').MongoClient;
+
+MongoClient.connect('mongodb://localhost:27017/animals', function(err, db) {
+  if (err) {
+    throw err;
+  }
+  db.collection('mammals').find().toArray(function(err, result) {
+    if (err) {
+      throw err;
+    }
+    console.log(result);
+  });
+});
+</code>
+</pre>
+<p>如果您需要 MongoDB 物件模型驅動程式，請查看 <a href="https://github.com/LearnBoost/mongoose">Mongoose</a>。</p>
+<p><a name="neo4j"></a></p>
+<h2 id="neo4j">Neo4j</h2>
+<p><strong>模組</strong>：<a href="https://github.com/hacksparrow/apoc">apoc</a> <strong>安裝</strong></p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install apoc
+</code>
+</pre>
+<p><strong>範例</strong></p>
+<pre>
+<code class="language-javascript" translate="no">
+var apoc = require('apoc');
+
+apoc.query('match (n) return n').exec().then(
+  function (response) {
+    console.log(response);
+  },
+  function (fail) {
+    console.log(fail);
+  }
+);
+</code>
+</pre>
+<p><a name="postgres"></a></p>
+<h2 id="postgresql">PostgreSQL</h2>
+<p><strong>模組</strong>：<a href="https://github.com/vitaly-t/pg-promise">pg-promise</a> <strong>安裝</strong></p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install pg-promise
+</code>
+</pre>
+<p><strong>範例</strong></p>
+<pre>
+<code class="language-javascript" translate="no">
+var pgp = require("pg-promise")(/*options*/);
+var db = pgp("postgres://username:password@host:port/database");
+
+db.one("SELECT $1 AS value", 123)
+    .then(function (data) {
+        console.log("DATA:", data.value);
+    })
+    .catch(function (error) {
+        console.log("ERROR:", error);
+    });
+</code>
+</pre>
+<p><a name="redis"></a></p>
+<h2 id="redis">Redis</h2>
+<p><strong>模組</strong>：<a href="https://github.com/mranney/node_redis">redis</a> <strong>安裝</strong></p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install redis
+</code>
+</pre>
+<p><strong>範例</strong></p>
+<pre>
+<code class="language-javascript" translate="no">
+var client = require('redis').createClient();
+
+client.on('error', function (err) {
+  console.log('Error ' + err);
+});
+
+client.set('string key', 'string val', redis.print);
+client.hset('hash key', 'hashtest 1', 'some value', redis.print);
+client.hset(['hash key', 'hashtest 2', 'some other value'], redis.print);
+
+client.hkeys('hash key', function (err, replies) {
+
+  console.log(replies.length + ' replies:');
+  replies.forEach(function (reply, i) {
+    console.log('    ' + i + ': ' + reply);
+  });
+
+  client.quit();
+
+});
+</code>
+</pre>
+<p><a name="sqlite"></a></p>
+<h2 id="sqlite">SQLite</h2>
+<p><strong>模組</strong>：<a href="https://github.com/mapbox/node-sqlite3">sqlite3</a> <strong>安裝</strong></p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install sqlite3
+</code>
+</pre>
+<p><strong>範例</strong></p>
+<pre>
+<code class="language-javascript" translate="no">
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database(':memory:');
+
+db.serialize(function() {
+
+  db.run('CREATE TABLE lorem (info TEXT)');
+  var stmt = db.prepare('INSERT INTO lorem VALUES (?)');
+
+  for (var i = 0; i < 10; i++) {
+    stmt.run('Ipsum ' + i);
+  }
+
+  stmt.finalize();
+
+  db.each('SELECT rowid AS id, info FROM lorem', function(err, row) {
+    console.log(row.id + ': ' + row.info);
+  });
+});
+
+db.close();
+</code>
+</pre>
+<p><a name="elasticsearch"></a></p>
+<h2 id="elasticsearch">ElasticSearch</h2>
+<p><strong>模組</strong>：<a href="https://github.com/elastic/elasticsearch-js">elasticsearch</a> <strong>安裝</strong></p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install elasticsearch
+</code>
+</pre>
+<p><strong>範例</strong></p>
+<pre>
+<code class="language-javascript" translate="no">
+var elasticsearch = require('elasticsearch');
+var client = elasticsearch.Client({
+  host: 'localhost:9200'
+});
+
+client.search({
+  index: 'books',
+  type: 'book',
+  body: {
+    query: {
+      multi_match: {
+        query: 'express js',
+        fields: ['title', 'description']
+      }
+    }
+  }
+}).then(function(response) {
+  var hits = response.hits.hits;
+}, function(error) {
+  console.trace(error.message);
+});
+</code>
+</pre>
+</body>
+</html>

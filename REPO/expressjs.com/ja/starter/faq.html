@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Express に関する FAQ</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Express に関する FAQ</h1>
+</header>
+<h1 id="faq">FAQ</h1>
+<h2 id="どのようにしてアプリケーションを構成するのですか">どのようにしてアプリケーションを構成するのですか?</h2>
+<p>この質問に対する決定的な答えはありません。ご使用のアプリケーションや関与するチームの規模によって答えは異なります。可能な限り柔軟であるために、Express には、構造に関する前提がありません。</p>
+<p>ルートやその他のアプリケーション固有のロジックは、必要な数だけのファイルや、任意のディレクトリー構造に存在できます。参考のために、以下の例を参照してください。</p>
+<ul>
+<li><a href="https://github.com/expressjs/express/blob/4.13.1/examples/route-separation/index.js#L32-47">ルートのリスト</a></li>
+<li><a href="https://github.com/expressjs/express/blob/4.13.1/examples/route-map/index.js#L52-L66">ルートのマップ</a></li>
+<li><a href="https://github.com/expressjs/express/tree/master/examples/mvc">MVC スタイルのコントローラー</a></li>
+</ul>
+<p>また、これらのパターンを簡素化する、サード・パーティー製の Express 拡張版があります。</p>
+<ul>
+<li><a href="https://github.com/expressjs/express-resource">Resourceful ルーティング</a></li>
+</ul>
+<h2 id="どのようにしてモデルを定義するのですか">どのようにしてモデルを定義するのですか?</h2>
+<p>Express には、データベースの概念がありません。この概念はサード・パーティーの Node モジュールに任せられているため、ほとんどのデータベースとやりとりできます。</p>
+<p>モデルに関する Express ベースのフレームワークについては、<a href="http://loopback.io">LoopBack</a> を参照してください。</p>
+<h2 id="どのようにしてユーザーを認証するのですか">どのようにしてユーザーを認証するのですか?</h2>
+<p>認証は、Express が足を踏み入れていないもう 1 つの分野です。任意の認証スキームを使用できます。 単純なユーザー名/パスワードのスキームについては、<a href="https://github.com/expressjs/express/tree/master/examples/auth">この例</a>を参照してください。</p>
+<h2 id="express-はどのテンプレートエンジンをサポートしているのですか">Express はどのテンプレート・エンジンをサポートしているのですか?</h2>
+<p>Express は、<code>(パス、ロケール、コールバック)</code> シグニチャーに準拠するすべてのテンプレート・エンジンをサポートします。 テンプレート・エンジンのインターフェースとキャッシングを正規化するには、<a href="https://github.com/visionmedia/consolidate.js">consolidate.js</a> プロジェクトでサポートを参照してください。リストされていないテンプレート・エンジンでも Express シグニチャーをサポートしている可能性があります。</p>
+<h2 id="どのようにして-404-応答に対応するのですか">どのようにして 404 応答に対応するのですか?</h2>
+<p>Express では、404 応答はエラーの結果ではありません。そのため、エラー・ハンドラー・ミドルウェアはそれらをキャプチャーしません。このように動作するのは、404 応答は単に追加の処理が存在しないことを示しているためです。つまり、Express は、すべてのミドルウェア関数とルートを実行して、そのいずれも応答しなかったことを検出したということです。404 応答に対応するには、スタックの最下部 (他のすべての関数の下) にミドルウェア関数を追加するだけですみます。</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.use(function(req, res, next) {
+  res.status(404).send('Sorry cant find that!');
+});
+</code>
+</pre>
+<h2 id="どのようにしてエラーハンドラーをセットアップするのですか">どのようにしてエラー・ハンドラーをセットアップするのですか?</h2>
+<p>エラー処理ミドルウェアの定義方法は、他のミドルウェアと同じですが、引数の数が 3 つではなく 4 つである点が異なります。具体的には、シグニチャー <code>(err、req、res、next)</code> です。</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+</code>
+</pre>
+<p>詳細については、<a href="/%7B%7B%20page.lang%20%7D%7D/guide/error-handling.html">エラー処理</a>を参照してください。</p>
+<h2 id="どのようにしてプレーン-html-をレンダリングするのですか">どのようにしてプレーン HTML をレンダリングするのですか?</h2>
+<p>レンダリングしません。<code>res.render()</code> 関数で HTML を「レンダリング」する必要はありません。 特定のファイルがある場合は、<code>res.sendFile()</code> 関数を使用します。 ディレクトリーから多数の資産を提供する場合は、<code>express.static()</code> ミドルウェア関数を使用します。</p>
+</body>
+</html>

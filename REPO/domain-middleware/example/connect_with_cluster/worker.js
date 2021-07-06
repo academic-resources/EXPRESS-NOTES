@@ -12,6 +12,11 @@
 
 var PORT = +process.env.PORT || 1337;
 
-var server = require('./app');
+var server = require("./app");
 server.listen(PORT);
-console.log('[%s] [worker:%s] start listen on %s', new Date(), process.pid, PORT);
+console.log(
+  "[%s] [worker:%s] start listen on %s",
+  new Date(),
+  process.pid,
+  PORT
+);

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Написание кода промежуточных обработчиков для использования в приложениях Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Написание кода промежуточных обработчиков для использования в приложениях Express</h1>
+</header>
+<h1 id="написание-кода-промежуточных-обработчиков-для-использования-в-приложениях-express">Написание кода промежуточных обработчиков для использования в приложениях Express</h1>
+<h2>
+Обзор
+</h2>
+<p>Функции <em>промежуточной обработки</em> (middleware) - это функции, имеющие доступ к <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#req">объекту запроса</a> (<code>req</code>), <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res">объекту ответа</a> (<code>res</code>) и к следующей функции промежуточной обработки в цикле “запрос-ответ” приложения. Следующая функция промежуточной обработки, как правило, обозначается переменной <code>next</code>.</p>
+<p>Функции промежуточной обработки могут выполнять следующие задачи:</p>
+<ul>
+<li>Выполнение любого кода.</li>
+<li>Внесение изменений в объекты запросов и ответов.</li>
+<li>Завершение цикла “запрос-ответ”.</li>
+<li>Вызов следующего промежуточного обработчика из стека.</li>
+</ul>
+<p>Если текущая функция промежуточной обработки не завершает цикл “запрос-ответ”, она должна вызвать <code>next()</code> для передачи управления следующей функции промежуточной обработки. В противном случае запрос зависнет.</p>
+<p>Ниже представлены элементы вызова функции промежуточного обработчика:</p>
+<table id="mw-fig">
+<tr>
+<td id="mw-fig-imgcell">
+<img src="/images/express-mw.png" id="mw-fig-img" />
+</td>
+<td class="mw-fig-callouts">
+<div id="callout1" class="callout">
+Метод HTTP, к которому применяется данный промежуточный обработчик.
+</div>
+<div id="callout2" class="callout">
+Путь (маршрут), к которому применяется данный промежуточный обработчик.
+</div>
+<div id="callout3" class="callout">
+Функция промежуточного обработчика.
+</div>
+<div id="callout4" class="callout">
+Аргумент обратного вызова для функции промежуточного обработчика, именуемый “next” согласно стандарту.
+</div>
+<div id="callout5" class="callout">
+Аргумент <a href="../4x/api.html#res">ответа</a> HTTP, именуемый “res” согласно стандарту.
+</div>
+<div id="callout6" class="callout">
+Аргумент <a href="../4x/api.html#req">запроса</a> HTTP, именуемый “req” согласно стандарту.
+</div>
+</td>
+</tr>
+</table>
+<p>Далее приводится пример простого приложения Ниже Express “Hello World”, для которого будут определены две функции промежуточных обработчиков:</p>
+<pre>
+<code class="language-javascript" translate="no">
+var express = require('express');
+var app = express();
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+app.listen(3000);
+</code>
+</pre>
+<h2>
+Разработка
+</h2>
+<p>Ниже приводится простой пример промежуточного обработчика “myLogger”. Эта функция печатает слово “LOGGED” при прохождении запроса, адресованного приложению, через приложение. Данная функция промежуточного обработчика присвоена переменной с именем <code>myLogger</code>.</p>
+<pre>
+<code class="language-javascript" translate="no">
+var myLogger = function (req, res, next) {
+  console.log('LOGGED');
+  next();
+};
+</code>
+</pre>
+<div class="doc-box doc-notice" data-markdown="1">
+<p>Обратите внимание на вызов <code>next()</code> выше. Вызов этой функции активирует следующую функцию промежуточной обработки в приложении. Функция <code>next()</code> не является частью Node.js или Express API, но представляет собой третий аргумент, передаваемый в функцию промежуточного обработчика. Функция <code>next()</code> могла бы иметь любое имя, но, согласно стандарту, она всегда называется “next”. Во избежание путаницы, рекомендуется всегда придерживаться данного стандарта.</p>
+</div>
+<p>Для того чтобы загрузить функцию промежуточного обработчика вызовите <code>app.use()</code> с указанием соответствующей функции. Например, приведенный ниже код загружает функцию промежуточного обработчика <code>myLogger</code> перед маршрутом к корневому расположению (/).</p>
+<pre>
+<code class="language-javascript" translate="no">
+var express = require('express');
+var app = express();
+
+var myLogger = function (req, res, next) {
+  console.log('LOGGED');
+  next();
+};
+
+app.use(myLogger);
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+app.listen(3000);
+</code>
+</pre>
+<p>Каждый раз при получении запроса приложение выводит на терминал сообщение “LOGGED”.</p>
+<p>Порядок загрузки промежуточных обработчиков очень важен: функции промежуточных обработчиков, загруженные первыми, выполняются в первую очередь.</p>
+<p>Если <code>myLogger</code> загружается после маршрута к корневому расположению, запрос никогда не достигает его, и приложением не выводится сообщение “LOGGED”, поскольку обработчик маршрута корневого пути завершает цикл “запрос-ответ”.</p>
+<p>Промежуточный обработчик <code>myLogger</code> всего лишь выводит сообщение, затем передает запрос далее, следующему промежуточному обработчику в стеке, путем вызова функции <code>next()</code>.</p>
+<p>В следующем примере выполняется добавление свойства <code>requestTime</code> в объект запроса. Назовем эту функцию промежуточного обработчика “requestTime”.</p>
+<pre>
+<code class="language-javascript" translate="no">
+var requestTime = function (req, res, next) {
+  req.requestTime = Date.now();
+  next();
+};
+</code>
+</pre>
+<p>Теперь приложением используется функция промежуточного обработчика <code>requestTime</code>. Кроме того, функция обратного вызова маршрута корневого расположения (пути) использует свойство, добавленную функций промежуточного обработчика в <code>req</code> (объект запроса).</p>
+<pre>
+<code class="language-javascript" translate="no">
+var express = require('express');
+var app = express();
+
+var requestTime = function (req, res, next) {
+  req.requestTime = Date.now();
+  next();
+};
+
+app.use(requestTime);
+
+app.get('/', function (req, res) {
+  var responseText = 'Hello World!<br>';
+  responseText += '<small>Requested at: ' + req.requestTime + '</small>';
+  res.send(responseText);
+});
+
+app.listen(3000);
+</code>
+</pre>
+<p>Если запрос адресован корневому каталогу приложения, приложение выводит на экран системное время запроса в браузере.</p>
+<p>Благодаря наличию доступа к объекту запроса, объекту ответа, следующей функции промежуточного обработчика в стеке и к API Node.js в целом, возможности, связанные с промежуточными обработчиками, являются бесконечными.</p>
+<p>Дополнительная информация о промежуточных обработчиках Express содержится в разделе <a href="/%7B%7B%20page.lang%20%7D%7D/guide/using-middleware.html">Использование промежуточных обработчиков Express</a>.</p>
+</body>
+</html>

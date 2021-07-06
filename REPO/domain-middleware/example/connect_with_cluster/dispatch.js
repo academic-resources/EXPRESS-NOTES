@@ -11,11 +11,11 @@
  */
 
 // http://nodejs.org/docs/latest/api/domain.html#domain_warning_don_t_ignore_errors
-var cluster = require('cluster');
-var path = require('path');
+var cluster = require("cluster");
+var path = require("path");
 
 cluster.setupMaster({
-  exec: path.join(__dirname, 'worker.js')
+  exec: path.join(__dirname, "worker.js"),
 });
 
 // In real life, you'd probably use more than just 2 workers,
@@ -33,13 +33,22 @@ cluster.setupMaster({
 cluster.fork();
 cluster.fork();
 
-cluster.on('disconnect', function (worker) {
+cluster.on("disconnect", function (worker) {
   var w = cluster.fork();
-  console.error('[%s] [master:%s] wroker:%s disconnect! new worker:%s fork', 
-    new Date(), process.pid, worker.process.pid, w.process.pid);
+  console.error(
+    "[%s] [master:%s] wroker:%s disconnect! new worker:%s fork",
+    new Date(),
+    process.pid,
+    worker.process.pid,
+    w.process.pid
+  );
 });
 
-cluster.on('exit', function (worker) {
-  console.error('[%s] [master:%s] wroker:%s exit!', 
-    new Date(), process.pid, worker.process.pid);
+cluster.on("exit", function (worker) {
+  console.error(
+    "[%s] [master:%s] wroker:%s exit!",
+    new Date(),
+    process.pid,
+    worker.process.pid
+  );
 });

@@ -10,9 +10,9 @@
  * Module dependencies.
  */
 
-var http = require('http');
-var connect = require('connect');
-var domainMiddleware = require('../../');
+var http = require("http");
+var connect = require("connect");
+var domainMiddleware = require("../../");
 
 var server = http.createServer();
 
@@ -22,28 +22,29 @@ var app = connect(
     killTimeout: 3000,
   }),
   function (req, res, next) {
-    req.on('end', function () {
-      if (req.url === '/asycerror') {
+    req.on("end", function () {
+      if (req.url === "/asycerror") {
         setTimeout(function () {
           foo.bar();
         }, 10);
         return;
       }
-      res.end(req.method + ' ' + req.url + ', headers: ' + JSON.stringify(req.headers));
+      res.end(
+        req.method + " " + req.url + ", headers: " + JSON.stringify(req.headers)
+      );
     });
     req.resume();
   },
   function (err, req, res, next) {
     var domainThrown = err.domain_thrown || err.domainThrown;
-    var msg = 'domainThrown: ' + domainThrown + '\n' + err.stack;
-    console.error('%s %s\n%s', req.method, req.url, msg);
+    var msg = "domainThrown: " + domainThrown + "\n" + err.stack;
+    console.error("%s %s\n%s", req.method, req.url, msg);
     res.statusCode = 500;
-    res.setHeader('content-type', 'text/plain');
-    res.end(msg + '\n');
+    res.setHeader("content-type", "text/plain");
+    res.end(msg + "\n");
   }
 );
 
-server.on('request', app);
+server.on("request", app);
 
 module.exports = server;
-

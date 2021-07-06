@@ -7,35 +7,44 @@
  * MIT Licensed
  */
 
-'use strict'
+"use strict";
 
 /**
  * Module dependencies.
  * @private
  */
 
-var accepts = require('accepts')
-var escapeHtml = require('escape-html')
-var fs = require('fs')
-var path = require('path')
-var util = require('util')
+var accepts = require("accepts");
+var escapeHtml = require("escape-html");
+var fs = require("fs");
+var path = require("path");
+var util = require("util");
 
 /**
  * Module variables.
  * @private
  */
 
-var DOUBLE_SPACE_REGEXP = /\x20{2}/g
-var NEW_LINE_REGEXP = /\n/g
-var STYLESHEET = fs.readFileSync(path.join(__dirname, '/public/style.css'), 'utf8')
-var TEMPLATE = fs.readFileSync(path.join(__dirname, '/public/error.html'), 'utf8')
-var inspect = util.inspect
-var toString = Object.prototype.toString
+var DOUBLE_SPACE_REGEXP = /\x20{2}/g;
+var NEW_LINE_REGEXP = /\n/g;
+var STYLESHEET = fs.readFileSync(
+  path.join(__dirname, "/public/style.css"),
+  "utf8"
+);
+var TEMPLATE = fs.readFileSync(
+  path.join(__dirname, "/public/error.html"),
+  "utf8"
+);
+var inspect = util.inspect;
+var toString = Object.prototype.toString;
 
 /* istanbul ignore next */
-var defer = typeof setImmediate === 'function'
-  ? setImmediate
-  : function (fn) { process.nextTick(fn.bind.apply(fn, arguments)) }
+var defer =
+  typeof setImmediate === "function"
+    ? setImmediate
+    : function (fn) {
+        process.nextTick(fn.bind.apply(fn, arguments));
+      };
 
 /**
  * Error handler:
@@ -62,111 +71,108 @@ var defer = typeof setImmediate === 'function'
  * @api public
  */
 
-exports = module.exports = function errorHandler (options) {
+exports = module.exports = function errorHandler(options) {
   // get environment
-  var env = process.env.NODE_ENV || 'development'
+  var env = process.env.NODE_ENV || "development";
 
   // get options
-  var opts = options || {}
+  var opts = options || {};
 
   // get log option
-  var log = opts.log === undefined
-    ? env !== 'test'
-    : opts.log
+  var log = opts.log === undefined ? env !== "test" : opts.log;
 
-  if (typeof log !== 'function' && typeof log !== 'boolean') {
-    throw new TypeError('option log must be function or boolean')
+  if (typeof log !== "function" && typeof log !== "boolean") {
+    throw new TypeError("option log must be function or boolean");
   }
 
   // default logging using console.error
   if (log === true) {
-    log = logerror
+    log = logerror;
   }
 
-  return function errorHandler (err, req, res, next) {
+  return function errorHandler(err, req, res, next) {
     // respect err.statusCode
     if (err.statusCode) {
-      res.statusCode = err.statusCode
+      res.statusCode = err.statusCode;
     }
 
     // respect err.status
     if (err.status) {
-      res.statusCode = err.status
+      res.statusCode = err.status;
     }
 
     // default status code to 500
     if (res.statusCode < 400) {
-      res.statusCode = 500
+      res.statusCode = 500;
     }
 
     // log the error
-    var str = stringify(err)
+    var str = stringify(err);
     if (log) {
-      defer(log, err, str, req, res)
+      defer(log, err, str, req, res);
     }
 
     // cannot actually respond
     if (res._header) {
-      return req.socket.destroy()
+      return req.socket.destroy();
     }
 
     // negotiate
-    var accept = accepts(req)
-    var type = accept.type('html', 'json', 'text')
+    var accept = accepts(req);
+    var type = accept.type("html", "json", "text");
 
     // Security header for content sniffing
-    res.setHeader('X-Content-Type-Options', 'nosniff')
+    res.setHeader("X-Content-Type-Options", "nosniff");
 
     // html
-    if (type === 'html') {
-      var isInspect = !err.stack && String(err) === toString.call(err)
+    if (type === "html") {
+      var isInspect = !err.stack && String(err) === toString.call(err);
       var errorHtml = !isInspect
-        ? escapeHtmlBlock(str.split('\n', 1)[0] || 'Error')
-        : 'Error'
-      var stack = !isInspect
-        ? String(str).split('\n').slice(1)
-        : [str]
+        ? escapeHtmlBlock(str.split("\n", 1)[0] || "Error")
+        : "Error";
+      var stack = !isInspect ? String(str).split("\n").slice(1) : [str];
       var stackHtml = stack
-        .map(function (v) { return '<li>' + escapeHtmlBlock(v) + '</li>' })
-        .join('')
-      var body = TEMPLATE
-        .replace('{style}', STYLESHEET)
-        .replace('{stack}', stackHtml)
-        .replace('{title}', escapeHtml(exports.title))
-        .replace('{statusCode}', res.statusCode)
-        .replace(/\{error\}/g, errorHtml)
-      res.setHeader('Content-Type', 'text/html; charset=utf-8')
-      res.end(body)
-    // json
-    } else if (type === 'json') {
-      var error = { message: err.message, stack: err.stack }
-      for (var prop in err) error[prop] = err[prop]
-      var json = JSON.stringify({ error: error }, null, 2)
-      res.setHeader('Content-Type', 'application/json; charset=utf-8')
-      res.end(json)
-    // plain text
+        .map(function (v) {
+          return "<li>" + escapeHtmlBlock(v) + "</li>";
+        })
+        .join("");
+      var body = TEMPLATE.replace("{style}", STYLESHEET)
+        .replace("{stack}", stackHtml)
+        .replace("{title}", escapeHtml(exports.title))
+        .replace("{statusCode}", res.statusCode)
+        .replace(/\{error\}/g, errorHtml);
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      res.end(body);
+      // json
+    } else if (type === "json") {
+      var error = { message: err.message, stack: err.stack };
+      for (var prop in err) error[prop] = err[prop];
+      var json = JSON.stringify({ error: error }, null, 2);
+      res.setHeader("Content-Type", "application/json; charset=utf-8");
+      res.end(json);
+      // plain text
     } else {
-      res.setHeader('Content-Type', 'text/plain; charset=utf-8')
-      res.end(str)
+      res.setHeader("Content-Type", "text/plain; charset=utf-8");
+      res.end(str);
     }
-  }
-}
+  };
+};
 
 /**
  * Template title, framework authors may override this value.
  */
 
-exports.title = 'Connect'
+exports.title = "Connect";
 
 /**
  * Escape a block of HTML, preserving whitespace.
  * @api private
  */
 
-function escapeHtmlBlock (str) {
+function escapeHtmlBlock(str) {
   return escapeHtml(str)
-    .replace(DOUBLE_SPACE_REGEXP, ' &nbsp;')
-    .replace(NEW_LINE_REGEXP, '<br>')
+    .replace(DOUBLE_SPACE_REGEXP, " &nbsp;")
+    .replace(NEW_LINE_REGEXP, "<br>");
 }
 
 /**
@@ -174,18 +180,16 @@ function escapeHtmlBlock (str) {
  * @api private
  */
 
-function stringify (val) {
-  var stack = val.stack
+function stringify(val) {
+  var stack = val.stack;
 
   if (stack) {
-    return String(stack)
+    return String(stack);
   }
 
-  var str = String(val)
+  var str = String(val);
 
-  return str === toString.call(val)
-    ? inspect(val)
-    : str
+  return str === toString.call(val) ? inspect(val) : str;
 }
 
 /**
@@ -193,6 +197,6 @@ function stringify (val) {
  * @api private
  */
 
-function logerror (err, str) {
-  console.error(str || err.stack)
+function logerror(err, str) {
+  console.error(str || err.stack);
 }

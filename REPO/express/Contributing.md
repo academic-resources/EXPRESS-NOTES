@@ -2,19 +2,19 @@
 
 The goal of this document is to create a contribution process that:
 
-* Encourages new contributions.
-* Encourages contributors to remain involved.
-* Avoids unnecessary processes and bureaucracy whenever possible.
-* Creates a transparent decision making process that makes it clear how
-contributors can be involved in decision making.
+- Encourages new contributions.
+- Encourages contributors to remain involved.
+- Avoids unnecessary processes and bureaucracy whenever possible.
+- Creates a transparent decision making process that makes it clear how
+  contributors can be involved in decision making.
 
 ## Vocabulary
 
-* A **Contributor** is any individual creating or commenting on an issue or pull request.
-* A **Committer** is a subset of contributors who have been given write access to the repository.
-* A **TC (Technical Committee)** is a group of committers representing the required technical
-expertise to resolve rare disputes.
-* A **Triager** is a subset of contributors who have been given triage access to the repository.
+- A **Contributor** is any individual creating or commenting on an issue or pull request.
+- A **Committer** is a subset of contributors who have been given write access to the repository.
+- A **TC (Technical Committee)** is a group of committers representing the required technical
+  expertise to resolve rare disputes.
+- A **Triager** is a subset of contributors who have been given triage access to the repository.
 
 ## Logging Issues
 

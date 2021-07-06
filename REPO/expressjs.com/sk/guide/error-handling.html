@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Error handling v Express-e</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Error handling v Express-e</h1>
+</header>
+<!---
+ Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
+ License: MIT
+-->
+<h1 id="error-handling">Error handling</h1>
+<p>Middleware funkcie pre error-handling sa definujú rovnako, ako ostatné middleware funkcie s jediným rozdielom a to, že majú štyri argumenty namiesto troch: <code>(err, req, res, next)</code>. Napr.:</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+</code>
+</pre>
+<p>Error-handling middleware zadefinujte ako posledný, za ostatnými <code>app.use()</code> a route definíciami, napr.:</p>
+<pre>
+<code class="language-javascript" translate="no">
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(function(err, req, res, next) {
+  // logic
+});
+</code>
+</pre>
+<p>Návratové hodnoty predávané medzi jednotlivými middleware funkciami môžu byť v ľubovoľnom formáte, ako napr. stránka s HTML errorom, jednoduchá message, či JSON string.</p>
+<p>Z dôvodu lepšej organizácie kódu je možné zadefinovať niekoľko error-handling middleware funkcií, podobne ako je tomu so štandardnými middleware funkciami. Napr., ak chcete zadefinovať error-handling pre <code>XHR</code> volania a pre tie ostatné, môžete použiť nasledujúci príklad:</p>
+<pre>
+<code class="language-javascript" translate="no">
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);
+</code>
+</pre>
+<p>V nasledujúcom príklade <code>logErrors</code> sú všetky errory vypísané na <code>stderr</code>, napr.:</p>
+<pre>
+<code class="language-javascript" translate="no">
+function logErrors(err, req, res, next) {
+  console.error(err.stack);
+  next(err);
+}
+</code>
+</pre>
+<p>V nasledujúcom príklade je <code>clientErrorHandler</code> zadefinovaný tak, aby XHR errory boli explicitne odchytené; tie ostatné sa nespracovávajú a ich spracovanie je ponechané nasledujúcej middleware funkcii v poradí:</p>
+<pre>
+<code class="language-javascript" translate="no">
+function clientErrorHandler(err, req, res, next) {
+  if (req.xhr) {
+    res.status(500).send({ error: 'Something failed!' });
+  } else {
+    next(err);
+  }
+}
+</code>
+</pre>
+<p>Finálna “catch-all” <code>errorHandler</code> funkcia môže byť implementovaná takto:</p>
+<pre>
+<code class="language-javascript" translate="no">
+function errorHandler(err, req, res, next) {
+  res.status(500);
+  res.render('error', { error: err });
+}
+</code>
+</pre>
+<p>Ak do funkcie <code>next()</code> predáte čokoľvek (okrem stringu <code>'route'</code>), Express bude považovať toto volanie ako error a automaticky preskočí všetky zostávajúce non-error middleware funkcie. Ak potrebujete tento error spracovať špeciálne, budete musieť vytvoriť error-handling route, ako je popísane v ďalšej sekcii.</p>
+<p>Ak váš route handler obsahuje viacero callback funkcií, môžete k preskočeniu na ďalší route handler v poradí použiť parameter <code>route</code>. Napr.:</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.get('/a_route_behind_paywall',
+  function checkIfPaidSubscriber(req, res, next) {
+    if(!req.user.hasPaid) {
+
+      // continue handling this request
+      next('route');
+    }
+  }, function getPaidContent(req, res, next) {
+    PaidContent.find(function(err, doc) {
+      if(err) return next(err);
+      res.json(doc);
+    });
+  });
+</code>
+</pre>
+<p>V tomto príklade bude <code>getPaidContent</code> handler preskočený, ale ďalšie zostávajúce <code>app</code> handlery pre <code>/a_route_behind_paywall</code> budú vykonané.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Volania <code>next()</code> a <code>next(err)</code> hovoria, že aktuálny handler dokončil svoju úlohu príp. v akom stave. Volanie <code>next(err)</code> zabezpeči preskočenie všetkých zostávajúcich handlerov v poradí okrem tých, ktoré slúžia na spracovanie errorov, ako je popísané vyššie.</p>
+</div>
+<h2 id="defaultný-error-handler">Defaultný Error Handler</h2>
+<p>Express obsahuje vstavaný error handler, ktorý sa stará o všetky errory, aké sa môžu v aplikácii vyskytnúť. Táto defaultná error-handling middleware funkcia je pridaná na koniec stacku middleware funkcií.</p>
+<p>Ak funkcii <code>next()</code> predáte error a nespracujete ho vlatným error handlerom, error bude spracovaný vstavaným error handlerom, pričom error a jeho stack trace bude vrátený klientovi. Stack trace nie je vrátený v prípade produkčného módu.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Ak chcete aplikáciu spustiť v produkčnom móde, nastavte environment premennú <code>NODE_ENV</code> na <code>production</code>.</p>
+</div>
+<p>V prípade, ak zavoláte <code>next()</code> spolu s errorom potom, ako ste už začali vypisovať response (napr. ak nastane error počas streamovania dát klientovi), vstavaný error handler ukončí spojenie s klientom a request spadne.</p>
+<p>V prípade, ak máte zadefinovaný vlastný erorr handler a budete chcieť delegovať defaultný error handling mechanizmus na Express, v prípade ak už nejaké dáta boli odoslané klientovi, môžete vykonať nasledovné:</p>
+<pre>
+<code class="language-javascript" translate="no">
+function errorHandler(err, req, res, next) {
+  if (res.headersSent) {
+    return next(err);
+  }
+  res.status(500);
+  res.render('error', { error: err });
+}
+</code>
+</pre>
+</body>
+</html>

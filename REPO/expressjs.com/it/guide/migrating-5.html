@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Migrazione a Express 5</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Migrazione a Express 5</h1>
+</header>
+<h1 id="passaggio-a-express-5">Passaggio a Express 5</h1>
+<h2 id="overview">
+Panoramica
+</h2>
+<p>Express 5.0 si trova ancora nella fase di release alfa, ma di seguito vengono mostrate le modifiche che verranno riportate nel release e come migrare l’applicazione Express 4 a Express 5.</p>
+<p>Express 5 non è molto differente da Express 4: le modifiche all’API non sono così importanti come quelle che sono state effettuate nel passaggio dalla 3.0 alla 4.0. Anche se le API di base sono le stesse, ci sono comunque delle modifiche importanti; in altre parole, un programma Express 4 esistente potrebbe non funzionare se lo si aggiorna per utilizzare Express 5.</p>
+<p>Per installare l’ultima alfa e per vedere in anteprima Express 5, immettere il seguente comando nella directory root dell’applicazione:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install express@5.0.0-alpha.2 --save
+</code>
+</pre>
+<p>È quindi possibile eseguire i test automatizzati per trovare errori e correggere i problemi in base agli aggiornamenti elencati di seguito. Dopo aver gestito gli errori del test, avviare l’applicazione per verificare gli errori. Si noterà subito se l’applicazione utilizza qualsiasi metodo o proprietà non supportati.</p>
+<h2 id="changes">
+Modifiche in Express 5
+</h2>
+<p>Di seguito viene riportato l’elenco di modifiche (a partire dal release alfa) che influenzeranno gli utenti di Express. Consultare <a href="https://github.com/expressjs/express/pull/2237">pull request</a> per un elenco di funzioni pianificate.</p>
+<p><strong>Proprietà e metodi rimossi</strong></p>
+<ul class="doclist">
+<li>
+<a href="#app.del">app.del()</a>
+</li>
+<li>
+<a href="#app.param">app.param(fn)</a>
+</li>
+<li>
+<a href="#plural">Nomi di metodi al plurale</a>
+</li>
+<li>
+<a href="#leading">Due punti nell’argomento del nome in app.param(name, fn)</a>
+</li>
+<li>
+<a href="#req.param">req.param(name)</a>
+</li>
+<li>
+<a href="#res.json">res.json(obj, status)</a>
+</li>
+<li>
+<a href="#res.jsonp">res.jsonp(obj, status)</a>
+</li>
+<li>
+<a href="#res.send.body">res.send(body, status)</a>
+</li>
+<li>
+<a href="#res.send.status">res.send(status)</a>
+</li>
+<li>
+<a href="#res.sendfile">res.sendfile()</a>
+</li>
+</ul>
+<p><strong>Modificato</strong></p>
+<ul class="doclist">
+<li>
+<a href="#app.router">app.router</a>
+</li>
+<li>
+<a href="#req.host">req.host</a>
+</li>
+<li>
+<a href="#req.query">req.query</a>
+</li>
+</ul>
+<p><strong>Miglioramenti</strong></p>
+<ul class="doclist">
+<li>
+<a href="#res.render">res.render()</a>
+</li>
+</ul>
+<h3>
+Proprietà e metodi rimossi
+</h3>
+<p>Se si utilizza uno dei seguenti metodi o proprietà nell’applicazione, quest’ultima si chiuderà in modo anomalo. Quindi, sarà necessario modificare l’applicazione dopo aver effettuato l’aggiornamento alla versione 5.</p>
+<h4 id="app.del">
+app.del()
+</h4>
+<p>Express 5 non supporta più la funzione <code>app.del()</code>. Se si utilizza questa funzione verrà generato un errore. Per registrare le route HTTP DELETE, utilizzare al contrario la funzione <code>app.delete()</code>.</p>
+<p>Inizialmente era stato utilizzato il comando <code>del</code> al posto di <code>delete</code>, perché <code>delete</code> è una parola chiave riservata in JavaScript. Tuttavia, a partire da ECMAScript 6, <code>delete</code> e altre parole chiave riservate possono essere utilizzate liberamente come nomi di proprietà. È possibile leggere la documentazione in cui viene descritto come si è arrivati alla deprecazione della funzione <code>app.del</code> qui.</p>
+<h4 id="app.param">
+app.param(fn)
+</h4>
+<p>La firma <code>app.param(fn)</code> è stata utilizzata per modificare la funzionalità della funzione <code>app.param(name, fn)</code>. È stata considerata obsoleta a partire dalla v4.11.0 e non è più supportata in Express 5.</p>
+<h4 id="plural">
+Nomi di metodi al plurale
+</h4>
+<p>I seguenti nomi di metodi sono stati messi al plurale. In Express 4, l’utilizzo di vecchi metodi ha dato origine ad avvisi di deprecazione. Express 5 non li supporta più in alcun modo:</p>
+<p><code>req.acceptsCharset()</code> è stato sostituito con <code>req.acceptsCharsets()</code>.</p>
+<p><code>req.acceptsEncoding()</code> è stato sostituito con <code>req.acceptsEncodings()</code>.</p>
+<p><code>req.acceptsLanguage()</code> è stato sostituito con <code>req.acceptsLanguages()</code>.</p>
+<h4 id="leading">
+Due punti (:) nel nome per app.param(name, fn)
+</h4>
+<p>I due punti (:) nel nome della funzione <code>app.param(name, fn)</code> è una eredità di Express 3 e per il bene della compatibilità con le versioni precedenti, Express 4 supporta questa condizione ma comunque fornendo un messaggio di avviso di deprecazione. Express 5 lo ignorerà senza avvisi e utilizzerà il parametro nome senza inserire i due punti.</p>
+<p>Questa procedura non dovrebbe influenzare il codice se si segue correttamente la documentazione di Express 4 di <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.param">app.param</a>, poiché non si parla dei due punti.</p>
+<h4 id="req.param">
+req.param(name)
+</h4>
+<p>Questo metodo poco chiaro e molto pericoloso che si utilizzava per richiamare i dati del modulo è stato rimosso. Ora sarà necessario ricercare il nome del parametro inviato nell’oggetto <code>req.params</code>, <code>req.body</code> o <code>req.query</code>.</p>
+<h4 id="res.json">
+res.json(obj, status)
+</h4>
+<p>Express 5 non supporta più la firma <code>res.json(obj, status)</code>. Al contrario, impostare lo stato e successivamente associarlo al metodo <code>res.json()</code> come segue: <code>res.status(status).json(obj)</code>.</p>
+<h4 id="res.jsonp">
+res.jsonp(obj, status)
+</h4>
+<p>Express 5 non supporta più la firma <code>res.jsonp(obj, status)</code>. Al contrario, impostare lo stato e successivamente associarlo al metodo <code>res.jsonp()</code> come segue: <code>res.status(status).jsonp(obj)</code>.</p>
+<h4 id="res.send.body">
+res.send(body, status)
+</h4>
+<p>Express 5 non supporta più la firma <code>res.send(obj, status)</code>. Al contrario, impostare lo stato e successivamente associarlo al metodo <code>res.send()</code> come segue: <code>res.status(status).send(obj)</code>.</p>
+<h4 id="res.send.status">
+res.send(status)
+</h4>
+<p>Express 5 non supporta più la firma <code>res.send(<em>status</em>)</code>, dove <em><code>status</code></em> è un numero. Al contrario, utilizzare la funzione <code>res.sendStatus(statusCode)</code>, la quale imposta il codice di stato dell’intestazione della risposta HTTP e invia la versione di testo del codice: “Non trovato”, “Errore interno del server” e così via. Se è necessario inviare un numero utilizzando la funzione <code>res.send()</code>, citare il numero per convertirlo in una stringa, in modo tale che Express non lo interpreti come un tentativo di utilizzo di una firma vecchia non supportata.</p>
+<h4 id="res.sendfile">
+res.sendfile()
+</h4>
+<p>La funzione <code>res.sendfile()</code> è stata sostituita da una versione in cui ogni frase composta inizia con una lettera maiuscola che utilizza ad esempio <code>res.sendFile()</code> in Express 5.</p>
+<h3>
+Modificato
+</h3>
+<h4 id="app.router">
+app.router
+</h4>
+<p>L’oggetto <code>app.router</code>, che era stato rimosso in Express 4, è ritornato in Express 5. Nella nuova versione, questo oggetto è solo un riferimento al router Express di base, diversamente da Express 3, in cui un’applicazione aveva il compito esplicito di caricarlo.</p>
+<h4 id="req.host">
+req.host
+</h4>
+<p>In Express 4, la funzione <code>req.host</code> andava a rimuovere in modo non corretto il numero porta nel caso fosse stato presente. In Express 5 il numero porta viene conservato.</p>
+<h4 id="req.query">
+req.query
+</h4>
+<p>In Express 4.7 e da Express 5 in avanti, l’opzione parser query può accettare <code>false</code> per disabilitare l’analisi della stringa query quando si desidera utilizzare la propria funzione per la logica di analisi della stringa query.</p>
+<h3>
+Miglioramenti
+</h3>
+<h4 id="res.render">
+res.render()
+</h4>
+<p>Questo metodo ora potenzia i funzionamenti asincroni per tutti i motori di visualizzazione, evitando i bug causati dai motori di visualizzazione con un’implementazione sincrona e che violavano l’interfaccia consigliata.</p>
+</body>
+</html>

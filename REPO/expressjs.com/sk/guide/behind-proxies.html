@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Express za proxy</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Express za proxy</h1>
+</header>
+<!---
+ Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
+ License: MIT
+-->
+<h1 id="express-za-proxy">Express za proxy</h1>
+<p>Ak chcete, aby vaša Express aplikácia bežala za proxy, nastavte (pomocou <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.set">app.set()</a>) aplikačnú premennú <code>trust proxy</code> na jednu z hodnôt z nasledujúcej tabuľky.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Aplikácia bude bežať i v prípade, ak aplikačná premenná <code>trust proxy</code> nie je nastavená. Aplikácia však nesprávne zaregistruje IP adresu proxy, ako klientskú IP adresu dokým <code>trust proxy</code> nebude nastavené.</p>
+</div>
+<table class="doctable" border="1" markdown="1">
+<thead>
+<tr>
+<th>
+Typ
+</th>
+<th>
+Hodnota
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Boolean
+</td>
+<td>
+<p>Ak je <code>true</code>, IP addresa klienta bude chápaná ako left-most entry v <code>X-Forwarded-*</code> hlavičke.</p>
+Ak je <code>false</code>, aplikácia sa chápe, ako priamo vystavená na Internet a klientská IP adresa je odvodená z <code>req.connection.remoteAddress</code>. Toto je defaultné nastavenie.
+</td>
+</tr>
+<tr>
+<td>
+IP addresses
+</td>
+<td>
+<p>IP adresa, subnet, alebo pole IP adries a subnet-ov (podsietí), ktorým má aplikácia dôverovať. Nasledujúci zoznam zobrazuje predkonfigurované názvy subnet-ov:</p>
+<ul>
+<li>loopback - <code>127.0.0.1/8</code>, <code>::1/128</code></li>
+<li>linklocal - <code>169.254.0.0/16</code>, <code>fe80::/10</code></li>
+<li>uniquelocal - <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code>, <code>fc00::/7</code></li>
+</ul>
+<p>IP adresy môžete nastaviť ktorýmkoľvek z nasledujúcich spôsobov:</p>
+<pre>
+<code class="language-js" translate="no">app.set('trust proxy', 'loopback'); // specify a single subnet
+app.set('trust proxy', 'loopback, 123.123.123.123'); // specify a subnet and an address
+app.set('trust proxy', 'loopback, linklocal, uniquelocal'); // specify multiple subnets as CSV
+app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']); // specify multiple subnets as an array</code>
+</pre>
+Pri zadaní IP adresy alebo subnet-ov, sú tieto vylúčené z procesu vyhodnocovania a nedôveryhodná IP adresa najbližsie k aplikačnému serveru je vyhodnotená ako IP adresa klienta.
+</td>
+</tr>
+<tr>
+<td>
+Number
+</td>
+<td>
+Doveruj n-tému hop-u od front-facing proxy servera ako klient.
+</td>
+</tr>
+<tr>
+<td>
+Function
+</td>
+<td>
+Vlastná implementácia dôveryhodnosti. Použite to iba v prípade, ak viete čo robíte.
+<pre>
+<code class="language-js" translate="no">app.set('trust proxy', function (ip) {
+  if (ip === '127.0.0.1' || ip === '123.123.123.123') return true; // trusted IPs
+  else return false;
+});</code>
+</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Nastavením inej ako <code>false</code> hodnoty <code>trust proxy</code> implikuje tieto tri dôležité zmeny:</p>
+<ul>
+<li>
+Hodnota <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.hostname">req.hostname</a> je odvodená od hodnoty nastavenej v <code>X-Forwarded-Host</code> hlavičke, ktorá môže byť nastavená klientom alebo proxy.
+</li>
+<li>
+Hlavička <code>X-Forwarded-Proto</code> môže byť nastavená z reverse proxy aby oznámila aplikácii, či je <code>https</code> alebo <code>http</code> prípadne nevalidná hodnota. Táto hodnota reflektuje <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.protocol">req.protocol</a>.
+</li>
+<li>
+Hodnoty <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.ip">req.ip</a> a <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.ips">req.ips</a> sú naplnené zoznamom adries z <code>X-Forwarded-For</code>.
+</li>
+</ul>
+<p>Nastavenie <code>trust proxy</code> je implementované pomocou <a href="https://www.npmjs.com/package/proxy-addr">proxy-addr</a> modulu. Pre viac informácií si pozrite jeho dokumentáciu.</p>
+</body>
+</html>

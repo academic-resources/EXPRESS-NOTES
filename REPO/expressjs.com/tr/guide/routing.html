@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Express yönlendirmesi</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Express yönlendirmesi</h1>
+</header>
+<div id="page-doc" data-markdown="1">
+<h1 id="yönlendirme">Yönlendirme</h1>
+<p><em>Routing</em> uygulama bitiş noktalarının tanımını (URI’ler) ve istemci isteklerine nasıl yanıt verdiklerini ifade eder. Yönlendirme’ye giriş için, [Temel yönlendirme] sayfasına bakınız.(/{{ page.lang }}/starter/basic-routing.html).</p>
+<p>HTTP metod isimlerine karşılık gelen Express <code>app</code> objesinin metodlarını kullanarak yönlendirmeleri tanımlayabilirsiniz; örneğin, GET isteklerini işlemek için <code>app.get()</code> ve POST isteklerini işlemek için de <code>app.post()</code> kullanmak gibi. Tam liste için bakınız <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.METHOD">app.METHOD</a>. Bütün HTTP metodlarını işlemek için <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.all">app.all()</a>, ve geri çağırma fonksiyonu olarak da ara yazılım tanımlamak için <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.use">app.use()</a> kullanabilirsiniz (Daha fazla detay için bakınız <a href="/%7B%7B%20page.lang%20%7D%7D/guide/using-middleware.html">Ara yazılım kullanmak</a>).</p>
+<p>Bu yönlendirme metodları, uygulamanın belirtilen bir rotaya (bitiş noktası) ve HTTP metoduna aldığı isteklerde çağrılan bir geri çağırma fonksiyonu belirtirler (bazen “işleyici fonksiyonlar” olarak isimlendirilirler). Başka bir deyişle, uygulama, belirtilen rota(lar) ve metod(lar) ile eşleşen istekleri “dinler”, ve bir eşleşme algıladığında, ilgili geri çağırma fonksiyonunu çağırır.</p>
+<p>Aslında yönlendirme metodları birden fazla geri çağırma fonksiyonunu argüman olarak alabilir. Birden fazla geri çağırma fonksiyonu olduğunda, bir sonraki fonksiyona kontrolü vermek için geri çağırma fonksiyonuna <code>next</code>’ argümanını verip, geri çağırma fonksiyonunun içinde <code>next()</code> metodunu çağırmak önemlidir.</p>
+<p>Aşağıdaki kod çok temel bir rota örneğidir.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">var</span> express <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;express&#39;</span>)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
+<a class="sourceLine" id="cb1-3" title="3"></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="co">// anasayfaya bir GET isteği yapıldığında &quot;merhaba dünya&quot; ile yanıt verir</span></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb1-6" title="6">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;merhaba dünya&#39;)</span></a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="op">}</span>)</a></code></pre></div>
+<h2 id="route-methods">
+Rota metodları
+</h2>
+<p>Bir rota metodu, HTTP metodlarının birinden türetilir ve <code>express</code> sınıfının bir örneğine eklenir.</p>
+<p>Aşağıdaki kod uygulamanın köküne GET ve POST metodları için tanımlanan rotalara bir örnektir.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb2-1" title="1"><span class="co">// GET metodu rotası</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb2-3" title="3">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;anasayfaya GET isteği&#39;</span>)</a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="op">}</span>)</a>
+<a class="sourceLine" id="cb2-5" title="5"></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">// POST metodu rotası</span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="va">app</span>.<span class="at">post</span>(<span class="st">&#39;/&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb2-8" title="8">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;anasayfaya POST isteği&#39;</span>)</a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="op">}</span>)</a></code></pre></div>
+<p>Express, HTTP metodlarına karşılık gelen bu yönlendirme metodlarını destekler: <code>get</code>, <code>post</code>, <code>put</code>, <code>head</code>, <code>delete</code>, <code>options</code>, <code>trace</code>, <code>copy</code>, <code>lock</code>, <code>mkcol</code>, <code>move</code>, <code>purge</code>, <code>propfind</code>, <code>proppatch</code>, <code>unlock</code>, <code>report</code>, <code>mkactivity</code>, <code>checkout</code>, <code>merge</code>, <code>m-search</code>, <code>notify</code>, <code>subscribe</code>, <code>unsubscribe</code>, <code>patch</code>, <code>search</code>, ve <code>connect</code>.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Geçersiz JavaScript değişken adlarına denk gelen metodları yönlendirmek için köşeli parantez notasyonunu kullanınız. Örneğin, <code>app['m-search']('/', function ...</code></p>
+</div>
+<p>Hiçbir HTTP metodundan türemeyen özel bir yönlendirme metodu olan <code>app.all()</code> mevcut. bu metod, tüm istek metodları için bir yolda ara katman yazılım(middleware) fonksiyonlarını yüklemek için kullanılır.</p>
+<p>Bir sonraki örnekte, “/secret” rotasına yapılan isteklerde, GET, POST, PUT, DELETE veya <a href="https://nodejs.org/api/http.html#http_http_methods">http modülü</a>’nde desteklenen herhangi bir HTTP istek metodu farketmeksizin bu işleyici çalıştırılacak.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb3-1" title="1"><span class="va">app</span>.<span class="at">all</span>(<span class="st">&#39;/secret&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb3-2" title="2">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;Gizli bölümlere erişiliyor...&#39;</span>)</a>
+<a class="sourceLine" id="cb3-3" title="3">  <span class="at">next</span>() <span class="co">// bir sonraki işleyiciye kontrolü verir</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="op">}</span>)</a></code></pre></div>
+<h2 id="route-paths">
+Rota yolları
+</h2>
+<p>Rota yolları, bir istek metoduyla birlikte, isteklerin yapılabileceği bitiş noktalarını tanımlar. Rota yolları karakter dizini, karakter dizin modeli veya düzenli ifadeler(reqular expression) olabilir.</p>
+<p><code>?</code>, <code>+</code>, <code>*</code>, ve <code>()</code> karakterleri düzenli ifade karşılıklarının alt kümeleridir. Tire (<code>-</code>) ve nokta (<code>.</code>) karakter-dizisi tabanlı yollar tarafından oldukları gibi değerlendirilir.</p>
+<p>Eğer dolar karakterini (<code>$</code>) bir karakter dizini yolunda kullanma ihtiyacınız olursa, <code>([</code> ve <code>])</code> karakterlerinin içinde kullanınız. Örneğin, “<code>/data/$book</code>” istekleri için dizin yolu bu şekilde olur: “<code>/data/([\$])book</code>”.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Express, rota yollarını eşleştirmek için <a href="https://www.npmjs.com/package/path-to-regexp">path-to-regexp</a> kullanır; rota tanımlamadaki bütün olasılıkları öğrenmek için path-to-regexp dökümantasyonuna bakınız. Basit Express rotalarını test etmek için <a href="http://forbeslindesay.github.io/express-route-tester/">Express Route Tester</a> kullanışlı bir araçtır, ancak bu araç model eşleştirmeyi desteklememektedir.</p>
+</div>
+<div class="doc-box doc-warn" data-markdown="1">
+<p>Sorgu dizeleri rota yolunun bir parçası değillerdir.</p>
+</div>
+<p>Karakter dizininlerine dayalı bazı rota yolları örnekleri.</p>
+<p>Bu rota yolu, istekleri kök rotaya eşleştirecek, <code>/</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb4-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb4-2" title="2">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;root&#39;</span>)</a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="op">}</span>)</a></code></pre></div>
+<p>Bu rota yolu istekleri <code>/about</code> ile eşleştirecek</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb5-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/about&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb5-2" title="2">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;about&#39;</span>)</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="op">}</span>)</a></code></pre></div>
+<p>Bu rota yolu istekleri <code>/random.text</code> ile eşleştirecek</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb6-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/random.text&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb6-2" title="2">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;random.text&#39;</span>)</a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="op">}</span>)</a></code></pre></div>
+<p>Aşağıda, dizin modellerine dayalı rota yollarının bazı örnekleri verilmiştir.</p>
+<p>Bu rota yolu, <code>acd</code> ve <code>abcd</code> ile eşleşecek.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb7-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/ab?cd&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb7-2" title="2">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;ab?cd&#39;</span>)</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="op">}</span>)</a></code></pre></div>
+<p>Bu rota yolu, <code>abcd</code>, <code>abbcd</code>, <code>abbbcd</code> vb. ile eşleşecek.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb8-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/ab+cd&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb8-2" title="2">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;ab+cd&#39;</span>)</a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="op">}</span>)</a></code></pre></div>
+<p>Bu rota yolu, <code>abcd</code>, <code>abxcd</code>, <code>abRANDOMcd</code>, <code>ab123cd</code> vb. ile eşleşecek.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb9-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/ab*cd&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb9-2" title="2">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;ab*cd&#39;</span>)</a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="op">}</span>)</a></code></pre></div>
+<p>Bu rota yolu, <code>/abe</code> ve <code>/abcde</code> ile eşleşecek.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb10-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/ab(cd)?e&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb10-2" title="2">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;ab(cd)?e&#39;</span>)</a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="op">}</span>)</a></code></pre></div>
+<p>Düzenli ifadelere dayalı rota yolları örnekleri:</p>
+<p>Bu rota yolu, rota isminde “a” karakteri olan herhangi bir şey ile eşleşecek.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb11-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="ss">/a/</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb11-2" title="2">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;/a/&#39;</span>)</a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="op">}</span>)</a></code></pre></div>
+<p>Bu rota yolu <code>butterfly</code> ve <code>dragonfly</code> ile eşleşir, ancak <code>butterflyman</code>, <code>dragonflyman</code> vb. ile değil.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb12-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="ss">/.</span><span class="sc">*</span><span class="ss">fly</span><span class="sc">$</span><span class="ss">/</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb12-2" title="2">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;/.*fly$/&#39;</span>)</a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="op">}</span>)</a></code></pre></div>
+<h3 id="route-parameters">
+Rota parametreleri
+</h3>
+<p>Rota parametreleri, URL’deki konumlarında belirtilen değerleri yakalamak için kullanılan adlandırılmış URL bölümleridir. Yakalanan değerler, yolda belirtilen rota parameterlerinin ilgili isimlerini alarak <code>req.params</code> objesinde tutulur.</p>
+<pre><code>Rota yolu: /users/:userId/books/:bookId
+İStek URL&#39;i: http://localhost:3000/users/34/books/8989
+req.params: { &quot;userId&quot;: &quot;34&quot;, &quot;bookId&quot;: &quot;8989&quot; }</code></pre>
+<p>Parametreli rota tanımlamak için, aşağıda gösterildiği gibi rota parametrelerini rotanın yolunda belirtmeniz yeterlidir.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb14-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/users/:userId/books/:bookId&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb14-2" title="2">  <span class="va">res</span>.<span class="at">send</span>(<span class="va">req</span>.<span class="at">params</span>)</a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="op">}</span>)</a></code></pre></div>
+<div class="doc-box doc-notice" data-markdown="1">
+<p>Rota parametrelerinin isimleri sadece “kelime karakterleri” içermelidir ([A-Za-z0-9_]).</p>
+</div>
+<p>Tire (<code>-</code>) ve nokta (<code>.</code>) oldukları gibi değerlendirildikleri için, kullanışlı amaçlar için rota parametrelerinde kullanılabilirler.</p>
+<pre><code>Rota yolu: /flights/:from-:to
+İtek URL&#39;i: http://localhost:3000/flights/LAX-SFO
+req.params: { &quot;from&quot;: &quot;LAX&quot;, &quot;to&quot;: &quot;SFO&quot; }</code></pre>
+<pre><code>Rota yolu: /plantae/:genus.:species
+İstek URL&#39;i: http://localhost:3000/plantae/Prunus.persica
+req.params: { &quot;genus&quot;: &quot;Prunus&quot;, &quot;species&quot;: &quot;persica&quot; }</code></pre>
+<p>Bir rota parametresiyle eşleşen dizin üzerinde daha fazla kontrole sahip olmak için, parantez içinde (<code>()</code>) düzenli ifade ekleyebilirsiniz:</p>
+<pre><code>Rota yolu: /user/:userId(\d+)
+İstek URL&#39;i: http://localhost:3000/user/42
+req.params: {&quot;userId&quot;: &quot;42&quot;}</code></pre>
+<div class="doc-box doc-warn" data-markdown="1">
+<p>Düzenli ifadeler genellikle tam bir dizenin parçaları oldukları için, <code>&lt;/code&gt; karakterlerinden ek olarak ters eğik çizgi ile kaçtığınızdan emin olun, örneğin <code>\d+</code>.</p>
+</div>
+<div class="doc-box doc-warn" data-markdown="1">
+<p>Express 4.x’te, <a href="https://github.com/expressjs/express/issues/2495">düzenli ifadelerdeki <code><em></code> karakteri normal durumlardaki gibi değerlendirilmiyor</a>. Geçici çözüm olarak, <code></em></code> karakteri yerine<code>{0,}</code> karakterini kullanınız. Bu muhtemelen Express 5’te düzeltilecektir.</p>
+</div>
+<h2 id="route-handlers">
+Rota işleyicileri
+</h2>
+<p>Bir isteği işlemek için, <a href="/%7B%7B%20page.lang%20%7D%7D/guide/using-middleware.html">ara-katman</a> gibi davranan birden fazla geri çağırma fonksiyonu sağlayabilirsiniz. Bunun tek istisnası, bu geri çağırmalar, arda kalan rota metodlarını atlatmak için <code>next('route')</code> metodunu çağırabilir. Bir rotaya ön koşullar uygulamak için bu mekanizmayı kullanabilirsiniz, ve sonra geçerli rotaya devam etmek için bir neden yoksa kontrolü sonraki rotalara aktarabilirsiniz.</p>
+<p>Rota işleyicileri, aşağıdaki örneklerde gösterildiği gibi bir fonksiyon, fonksiyonlar dizisi veya her ikisinin birleşimi biçiminde olabilir.</p>
+<p>Bir geri çağırma fonksiyonu, bir rotayı işleyebilir. Örneğin:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb18-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/example/a&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb18-2" title="2">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;A</span><span class="sc">\&#39;</span><span class="st">dan merhaba&#39;</span>)</a>
+<a class="sourceLine" id="cb18-3" title="3"><span class="op">}</span>)</a></code></pre></div>
+<p>Birden fazla geri çağırma fonksiyonu bir rotayı işleyebilir (<code>next</code> objesini belirttiğinizden emin olun). Örneğin:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb19-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/example/b&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb19-2" title="2">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;yanıt bir sonraki fonksiyon tarafından gönderilecek&#39;</span>)</a>
+<a class="sourceLine" id="cb19-3" title="3">  <span class="at">next</span>()</a>
+<a class="sourceLine" id="cb19-4" title="4"><span class="op">},</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb19-5" title="5">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;B</span><span class="sc">\&#39;</span><span class="st">den merhaba&#39;</span>)</a>
+<a class="sourceLine" id="cb19-6" title="6"><span class="op">}</span>)</a></code></pre></div>
+<p>Geri çağırma fonksiyonları dizini bir rotayı işleyebilir. Örneğin:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">var</span> cb0 <span class="op">=</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb20-2" title="2">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;Geri çağırma 0&#39;</span>)</a>
+<a class="sourceLine" id="cb20-3" title="3">  <span class="at">next</span>()</a>
+<a class="sourceLine" id="cb20-4" title="4"><span class="op">}</span></a>
+<a class="sourceLine" id="cb20-5" title="5"></a>
+<a class="sourceLine" id="cb20-6" title="6"><span class="kw">var</span> cb1 <span class="op">=</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb20-7" title="7">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;Geri çağırma 1&#39;</span>)</a>
+<a class="sourceLine" id="cb20-8" title="8">  <span class="at">next</span>()</a>
+<a class="sourceLine" id="cb20-9" title="9"><span class="op">}</span></a>
+<a class="sourceLine" id="cb20-10" title="10"></a>
+<a class="sourceLine" id="cb20-11" title="11"><span class="kw">var</span> cb2 <span class="op">=</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb20-12" title="12">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;C</span><span class="sc">\&#39;</span><span class="st">den merhaba&#39;</span>)</a>
+<a class="sourceLine" id="cb20-13" title="13"><span class="op">}</span></a>
+<a class="sourceLine" id="cb20-14" title="14"></a>
+<a class="sourceLine" id="cb20-15" title="15"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/example/c&#39;</span><span class="op">,</span> [cb0<span class="op">,</span> cb1<span class="op">,</span> cb2])</a></code></pre></div>
+<p>Bağımsız fonksiyonlar ve fonksiyon dizilerinin bir kombinasyonu bir rotayı işleyebilir. Örneğin:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">var</span> cb0 <span class="op">=</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb21-2" title="2">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;Geri çağırma 0&#39;</span>)</a>
+<a class="sourceLine" id="cb21-3" title="3">  <span class="at">next</span>()</a>
+<a class="sourceLine" id="cb21-4" title="4"><span class="op">}</span></a>
+<a class="sourceLine" id="cb21-5" title="5"></a>
+<a class="sourceLine" id="cb21-6" title="6"><span class="kw">var</span> cb1 <span class="op">=</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb21-7" title="7">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;Geri çağırma 1&#39;</span>)</a>
+<a class="sourceLine" id="cb21-8" title="8">  <span class="at">next</span>()</a>
+<a class="sourceLine" id="cb21-9" title="9"><span class="op">}</span></a>
+<a class="sourceLine" id="cb21-10" title="10"></a>
+<a class="sourceLine" id="cb21-11" title="11"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/example/d&#39;</span><span class="op">,</span> [cb0<span class="op">,</span> cb1]<span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb21-12" title="12">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;yanıt bir sonraki fonksiyon tarafından gönderilecek&#39;</span>)</a>
+<a class="sourceLine" id="cb21-13" title="13">  <span class="at">next</span>()</a>
+<a class="sourceLine" id="cb21-14" title="14"><span class="op">},</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb21-15" title="15">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;D</span><span class="sc">\&#39;</span><span class="st">den merhaba&#39;</span>)</a>
+<a class="sourceLine" id="cb21-16" title="16"><span class="op">}</span>)</a></code></pre></div>
+<h2 id="response-methods">
+Yanıt metodları
+</h2>
+<p>Aşağıdaki tabloda yanıt nesnesindeki (<code>res</code>) metodlar istemciye yanıt gönderebilir ve istek-yanıt döngüsünü sonlandırabilir. Bu metodlardan hiçbiri bir rota işleyiciden çağrılmazsa, istemci isteği asılı kalır.</p>
+<table>
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 63%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metod</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.download">res.download()</a></td>
+<td>Bir dosyanın indirilmesini iste.</td>
+</tr>
+<tr class="even">
+<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.end">res.end()</a></td>
+<td>Yanıt sürecini sonlandır.</td>
+</tr>
+<tr class="odd">
+<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.json">res.json()</a></td>
+<td>JSON yanıtı gönder.</td>
+</tr>
+<tr class="even">
+<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.jsonp">res.jsonp()</a></td>
+<td>JSONP destekli bir JSON yanıtı gönder</td>
+</tr>
+<tr class="odd">
+<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.redirect">res.redirect()</a></td>
+<td>Bir isteği yeniden yönlendir.</td>
+</tr>
+<tr class="even">
+<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.render">res.render()</a></td>
+<td>Bir görünüm şablonu görüntüle.</td>
+</tr>
+<tr class="odd">
+<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.send">res.send()</a></td>
+<td>Çeşitli tiplerde yanıt gönder.</td>
+</tr>
+<tr class="even">
+<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendFile">res.sendFile()</a></td>
+<td>Dosyayı sekizli akış olarak gönder.</td>
+</tr>
+<tr class="odd">
+<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendStatus">res.sendStatus()</a></td>
+<td>Yanıt durum kodunu ayarla ve karakter dize temsilini yanıt gövdesi olarak gönder.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="app-route">
+app.route()
+</h2>
+<p>Bir rota yolu için <code>app.route()</code> kullanarak zincirlenebilir rota işleyicileri oluşturabilirsiniz. Yol tek bir konumda belirtildiğinden, fazlalık ve yazım hatalarını azaltmak için modüler rotalar oluşturmak yararlıdır. Rotalar hakkında daha fazla bilgi için, bakınız: <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router">Router() dökümantasyonu</a>.</p>
+<p>Burada <code>app.route()</code> kullanılarak tanımlanan zincirleme rota işleyicilerine bir örnek verilmiştir.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb22-1" title="1"><span class="va">app</span>.<span class="at">route</span>(<span class="st">&#39;/book&#39;</span>)</a>
+<a class="sourceLine" id="cb22-2" title="2">  .<span class="at">get</span>(<span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb22-3" title="3">    <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;Rastgele bir kitap getir&#39;</span>)</a>
+<a class="sourceLine" id="cb22-4" title="4">  <span class="op">}</span>)</a>
+<a class="sourceLine" id="cb22-5" title="5">  .<span class="at">post</span>(<span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb22-6" title="6">    <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;Bir kitap ekle&#39;</span>)</a>
+<a class="sourceLine" id="cb22-7" title="7">  <span class="op">}</span>)</a>
+<a class="sourceLine" id="cb22-8" title="8">  .<span class="at">put</span>(<span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb22-9" title="9">    <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;Kitabı güncelle&#39;)</span></a>
+<a class="sourceLine" id="cb22-10" title="10">  <span class="op">}</span>)</a></code></pre></div>
+<h2 id="express-router">
+express.Router
+</h2>
+<p>Modüler, monte edilebilir rota işleyicileri oluşturmak için <code>express.Router</code> sınıfını kullanın. Bir <code>Router</code> sınıfı örneği tam bir ara katman yazılım ve yönlendirme sistemidir; bu nedenle, sıklıkla “mini-uygulama” olarak bilinir.</p>
+<p>Aşağıdaki örnek, bir yönlendiriciyi modül olarak oluşturur, içine bir ara katman yazılımı fonksiyonu yükler, bazı rotaları tanımlar ve yönlendirici modülünü ana uygulamadaki bir yola bağlar.</p>
+<p>Uygulama dizininde aşağıdaki içeriğe sahip <code>birds.js</code> adlı bir yönlendirici dosyası oluşturun:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">var</span> express <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;express&#39;</span>)</a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="kw">var</span> router <span class="op">=</span> <span class="va">express</span>.<span class="at">Router</span>()</a>
+<a class="sourceLine" id="cb23-3" title="3"></a>
+<a class="sourceLine" id="cb23-4" title="4"><span class="co">// bu yönlendiriciye özel ara katman yazılım</span></a>
+<a class="sourceLine" id="cb23-5" title="5"><span class="va">router</span>.<span class="at">use</span>(<span class="kw">function</span> <span class="at">timeLog</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb23-6" title="6">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;Time: &#39;</span><span class="op">,</span> <span class="va">Date</span>.<span class="at">now</span>())</a>
+<a class="sourceLine" id="cb23-7" title="7">  <span class="at">next</span>()</a>
+<a class="sourceLine" id="cb23-8" title="8"><span class="op">}</span>)</a>
+<a class="sourceLine" id="cb23-9" title="9"><span class="co">// anasayfa rotası tanımla</span></a>
+<a class="sourceLine" id="cb23-10" title="10"><span class="va">router</span>.<span class="at">get</span>(<span class="st">&#39;/&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb23-11" title="11">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;Birds home page&#39;</span>)</a>
+<a class="sourceLine" id="cb23-12" title="12"><span class="op">}</span>)</a>
+<a class="sourceLine" id="cb23-13" title="13"><span class="co">// define the about route</span></a>
+<a class="sourceLine" id="cb23-14" title="14"><span class="va">router</span>.<span class="at">get</span>(<span class="st">&#39;/about&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb23-15" title="15">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;About birds&#39;</span>)</a>
+<a class="sourceLine" id="cb23-16" title="16"><span class="op">}</span>)</a>
+<a class="sourceLine" id="cb23-17" title="17"></a>
+<a class="sourceLine" id="cb23-18" title="18"><span class="va">module</span>.<span class="at">exports</span> <span class="op">=</span> router</a></code></pre></div>
+<p>Daha sonra, yönlendirici modülünü uygulamada yükle:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">var</span> birds <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;./birds&#39;</span>)</a>
+<a class="sourceLine" id="cb24-2" title="2"></a>
+<a class="sourceLine" id="cb24-3" title="3"><span class="co">// ...</span></a>
+<a class="sourceLine" id="cb24-4" title="4"></a>
+<a class="sourceLine" id="cb24-5" title="5"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/birds&#39;</span><span class="op">,</span> birds)</a></code></pre></div>
+<p>Uygulama artık <code>/birds</code> ve <code>/birds/about</code> isteklerini işleyebileceği gibi, rotaya özgü <code>timeLog</code> ara katman yazılımı fonksiyonunu da çağırabilecektir.</p>
+</div>
+</body>
+</html>

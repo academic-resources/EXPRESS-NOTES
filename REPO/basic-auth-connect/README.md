@@ -5,7 +5,7 @@ Connect's Basic Auth middleware in its own module. This module is considered dep
 ## API
 
 ```js
-var basicAuth = require('basic-auth-connect');
+var basicAuth = require("basic-auth-connect");
 ```
 
 Sorry, couldn't think of a more clever name.
@@ -13,17 +13,17 @@ Sorry, couldn't think of a more clever name.
 Simple username and password
 
 ```js
-connect()
-.use(basicAuth('username', 'password'));
+connect().use(basicAuth("username", "password"));
 ```
 
 Callback verification
 
 ```js
-connect()
-.use(basicAuth(function(user, pass){
-  return 'tj' == user && 'wahoo' == pass;
-}))
+connect().use(
+  basicAuth(function (user, pass) {
+    return "tj" == user && "wahoo" == pass;
+  })
+);
 ```
 
 Async callback verification, accepting `fn(err, user)`.

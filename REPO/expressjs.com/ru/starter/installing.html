@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Установка Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Установка Express</h1>
+</header>
+<h1 id="установка">Установка</h1>
+<p>Предположим, вы уже установили <a href="https://nodejs.org/">Node.js</a>. Создайте каталог для своего приложения и сделайте его своим рабочим каталогом.</p>
+<pre>
+<code class="language-sh" translate="no">
+$ mkdir myapp
+$ cd myapp
+</code>
+</pre>
+<p>С помощью команды <code>npm init</code> создайте файл <code>package.json</code> для своего приложения. Дополнительную информацию о работе <code>package.json</code> можно найти в разделе <a href="https://docs.npmjs.com/files/package.json">Специфика работы с npm package.json</a>.</p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm init
+</code>
+</pre>
+<p>Эта команда выдает целый ряд приглашений, например, приглашение указать имя и версию вашего приложения. На данный момент, достаточно просто нажать клавишу ВВОД, чтобы принять предлагаемые значения по умолчанию для большинства пунктов, кроме следующего:</p>
+<pre>
+<code class="language-sh" translate="no">
+entry point: (index.js)
+</code>
+</pre>
+<p>Введите <code>app.js</code> или любое другое имя главного файла по своему желанию. Если вас устраивает <code>index.js</code>, нажмите клавишу ВВОД, чтобы принять предложенное имя файла по умолчанию.</p>
+<p>Теперь установите Express в каталоге <code>myapp</code> и сохраните его в списке зависимостей. Например:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install express --save
+</code>
+</pre>
+<p>Для временной установки Express, без добавления его в список зависимостей, не указывайте опцию <code>--save</code>:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install express
+</code>
+</pre>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Модули Node, установленные с опцией <code>--save</code>, добавляются в список <code>dependencies</code> в файле <code>package.json</code>. В дальнейшем, при запуске <code>npm install</code> в каталоге <code>app</code> установка модулей из списка зависимостей будет выполняться автоматически.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Ejemplo “Hello World” de Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Ejemplo “Hello World” de Express</h1>
+</header>
+<h1 id="ejemplo-hello-world">Ejemplo Hello world</h1>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Esta es básicamente la aplicación Express más sencilla que puede crear. Es una aplicación de archivo simple — <em>no</em> lo que obtendrá si utiliza el <a href="/%7B%7B%20page.lang%20%7D%7D/starter/generator.html">generador de Express</a>, que crea el andamiaje para una aplicación completa con varios archivos JavaScript, plantillas Jade y subdirectorios para distintos propósitos.</p>
+</div>
+<p>En primer lugar, cree un directorio denominado <code>myapp</code>, cámbielo y ejecute <code>npm init</code>. A continuación, instale <code>express</code> como una dependencia, según se describe en la <a href="/%7B%7B%20page.lang%20%7D%7D/starter/installing.html">guía de instalación</a>.</p>
+<p>En el directorio <code>myapp</code>, cree un archivo denominado <code>app.js</code> y añada el código siguiente:</p>
+<pre>
+<code class="language-javascript" translate="no">
+const express = require('express')
+const app = express()
+const port = 3000
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
+</code>
+</pre>
+<p>La aplicación inicia un servidor y escucha las conexiones en el puerto 3000. La aplicación responde con “Hello World!” para las solicitudes al URL raíz (<code>/</code>) o a la <em>ruta</em> raíz. Para cada vía de acceso diferente, responderá con un error <strong>404 Not Found</strong>.</p>
+<div class="doc-box doc-notice" data-markdown="1">
+<p><code>req</code> (solicitud) y <code>res</code> (respuesta) son exactamente los mismos objetos que proporciona Node, por lo que puede invocar <code>req.pipe()</code>, <code>req.on('data', callback)</code> y cualquier otro objeto que invocaría sin estar Express implicado.</p>
+</div>
+<p>Ejecute la aplicación con el siguiente mandato:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ node app.js
+</code>
+</pre>
+<p>A continuación, cargue <a href="http://localhost:3000/">http://localhost:3000/</a> en un navegador para ver la salida.</p>
+</body>
+</html>

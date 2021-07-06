@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Manejo de errores de Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Manejo de errores de Express</h1>
+</header>
+<h1 id="manejo-de-errores">Manejo de errores</h1>
+<p>Defina las funciones de middleware de manejo de errores de la misma forma que otras funciones de middleware, excepto que las funciones de manejo de errores tienen cuatro argumentos en lugar de tres: <code>(err, req, res, next)</code>. Por ejemplo:</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+</code>
+</pre>
+<p>El middleware de manejo de errores se define al final, después de otras llamadas de rutas y <code>app.use()</code>; por ejemplo:</p>
+<pre>
+<code class="language-javascript" translate="no">
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(function(err, req, res, next) {
+  // logic
+});
+</code>
+</pre>
+<p>Las respuestas desde una función de middleware pueden estar en el formato que prefiera, por ejemplo, una página de errores HTML, un mensaje simple o una serie JSON.</p>
+<p>A efectos de la organización (y de infraestructura de nivel superior), puede definir varias funciones de middleware de manejo de errores, de la misma forma que con las funciones de middleware normales. Por ejemplo, si desea definir un manejador de errores para las solicitudes realizadas utilizando <code>XHR</code>, y las que no lo tienen, puede utilizar los siguientes mandatos:</p>
+<pre>
+<code class="language-javascript" translate="no">
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);
+</code>
+</pre>
+<p>En este ejemplo, los <code>logErrors</code> genéricos pueden escribir información de solicitudes y errores en <code>stderr</code>, por ejemplo:</p>
+<pre>
+<code class="language-javascript" translate="no">
+function logErrors(err, req, res, next) {
+  console.error(err.stack);
+  next(err);
+}
+</code>
+</pre>
+<p>También en este ejemplo, <code>clientErrorHandler</code> se define de la siguiente manera; en este caso, el error se pasa de forma explícita al siguiente:</p>
+<pre>
+<code class="language-javascript" translate="no">
+function clientErrorHandler(err, req, res, next) {
+  if (req.xhr) {
+    res.status(500).send({ error: 'Something failed!' });
+  } else {
+    next(err);
+  }
+}
+</code>
+</pre>
+<p>La función que detecta todos los errores de <code>errorHandler</code> puede implementarse de la siguiente manera:</p>
+<pre>
+<code class="language-javascript" translate="no">
+function errorHandler(err, req, res, next) {
+  res.status(500);
+  res.render('error', { error: err });
+}
+</code>
+</pre>
+<p>Si pasa cualquier valor a la función <code>next()</code> (excepto la serie <code>'route'</code>), Express considera que la solicitud actual tiene un error y omitirá las restantes funciones de middleware y direccionamiento que no son de manejo de errores. Si desea manejar ese error de alguna manera, deberá crear una ruta de manejo de errores como se describe en la siguiente sección.</p>
+<p>Si tiene un manejador de rutas con varias funciones de devolución de llamada, puede utilizar el parámetro <code>route</code> para omitir el siguiente manejador de rutas. Por ejemplo:</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.get('/a_route_behind_paywall',
+  function checkIfPaidSubscriber(req, res, next) {
+    if(!req.user.hasPaid) {
+
+      // continue handling this request
+      next('route');
+    }
+  }, function getPaidContent(req, res, next) {
+    PaidContent.find(function(err, doc) {
+      if(err) return next(err);
+      res.json(doc);
+    });
+  });
+</code>
+</pre>
+<p>En este ejemplo, se omitirá el manejador <code>getPaidContent</code>, pero los restantes manejadores en <code>app</code> para <code>/a_route_behind_paywall</code> continuarán ejecutándose.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Las llamadas a <code>next()</code> y <code>next(err)</code> indican que el manejador actual está completo y en qué estado. <code>next(err)</code> omitirá los demás manejadores de la cadena, excepto los que se hayan configurado para manejar errores como se ha descrito anteriormente.</p>
+</div>
+<h2 id="el-manejador-de-errores-predeterminado">El manejador de errores predeterminado</h2>
+<p>Express se suministra con un manejador de errores incorporado, que se encarga de los errores que aparecen en la aplicación. Esta función de middleware de manejo de errores predeterminada se añade al final de la pila de funciones de middleware.</p>
+<p>Si pasa un error a <code>next()</code> y no lo maneja en el manejador de errores, lo manejará el manejador de errores incorporado; el error se escribirá en el cliente con el seguimiento de la pila. El seguimiento de la pila no se incluye en el entorno de producción.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Establezca la variable de entorno <code>NODE_ENV</code> en <code>production</code>, para ejecutar la aplicación en modalidad de producción.</p>
+</div>
+<p>Si invoca <code>next()</code> con un error después de haber empezado a escribir la respuesta (por ejemplo, si encuentra un error mientras se envía la respuesta en modalidad continua al cliente), el manejador de errores predeterminado de Express cierra la conexión y falla la solicitud.</p>
+<p>Por lo tanto, cuando añade un manejador de errores personalizado, se recomienda delegar en los mecanismos de manejo de errores predeterminados de Express, cuando las cabeceras ya se han enviado al cliente:</p>
+<pre>
+<code class="language-javascript" translate="no">
+function errorHandler(err, req, res, next) {
+  if (res.headersSent) {
+    return next(err);
+  }
+  res.status(500);
+  res.render('error', { error: err });
+}
+</code>
+</pre>
+</body>
+</html>

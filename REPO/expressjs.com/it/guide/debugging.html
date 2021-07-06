@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Debug di Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Debug di Express</h1>
+</header>
+<h1 id="debug-di-express">Debug di Express</h1>
+<p>Express utilizza il modulo <a href="https://www.npmjs.com/package/debug">debug</a> internamente per registrare le informazioni sulle corrispondenze route, le funzioni middleware in uso, la modalità dell’applicazione e il flusso del ciclo richiesta/risposta.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p><code>debug</code> corrisponde a una versione estesa di <code>console.log</code>, ma diversamente da <code>console.log</code>, non è necessario creare commenti per i log <code>debug</code> nel codice di produzione. Il processo di registrazione è disattivato per impostazione predefinita e può essere attivato utilizzando la variabile di ambiente <code>DEBUG</code>.</p>
+</div>
+<p>Per visualizzare tutti i log interni utilizzati in Express, impostare la variabile di ambiente <code>DEBUG</code> su <code>express:*</code> quando si avvia l’applicazione.</p>
+<pre>
+<code class="language-sh" translate="no">
+$ DEBUG=express:* node index.js
+</code>
+</pre>
+<p>Su Windows, utilizzare il comando corrispondente.</p>
+<pre>
+<code class="language-sh" translate="no">
+> set DEBUG=express:* & node index.js
+</code>
+</pre>
+<p>L’esecuzione di questo comando sull’applicazione predefinita generata da <a href="/%7B%7B%20page.lang%20%7D%7D/starter/generator.html">Programma di creazione express</a> consentirà di stampare il seguente output:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ DEBUG=express:* node ./bin/www
+  express:router:route new / +0ms
+  express:router:layer new / +1ms
+  express:router:route get / +1ms
+  express:router:layer new / +0ms
+  express:router:route new / +1ms
+  express:router:layer new / +0ms
+  express:router:route get / +0ms
+  express:router:layer new / +0ms
+  express:application compile etag weak +1ms
+  express:application compile query parser extended +0ms
+  express:application compile trust proxy false +0ms
+  express:application booting in development mode +1ms
+  express:router use / query +0ms
+  express:router:layer new / +0ms
+  express:router use / expressInit +0ms
+  express:router:layer new / +0ms
+  express:router use / favicon +1ms
+  express:router:layer new / +0ms
+  express:router use / logger +0ms
+  express:router:layer new / +0ms
+  express:router use / jsonParser +0ms
+  express:router:layer new / +1ms
+  express:router use / urlencodedParser +0ms
+  express:router:layer new / +0ms
+  express:router use / cookieParser +0ms
+  express:router:layer new / +0ms
+  express:router use / stylus +90ms
+  express:router:layer new / +0ms
+  express:router use / serveStatic +0ms
+  express:router:layer new / +0ms
+  express:router use / router +0ms
+  express:router:layer new / +1ms
+  express:router use /users router +0ms
+  express:router:layer new /users +0ms
+  express:router use / &lt;anonymous&gt; +0ms
+  express:router:layer new / +0ms
+  express:router use / &lt;anonymous&gt; +0ms
+  express:router:layer new / +0ms
+  express:router use / &lt;anonymous&gt; +0ms
+  express:router:layer new / +0ms
+</code>
+</pre>
+<p>Quando successivamente viene effettuata una richiesta all’applicazione, verranno visualizzati i log specificati nel codice Express:</p>
+<pre>
+<code class="language-sh" translate="no">
+  express:router dispatching GET / +4h
+  express:router query  : / +2ms
+  express:router expressInit  : / +0ms
+  express:router favicon  : / +0ms
+  express:router logger  : / +1ms
+  express:router jsonParser  : / +0ms
+  express:router urlencodedParser  : / +1ms
+  express:router cookieParser  : / +0ms
+  express:router stylus  : / +0ms
+  express:router serveStatic  : / +2ms
+  express:router router  : / +2ms
+  express:router dispatching GET / +1ms
+  express:view lookup "index.pug" +338ms
+  express:view stat "/projects/example/views/index.pug" +0ms
+  express:view render "/projects/example/views/index.pug" +1ms
+</code>
+</pre>
+<p>Per visualizzare i log solo dall’implementazione router impostare il valore <code>DEBUG</code> su <code>express:router</code>. In modo simile, per visualizzare i log solo dall’implementazione dell’applicazione impostare il valore <code>DEBUG</code> su <code>express:application</code> e così via.</p>
+<h2 id="applicazioni-generate-da-express">Applicazioni generate da <code>express</code></h2>
+<p>Un’applicazione generata dal comando <code>express</code> utilizza inoltre il modulo <code>debug</code> e il relativo spazio dei nomi di debug viene associato al nome dell’applicazione.</p>
+<p>Ad esempio, se l’applicazione è stata generata con <code>$ express sample-app</code>, è possibile abilitare le istruzioni di debug con il seguente comando:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ DEBUG=sample-app:* node ./bin/www
+</code>
+</pre>
+<p>È possibile specificare più di uno spazio dei nomi di debug assegnando un elenco di nomi separati da virgola:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ DEBUG=http,mail,express:* node index.js
+</code>
+</pre>
+<p>Per ulteriori informazioni su <code>debug</code>, consultare <a href="https://www.npmjs.com/package/debug">debug</a>.</p>
+</body>
+</html>

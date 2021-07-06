@@ -4,23 +4,23 @@
  * MIT Licensed
  */
 
-'use strict'
+"use strict";
 
 /**
  * Module dependencies.
  */
 
-var bytes = require('bytes')
-var contentType = require('content-type')
-var debug = require('debug')('body-parser:text')
-var read = require('../read')
-var typeis = require('type-is')
+var bytes = require("bytes");
+var contentType = require("content-type");
+var debug = require("debug")("body-parser:text");
+var read = require("../read");
+var typeis = require("type-is");
 
 /**
  * Module exports.
  */
 
-module.exports = text
+module.exports = text;
 
 /**
  * Create a middleware to parse text bodies.
@@ -30,66 +30,65 @@ module.exports = text
  * @api public
  */
 
-function text (options) {
-  var opts = options || {}
+function text(options) {
+  var opts = options || {};
 
-  var defaultCharset = opts.defaultCharset || 'utf-8'
-  var inflate = opts.inflate !== false
-  var limit = typeof opts.limit !== 'number'
-    ? bytes.parse(opts.limit || '100kb')
-    : opts.limit
-  var type = opts.type || 'text/plain'
-  var verify = opts.verify || false
+  var defaultCharset = opts.defaultCharset || "utf-8";
+  var inflate = opts.inflate !== false;
+  var limit =
+    typeof opts.limit !== "number"
+      ? bytes.parse(opts.limit || "100kb")
+      : opts.limit;
+  var type = opts.type || "text/plain";
+  var verify = opts.verify || false;
 
-  if (verify !== false && typeof verify !== 'function') {
-    throw new TypeError('option verify must be function')
+  if (verify !== false && typeof verify !== "function") {
+    throw new TypeError("option verify must be function");
   }
 
   // create the appropriate type checking function
-  var shouldParse = typeof type !== 'function'
-    ? typeChecker(type)
-    : type
+  var shouldParse = typeof type !== "function" ? typeChecker(type) : type;
 
-  function parse (buf) {
-    return buf
+  function parse(buf) {
+    return buf;
   }
 
-  return function textParser (req, res, next) {
+  return function textParser(req, res, next) {
     if (req._body) {
-      debug('body already parsed')
-      next()
-      return
+      debug("body already parsed");
+      next();
+      return;
     }
 
-    req.body = req.body || {}
+    req.body = req.body || {};
 
     // skip requests without bodies
     if (!typeis.hasBody(req)) {
-      debug('skip empty body')
-      next()
-      return
+      debug("skip empty body");
+      next();
+      return;
     }
 
-    debug('content-type %j', req.headers['content-type'])
+    debug("content-type %j", req.headers["content-type"]);
 
     // determine if request should be parsed
     if (!shouldParse(req)) {
-      debug('skip parsing')
-      next()
-      return
+      debug("skip parsing");
+      next();
+      return;
     }
 
     // get charset
-    var charset = getCharset(req) || defaultCharset
+    var charset = getCharset(req) || defaultCharset;
 
     // read
     read(req, res, next, parse, debug, {
       encoding: charset,
       inflate: inflate,
       limit: limit,
-      verify: verify
-    })
-  }
+      verify: verify,
+    });
+  };
 }
 
 /**
@@ -99,11 +98,11 @@ function text (options) {
  * @api private
  */
 
-function getCharset (req) {
+function getCharset(req) {
   try {
-    return (contentType.parse(req).parameters.charset || '').toLowerCase()
+    return (contentType.parse(req).parameters.charset || "").toLowerCase();
   } catch (e) {
-    return undefined
+    return undefined;
   }
 }
 
@@ -114,8 +113,8 @@ function getCharset (req) {
  * @return {function}
  */
 
-function typeChecker (type) {
-  return function checkType (req) {
-    return Boolean(typeis(req, type))
-  }
+function typeChecker(type) {
+  return function checkType(req) {
+    return Boolean(typeis(req, type));
+  };
 }

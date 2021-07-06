@@ -1,1 +1,1 @@
-module.exports = require('./lib/connect-markdown');
+module.exports = require("./lib/connect-markdown");

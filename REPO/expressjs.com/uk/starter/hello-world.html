@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="uk" xml:lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Приклад з “Hello World” в Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Приклад з “Hello World” в Express</h1>
+</header>
+<h1 id="приклад-виводу-hello-world">Приклад виводу “Hello world”</h1>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Далі показано дуже спрощений варіант створення застосунку Express. Тут використовується єдиний файл — тобто <em>не</em> те, що ви отримуєте в результаті роботи <a href="/%7B%7B%20page.lang%20%7D%7D/starter/generator.html">генератора Express</a>, який створює каркас для повноцінного, хоча й мінімалістичного застосунку, з декількома файлами JavaScript, шаблонами Jade, та субдиректоріями для деяких потреб.</p>
+</div>
+<p>Для початку, створіть директорію з ім’ям <code>myapp</code>, перейдіть в неї та запустіть <code>npm init</code>. Потім встановіть <code>express</code> як залежність, так як це показано в <a href="/%7B%7B%20page.lang%20%7D%7D/starter/installing.html">керівництві встановлення</a>.</p>
+<p>В директорії <code>myapp</code>, створіть файл з ім’ям <code>app.js</code> та додайте наступний код:</p>
+<pre><code class="language-javascript" translate="no">
+var express = require('express');
+var app = express();
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.listen(3000, () => {
+  console.log('Приклад застосунку, який прослуховує 3000-ий порт!')
+})
+</code></pre>
+<p>Цей скрипт запускає сервер та прослуховує з’єднання на 3000-му порті. В результаті виводиться “Hello World!”, коли запити адресуються до кореневого URL (<code>/</code>) або кореневого <em>маршруту</em>. Для усіх інших адрес формується відповідь <strong>404 Not Found</strong>.</p>
+<div class="doc-box doc-notice" data-markdown="1">
+<p>Змінні <code>req</code> (request) та <code>res</code> (response) містять ті ж об’єкти, які надає Node.js, тобто ви можете викликати <code>req.pipe()</code>, <code>req.on('data', callback)</code>, та виконувати будь-які інші дії без участі Express.</p>
+</div>
+<p>Запустіть застосунок наступною командою:</p>
+<pre><code class="language-sh" translate="no">
+$ node app.js
+</code></pre>
+<p>Після чого, відкрийте браузер за адресою <code>http://localhost:3000/</code> щоб побачити результат.</p>
+</body>
+</html>

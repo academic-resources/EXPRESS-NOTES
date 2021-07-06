@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn" xml:lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Express 错误处理</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Express 错误处理</h1>
+</header>
+<h1 id="错误处理">错误处理</h1>
+<p>错误处理中间件函数的定义方式与其他中间件函数基本相同，差别在于错误处理函数有四个自变量而不是三个：<code>(err, req, res, next)</code>：例如：</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+</code>
+</pre>
+<p>请在其他 <code>app.use()</code> 和路由调用之后，最后定义错误处理中间件，例如：</p>
+<pre>
+<code class="language-javascript" translate="no">
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(function(err, req, res, next) {
+  // logic
+});
+</code>
+</pre>
+<p>中间件函数中的响应可以采用您首选的任何格式，例如，HTML 错误页、简单消息或 JSON 字符串。</p>
+<p>出于组织（和更高级框架）的目的，可以定义若干错误处理中间件函数，这和对常规中间件函数的处理很相似。例如，如果您希望为使用 <code>XHR</code> 发出的请求以及未使用此对象发出的请求定义错误处理程序，可以使用以下命令：</p>
+<pre>
+<code class="language-javascript" translate="no">
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);
+</code>
+</pre>
+<p>在此示例中，通用 <code>logErrors</code> 可能将请求和错误信息写入 <code>stderr</code>，例如：</p>
+<pre>
+<code class="language-javascript" translate="no">
+function logErrors(err, req, res, next) {
+  console.error(err.stack);
+  next(err);
+}
+</code>
+</pre>
+<p>也是在此示例中，<code>clientErrorHandler</code> 定义如下，错误会显式传递到下一项：</p>
+<pre>
+<code class="language-javascript" translate="no">
+function clientErrorHandler(err, req, res, next) {
+  if (req.xhr) {
+    res.status(500).send({ error: 'Something failed!' });
+  } else {
+    next(err);
+  }
+}
+</code>
+</pre>
+<p>“catch-all”<code>errorHandler</code> 函数可以如下实现：</p>
+<pre>
+<code class="language-javascript" translate="no">
+function errorHandler(err, req, res, next) {
+  res.status(500);
+  res.render('error', { error: err });
+}
+</code>
+</pre>
+<p>如果将任何项传递到 <code>next()</code> 函数（除了字符串 <code>'route'</code>），那么 Express 会将当前请求视为处于错误状态，并跳过所有剩余的非错误处理路由和中间件函数。如果您希望以某种方式处理此错误，必须如下一节中所述创建一个错误处理路由。</p>
+<p>如果一个路由处理程序具有多个回调函数，那么可以使用 <code>route</code> 参数跳至下一个路由处理程序。例如：</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.get('/a_route_behind_paywall',
+  function checkIfPaidSubscriber(req, res, next) {
+    if(!req.user.hasPaid) {
+
+      // continue handling this request
+      next('route');
+    }
+  }, function getPaidContent(req, res, next) {
+    PaidContent.find(function(err, doc) {
+      if(err) return next(err);
+      res.json(doc);
+    });
+  });
+</code>
+</pre>
+<p>在此示例中，将跳过 <code>getPaidContent</code> 处理程序，而将继续执行 <code>/a_route_behind_paywall</code> 的 <code>app</code> 中所有剩余的处理程序。</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p>对 <code>next()</code> 和 <code>next(err)</code> 的调用会表明当前处理程序是否完整以及处于何种状态。<code>next(err)</code> 将跳过链中所有剩余的处理程序（设置为按上述方式处理错误的处理程序除外）。</p>
+</div>
+<h2 id="缺省错误处理程序">缺省错误处理程序</h2>
+<p>Express 随附一个内置的错误处理程序，负责处理应用程序中可能遇到的任何错误。这个缺省的错误处理中间件函数添加在中间件函数集的末尾。</p>
+<p>如果将错误传递到 <code>next()</code> 且未在错误处理程序中进行处理，那么该错误将由内置的错误处理程序处理；错误将写入客户机的堆栈跟踪内。堆栈跟踪不包含在生产环境中。</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p>将环境变量 <code>NODE_ENV</code> 设置为 <code>production</code>，以生产方式运行此应用程序。</p>
+</div>
+<p>如果在开始写响应之后调用 <code>next()</code> 时出错（例如，如果在以流式方式将响应传输到客户机时遇到错误），Express 缺省错误处理程序会关闭连接并使请求失败。</p>
+<p>因此，在添加定制错误处理程序时，如果头已发送到客户机，您可能希望委托给 Express 中的缺省错误处理机制处理：</p>
+<pre>
+<code class="language-javascript" translate="no">
+function errorHandler(err, req, res, next) {
+  if (res.headersSent) {
+    return next(err);
+  }
+  res.status(500);
+  res.render('error', { error: err });
+}
+</code>
+</pre>
+</body>
+</html>

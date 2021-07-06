@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Debuggovanie Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Debuggovanie Express</h1>
+</header>
+<!---
+ Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
+ License: MIT
+-->
+<h1 id="debuggovanie-express">Debuggovanie Express</h1>
+<p>Express interne používa k logovaniu informácií ohľadom route matchingu, použitých middleware funkciách, aplikačného módu a toku request response cyklu modul <a href="https://www.npmjs.com/package/debug">debug</a>.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p><code>debug</code> je ako rozšírena verzia <code>console.log</code>, ale narozdiel od <code>console.log</code>, nemusíte zakomentovávať volania <code>debug</code> v produkčnom kóde. Logovanie je vypnuté defaultne a je možné ho zapnúť použitím <code>DEBUG</code> environment premennej.</p>
+</div>
+<p>Ak chcete vidieť všetky interné logy Express-u, nastavte pri spúštaní vašej aplikácie environment premennú <code>DEBUG</code> na hodnotu <code>express:*</code>.</p>
+<pre>
+<code class="language-sh" translate="no">
+$ DEBUG=express:* node index.js
+</code>
+</pre>
+<p>Na Windows-e použite nasledujúci príkaz.</p>
+<pre>
+<code class="language-sh" translate="no">
+> set DEBUG=express:* & node index.js
+</code>
+</pre>
+<p>Spustením tohto príkazu v prípade defaultnej aplikácie vygenerovanej pomocou <a href="/%7B%7B%20page.lang%20%7D%7D/starter/generator.html">express generátora</a> vypíše nasledujúci výstup:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ DEBUG=express:* node ./bin/www
+  express:router:route new / +0ms
+  express:router:layer new / +1ms
+  express:router:route get / +1ms
+  express:router:layer new / +0ms
+  express:router:route new / +1ms
+  express:router:layer new / +0ms
+  express:router:route get / +0ms
+  express:router:layer new / +0ms
+  express:application compile etag weak +1ms
+  express:application compile query parser extended +0ms
+  express:application compile trust proxy false +0ms
+  express:application booting in development mode +1ms
+  express:router use / query +0ms
+  express:router:layer new / +0ms
+  express:router use / expressInit +0ms
+  express:router:layer new / +0ms
+  express:router use / favicon +1ms
+  express:router:layer new / +0ms
+  express:router use / logger +0ms
+  express:router:layer new / +0ms
+  express:router use / jsonParser +0ms
+  express:router:layer new / +1ms
+  express:router use / urlencodedParser +0ms
+  express:router:layer new / +0ms
+  express:router use / cookieParser +0ms
+  express:router:layer new / +0ms
+  express:router use / stylus +90ms
+  express:router:layer new / +0ms
+  express:router use / serveStatic +0ms
+  express:router:layer new / +0ms
+  express:router use / router +0ms
+  express:router:layer new / +1ms
+  express:router use /users router +0ms
+  express:router:layer new /users +0ms
+  express:router use / &lt;anonymous&gt; +0ms
+  express:router:layer new / +0ms
+  express:router use / &lt;anonymous&gt; +0ms
+  express:router:layer new / +0ms
+  express:router use / &lt;anonymous&gt; +0ms
+  express:router:layer new / +0ms
+</code>
+</pre>
+<p>Následne, keď aplikácia odchytí request, uvidíte nasledujúce logy špecifikované v Express kóde:</p>
+<pre>
+<code class="language-sh" translate="no">
+  express:router dispatching GET / +4h
+  express:router query  : / +2ms
+  express:router expressInit  : / +0ms
+  express:router favicon  : / +0ms
+  express:router logger  : / +1ms
+  express:router jsonParser  : / +0ms
+  express:router urlencodedParser  : / +1ms
+  express:router cookieParser  : / +0ms
+  express:router stylus  : / +0ms
+  express:router serveStatic  : / +2ms
+  express:router router  : / +2ms
+  express:router dispatching GET / +1ms
+  express:view lookup "index.pug" +338ms
+  express:view stat "/projects/example/views/index.pug" +0ms
+  express:view render "/projects/example/views/index.pug" +1ms
+</code>
+</pre>
+<p>Ak chcete vidieť iba logy z router implementácie, nastavte hodnotu premennej <code>DEBUG</code> na <code>express:router</code>. Podobne, ak chcete vidieť iba logy z implementácie aplikácie, nastavte hodnotu premennej <code>DEBUG</code> na <code>express:application</code> atď.</p>
+<h2 id="aplikácie-vygenerované-príkazom-express">Aplikácie vygenerované príkazom <code>express</code></h2>
+<p>Aplikácia vygenerovaná príkazom <code>express</code> taktiež používa modul <code>debug</code> a jej debug namespace je dostupný pod názvom aplikácie.</p>
+<p>Pomocou nasledujúceho príkazu, dokážete povoliť debug výpisy pre aplikáciu vygenerovanú pomocou <code>$ express sample-app</code> takto:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ DEBUG=sample-app:* node ./bin/www
+</code>
+</pre>
+<p>Pomocou čiarkou oddeleného zoznamu názvov môžete špecifikovať viac ako jeden debug namespace:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ DEBUG=http,mail,express:* node index.js
+</code>
+</pre>
+<p>Pre viac informácií ohľadom <code>debug</code> modulu si pozrite <a href="https://www.npmjs.com/package/debug">debug</a>.</p>
+</body>
+</html>

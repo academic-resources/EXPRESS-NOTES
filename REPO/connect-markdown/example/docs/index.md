@@ -1,5 +1,4 @@
-connect-markdown
-=======
+# connect-markdown
 
 [![Build Status](https://secure.travis-ci.org/fengmk2/connect-markdown.png)](http://travis-ci.org/fengmk2/connect-markdown) [![Coverage Status](https://coveralls.io/repos/fengmk2/connect-markdown/badge.png)](https://coveralls.io/r/fengmk2/connect-markdown) [![Build Status](https://drone.io/github.com/fengmk2/connect-markdown/status.png)](https://drone.io/github.com/fengmk2/connect-markdown/latest)
 
@@ -7,7 +6,7 @@ connect-markdown
 
 Auto convert markdown to html for connect.
 
-* [test rest api doc](/docs/rest)
+- [test rest api doc](/docs/rest)
 
 ## Install
 
@@ -18,29 +17,32 @@ $ npm install connect-markdown
 ## Usage
 
 ```js
-var connectMarkdown = require('connect-markdown');
+var connectMarkdown = require("connect-markdown");
 
 var app = connect();
 
 /**
- * GET /docs      <= marked() = /docs/index.md 
+ * GET /docs      <= marked() = /docs/index.md
  * GET /docs/rest <= marked() = /docs/rest.md
  */
-app.use('/docs', connectMarkdown({
-  root: __dirname + '/docs',
-  layout: __dirname + '/docs/layout.html', // {TITLE}, {BODY}
-}));
+app.use(
+  "/docs",
+  connectMarkdown({
+    root: __dirname + "/docs",
+    layout: __dirname + "/docs/layout.html", // {TITLE}, {BODY}
+  })
+);
 
 app.listen();
 ```
 
 ## TODO
 
-* [ ] cache layout and markdown page
-* [ ] http 304 cache, etag
-* [ ] benchmarks
+- [ ] cache layout and markdown page
+- [ ] http 304 cache, etag
+- [ ] benchmarks
 
-## License 
+## License
 
 (The MIT License)
 

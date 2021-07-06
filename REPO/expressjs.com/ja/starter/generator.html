@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Express のアプリケーション生成プログラム</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Express のアプリケーション生成プログラム</h1>
+</header>
+<h1 id="express-のアプリケーション生成プログラム">Express のアプリケーション生成プログラム</h1>
+<p>アプリケーション生成プログラム・ツールの <code>express</code> を使用すると、アプリケーション・スケルトンを素早く作成できます。</p>
+<p>次のコマンドを使用して、<code>express</code> をインストールします。</p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install express-generator -g
+</code>
+</pre>
+<p><code>-h</code> オプションを指定してコマンド・オプションを表示します。</p>
+<pre>
+<code class="language-sh" translate="no">
+$ express -h
+
+  Usage: express [options][dir]
+
+  Options:
+
+    -h, --help          output usage information
+        --version       output the version number
+    -e, --ejs           add ejs engine support
+        --hbs           add handlebars engine support
+        --pug           add pug engine support
+    -H, --hogan         add hogan.js engine support
+        --no-view       generate without view engine
+    -v, --view &lt;engine&gt; add view &lt;engine&gt; support (ejs|hbs|hjs|jade|pug|twig|vash) (defaults to jade)
+    -c, --css &lt;engine&gt;  add stylesheet &lt;engine&gt; support (less|stylus|compass|sass) (defaults to plain css)
+        --git           add .gitignore
+    -f, --force         force on non-empty directory
+</code>
+</pre>
+<p>例えば、以下のコマンドでは、現行作業ディレクトリーに <em>myapp</em> という Express アプリケーションを作成します。</p>
+<pre>
+<code class="language-sh" translate="no">
+$ express --view=pug myapp
+
+   create : myapp
+   create : myapp/package.json
+   create : myapp/app.js
+   create : myapp/public
+   create : myapp/public/javascripts
+   create : myapp/public/images
+   create : myapp/routes
+   create : myapp/routes/index.js
+   create : myapp/routes/users.js
+   create : myapp/public/stylesheets
+   create : myapp/public/stylesheets/style.css
+   create : myapp/views
+   create : myapp/views/index.pug
+   create : myapp/views/layout.pug
+   create : myapp/views/error.pug
+   create : myapp/bin
+   create : myapp/bin/www
+</code>
+</pre>
+<p>次に、依存関係をインストールします。</p>
+<pre>
+<code class="language-sh" translate="no">
+$ cd myapp
+$ npm install
+</code>
+</pre>
+<p>MacOS または Linux では、次のコマンドによってアプリケーションを実行します。</p>
+<pre>
+<code class="language-sh" translate="no">
+$ DEBUG=myapp:* npm start
+</code>
+</pre>
+<p>Windows では、次のコマンドを使用します。</p>
+<pre>
+<code class="language-sh" translate="no">
+> set DEBUG=myapp:* & npm start
+</code>
+</pre>
+<p>次に、ブラウザーに <code>http://localhost:3000/</code> をロードして、アプリケーションにアクセスします。</p>
+<p>生成されたアプリケーションには、以下のディレクトリー構造があります。</p>
+<pre>
+<code class="language-sh" translate="no">
+.
+├── app.js
+├── bin
+│   └── www
+├── package.json
+├── public
+│   ├── images
+│   ├── javascripts
+│   └── stylesheets
+│       └── style.css
+├── routes
+│   ├── index.js
+│   └── users.js
+└── views
+    ├── error.pug
+    ├── index.pug
+    └── layout.pug
+
+7 directories, 9 files
+</code>
+</pre>
+<div class="doc-box doc-info" data-markdown="1">
+<p>ここで生成プログラムによって作成されたアプリケーション構造は、Express アプリケーションを作成するための数多くの方法の 1 つにすぎません。この構造を自由に使用したり、ニーズに合わせて変更したりしてください。</p>
+</div>
+</body>
+</html>

@@ -1,8 +1,8 @@
 # connect with cluster and domain example
 
-* Master: dispatch.js
-* Worker: worker.js
-* Your application logic: app.js
+- Master: dispatch.js
+- Worker: worker.js
+- Your application logic: app.js
 
 ## Run
 
@@ -31,7 +31,7 @@ ReferenceError: foo is not defined
 [dispatch.js](https://github.com/fengmk2/domain-middleware/blob/master/example/connect_with_cluster/dispatch.js) stdout:
 
 ```bash
-$ node example/connect_with_cluster/dispatch.js 
+$ node example/connect_with_cluster/dispatch.js
 [Thu Apr 11 2013 18:45:36 GMT+0800 (CST)] [worker:21711] start listen on 1337
 [Thu Apr 11 2013 18:45:36 GMT+0800 (CST)] [worker:21712] start listen on 1337
 GET /asycerror

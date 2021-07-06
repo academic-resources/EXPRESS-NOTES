@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Best Practice sulla sicurezza per Express in fase di produzione</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Best Practice sulla sicurezza per Express in fase di produzione</h1>
+</header>
+<h1 id="best-practice-sulla-produzione-sicurezza">Best Practice sulla produzione: Sicurezza</h1>
+<h2 id="panoramica">Panoramica</h2>
+<p>Il termine <em>“produzione”</em> si riferisce alla fase nel ciclo di vita del software quando un’applicazione o API è solitamente disponibile per gli utenti finali o i consumatori. Al contrario, nella fase <em>“sviluppo”</em>, si sta ancora scrivendo e verificando il codice e l’applicazione non è aperta ad accessi esterni. Gli ambienti di sistema corrispondenti sono noti rispettivamente come ambienti di <em>produzione</em> e di <em>sviluppo</em>.</p>
+<p>Gli ambienti di sviluppo e produzione sono solitamente configurati diversamente e hanno requisiti molto differenti. Ciò che potrebbe andare bene nello sviluppo potrebbe non essere accettato nella produzione. Ad esempio, in un ambiente di sviluppo è possibile che si richieda una registrazione degli errori ridondante per il processo di debug, mentre la stessa richiesta in un ambiente di produzione potrebbe mettere a rischio la sicurezza. Inoltre, in un ambiente di sviluppo non è necessario preoccuparsi della scalabilità, dell’affidabilità e delle prestazioni, mentre nella produzione è fondamentale tenerne conto.</p>
+<p>In questo articolo vengono descritte alcune best practice sulla sicurezza per le applicazioni Express distribuite per la produzione.</p>
+<h2 id="non-utilizzare-versioni-obsolete-o-vulnerabili-di-express">Non utilizzare versioni obsolete o vulnerabili di Express</h2>
+<p>Express 2.x e 3.x non sono più supportati. I problemi relativi alla sicurezza e alle prestazioni in queste versioni non verranno risolti. Non utilizzare queste versioni! Se non è stato effettuato l’aggiornamento alla versione 4, consultare la <a href="/%7B%7B%20page.lang%20%7D%7D/guide/migrating-4.html">guida alla migrazione</a>.</p>
+<p>Inoltre, assicurarsi che non si stia utilizzando nessuna delle versioni vulnerabili di Express elencate nella <a href="/%7B%7B%20page.lang%20%7D%7D/advanced/security-updates.html">pagina Aggiornamenti sulla sicurezza</a>. Nel caso si stia utilizzando una di queste versioni, effettuare l’aggiornamento a una versione aggiornata, preferibilmente l’ultima.</p>
+<h2 id="utilizzare-tls">Utilizzare TLS</h2>
+<p>Se l’applicazione utilizza o trasmette dati riservati, utilizzare <a href="https://en.wikipedia.org/wiki/Transport_Layer_Security">Transport Layer Security</a> (TLS) per proteggere la connessione e i dati. Questa tecnologia codifica i dati prima che vengano inviati dal client al server, proteggendo i dati da alcuni attacchi comuni (e facili) da parte di hacker. Anche se le richieste Ajax e POST possono non essere visibili e “nascoste” nei browser, il relativo traffico di rete è vulnerabile agli attacchi <a href="https://en.wikipedia.org/wiki/Packet_analyzer">packet sniffing</a> e <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack">man-in-the-middle</a>.</p>
+<p>Sicuramente si conosce la crittografia SSL (Secure Socket Layer). <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa380515(v=vs.85).aspx">TLS non è altro che un miglioramento di SSL</a>. In altre parole, se prima si utilizzava SSL, considerare l’opportunità di passare a TLS. Consigliamo di utilizzare Nginx per gestire la TLS. Per informazioni su come configurare correttamente TLS su Nginx (e altri server), consultare <a href="https://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_Server_Configurations">Recommended Server Configurations (Mozilla Wiki)</a>.</p>
+<p>Inoltre, uno strumento molto semplice da utilizzare per ottenere un certificato gratuito TLS è <a href="https://letsencrypt.org/about/">Let’s Encrypt</a>, un CA (certificate authority) gratuito, automatizzato e open fornito da <a href="https://letsencrypt.org/isrg/">Internet Security Research Group (ISRG)</a>.</p>
+<h2 id="utilizzare-helmet">Utilizzare Helmet</h2>
+<p><a href="https://www.npmjs.com/package/helmet">Helmet</a> è utile per proteggere l’applicazione da alcune vulnerabilità web note configurando le intestazioni HTTP in modo appropriato.</p>
+<p>Attualmente, Helmet non è altro che una raccolta di nove funzioni middleware più piccole che impostano le intestazioni HTTP relative alla sicurezza:</p>
+<ul>
+<li><a href="https://github.com/helmetjs/csp">csp</a> imposta l’intestazione <code>Content-Security-Policy</code> per impedire attacchi XSS (cross-site scripting) e altri attacchi da altri siti.</li>
+<li><a href="https://github.com/helmetjs/hide-powered-by">hidePoweredBy</a> rimuove l’intestazione <code>X-Powered-By</code>.</li>
+<li><a href="https://github.com/helmetjs/hsts">hsts</a> imposta l’intestazione <code>Strict-Transport-Security</code> che rafforza connessioni (HTTP su SSL/TLS) sicure per il server.</li>
+<li><a href="https://github.com/helmetjs/ienoopen">ieNoOpen</a> imposta <code>X-Download-Options</code> per IE8+.</li>
+<li><a href="https://github.com/helmetjs/nocache">noCache</a> imposta le intestazioni <code>Cache-Control</code> e Pragma per disabilitare la memorizzazione in cache della parte client.</li>
+<li><a href="https://github.com/helmetjs/dont-sniff-mimetype">noSniff</a> imposta <code>X-Content-Type-Options</code> per impedire ai browser di effettuare l’analisi MIME di una risposta fuori dal contenuto dichiarato.</li>
+<li><a href="https://github.com/helmetjs/frameguard">frameguard</a> imposta l’intestazione <code>X-Frame-Options</code> per fornire la protezione <a href="https://www.owasp.org/index.php/Clickjacking">clickjacking</a>.</li>
+<li><a href="https://github.com/helmetjs/x-xss-protection">xssFilter</a> imposta <code>X-XSS-Protection</code> per abilitare il filtro XSS (Cross-site scripting) nei browser web più recenti.</li>
+</ul>
+<p>Installare Helmet come qualsiasi altro modulo:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install --save helmet
+</code>
+</pre>
+<p>Successivamente, per utilizzarlo nel codice:</p>
+<pre>
+<code class="language-javascript" translate="no">
+...
+var helmet = require('helmet');
+app.use(helmet());
+...
+</code>
+</pre>
+<h3 id="disattivare-almeno-lintestazione-x-powered-by">Disattivare almeno l’intestazione X-Powered-By</h3>
+<p>Se non si desidera Helmet, disattivare almeno l’intestazione <code>X-Powered-By</code>. Gli hacker possono utilizzare questa intestazione (abilitata per impostazione predefinita) per rilevare le applicazioni su cui è in esecuzione Express e successivamente avviare attacchi indirizzati in modo specifico.</p>
+<p>Quindi, la miglior cosa da fare è disattivare l’intestazione con il metodo <code>app.disable()</code>:</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.disable('x-powered-by');
+</code>
+</pre>
+<p>Se si utilizza <code>helmet.js</code>, questa operazione sarà effettuata per conto dell’utente.</p>
+<h2 id="utilizzare-i-cookie-in-modo-sicuro">Utilizzare i cookie in modo sicuro</h2>
+<p>Per fare in modo che i cookie non espongano a rischi l’applicazione, non utilizzare il nome cookie della sessione predefinita e impostare le opzioni di sicurezza dei cookie in modo appropriato.</p>
+<p>Esistono due moduli di sessione cookie middleware principali:</p>
+<ul>
+<li><a href="https://www.npmjs.com/package/express-session">express-session</a> che sostituisce il middleware <code>express.session</code> integrato a Express 3.x.</li>
+<li><a href="https://www.npmjs.com/package/cookie-session">cookie-session</a> che sostituisce il middleware <code>express.cookieSession</code> integrato a Express 3.x.</li>
+</ul>
+<p>La differenza principale tra questi due moduli è nel modo in cui salvano i dati di sessione dei cookie. Il middleware <a href="https://www.npmjs.com/package/express-session">express-session</a> memorizza i dati di sessione sul server; salva l’ID sessione nello stesso cookie e non nei dati di sessione. Per impostazione predefinita, utilizza il processo di memorizzazione in-memory e non è progettato per un ambiente di produzione. Nella produzione, sarà necessario configurare un processo di memorizzazione della sessione scalabile; consultare l’elenco di <a href="https://github.com/expressjs/session#compatible-session-stores">compatible session stores</a>.</p>
+<p>Al contrario, il middleware <a href="https://www.npmjs.com/package/cookie-session">cookie-session</a> implementa la memorizzazione di backup dei cookie: suddivide in serie l’intera sessione per il cookie, piuttosto che una chiave di sessione. Utilizzarlo solo quando i dati di sessione sono relativamente piccoli e facilmente codificati come valori primitivi (piuttosto che oggetti). Poiché si presuppone che i browser supportino almeno 4096 byte per cookie, per non superare il limite, non superare la dimensione di 4093 byte per dominio. Inoltre, fare attenzione perché i dati dei cookie saranno visibili al cliente, quindi, se per qualche motivo devono rimanere sicuri o non visibili, la scelta di utilizzare express-session potrebbe essere quella giusta.</p>
+<h3 id="non-utilizzare-il-nome-del-cookie-della-sessione-predefinito">Non utilizzare il nome del cookie della sessione predefinito</h3>
+<p>L’utilizzo del nome del cookie della sessione predefinito potrebbe esporre l’applicazione ad attacchi da parte di hacker. Il problema di sicurezza messo in discussione è simile a quello di <code>X-Powered-By</code>: un potenziale hacker potrebbe utilizzarlo per individuare il server e indirizzare gli attacchi di conseguenza.</p>
+<p>Per evitare questo problema, utilizzare i nomi dei cookie predefiniti; ad esempio, utilizzando il middleware <a href="https://www.npmjs.com/package/express-session">express-session</a>:</p>
+<pre>
+<code class="language-javascript" translate="no">
+var session = require('express-session');
+app.set('trust proxy', 1) // trust first proxy
+app.use( session({
+   secret : 's3Cur3',
+   name : 'sessionId',
+  })
+);
+</code>
+</pre>
+<h3 id="impostare-le-opzioni-di-sicurezza-dei-cookie">Impostare le opzioni di sicurezza dei cookie</h3>
+<p>Impostare le seguenti opzioni per i cookie per aumentare la sicurezza:</p>
+<ul>
+<li><code>secure</code> - Assicura che il browser invii il cookie solo tramite HTTPS.</li>
+<li><code>httpOnly</code> - Assicura che il cookie venga inviato solo tramite HTTP, non JavaScript del client, questa procedura consentirà una protezione da attacchi XSS (cross-site scripting).</li>
+<li><code>domain</code> - Indica il dominio del cookie; utilizzarlo per fare un confronto con il dominio del server in cui è stato richiesto l’URL. Se corrispondono, come fase successiva verificare l’attributo del percorso.</li>
+<li><code>path</code> - Indica il percorso del cookie; utilizzarlo per fare un confronto con il percorso di richiesta. Se questo e il dominio corrispondono, inviare il cookie nella richiesta.</li>
+<li><code>expires</code> - Utilizzarlo per impostare la data di scadenza per i cookie permanenti.</li>
+</ul>
+<p>Esempio di utilizzo del middleware <a href="https://www.npmjs.com/package/cookie-session">cookie-session</a>:</p>
+<pre>
+<code class="language-javascript" translate="no">
+var session = require('cookie-session');
+var express = require('express');
+var app = express();
+
+var expiryDate = new Date( Date.now() + 60 * 60 * 1000 ); // 1 hour
+app.use(session({
+  name: 'session',
+  keys: ['key1', 'key2'],
+  cookie: { secure: true,
+            httpOnly: true,
+            domain: 'example.com',
+            path: 'foo/bar',
+            expires: expiryDate
+          }
+  })
+);
+</code>
+</pre>
+<h2 id="ulteriori-informazioni">Ulteriori informazioni</h2>
+<p>Ecco alcuni consigli sull’eccellente <a href="https://blog.risingstack.com/node-js-security-checklist/">Node.js Security Checklist</a>. Fare riferimento a quel post del blog per tutti i dettagli su questi consigli:</p>
+<ul>
+<li>Implementare il limite di intervallo per evitare attacchi pesanti al processo di autenticazione. Un modo per effettuare ciò è quello di utilizzare <a href="https://strongloop.com/node-js/api-gateway/">StrongLoop API Gateway</a> per rafforzare una policy per il limite di intervallo. In alternativa, è possibile utilizzare il middleware, ad esempio <a href="https://www.npmjs.com/package/express-limiter">express-limiter</a>, ma questo richiede di modificare in parte il codice.</li>
+<li>Utilizzare il middleware <a href="https://www.npmjs.com/package/csurf">csurf</a> come protezione contro CSRF (cross-site request forgery).</li>
+<li>Filtrare sempre e verificare gli input utente come protezione contro attacchi XSS (cross-site scripting) e command injection.</li>
+<li>Creare una difesa contro attacchi SQL injection utilizzando query con parametri o istruzioni preparate.</li>
+<li>Utilizzare lo strumento <a href="http://sqlmap.org/">sqlmap</a> open source per rilevare le vulnerabilità SQL injection nell’applicazione.</li>
+<li>Utilizzare gli strumenti <a href="https://nmap.org/">nmap</a> e <a href="https://github.com/nabla-c0d3/sslyze">sslyze</a> per verificare la configurazione delle crittografie SSL, delle chiavi e della rinegoziazione come anche la validità del certificato.</li>
+<li>Utilizzare <a href="https://www.npmjs.com/package/safe-regex">safe-regex</a> per assicurarsi che le espressioni regolari non siano suscettibili ad attacchi <a href="https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS">regular expression denial of service</a>.</li>
+</ul>
+<h2 id="evitare-altre-vulnerabilità-note">Evitare altre vulnerabilità note</h2>
+<p>Prestare attenzione alle avvertenze <a href="https://npmjs.com/advisories">Node Security Project</a> che potrebbero influenzare Express o altri moduli utilizzati dall’applicazione. Solitamente, il Node Security Project è una risorsa eccellente per questioni di apprendimento e per gli strumenti sulla sicurezza di Node.</p>
+<p>Infine, le applicazioni Express, come anche altre applicazioni web, possono essere vulnerabili ad una vasta gamma di attacchi basati su web. Cercare di comprendere al meglio le <a href="https://www.owasp.org/index.php/Top_10_2013-Top_10">vulnerabilità web</a> note e prendere precauzioni per evitarle.</p>
+</body>
+</html>

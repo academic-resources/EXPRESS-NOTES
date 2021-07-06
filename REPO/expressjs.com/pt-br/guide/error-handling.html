@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Manipulação de erros do Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Manipulação de erros do Express</h1>
+</header>
+<h1 id="manipulação-de-erros">Manipulação de erros</h1>
+<p>Defina funções de middleware de manipulação de erros da mesma forma que outras funções de middleware, exceto que funções de manipulação de erros possuem quatro argumentos ao invés de três: <code>(err, req, res, next)</code>. Por exemplo:</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+</code>
+</pre>
+<p>Você define os middlewares de manipulação de erros por último, após outros <code>app.use()</code> e chamads de rota; por exemplo:</p>
+<pre>
+<code class="language-javascript" translate="no">
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(function(err, req, res, next) {
+  // logic
+});
+</code>
+</pre>
+<p>Repostas de dentro de uma função de middleware podem estar em qualquer formato que preferir, como uma página HTML de erros, uma mensagem simples, ou uma sequência de caracteres JSON.</p>
+<p>Para propósitos organizacionais (e estrutura de alto nível), é possível definir várias funções de middleware de manipulação de erros, de forma muito parecida como você faria com funções de middleware comuns. Por exemplo, se desejar definir um manipulador de erros para solicitações feitas usando o <code>XHR</code>, e aqueles sem, você pode usar os seguintes comandos:</p>
+<pre>
+<code class="language-javascript" translate="no">
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);
+</code>
+</pre>
+<p>Neste exemplo, o <code>logErrors</code> genérico pode escrever informações de solicitações e erros no <code>stderr</code>, por exemplo:</p>
+<pre>
+<code class="language-javascript" translate="no">
+function logErrors(err, req, res, next) {
+  console.error(err.stack);
+  next(err);
+}
+</code>
+</pre>
+<p>Também neste exemplo, o <code>clientErrorHandler</code> é definido como segue; neste caso, o erro é explicitamente passado para o próximo:</p>
+<pre>
+<code class="language-javascript" translate="no">
+function clientErrorHandler(err, req, res, next) {
+  if (req.xhr) {
+    res.status(500).send({ error: 'Something failed!' });
+  } else {
+    next(err);
+  }
+}
+</code>
+</pre>
+<p>A função “catch-all” <code>errorHandler</code> pode ser implementada como segue:</p>
+<pre>
+<code class="language-javascript" translate="no">
+function errorHandler(err, req, res, next) {
+  res.status(500);
+  res.render('error', { error: err });
+}
+</code>
+</pre>
+<p>Se passar qualquer coisa para a função <code>next()</code> (exceto a sequência de caracteres <code>'route'</code>), o Express considera a solicitação atual como estando em erro e irá ignorar quaisquer funções restantes de roteamento e middleware que não sejam de manipulação de erros. Se desejar manipular este erro de alguma forma, você terá que criar uma rota de manipulação de erros na próxima seção.</p>
+<p>Se você tiver um manipulador de rota com as funções de retorno de chamada é possível usar o parâmetro <code>route</code> para ignorar o próximo manipulador de rota. Por exemplo:</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.get('/a_route_behind_paywall',
+  function checkIfPaidSubscriber(req, res, next) {
+    if(!req.user.hasPaid) {
+
+      // continue handling this request
+      next('route');
+    }
+  }, function getPaidContent(req, res, next) {
+    PaidContent.find(function(err, doc) {
+      if(err) return next(err);
+      res.json(doc);
+    });
+  });
+</code>
+</pre>
+<p>Neste exemplo, o manipulador <code>getPaidContent</code> será ignorado mas qualquer manipulador remanescente no <code>app</code> para <code>/a_route_behind_paywall</code> continuariam sendo executados.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Chamadas para <code>next()</code> e <code>next(err)</code> indicam que o manipulador atual está completo e em qual estado. <code>next(err)</code> irá ignorar todos os manipuladores remanescentes na cadeia exceto por aqueles que estão configurados para manipular erros como descrito acima.</p>
+</div>
+<h2 id="o-manipulador-de-erros-padrão">O Manipulador de Erros Padrão</h2>
+<p>O Express vem com um manipulador de erros integrado, que cuida de qualquer erro que possa ser encontrado no aplicativo. Essa função de middleware de manipulação de erros padrão é incluída no final da pilha de funções de middleware.</p>
+<p>se você passar um erro para o <code>next()</code> e você não manipulá-lo com um manipulador de erros, ele irá ser manipulado por um manipulador de erros integrado; o erro será escrito no cliente com o rastreio de pilha. O rastreio de pilha não será incluído no ambiente de produção.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Configura a variável de ambiente <code>NODE_ENV</code> para <code>production</code>, para executar o aplicativo em modo de produção.</p>
+</div>
+<p>Se você chamar o <code>next()</code> com um erro após ter inicializado escrevendo a resposta (por exemplo, se encontrar um erro enquanto passa a resposta ao cliente) o manipulador de erros padrão do Express fecha a conexão e falha a solicitação.</p>
+<p>Portanto ao incluir um manipulador de erro customizado, você desejará delegar para o mecanismo de manipulação de erros padrão no Express, quando os cabeçalhos já tiverem sido enviados para o cliente:</p>
+<pre>
+<code class="language-javascript" translate="no">
+function errorHandler(err, req, res, next) {
+  if (res.headersSent) {
+    return next(err);
+  }
+  res.status(500);
+  res.render('error', { error: err });
+}
+</code>
+</pre>
+</body>
+</html>

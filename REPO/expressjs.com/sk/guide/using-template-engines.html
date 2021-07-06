@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Použitie template enginov v Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Použitie template enginov v Express</h1>
+</header>
+<!---
+ Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
+ License: MIT
+-->
+<h1 id="použitie-template-enginov-v-express">Použitie template enginov v Express</h1>
+<p><em>Template engine</em> umožňuje použitie statických template súborov vo vašej aplikácii. Template engine nahradí v runtime premenné aktuálnymi hodnotami a pretransformuje template do HTML súboru poslaného klientovi. Tento prístup robí návrh HTML stránok jednoduchším.</p>
+<p>Medzi populárne template enginy fungujúce s Express patria <a href="https://pugjs.org/api/getting-started.html">Pug</a>, <a href="https://www.npmjs.com/package/mustache">Mustache</a> a <a href="https://www.npmjs.com/package/ejs">EJS</a>. <a href="/%7B%7B%20page.lang%20%7D%7D/starter/generator.html">Express generátor</a> požíva ako defaultný Pug, avšak podporuje aj mnohé ďalšie.</p>
+<p>Zoznam podporovaných template enginov nájdete tu: <a href="https://github.com/expressjs/express/wiki#template-engines">Template Engines (Express wiki)</a>. Pozrite si taktiež <a href="https://strongloop.com/strongblog/compare-javascript-templates-jade-mustache-dust/">Comparing JavaScript Templating Engines: Jade, Mustache, Dust and More</a>.</p>
+<p>Aby Express dokázal spracovať a vyrendrovať template súbory, musí aplikácia obsahovať <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.set">nasledujúce nastavenia</a>:</p>
+<ul>
+<li><code>views</code>, cesta k priečinku, kde sa nachádzajú template súbory. Napr: <code>app.set('views', './views')</code>. Defaultne to je priečinok <code>views</code> nachádzajúci sa v hlavnom priečinku aplikácie.</li>
+<li><code>view engine</code>, template engine, ktorý chcete použiť. Napr., ak by ste chceli použiť Pug: <code>app.set('view engine', 'pug')</code></li>
+</ul>
+<p>Potom nainštalujte vybraný template engine ako npm dependenciu. Napr. pre inštaláciu Pug spustite:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install pug --save
+</code>
+</pre>
+<div class="doc-box doc-notice" data-markdown="1">
+<p>Templatovacie enginy kompatibilné s Express ako napr. Pug exportujú funkciu <code>__express(filePath, options, callback)</code>, ktorá je volaná pomocou <code>res.render()</code> funkcie k vyrendrovaniu template kódu.</p>
+<p>Niektoré template enginy používajú inú konvenciu. <a href="https://www.npmjs.org/package/consolidate">Consolidate.js</a> knižnica mapuje konvencie všetkých populárnych Node.js template enginov tak, aby bezproblémov fungovali s Express.</p>
+</div>
+<p>Nastavenie parametra view engine zabezpečí, že nie je potrebné špecifikovať engine, ani načítať modul template enginu vo vašej aplikácii; Express načíta tento modul interne, ako je (pre príklad hore) zobrazené nižšie.</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.set('view engine', 'pug');
+</code>
+</pre>
+<p>Vo <code>views</code> priečinku vytvorte Pug template súbor s názvom <code>index.pug</code> s takýmto obsahom:</p>
+<pre>
+<code class="language-javascript" translate="no">
+html
+  head
+    title= title
+  body
+    h1= message
+</code>
+</pre>
+<p>Potom zadefinujte route pre rendrovanie <code>index.pug</code> súboru. Ak <code>view engine</code> parameter nie je nastavený, musíte špecifikovať príponu vášho <code>view</code> súboru. V opačnom prípade ju špecifikovať netreba.</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.get('/', function (req, res) {
+  res.render('index', { title: 'Hey', message: 'Hello there!'});
+});
+</code>
+</pre>
+<p>Po vykonaní requestu na hlavnú stránku, sa súbor <code>index.pug</code> vyrendruje ako HTML.</p>
+<p>Pre viac informácií ohľadom fungovania template enginov v Express si prečítajte: <a href="/%7B%7B%20page.lang%20%7D%7D/advanced/developing-template-engines.html">“Vývoj template enginov pre Express”</a>.</p>
+</body>
+</html>

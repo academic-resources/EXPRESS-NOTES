@@ -6,24 +6,24 @@
  * MIT Licensed
  */
 
-'use strict'
+"use strict";
 
 /**
  * Module dependencies.
  * @private
  */
 
-var Cookie = require('cookie')
-var createError = require('http-errors')
-var sign = require('cookie-signature').sign
-var Tokens = require('csrf')
+var Cookie = require("cookie");
+var createError = require("http-errors");
+var sign = require("cookie-signature").sign;
+var Tokens = require("csrf");
 
 /**
  * Module exports.
  * @public
  */
 
-module.exports = csurf
+module.exports = csurf;
 
 /**
  * CSRF protection middleware.
@@ -38,84 +38,85 @@ module.exports = csurf
  * @public
  */
 
-function csurf (options) {
-  var opts = options || {}
+function csurf(options) {
+  var opts = options || {};
 
   // get cookie options
-  var cookie = getCookieOptions(opts.cookie)
+  var cookie = getCookieOptions(opts.cookie);
 
   // get session options
-  var sessionKey = opts.sessionKey || 'session'
+  var sessionKey = opts.sessionKey || "session";
 
   // get value getter
-  var value = opts.value || defaultValue
+  var value = opts.value || defaultValue;
 
   // token repo
-  var tokens = new Tokens(opts)
+  var tokens = new Tokens(opts);
 
   // ignored methods
-  var ignoreMethods = opts.ignoreMethods === undefined
-    ? ['GET', 'HEAD', 'OPTIONS']
-    : opts.ignoreMethods
+  var ignoreMethods =
+    opts.ignoreMethods === undefined
+      ? ["GET", "HEAD", "OPTIONS"]
+      : opts.ignoreMethods;
 
   if (!Array.isArray(ignoreMethods)) {
-    throw new TypeError('option ignoreMethods must be an array')
+    throw new TypeError("option ignoreMethods must be an array");
   }
 
   // generate lookup
-  var ignoreMethod = getIgnoredMethods(ignoreMethods)
+  var ignoreMethod = getIgnoredMethods(ignoreMethods);
 
-  return function csrf (req, res, next) {
+  return function csrf(req, res, next) {
     // validate the configuration against request
     if (!verifyConfiguration(req, sessionKey, cookie)) {
-      return next(new Error('misconfigured csrf'))
+      return next(new Error("misconfigured csrf"));
     }
 
     // get the secret from the request
-    var secret = getSecret(req, sessionKey, cookie)
-    var token
+    var secret = getSecret(req, sessionKey, cookie);
+    var token;
 
     // lazy-load token getter
-    req.csrfToken = function csrfToken () {
-      var sec = !cookie
-        ? getSecret(req, sessionKey, cookie)
-        : secret
+    req.csrfToken = function csrfToken() {
+      var sec = !cookie ? getSecret(req, sessionKey, cookie) : secret;
 
       // use cached token if secret has not changed
       if (token && sec === secret) {
-        return token
+        return token;
       }
 
       // generate & set new secret
       if (sec === undefined) {
-        sec = tokens.secretSync()
-        setSecret(req, res, sessionKey, sec, cookie)
+        sec = tokens.secretSync();
+        setSecret(req, res, sessionKey, sec, cookie);
       }
 
       // update changed secret
-      secret = sec
+      secret = sec;
 
       // create new token
-      token = tokens.create(secret)
+      token = tokens.create(secret);
 
-      return token
-    }
+      return token;
+    };
 
     // generate & set secret
     if (!secret) {
-      secret = tokens.secretSync()
-      setSecret(req, res, sessionKey, secret, cookie)
+      secret = tokens.secretSync();
+      setSecret(req, res, sessionKey, secret, cookie);
     }
 
     // verify the incoming token
     if (!ignoreMethod[req.method] && !tokens.verify(secret, value(req))) {
-      return next(createError(403, 'invalid csrf token', {
-        code: 'EBADCSRFTOKEN'
-      }))
+      return next(
+        createError(403, "invalid csrf token", {
+          code: "EBADCSRFTOKEN",
+        })
+      );
     }
 
-    next()
-  }
+    next();
+  };
 }
 
 /**
@@ -127,13 +128,15 @@ function csurf (options) {
  * @api private
  */
 
-function defaultValue (req) {
-  return (req.body && req.body._csrf) ||
+function defaultValue(req) {
+  return (
+    (req.body && req.body._csrf) ||
     (req.query && req.query._csrf) ||
-    (req.headers['csrf-token']) ||
-    (req.headers['xsrf-token']) ||
-    (req.headers['x-csrf-token']) ||
-    (req.headers['x-xsrf-token'])
+    req.headers["csrf-token"] ||
+    req.headers["xsrf-token"] ||
+    req.headers["x-csrf-token"] ||
+    req.headers["x-xsrf-token"]
+  );
 }
 
 /**
@@ -144,28 +147,28 @@ function defaultValue (req) {
  * @api private
  */
 
-function getCookieOptions (options) {
-  if (options !== true && typeof options !== 'object') {
-    return undefined
+function getCookieOptions(options) {
+  if (options !== true && typeof options !== "object") {
+    return undefined;
   }
 
-  var opts = Object.create(null)
+  var opts = Object.create(null);
 
   // defaults
-  opts.key = '_csrf'
-  opts.path = '/'
+  opts.key = "_csrf";
+  opts.path = "/";
 
-  if (options && typeof options === 'object') {
+  if (options && typeof options === "object") {
     for (var prop in options) {
-      var val = options[prop]
+      var val = options[prop];
 
       if (val !== undefined) {
-        opts[prop] = val
+        opts[prop] = val;
       }
     }
   }
 
-  return opts
+  return opts;
 }
 
 /**
@@ -176,15 +179,15 @@ function getCookieOptions (options) {
  * @api private
  */
 
-function getIgnoredMethods (methods) {
-  var obj = Object.create(null)
+function getIgnoredMethods(methods) {
+  var obj = Object.create(null);
 
   for (var i = 0; i < methods.length; i++) {
-    var method = methods[i].toUpperCase()
-    obj[method] = true
+    var method = methods[i].toUpperCase();
+    obj[method] = true;
   }
 
-  return obj
+  return obj;
 }
 
 /**
@@ -196,17 +199,17 @@ function getIgnoredMethods (methods) {
  * @api private
  */
 
-function getSecret (req, sessionKey, cookie) {
+function getSecret(req, sessionKey, cookie) {
   // get the bag & key
-  var bag = getSecretBag(req, sessionKey, cookie)
-  var key = cookie ? cookie.key : 'csrfSecret'
+  var bag = getSecretBag(req, sessionKey, cookie);
+  var key = cookie ? cookie.key : "csrfSecret";
 
   if (!bag) {
-    throw new Error('misconfigured csrf')
+    throw new Error("misconfigured csrf");
   }
 
   // return secret from bag
-  return bag[key]
+  return bag[key];
 }
 
 /**
@@ -218,17 +221,15 @@ function getSecret (req, sessionKey, cookie) {
  * @api private
  */
 
-function getSecretBag (req, sessionKey, cookie) {
+function getSecretBag(req, sessionKey, cookie) {
   if (cookie) {
     // get secret from cookie
-    var cookieKey = cookie.signed
-      ? 'signedCookies'
-      : 'cookies'
+    var cookieKey = cookie.signed ? "signedCookies" : "cookies";
 
-    return req[cookieKey]
+    return req[cookieKey];
   } else {
     // get secret from session
-    return req[sessionKey]
+    return req[sessionKey];
   }
 }
 
@@ -242,14 +243,13 @@ function getSecretBag (req, sessionKey, cookie) {
  * @api private
  */
 
-function setCookie (res, name, val, options) {
-  var data = Cookie.serialize(name, val, options)
+function setCookie(res, name, val, options) {
+  var data = Cookie.serialize(name, val, options);
 
-  var prev = res.getHeader('set-cookie') || []
-  var header = Array.isArray(prev) ? prev.concat(data)
-    : [prev, data]
+  var prev = res.getHeader("set-cookie") || [];
+  var header = Array.isArray(prev) ? prev.concat(data) : [prev, data];
 
-  res.setHeader('set-cookie', header)
+  res.setHeader("set-cookie", header);
 }
 
 /**
@@ -263,19 +263,19 @@ function setCookie (res, name, val, options) {
  * @api private
  */
 
-function setSecret (req, res, sessionKey, val, cookie) {
+function setSecret(req, res, sessionKey, val, cookie) {
   if (cookie) {
     // set secret on cookie
-    var value = val
+    var value = val;
 
     if (cookie.signed) {
-      value = 's:' + sign(val, req.secret)
+      value = "s:" + sign(val, req.secret);
     }
 
-    setCookie(res, cookie.key, value, cookie)
+    setCookie(res, cookie.key, value, cookie);
   } else {
     // set secret on session
-    req[sessionKey].csrfSecret = val
+    req[sessionKey].csrfSecret = val;
   }
 }
 
@@ -284,14 +284,14 @@ function setSecret (req, res, sessionKey, val, cookie) {
  * @private
  */
 
-function verifyConfiguration (req, sessionKey, cookie) {
+function verifyConfiguration(req, sessionKey, cookie) {
   if (!getSecretBag(req, sessionKey, cookie)) {
-    return false
+    return false;
   }
 
   if (cookie && cookie.signed && !req.secret) {
-    return false
+    return false;
   }
 
-  return true
+  return true;
 }

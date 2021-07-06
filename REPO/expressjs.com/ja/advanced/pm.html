@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Express アプリケーション用のプロセス・マネージャー</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Express アプリケーション用のプロセス・マネージャー</h1>
+</header>
+<h1 id="express-アプリケーション用のプロセスマネージャー">Express アプリケーション用のプロセス・マネージャー</h1>
+<p>Express アプリケーションを実動で実行する際、以下のタスクを実行するために<em>プロセス・マネージャー</em> を使用すると便利です。</p>
+<ul>
+<li>アプリケーションが異常終了した場合に自動的に再始動する。</li>
+<li>ランタイム・パフォーマンスとリソース使用量に関するインサイトを得る。</li>
+<li>パフォーマンスを向上させるために設定を動的に変更する。</li>
+<li>クラスタリングを制御する。</li>
+</ul>
+<p>プロセス・マネージャーは、アプリケーション・サーバーに似ていて、デプロイメントを容易に行えるようにして、高可用性を実現し、アプリケーションを実行時に管理できるようにする、アプリケーションの「コンテナー」です。</p>
+<p>Express およびその他の Node.js アプリケーション用の最も一般的なプロセス・マネージャーは次のとおりです。</p>
+<ul>
+<li><a href="#forever">Forever</a></li>
+<li><a href="#pm2">PM2</a></li>
+<li><a href="#strongloop-process-manager">StrongLoop Process Manager</a></li>
+<li><a href="#systemd">SystemD</a></li>
+</ul>
+<p>上記の 4 つのツールのいずれを使用しても非常に役立ちますが、StrongLoop Process Manager は、Node.js アプリケーションのライフサイクル全体に対応した包括的な実行時とデプロイメントのソリューションを提供する唯一のツールであり、実動前と実動後のすべてのステップに関するツールを統合インターフェースで提供します。</p>
+<p>以下に、これらの各ツールについて簡単に説明します。 詳細な比較については、<a href="http://strong-pm.io/compare/">http://strong-pm.io/compare/</a> を参照してください。</p>
+<h2 id="forever">Forever</h2>
+<p>Forever は、特定のスクリプトが確実に継続的 (永続的) に実行されるようにするための単純なコマンド・ライン・インターフェース・ツールです。Forever のインターフェースは単純であるため、Node.js アプリケーションおよびスクリプトの小規模なデプロイメントを実行するのに理想的です。</p>
+<p>詳細については、<a href="https://github.com/foreverjs/forever">https://github.com/foreverjs/forever</a> を参照してください。</p>
+<h3 id="インストール">インストール</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1">$ [<span class="ex">sudo</span>] npm install forever -g</a></code></pre></div>
+<h3 id="基本的な使用法">基本的な使用法</h3>
+<p>スクリプトを開始するには、次のように <code>forever start</code> コマンドを使用して、スクリプトのパスを指定します。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1">$ <span class="ex">forever</span> start script.js</a></code></pre></div>
+<p>このコマンドは、スクリプトをデーモン・モード (バックグラウンド) で実行します。</p>
+<p>端末に接続されるようにスクリプトを実行するには、次のように <code>start</code> を省略します。</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1">$ <span class="ex">forever</span> script.js</a></code></pre></div>
+<p>次の例に示すように、ロギング・オプション <code>-l</code>、<code>-o</code>、および <code>-e</code> を使用して Forever ツールおよびスクリプトの出力をログに記録することをお勧めします。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1">$ <span class="ex">forever</span> start -l forever.log -o out.log -e err.log script.js</a></code></pre></div>
+<p>Forever によって開始されたスクリプトのリストを表示するには、次のようにします。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" title="1">$ <span class="ex">forever</span> list</a></code></pre></div>
+<p>Forever によって開始されたスクリプトを停止するには、<code>forever stop</code> コマンドを使用して、プロセス索引 (<code>forever list</code> コマンドによってリストされます) を指定します。</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" title="1">$ <span class="ex">forever</span> stop 1</a></code></pre></div>
+<p>あるいは、次のようにファイルのパスを指定します。</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" title="1">$ <span class="ex">forever</span> stop script.js</a></code></pre></div>
+<p>Forever によって開始されたすべてのスクリプトを停止するには、次のようにします。</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" title="1">$ <span class="ex">forever</span> stopall</a></code></pre></div>
+<p>Forever には、さらに多くのオプションがあり、プログラマチック API もあります。</p>
+<h2 id="pm2">PM2</h2>
+<p>PM2 は、ロード・バランサーが組み込まれた、Node.js アプリケーション用の実動プロセス・マネージャーです。PM2 では、アプリケーションの稼働を永続的に維持して、ダウン時間を発生させずに再ロードすることができ、共通のシステム管理タスクを簡単に実行できます。PM2 では、アプリケーションのロギング、モニター、クラスタリングを管理することもできます。</p>
+<p>詳細については、<a href="https://github.com/Unitech/pm2">https://github.com/Unitech/pm2</a> を参照してください。</p>
+<h3 id="インストール-1">インストール</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" title="1">$ [<span class="ex">sudo</span>] npm install pm2 -g</a></code></pre></div>
+<h3 id="基本的な使用法-1">基本的な使用法</h3>
+<p><code>pm2</code> コマンドを使用してアプリケーションを開始する場合、アプリケーションのパスを指定する必要があります。ただし、アプリケーションの停止、再始動、または削除を行う場合は、アプリケーションの名前または ID を指定するだけで済みます。</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" title="1">$ <span class="ex">pm2</span> start npm --name my-app -- start</a>
+<a class="sourceLine" id="cb10-2" title="2">[<span class="ex">PM2</span>] restartProcessId process id 0</a>
+<a class="sourceLine" id="cb10-3" title="3">┌──────────┬────┬──────┬───────┬────────┬─────────┬────────┬─────────────┬──────────┐</a>
+<a class="sourceLine" id="cb10-4" title="4">│ <span class="ex">App</span> name │ id │ mode │ pid   │ status │ restart │ uptime │ memory      │ watching │</a>
+<a class="sourceLine" id="cb10-5" title="5">├──────────┼────┼──────┼───────┼────────┼─────────┼────────┼─────────────┼──────────┤</a>
+<a class="sourceLine" id="cb10-6" title="6">│ <span class="ex">my-app</span>   │ 0  │ fork │ 64029 │ online │ 1       │ 0s     │ 17.816 MB   │ disabled │</a>
+<a class="sourceLine" id="cb10-7" title="7">└──────────┴────┴──────┴───────┴────────┴─────────┴────────┴─────────────┴──────────┘</a>
+<a class="sourceLine" id="cb10-8" title="8"> <span class="ex">Use</span> the <span class="kw">`</span><span class="ex">pm2</span> show <span class="op">&lt;</span>id<span class="kw">|</span><span class="ex">name</span><span class="op">&gt;</span><span class="kw">`</span> command to get more details about an app.</a></code></pre></div>
+<p><code>pm2</code> コマンドを使用してアプリケーションを開始する場合、アプリケーションは即時にバックグラウンドに送信されます。さまざまな <code>pm2</code> コマンドを使用して、コマンド・ラインからバックグラウンド・アプリケーションを制御できます。</p>
+<p><code>pm2</code> コマンドを使用してアプリケーションが開始された後、アプリケーションはID を使用して PM2 のプロセス・リストに登録されます。そのため、システム上の別のディレクトリーからID を使用して同じ名前を持つアプリケーションを管理できます。</p>
+<p>同じ名前を持つ複数のアプリケーションが実行されている場合、<code>pm2</code> コマンドがすべてのアプリケーションに影響を与えることに注意してください。そのため、個々のアプリケーションを管理するには、名前ではなく ID を使用してください。</p>
+<p>実行中のプロセスをすべてリストするには、次のようにします。</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" title="1">$ <span class="ex">pm2</span> list</a></code></pre></div>
+<p>アプリケーションを停止するには、次のようにします。</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" title="1">$ <span class="ex">pm2</span> stop 0</a></code></pre></div>
+<p>アプリケーションを再始動するには、次のようにします。</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" title="1">$ <span class="ex">pm2</span> restart 0</a></code></pre></div>
+<p>アプリケーションに関する詳細情報を表示するには、次のようにします。</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" title="1">$ <span class="ex">pm2</span> show 0</a></code></pre></div>
+<p>アプリケーションを PM2 のレジストリーから削除するには、次のようにします。</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" title="1">$ <span class="ex">pm2</span> delete 0</a></code></pre></div>
+<h2 id="strongloop-process-manager">StrongLoop Process Manager</h2>
+<p>StrongLoop Process Manager (StrongLoop PM) は、Node.js アプリケーション用の実動プロセス・マネージャーです。StrongLoop PM には、ロード・バランシング、モニター、マルチホスト・デプロイメント、およびグラフィカル・コンソールが組み込まれています。 StrongLoop PM は、以下のタスクに使用できます。</p>
+<ul>
+<li>Node.js アプリケーションを作成してパッケージし、ローカル・システムまたはリモート・システムにデプロイする。</li>
+<li>CPU プロファイルとヒープ・スナップショットを表示して、パフォーマンスを最適化し、メモリー・リークを診断する。</li>
+<li>プロセスとクラスターの稼働を永続的に維持する。</li>
+<li>アプリケーションのパフォーマンス・メトリックを表示する。</li>
+<li>Nginx が統合されたマルチホスト・デプロイメントを容易に管理する。</li>
+<li>複数の StrongLoop PM を、Arc から管理される分散マイクロサービス・ランタイムに統合する。</li>
+</ul>
+<p>StrongLoop PM で作業するには、<code>slc</code> という強力なコマンド・ライン・インターフェース、または Arc というグラフィカル・ツールを使用します。Arc は、オープン・ソースであり、StrongLoop によって専門的なサポートが提供されます。</p>
+<p>詳細については、<a href="http://strong-pm.io/">http://strong-pm.io/</a> を参照してください。</p>
+<p>詳細な説明:</p>
+<ul>
+<li><a href="http://docs.strongloop.com/display/SLC">Operating Node apps (StrongLoop 資料)</a></li>
+<li><a href="http://docs.strongloop.com/display/SLC/Using+Process+Manager">Using StrongLoop Process Manager</a>.</li>
+</ul>
+<h3 id="インストール-2">インストール</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb16-1" title="1">$ [<span class="ex">sudo</span>] npm install -g strongloop</a></code></pre></div>
+<h3 id="基本的な使用法-2">基本的な使用法</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" title="1">$ <span class="bu">cd</span> my-app</a>
+<a class="sourceLine" id="cb17-2" title="2">$ <span class="ex">slc</span> start</a></code></pre></div>
+<p>プロセス・マネージャーとすべてのデプロイ済みアプリケーションを表示するには、次のようにします。</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb18-1" title="1">$ <span class="ex">slc</span> ctl</a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="ex">Service</span> ID: 1</a>
+<a class="sourceLine" id="cb18-3" title="3"><span class="ex">Service</span> Name: my-app</a>
+<a class="sourceLine" id="cb18-4" title="4"><span class="ex">Environment</span> variables:</a>
+<a class="sourceLine" id="cb18-5" title="5">  <span class="ex">No</span> environment variables defined</a>
+<a class="sourceLine" id="cb18-6" title="6"><span class="ex">Instances</span>:</a>
+<a class="sourceLine" id="cb18-7" title="7">    <span class="ex">Version</span>  Agent version  Cluster size</a>
+<a class="sourceLine" id="cb18-8" title="8">     <span class="ex">4.1.13</span>      1.5.14           4</a>
+<a class="sourceLine" id="cb18-9" title="9"><span class="ex">Processes</span>:</a>
+<a class="sourceLine" id="cb18-10" title="10">        <span class="ex">ID</span>      PID   WID  Listening Ports  Tracking objects?  CPU profiling?</a>
+<a class="sourceLine" id="cb18-11" title="11">    <span class="ex">1.1.57692</span>  57692   0</a>
+<a class="sourceLine" id="cb18-12" title="12">    <span class="ex">1.1.57693</span>  57693   1     0.0.0.0:3001</a>
+<a class="sourceLine" id="cb18-13" title="13">    <span class="ex">1.1.57694</span>  57694   2     0.0.0.0:3001</a>
+<a class="sourceLine" id="cb18-14" title="14">    <span class="ex">1.1.57695</span>  57695   3     0.0.0.0:3001</a>
+<a class="sourceLine" id="cb18-15" title="15">    <span class="ex">1.1.57696</span>  57696   4     0.0.0.0:3001</a></code></pre></div>
+<p>すべての管理対象アプリケーション (サービス) をリストするには、次のようにします。</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb19-1" title="1">$ <span class="ex">slc</span> ctl ls</a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="ex">Id</span>          Name         Scale</a>
+<a class="sourceLine" id="cb19-3" title="3"> <span class="ex">1</span>          my-app       1</a></code></pre></div>
+<p>アプリケーションを停止するには、次のようにします。</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb20-1" title="1">$ <span class="ex">slc</span> ctl stop my-app</a></code></pre></div>
+<p>アプリケーションを再始動するには、次のようにします。</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb21-1" title="1">$ <span class="ex">slc</span> ctl restart my-app</a></code></pre></div>
+<p>「ソフト再始動」も実行できます。実行するとワーカー・プロセスに既存の接続をクローズするための猶予期間を与えた後で、現行のアプリケーションが再始動されます。</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb22-1" title="1">$ <span class="ex">slc</span> ctl soft-restart my-app</a></code></pre></div>
+<p>アプリケーションを管理対象から削除するには、次のようにします。</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb23-1" title="1">$ <span class="ex">slc</span> ctl remove my-app</a></code></pre></div>
+<h2 id="systemd">SystemD</h2>
+<h3 id="イントロダクション">イントロダクション</h3>
+<p>SystemDは現代のLinuxディストリビューションにおける、デフォルトのプロセスマネージャです。SystemDに基づいたノードサービスの実行は非常に簡単です。注：このセクションは、<span class="citation" data-cites="axllent">[Ralph Slooten(@axllent) のブログ記事]</span>(https://www.axllent.org/docs/view/nodejs-service-with-systemd/)に基づいています。</p>
+<h3 id="serviceのセットアップ">serviceのセットアップ</h3>
+<p>Create a file in <code>/etc/systemd/system/express.service</code>:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb24-1" title="1">[<span class="ex">Unit</span>]</a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="va">Description=</span>Express</a>
+<a class="sourceLine" id="cb24-3" title="3"><span class="co"># Set dependencies to other services (optional)</span></a>
+<a class="sourceLine" id="cb24-4" title="4"><span class="co">#After=mongodb.service</span></a>
+<a class="sourceLine" id="cb24-5" title="5"></a>
+<a class="sourceLine" id="cb24-6" title="6">[<span class="ex">Service</span>]</a>
+<a class="sourceLine" id="cb24-7" title="7"><span class="co"># Run Grunt before starting the server (optional)</span></a>
+<a class="sourceLine" id="cb24-8" title="8"><span class="co">#ExecStartPre=/usr/bin/grunt</span></a>
+<a class="sourceLine" id="cb24-9" title="9"></a>
+<a class="sourceLine" id="cb24-10" title="10"><span class="co"># Start the js-file starting the express server</span></a>
+<a class="sourceLine" id="cb24-11" title="11"><span class="va">ExecStart=</span>/usr/bin/node <span class="ex">server.js</span></a>
+<a class="sourceLine" id="cb24-12" title="12"><span class="va">WorkingDirectory=</span>/usr/local/express</a>
+<a class="sourceLine" id="cb24-13" title="13"><span class="va">Restart=</span>always</a>
+<a class="sourceLine" id="cb24-14" title="14"><span class="va">RestartSec=</span>10</a>
+<a class="sourceLine" id="cb24-15" title="15"><span class="va">StandardOutput=</span>syslog</a>
+<a class="sourceLine" id="cb24-16" title="16"><span class="va">StandardError=</span>syslog</a>
+<a class="sourceLine" id="cb24-17" title="17"><span class="va">SyslogIdentifier=</span>Express</a>
+<a class="sourceLine" id="cb24-18" title="18"><span class="co"># Change to a non-root user (optional, but recommended)</span></a>
+<a class="sourceLine" id="cb24-19" title="19"><span class="co">#User=&lt;alternate user&gt;</span></a>
+<a class="sourceLine" id="cb24-20" title="20"><span class="co">#Group=&lt;alternate group&gt;</span></a>
+<a class="sourceLine" id="cb24-21" title="21"><span class="co"># Set environment options</span></a>
+<a class="sourceLine" id="cb24-22" title="22"><span class="va">Environment=</span>NODE_ENV=<span class="ex">production</span> PORT=8080</a>
+<a class="sourceLine" id="cb24-23" title="23"></a>
+<a class="sourceLine" id="cb24-24" title="24">[<span class="ex">Install</span>]</a>
+<a class="sourceLine" id="cb24-25" title="25"><span class="va">WantedBy=</span>multi-user.target</a></code></pre></div>
+<h3 id="serviceの有効化">serviceの有効化</h3>
+<div class="sourceCode" id="cb25"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb25-1" title="1">$ <span class="ex">systemctl</span> enable express.service</a></code></pre></div>
+<h3 id="serviceの起動">serviceの起動</h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb26-1" title="1">$ <span class="ex">systemctl</span> start express.service</a></code></pre></div>
+<h3 id="serviceのステータスのチェック">serviceのステータスのチェック</h3>
+<div class="sourceCode" id="cb27"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb27-1" title="1">$ <span class="ex">systemctl</span> status express.service</a></code></pre></div>
+</body>
+</html>

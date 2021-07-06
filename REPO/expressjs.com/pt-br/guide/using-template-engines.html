@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Usando mecanismos de modelo com o Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Usando mecanismos de modelo com o Express</h1>
+</header>
+<h1 id="usando-mecanismos-de-modelo-com-o-express">Usando mecanismos de modelo com o Express</h1>
+<p>Antes do Express poder renderizar arquivos de modelo, as seguintes configurações do aplicativo devem ser configuradas:</p>
+<ul>
+<li><code>views</code>, é o diretório onde os arquivos de modelo estão localizados. Por exemplo: <code>app.set('views', './views')</code></li>
+<li><code>view engine</code>, o mecanismo de modelo a ser usado. Por Exemplo: <code>app.set('view engine', 'pug')</code></li>
+</ul>
+<p>Em seguida instale o pacote npm correspondente ao mecanismo de modelo:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install pug --save
+</code>
+</pre>
+<div class="doc-box doc-notice" data-markdown="1">
+<p>Mecanismos de modelo compatíveis com o Express como o Pug exportam uma função chamada <code>__express(filePath, options, callback)</code>, que é chamada pela função <code>res.render()</code> para renderizar o código de modelo.</p>
+<p>Alguns mecanismos de modelo não seguem esta convenção. A biblioteca <a href="https://www.npmjs.org/package/consolidate">Consolidate.js</a> segue esta convenção mapeando todos os mecanismos de modelo populares do Node.js, e portanto funciona de forma harmoniosa com o Express.</p>
+</div>
+<p>Após o mecanismo de visualização estar configurado, você não precisa especificar o mecanismo ou carregar o módulo do mecanismo de modelo no seu aplicativo; o Express carrega o módulo internamente, como mostrado abaixo (para o exemplo acima).</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.set('view engine', 'pug');
+</code>
+</pre>
+<p>Crie um arquivo de modelo do Pug chamado <code>index.pug</code> no diretório <code>views</code>, com o seguinte conteúdo:</p>
+<pre>
+<code class="language-javascript" translate="no">
+html
+  head
+    title= title
+  body
+    h1= message
+</code>
+</pre>
+<p>Em seguida crie uma rota para renderizar o arquivo <code>index.pug</code>. Se a propriedade <code>view engine</code> não estiver configurada, é preciso especificar a extensão do arquivo <code>view</code>. Caso contrário, é possível omití-la.</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.get('/', function (req, res) {
+  res.render('index', { title: 'Hey', message: 'Hello there!'});
+});
+</code>
+</pre>
+<p>Ao fazer uma solicitação à página inicial, o arquivo <code>index.pug</code> será renderizado como HTML.</p>
+<p>Para aprender mais sobre como mecanismos de modelo funcionam no Express, consulte: <a href="/%7B%7B%20page.lang%20%7D%7D/advanced/developing-template-engines.html">“Desenvolvendo mecanismos de para o Express”</a>.</p>
+</body>
+</html>

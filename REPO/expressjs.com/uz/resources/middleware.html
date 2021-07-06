@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="uz" xml:lang="uz">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Express middleware</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Express middleware</h1>
+</header>
+<h1 id="third-party-middleware">Third-party middleware</h1>
+<p>Here are some Express middleware modules:</p>
+<ul>
+<li><a href="https://github.com/expressjs/body-parser">body-parser</a>: previously <code>express.bodyParser</code>, <code>json</code>, and <code>urlencoded</code>. See also:
+<ul>
+<li><a href="https://github.com/raynos/body">body</a></li>
+<li><a href="https://github.com/visionmedia/co-body">co-body</a></li>
+<li><a href="https://github.com/stream-utils/raw-body">raw-body</a></li>
+</ul></li>
+<li><a href="https://github.com/expressjs/compression">compression</a> - previously <code>express.compress</code></li>
+<li><a href="https://github.com/msemenistyi/connect-image-optimus">connect-image-optimus</a>: Connect/Express middleware for optimal image serving. Switches to webp/jpegxr if possible.</li>
+<li><a href="https://github.com/expressjs/timeout">connect-timeout</a>: previously <code>express.timeout</code></li>
+<li><a href="https://github.com/expressjs/cookie-parser">cookie-parser</a>: previously <code>express.cookieParser</code></li>
+<li><a href="https://github.com/expressjs/cookie-session">cookie-session</a>: previously <code>express.cookieSession</code></li>
+<li><a href="https://github.com/expressjs/csurf">csurf</a>: previousy <code>express.csrf</code></li>
+<li><a href="https://github.com/expressjs/errorhandler">errorhandler</a>: previously <code>express.errorHandler</code></li>
+<li><a href="https://github.com/devoidfury/express-debug">express-debug</a>: unobtrusive development tool that adds a tab with information about req, session, locals, and more to your application.</li>
+<li><a href="https://github.com/nemtsov/express-partial-response">express-partial-response</a>: Express middleware for filtering-out parts of JSON responses based on the <code>fields</code> query-string; using Google API’s Partial Response.</li>
+<li><a href="https://github.com/expressjs/session">express-session</a>: previously <code>express.session</code></li>
+<li><a href="https://github.com/jamiesteven/express-simple-cdn">express-simple-cdn</a>: easily use a CDN for your static assets, with multiple host support (ex. cdn1.host.com, cdn2.host.com).</li>
+<li><a href="https://github.com/ericf/express-slash">express-slash</a>: Express middleware for people who are strict about trailing slashes.</li>
+<li><a href="https://github.com/jamiesteven/express-uncapitalize">express-uncapitalize</a>: redirect HTTP requests containing uppercase to a canonical lowercase form.</li>
+<li><a href="https://github.com/expressjs/method-override">method-override</a>: previously <code>express.methodOverride</code></li>
+<li><a href="https://github.com/expressjs/morgan">morgan</a>: previously <code>logger</code></li>
+<li><a href="https://github.com/expressjs/response-time">response-time</a>: previously <code>express.responseTime</code></li>
+<li><a href="https://github.com/expressjs/serve-favicon">serve-favicon</a>: previously <code>express.favicon</code></li>
+<li><a href="https://github.com/expressjs/serve-index">serve-index</a>: previousy <code>express.directory</code></li>
+<li><a href="https://github.com/expressjs/serve-static">serve-static</a>: for serving static content</li>
+<li><a href="https://github.com/paulwalker/connect-static-expiry">static-expiry</a>: fingerprinted URLs/Caching Headers for static assets including external domain(s) support.</li>
+<li><a href="https://github.com/expressjs/vhost">vhost</a>: previously <code>express.vhost</code></li>
+<li><a href="https://github.com/madhums/node-view-helpers">view-helpers</a>: An express middleware that provides common helper methods to the views.</li>
+</ul>
+<p>Some middleware previously included with Connect are no longer supported by the Connect/Express team, are replaced by an alternative module, or should be superseded by a better module. Use one of these alternatives instead:</p>
+<ul>
+<li>express.cookieParser
+<ul>
+<li><a href="https://github.com/jed/cookies">cookies</a> and <a href="https://github.com/jed/keygrip">keygrip</a></li>
+</ul></li>
+<li>express.limit
+<ul>
+<li><a href="https://github.com/stream-utils/raw-body">raw-body</a></li>
+</ul></li>
+<li>express.multipart
+<ul>
+<li><a href="https://github.com/mscdex/connect-busboy">connect-busboy</a></li>
+<li><a href="https://github.com/expressjs/multer">multer</a></li>
+<li><a href="https://github.com/superjoe30/connect-multiparty">connect-multiparty</a></li>
+</ul></li>
+<li>express.query
+<ul>
+<li><a href="https://github.com/visionmedia/node-querystring">qs</a></li>
+</ul></li>
+<li>express.staticCache
+<ul>
+<li><a href="https://github.com/isaacs/st">st</a></li>
+<li><a href="https://github.com/andrewrk/connect-static">connect-static</a></li>
+</ul></li>
+</ul>
+<p>For more middleware, see also: - <a href="https://github.com/Raynos/http-framework/wiki/Modules">http-framework</a> - <a href="https://github.com/expressjs">expressjs</a></p>
+</body>
+</html>

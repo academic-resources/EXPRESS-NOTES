@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Basisrouting in Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Basisrouting in Express</h1>
+</header>
+<h1 id="basisrouting">Basisrouting</h1>
+<p>Per <em>Routing</em> wird bestimmt, wie eine Antwort auf eine Clientanforderung an einem bestimmten Endpunkt antwortet. Dies ist eine URI (oder ein Pfad) und eine bestimmte HTTP-Anforderungsmethode (GET, POST usw.).</p>
+<p>Jede Weiterleitung (Route) kann eine oder mehrere Handlerfunktionen haben, die ausgeführt werden, wenn die Weiterleitung abgeglichen wird.</p>
+Weiterleitungsdefinitionen haben die folgende Struktur:
+<pre>
+<code class="language-javascript" translate="no">
+app.METHOD(PATH, HANDLER)
+</code>
+</pre>
+<p>Bedeutung:</p>
+<ul>
+<li><code>app</code> ist eine Instanz von <code>express</code>.</li>
+<li><code>METHOD</code> ist eine <a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP-Anforderungsmethode</a>.</li>
+<li><code>PATH</code> ist ein Pfad auf dem Server.</li>
+<li><code>HANDLER</code> ist die Funktion, die ausgeführt wird, wenn die Weiterleitung abgeglichen wird.</li>
+</ul>
+<div class="doc-box doc-notice" data-markdown="1">
+<p>In diesem Lernprogramm wird vorausgesetzt, dass eine Instanz von <code>express</code> namens <code>app</code> erstellt und der Server ausgeführt wird. Wenn Sie mit dem Erstellen und Starten von Anwendungen nicht vertraut sind, spielen Sie das <a href="/%7B%7B%20page.lang%20%7D%7D/starter/hello-world.html">Beispiel “Hello World”</a> durch.</p>
+</div>
+<p>Die folgenden Beispiele veranschaulichen das Definieren einfacher Weiterleitungen.</p>
+<p>Antworten Sie mit <code>Hello World!</code> auf der Homepage:</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+</code>
+</pre>
+<p>Antworten Sie auf POST-Anforderungen auf die Weiterleitung zum Stammverzeichnis (<code>/</code>), der Homepage der Anwendung:</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.post('/', function (req, res) {
+  res.send('Got a POST request');
+});
+</code>
+</pre>
+<p>Antworten Sie auf eine PUT-Anforderung zur Weiterleitung <code>/user</code>:</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+</code>
+</pre>
+<p>Antworten Sie auf eine DELETE-Anforderung zur Weiterleitung <code>/user</code>:</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
+</code>
+</pre>
+<p>Details zum Thema Routing finden Sie in der entsprechenden <a href="/%7B%7B%20page.lang%20%7D%7D/guide/routing.html">Routinganleitung</a>.</p>
+</body>
+</html>

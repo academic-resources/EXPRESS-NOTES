@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Mejores prácticas de seguridad para Express en producción</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Mejores prácticas de seguridad para Express en producción</h1>
+</header>
+<h1 id="mejores-prácticas-de-producción-seguridad">Mejores prácticas de producción: seguridad</h1>
+<h2 id="visión-general">Visión general</h2>
+<p>El término <em>“producción”</em> hace referencia a la etapa del ciclo de vida del software donde una aplicación o una API tiene disponibilidad general para sus consumidores o usuarios finales. Por su parte, en la etapa de <em>“desarrollo”</em>, todavía estás escribiendo y probando activamente el código, y la aplicación no está abierta para el acceso externo. Los correspondientes entornos del sistema se conocen como los entornos de <em>producción</em> y <em>desarrollo</em>, respectivamente.</p>
+<p>Los entornos de desarrollo y producción se configuran normalmente de forma diferente y tiene requisitos también muy diferentes. Lo que funciona en el desarrollo puede que no sea aceptable en la producción. Por ejemplo, en un entorno de desarrollo, puede que desee el registro detallado de errores a efecto de depuración, mientras que el mismo comportamiento puede suponer un problema de seguridad en un entorno de producción. De la misma forma, en el desarrollo, no es necesario preocuparse por la escalabilidad, la fiabilidad y el rendimiento, mientras que estos son clave en la producción.</p>
+<p>{% include note.html content=“Si crees haber encontrado una vulnerabilidad de seguridad en Express, por favor mira nuestras <a href="/en/resources/contributing.html#security-policies-and-procedures">Políticas de Seguridad y Procedimientos</a>.” %}</p>
+<p>Las mejores prácticas de seguridad para aplicaciones Express en producción incluyen:</p>
+<ul>
+<li><a href="#no-utilizar-versiones-en-desuso-o-vulnerables-de-express">No utilizar versiones en desuso o vulnerables de Express</a></li>
+<li><a href="#utilizar-tls">Utilizar TLS</a></li>
+<li><a href="#utilizar-helmet">Utilizar Helmet</a></li>
+<li><a href="#utilizar-cookies-de-forma-segura">Utilizar cookies de forma segura</a></li>
+<li><a href="#prevenir-ataques-de-fuerza-bruta-a-la-autenticación">Prevenir ataques de fuerza bruta a la autenticación</a></li>
+<li><a href="#asegurarse-de-que-las-dependencias-sean-seguras">Asegurarse de que las dependencias sean seguras</a></li>
+<li><a href="#evitar-otras-vulnerabilidades-conocidas">Evitar otras vulnerabilidades conocidas</a></li>
+<li><a href="#consideraciones-adicionales">Consideraciones adicionales</a></li>
+</ul>
+<h2 id="no-utilizar-versiones-en-desuso-o-vulnerables-de-express">No utilizar versiones en desuso o vulnerables de Express</h2>
+<p>Express 2.x y 3.x ya no se mantienen. Los problemas de seguridad y rendimiento en estas versiones no se solucionarán. No las utilice. Si no ha cambiado todavía a la versión 4, siga la <a href="/%7B%7B%20page.lang%20%7D%7D/guide/migrating-4.html">guía de migración</a>.</p>
+<p>Asimismo, asegúrese de que no está utilizando ninguna de las versiones vulnerables de Express que se listan en la <a href="/%7B%7B%20page.lang%20%7D%7D/advanced/security-updates.html">página Actualizaciones de seguridad</a>. Si las utiliza, actualícese a uno de los releases estables, preferiblemente el más reciente.</p>
+<h2 id="utilizar-tls">Utilizar TLS</h2>
+<p>Si la aplicación maneja o transmite datos confidenciales, utilice <a href="https://en.wikipedia.org/wiki/Transport_Layer_Security">Transport Layer Security</a> (TLS) para proteger la conexión y los datos. Esta tecnología cifra los datos antes de enviarlos desde el cliente al servidor, lo que evita algunos de los ataques de pirateo más comunes (y sencillos). Aunque las solicitudes Ajax y POST no sean obvias visiblemente y parezca que están “ocultas” en los navegadores, su tráfico de red es vulnerable para los <a href="https://en.wikipedia.org/wiki/Packet_analyzer">rastreos de paquetes</a> y los <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack">ataques de intermediarios</a>.</p>
+<p>Es posible que esté familiarizado con el cifrado SSL (Secure Socket Layer). <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa380515(v=vs.85).aspx">TLS es simplemente el siguiente paso después de SSL</a>. Es decir, si antes utilizaba SSL, se recomienda actualizar a TLS. En general, se recomienda Nginx para manejar TLS. Encontrará una buena referencia para configurar TLS en Nginx (y otros servidores) en <a href="https://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_Server_Configurations">la wiki de Mozilla Recommended Server Configurations</a>.</p>
+<p>Asimismo, una herramienta muy útil para obtener un certificado de TLS gratis es <a href="https://letsencrypt.org/about/">Let’s Encrypt</a>, una entidad emisora de certificados (CA) abierta, automatizada y gratuita proporcionada por <a href="https://letsencrypt.org/isrg/">Internet Security Research Group (ISRG)</a>.</p>
+<h2 id="utilizar-helmet">Utilizar Helmet</h2>
+<p><a href="https://www.npmjs.com/package/helmet">Helmet</a> ayuda a proteger la aplicación de algunas vulnerabilidades web conocidas mediante el establecimiento correcto de cabeceras HTTP.</p>
+<p>Helmet es realmente una colección de nueve funciones de middleware más paquetes que establecen cabeceras HTTP relacionadas con la seguridad:</p>
+<ul>
+<li><a href="https://github.com/helmetjs/csp">csp</a> establece la cabecera <code>Content-Security-Policy</code> para evitar ataques de scripts entre sitios y otras inyecciones entre sitios.</li>
+<li><a href="https://github.com/helmetjs/hide-powered-by">hidePoweredBy</a> elimina la cabecera <code>X-Powered-By</code>.</li>
+<li><a href="https://github.com/helmetjs/hsts">hsts</a> establece la cabecera <code>Strict-Transport-Security</code> que fuerza conexiones seguras (HTTP sobre SSL/TLS) con el servidor.</li>
+<li><a href="https://github.com/helmetjs/ienoopen">ieNoOpen</a> establece <code>X-Download-Options</code> para IE8+.</li>
+<li><a href="https://github.com/helmetjs/nocache">noCache</a> establece cabeceras <code>Cache-Control</code> y Pragma para inhabilitar el almacenamiento en memoria caché del lado de cliente.</li>
+<li><a href="https://github.com/helmetjs/dont-sniff-mimetype">noSniff</a> establece <code>X-Content-Type-Options</code> para evitar que los navegadores rastreen mediante MIME una respuesta del tipo de contenido declarado.</li>
+<li><a href="https://github.com/helmetjs/frameguard">frameguard</a> establece la cabecera <code>X-Frame-Options</code> para proporcionar protección contra el <a href="https://www.owasp.org/index.php/Clickjacking">clickjacking</a>.</li>
+<li><a href="https://github.com/helmetjs/x-xss-protection">xssFilter</a> establece <code>X-XSS-Protection</code> para habilitar el filtro de scripts entre sitios (XSS) en los navegadores web más recientes.</li>
+</ul>
+<p>Instale Helmet como cualquier otro módulo:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install --save helmet
+</code>
+</pre>
+<p>A continuación, utilícelo en el código:</p>
+<pre>
+<code class="language-javascript" translate="no">
+...
+var helmet = require('helmet');
+app.use(helmet());
+...
+</code>
+</pre>
+<h3 id="como-mínimo-inhabilitar-la-cabecera-x-powered-by">Como mínimo, inhabilitar la cabecera X-Powered-By</h3>
+<p>Si no desea utilizar Helmet, como mínimo, inhabilite la cabecera <code>X-Powered-By</code>. Los atacantes pueden utilizar esta cabecera (que está habilitada de forma predeterminada) para detectar las aplicaciones que ejecutan Express e iniciar ataques con destinos específicos.</p>
+<p>Por lo tanto, se recomienda desactivar la cabecera con el método <code>app.disable()</code>:</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.disable('x-powered-by');
+</code>
+</pre>
+<p>Si utiliza <code>helmet.js</code>, lo hace automáticamente.</p>
+<h2 id="utilizar-cookies-de-forma-segura">Utilizar cookies de forma segura</h2>
+<p>Para garantizar que las cookies no abran la aplicación para ataques, no utilice el nombre de cookie de sesión predeterminado y establezca las opciones de seguridad de las cookies correctamente.</p>
+<p>Hay dos módulos de sesión de cookies de middleware principales:</p>
+<ul>
+<li><a href="https://www.npmjs.com/package/express-session">express-session</a>, que sustituye el middleware <code>express.session</code> incorporado en Express 3.x.</li>
+<li><a href="https://www.npmjs.com/package/cookie-session">cookie-session</a>, que sustituye el middleware <code>express.cookieSession</code> incorporado en Express 3.x.</li>
+</ul>
+<p>La principal diferencia entre los dos módulos es cómo guardan los datos de sesión de las cookies. El middleware <a href="https://www.npmjs.com/package/express-session">express-session</a> almacena los datos de sesión en el servidor; sólo guarda el ID de sesión en la propia cookie, no los datos de sesión. De forma predeterminada, utiliza el almacenamiento en memoria y no está diseñado para un entorno de producción. En la producción, deberá configurar un almacenamiento de sesión escalable; consulte la lista de <a href="https://github.com/expressjs/session#compatible-session-stores">almacenes de sesión compatibles</a>.</p>
+<p>Por su parte, el middleware <a href="https://www.npmjs.com/package/cookie-session">cookie-session</a> implementa un almacenamiento basado en cookies: serializa la sesión completa en la cookie, en lugar de sólo una clave de sesión. Utilícelo sólo cuando los datos de sesión sean relativamente pequeños y fácilmente codificables como valores primitivos (en lugar de objetos). Aunque se supone que los navegadores pueden dar soporte a 4096 bytes por cookie como mínimo, para no exceder el límite, no supere un tamaño de 4093 bytes por dominio. Asimismo, asegúrese de que los datos de la cookie estén visibles para el cliente, para que si se deben proteger u ocultar por cualquier motivo, se utilice mejor la opción express-session.</p>
+<h3 id="no-utilizar-el-nombre-de-cookie-de-sesión-predeterminado">No utilizar el nombre de cookie de sesión predeterminado</h3>
+<p>Si utiliza el nombre de cookie de sesión predeterminado, la aplicación puede quedar abierta a los ataques. El problema de seguridad que supone es similar a <code>X-Powered-By</code>: un posible atacante puede utilizarlo para firmar digitalmente el servidor y dirigir los ataques en consecuencia.</p>
+<p>Para evitar este problema, utilice nombres de cookie genéricos, por ejemplo, con el middleware <a href="https://www.npmjs.com/package/express-session">express-session</a>:</p>
+<pre>
+<code class="language-javascript" translate="no">
+var session = require('express-session');
+app.set('trust proxy', 1) // trust first proxy
+app.use( session({
+   secret : 's3Cur3',
+   name : 'sessionId',
+  })
+);
+</code>
+</pre>
+<h3 id="establecer-las-opciones-de-seguridad-de-las-cookies">Establecer las opciones de seguridad de las cookies</h3>
+<p>Establezca las siguientes opciones de cookies para mejorar la seguridad:</p>
+<ul>
+<li><code>secure</code> - Garantiza que el navegador sólo envíe la cookie a través de HTTPS.</li>
+<li><code>httpOnly</code> - Garantiza que la cookie sólo se envíe a través de HTTP(S), no a través de JavaScript de cliente, para la protección contra ataques de scripts entre sitios.</li>
+<li><code>domain</code> - Indica el dominio de la cookie; utilícelo para compararlo con el dominio del servidor donde se está solicitando el URL. Si coinciden, compruebe el atributo de vía de acceso a continuación.</li>
+<li><code>path</code> - Indica la vía de acceso de la cookie; utilícela para compararla con la vía de acceso de la solicitud. Si esta y el dominio coinciden, envíe la cookie en la solicitud.</li>
+<li><code>expires</code> - Se utiliza para establecer la fecha de caducidad de las cookies persistentes.</li>
+</ul>
+<p>A continuación, se muestra un ejemplo de uso del middleware <a href="https://www.npmjs.com/package/cookie-session">cookie-session</a>:</p>
+<pre>
+<code class="language-javascript" translate="no">
+var session = require('cookie-session');
+var express = require('express');
+var app = express();
+
+var expiryDate = new Date( Date.now() + 60 * 60 * 1000 ); // 1 hour
+app.use(session({
+  name: 'session',
+  keys: ['key1', 'key2'],
+  cookie: { secure: true,
+            httpOnly: true,
+            domain: 'example.com',
+            path: 'foo/bar',
+            expires: expiryDate
+          }
+  })
+);
+</code>
+</pre>
+<h2 id="prevenir-ataques-de-fuerza-bruta-a-la-autenticación">Prevenir ataques de fuerza bruta a la autenticación</h2>
+<p>Asegurate de que los puntos finales del inicio de sesión están protegidos para convertir los datos privados más seguros.</p>
+<p>Una simple y potente técnica es bloquear intentos de autorización usando dos métricas:</p>
+<ol type="1">
+<li>Según el número de intentos fallidos consecutivos por el mismo nombre de usuario y dirección IP.</li>
+<li>Según el número fallido de intentos desde una dirección IP a lo largo de un cierto período de tiempo. Por ejemplo, bloquear una dirección IP si realiza 100 intentos fallidos en un día.</li>
+</ol>
+<p>El paquete <a href="https://github.com/animir/node-rate-limiter-flexible">rate-limiter-flexible</a> ofrece herramientas para realizar esta técnica de forma fácil y rápida. Aquí puedes encontrar un <a href="https://github.com/animir/node-rate-limiter-flexible/wiki/Overall-example#login-endpoint-protection">ejemplo de protección de fuerza bruta en la documentación</a>.</p>
+<h2 id="asegurarse-de-que-las-dependencias-sean-seguras">Asegurarse de que las dependencias sean seguras</h2>
+<p>El uso de npm para gestionar las dependencias de la aplicación es muy útil y cómodo. No obstante, los paquetes que utiliza pueden contener vulnerabilidades de seguridad críticas que también pueden afectar a la aplicación. La seguridad de la aplicación sólo es tan fuerte como el “enlace más débil” de las dependencias.</p>
+<p>Desde npm@6, npm revisa automáticamente cada solicitud de instalación. También puedes utilizar ‘npm audit’ para analizar tu árbol de dependencias.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1">$ <span class="ex">npm</span> audit</a></code></pre></div>
+<p>Si quieres mantener más seguro, considera <a href="https://snyk.io/">Snyk</a>.</p>
+<p>Snyk ofrece tanto <a href="https://www.npmjs.com/package/snyk">herramienta de línea de comandos</a> como una <a href="https://snyk.io/docs/github">integración de Github</a> que comprueba tu aplicación contra <a href="https://snyk.io/vuln/">la base de datos de código abierto sobre vulnerabilidades de Snyk</a> por cualquier vulnerabilidad conocida en tus dependencias. Instala la interfaz de línea de comandos:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1">$ <span class="ex">npm</span> install -g snyk</a>
+<a class="sourceLine" id="cb2-2" title="2">$ <span class="bu">cd</span> your-app</a></code></pre></div>
+<p>Usa este comando para comprobar tu aplicación contra vulnerabilidades:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1">$ <span class="ex">snyk</span> test</a></code></pre></div>
+<p>Usa este comando para abrir un asistente que te guiará mediante el proceso de aplicar actualizaciones o parches para arreglar las vulnerabilidades que hayan sido encontradas:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1">$ <span class="ex">snyk</span> wizard</a></code></pre></div>
+<h2 id="evitar-otras-vulnerabilidades-conocidas">Evitar otras vulnerabilidades conocidas</h2>
+<p>Esté atento a las advertencias de <a href="https://npmjs.com/advisories">Node Security Project</a> que puedan afectar a Express u otros módulos que utilice la aplicación. En general, Node Security Project es un excelente recurso de herramientas e información sobre la seguridad de Node.</p>
+<p>Por último, las aplicaciones de Express, como cualquier otra aplicación web, son vulnerables a una amplia variedad de ataques basados en web. Familiarícese con las <a href="https://www.owasp.org/index.php/Top_10_2013-Top_10">vulnerabilidades web</a> conocidas y tome precauciones para evitarlas.</p>
+<h2 id="consideraciones-adicionales">Consideraciones adicionales</h2>
+<p>A continuación, se muestran algunas recomendaciones para la excelente lista de comprobación <a href="https://blog.risingstack.com/node-js-security-checklist/">Node.js Security Checklist</a>. Consulte el post de este blog para ver todos los detalles de estas recomendaciones:</p>
+<ul>
+<li>Implemente el límite de velocidad para evitar ataques de fuerza bruta contra la autenticación. Una forma de hacerlo es utilizar <a href="https://strongloop.com/node-js/api-gateway/">StrongLoop API Gateway</a> para forzar una política de limitación de velocidad. También puede utilizar middleware como <a href="https://www.npmjs.com/package/express-limiter">express-limiter</a>, aunque para ello deberá modificar el código de alguna forma.</li>
+<li>Utilice el middleware <a href="https://www.npmjs.com/package/csurf">csurf</a> para protegerse contra la falsificación de solicitudes entre sitios (CSRF).</li>
+<li>Filtre y sanee siempre la entrada de usuario para protegerse contra los ataques de scripts entre sitios (XSS) e inyección de mandatos.</li>
+<li>Defiéndase contra los ataques de inyección de SQL utilizando consultas parametrizadas o sentencias preparadas.</li>
+<li>Utilice la herramienta <a href="http://sqlmap.org/">sqlmap</a> de código abierto para detectar vulnerabilidades de inyección de SQL en la aplicación.</li>
+<li>Utilice las herramientas <a href="https://nmap.org/">nmap</a> y <a href="https://github.com/nabla-c0d3/sslyze">sslyze</a> para probar la configuración de los cifrados SSL, las claves y la renegociación, así como la validez del certificado.</li>
+<li>Utilice <a href="https://www.npmjs.com/package/safe-regex">safe-regex</a> para asegurarse de que las expresiones regulares no sean susceptibles de ataques de <a href="https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS">denegación de servicio de expresiones regulares</a>.</li>
+</ul>
+</body>
+</html>

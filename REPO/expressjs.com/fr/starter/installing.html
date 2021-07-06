@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Installation d’Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Installation d’Express</h1>
+</header>
+<h1 id="installation">Installation</h1>
+<p>En supposant que <a href="https://nodejs.org/">Node.js</a> est déjà installé, créez un répertoire pour héberger votre application et faites-en votre répertoire de travail.</p>
+<pre>
+<code class="language-sh" translate="no">
+$ mkdir myapp
+$ cd myapp
+</code>
+</pre>
+<p>Utilisez la commande <code>npm init</code> afin de créer un fichier <code>package.json</code> pour votre application. Pour plus d’informations sur le fonctionnement du fichier <code>package.json</code>, voir <a href="https://docs.npmjs.com/files/package.json">Specifics of npm’s package.json handling</a>.</p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm init
+</code>
+</pre>
+<p>Cette commande vous invite à fournir un certain nombre d’informations, telles que le nom et la version de votre application. Pour le moment, vous pouvez simplement appuyer sur la touche RETURN pour accepter les valeurs par défaut, à l’exception de ce qui suit :</p>
+<pre>
+<code class="language-sh" translate="no">
+entry point: (index.js)
+</code>
+</pre>
+<p>Entrez <code>app.js</code> ou un nom de votre choix pour le fichier principal. Si vous souhaitez que le nom soit <code>index.js</code>, appuyez sur la touche RETURN pour accepter le nom de fichier par défaut suggéré.</p>
+<p>Installez ensuite Express dans le répertoire <code>myapp</code>, puis sauvegardez-le dans la liste des dépendances. Par exemple :</p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install express --save
+</code>
+</pre>
+<p>Pour installer Express de façon temporaire et ne pas l’ajouter à la liste des dépendances, omettez l’option <code>--save</code> :</p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install express
+</code>
+</pre>
+<div class="doc-box doc-info" data-markdown="1">
+<p>Les modules Node.js installés à l’aide de l’option <code>--save</code> sont ajoutés à la liste des dépendances <code>dependencies</code>, dans le fichier <code>package.json</code>. Par défaut, depuis la version 5.0, <code>npm install &lt;package-name&gt;</code> ajoute automatiquement le module Node.js à la liste des dépendances. Par la suite, l’exécution de <code>npm install</code> dans le répertoire de l’application installera automatiquement les modules présents dans la liste des dépendances.</p>
+</div>
+</body>
+</html>

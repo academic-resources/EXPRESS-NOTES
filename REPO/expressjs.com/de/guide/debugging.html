@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Debugging bei Express</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Debugging bei Express</h1>
+</header>
+<h1 id="debugging-bei-express">Debugging bei Express</h1>
+<p>Express verwendet das Modul <a href="https://www.npmjs.com/package/debug">debug</a> intern, um Informationen zu Weiterleitungsübereinstimmungen, verwendete Middlewarefunktionen, Anwendungsmodi und den Verlauf des Anforderung/Antwort-Zyklus zu protokollieren.</p>
+<div class="doc-box doc-info" data-markdown="1">
+<p><code>debug</code> ist praktisch eine erweiterte Version von <code>console.log</code>. Im Gegensatz zu <code>console.log</code> müssen jedoch keine <code>debug</code>-Protokolle im Produktionscode auskommentiert werden. Die Protokollierung wird standardmäßig inaktiviert und kann über die Umgebungsvariable <code>DEBUG</code> bedingt aktiviert werden.</p>
+</div>
+<p>Wenn Sie alle in Express verwendeten internen Protokolle anzeigen wollen, legen Sie beim Starten Ihrer Anwendung die Umgebungsvariable <code>DEBUG</code> auf <code>express:*</code> fest.</p>
+<pre>
+<code class="language-sh" translate="no">
+$ DEBUG=express:* node index.js
+</code>
+</pre>
+<p>Verwenden Sie unter Windows den entsprechenden Befehl.</p>
+<pre>
+<code class="language-sh" translate="no">
+> set DEBUG=express:* & node index.js
+</code>
+</pre>
+<p>Die Ausführung dieses Befehls für die durch <a href="/%7B%7B%20page.lang%20%7D%7D/starter/generator.html">express generator</a> generierte Standardanwendung resultiert in folgender Ausgabe:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ DEBUG=express:* node ./bin/www
+  express:router:route new / +0ms
+  express:router:layer new / +1ms
+  express:router:route get / +1ms
+  express:router:layer new / +0ms
+  express:router:route new / +1ms
+  express:router:layer new / +0ms
+  express:router:route get / +0ms
+  express:router:layer new / +0ms
+  express:application compile etag weak +1ms
+  express:application compile query parser extended +0ms
+  express:application compile trust proxy false +0ms
+  express:application booting in development mode +1ms
+  express:router use / query +0ms
+  express:router:layer new / +0ms
+  express:router use / expressInit +0ms
+  express:router:layer new / +0ms
+  express:router use / favicon +1ms
+  express:router:layer new / +0ms
+  express:router use / logger +0ms
+  express:router:layer new / +0ms
+  express:router use / jsonParser +0ms
+  express:router:layer new / +1ms
+  express:router use / urlencodedParser +0ms
+  express:router:layer new / +0ms
+  express:router use / cookieParser +0ms
+  express:router:layer new / +0ms
+  express:router use / stylus +90ms
+  express:router:layer new / +0ms
+  express:router use / serveStatic +0ms
+  express:router:layer new / +0ms
+  express:router use / router +0ms
+  express:router:layer new / +1ms
+  express:router use /users router +0ms
+  express:router:layer new /users +0ms
+  express:router use / &lt;anonymous&gt; +0ms
+  express:router:layer new / +0ms
+  express:router use / &lt;anonymous&gt; +0ms
+  express:router:layer new / +0ms
+  express:router use / &lt;anonymous&gt; +0ms
+  express:router:layer new / +0ms
+</code>
+</pre>
+<p>Bei einer Anforderung an die Anwendung sind die Protokolle im Express-Code angegeben:</p>
+<pre>
+<code class="language-sh" translate="no">
+  express:router dispatching GET / +4h
+  express:router query  : / +2ms
+  express:router expressInit  : / +0ms
+  express:router favicon  : / +0ms
+  express:router logger  : / +1ms
+  express:router jsonParser  : / +0ms
+  express:router urlencodedParser  : / +1ms
+  express:router cookieParser  : / +0ms
+  express:router stylus  : / +0ms
+  express:router serveStatic  : / +2ms
+  express:router router  : / +2ms
+  express:router dispatching GET / +1ms
+  express:view lookup "index.pug" +338ms
+  express:view stat "/projects/example/views/index.pug" +0ms
+  express:view render "/projects/example/views/index.pug" +1ms
+</code>
+</pre>
+<p>Wenn Sie nur die Protokolle von der Routerimplementierung sehen wollen, legen Sie den Wert für <code>DEBUG</code> auf <code>express:router</code> fest. Gleichermaßen gilt: Wenn Sie nur die Protokolle von der Anwendungsimplementierung sehen wollen, legen Sie den Wert für <code>DEBUG</code> auf <code>express:application</code> fest, usw.</p>
+<h2 id="von-express-generierte-anwendungen">Von <code>express</code> generierte Anwendungen</h2>
+<p>Eine über den Befehl <code>express</code> generierte Anwendung verwendet ebenfalls das Modul <code>debug</code>. Der Debug-Namespace wird auf den Namen der Anwendung erweitert.</p>
+<p>Beispiel: Wenn Sie die Anwendung mit <code>$ express sample-app</code> generiert haben, können Sie die Debuganweisungen mit dem folgenden Befehl aktivieren:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ DEBUG=sample-app:* node ./bin/www
+</code>
+</pre>
+<p>Sie können mehrere Debug-Namespaces in einer durch Kommas getrennten Namensliste angeben:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ DEBUG=http,mail,express:* node index.js
+</code>
+</pre>
+<p>Weitere Informationen zu <code>debug</code> finden Sie unter <a href="https://www.npmjs.com/package/debug">debug</a>.</p>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Middleware für die Verwendung in Express-Anwendungen schreiben</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Middleware für die Verwendung in Express-Anwendungen schreiben</h1>
+</header>
+<h1 id="middleware-für-die-verwendung-in-express-anwendungen-schreiben">Middleware für die Verwendung in Express-Anwendungen schreiben</h1>
+<h2>
+Überblick
+</h2>
+<p><em>Middlewarefunktionen</em> sind Funktionen, die Zugriff auf das <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#req">Anforderungsobjekt</a> (<code>req</code>), das <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res">Antwortobjekt</a> (<code>res</code>) und die nächste Middlewarefunktion im Anforderung/Antwort-Zyklus der Anwendung haben. Die nächste Middlewarefunktion wird im Allgemeinen durch die Variable <code>next</code> bezeichnet.</p>
+<p>Über Middlewarefunktionen lassen sich die folgenden Tasks ausführen:</p>
+<ul>
+<li>Ausführen von Code</li>
+<li>Vornehmen von Änderungen an der Anforderung und an Antwortobjekten</li>
+<li>Beenden des Anforderung/Antwort-Zyklus</li>
+<li>Aufrufen der nächsten Middleware im Stack</li>
+</ul>
+<p>Wenn über die aktuelle Middlewarefunktion der Anforderung/Antwort-Zyklus nicht beendet werden kann, muss <code>next()</code> aufgerufen werden, um die Steuerung an die nächste Middlewarefunktion zu übergeben. Andernfalls geht die Anforderung in den Status “Blockiert” über.</p>
+<p>Das folgende Beispiel zeigt die Elemente eines Middlewarefunktionsaufrufs:</p>
+<table style="padding: 0; border: 0; width: 960px; margin-bottom: 10px;">
+<tr>
+<td style="margin: 0; padding: 0px; border: 0; width: 410px;">
+<img src="/images/express-mw.png" style="margin: 0px; padding: 0px; width: 410px; height: 308px;" />
+</td>
+<td style="margin: 0; padding: 0 0 0 5px; border: 0; width: 550px;">
+<div id="callout1" class="callout">
+HTTP-Methode, für die die Middlewarefunktion angewendet wird.
+</div>
+<div id="callout2" class="callout">
+Pfad (Weiterleitung), für den die Middlewarefunktion angewendet wird.
+</div>
+<div id="callout3" class="callout">
+Die Middlewarefunktion.
+</div>
+<div id="callout4" class="callout">
+Callback-Argument zur Middlewarefunktion, die nach der geltenden Konvention als “next” bezeichnet wird.
+</div>
+<div id="callout5" class="callout">
+HTTP-<a href="../4x/api.html#res">Antwort</a>argument zur Middlewarefunktion, die nach der geltenden Konvention als “res” bezeichnet wird.
+</div>
+<div id="callout6" class="callout">
+HTTP-<a href="../4x/api.html#req">Anforderungs</a>argument zur Middlewarefunktion, die nach der geltenden Konvention als “req” bezeichnet wird.
+</div>
+</td>
+</tr>
+</table>
+<p>Dies ist ein Beispiel einer einfachen Express-Anwendung namens “Hello World”, für die Sie zwei Middlewarefunktionen definieren:</p>
+<pre><code class="language-javascript" translate="no">
+var express = require('express');
+var app = express();
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+app.listen(3000);
+</code></pre>
+<h2>
+Entwicklung
+</h2>
+<p>Dies ist ein einfaches Beispiel einer Middlewarefunktion namens “myLogger”. Diese Funktion gibt lediglich “LOGGED” aus, wenn eine Anforderung zur Anwendung über diese Funktion läuft. Die Middlewarefunktion ist der Variablen <code>myLogger</code> zugeordnet.</p>
+<pre>
+<code class="language-javascript" translate="no">
+var myLogger = function (req, res, next) {
+  console.log('LOGGED');
+  next();
+};
+</code>
+</pre>
+<div class="doc-box doc-notice" data-markdown="1">
+<p>Beachten Sie den Aufruf oben zu <code>next()</code>. Durch den Aufruf dieser Funktion wird die nächste Middlewarefunktion in der Anwendung aufgerufen. Die Funktion <code>next()</code> ist nicht Teil der Node.js- oder Express-API, sondern das dritte Argument, das an die Middlewarefunktion übergeben wird. Die Funktion <code>next()</code> kann jeden beliebigen Namen haben, per Konvention erhält sie jedoch immer den Namen “next”. Um Unklarheiten zu vermeiden, sollten Sie immer diese Konvention verwenden.</p>
+</div>
+<p>Zum Laden der Middlewarefunktion rufen Sie <code>app.use()</code> auf und geben die Middlewarefunktion an. Beispiel: Durch den folgenden Code wird die Middlewarefunktion <code>myLogger</code> vor der Weiterleitung zum Stammverzeichnispfad (/) geladen.</p>
+<pre>
+<code class="language-javascript" translate="no">
+var express = require('express');
+var app = express();
+
+var myLogger = function (req, res, next) {
+  console.log('LOGGED');
+  next();
+};
+
+app.use(myLogger);
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+app.listen(3000);
+</code>
+</pre>
+<p>Sobald die Anwendung eine Anforderung erhält, gibt sie die Nachricht “LOGGED” an das Terminal aus.</p>
+<p>Die Reihenfolge beim Laden der Middleware ist wichtig: Middlewarefunktionen, die zuerst geladen werden, werden auch zuerst ausgeführt.</p>
+<p>Wenn <code>myLogger</code> nach der Weiterleitung zum Stammverzeichnispfad geladen wird, erreicht die Weiterleitung die Middlewarefunktion nicht. Die Anwendung gibt “LOGGED” nicht aus, weil der Routenhandler für den Stammverzeichnispfad den Anforderung/Antwort-Zyklus beendet.</p>
+<p>Die Middlewarefunktion <code>myLogger</code> gibt einfach eine Nachricht aus und übergibt dann die Anforderung zur nächsten Middlewarefunktion im Stack durch Aufruf der Funktion <code>next()</code>.</p>
+<p>Im nächsten Beispiel wird die Eigenschaft <code>requestTime</code> zum Anforderungsobjekt hinzugefügt. Diese Middlewarefunktion erhält den Namen “requestTime”.</p>
+<pre>
+<code class="language-javascript" translate="no">
+var requestTime = function (req, res, next) {
+  req.requestTime = Date.now();
+  next();
+};
+</code>
+</pre>
+<p>Die Anwendung verwendet nun die Middlewarefunktion <code>requestTime</code>. Außerdem verwendet die Callback-Funktion der Weiterleitung zum Stammverzeichnispfad die Eigenschaft, die die Middlewarefunktion zu <code>req</code> (dem Anforderungsobjekt) hinzufügt.</p>
+<pre>
+<code class="language-javascript" translate="no">
+var express = require('express');
+var app = express();
+
+var requestTime = function (req, res, next) {
+  req.requestTime = Date.now();
+  next();
+};
+
+app.use(requestTime);
+
+app.get('/', function (req, res) {
+  var responseText = 'Hello World!<br>';
+  responseText += '<small>Requested at: ' + req.requestTime + '</small>';
+  res.send(responseText);
+});
+
+app.listen(3000);
+</code>
+</pre>
+<p>Wenn Sie eine Anforderung zum Stammverzeichnis der Anwendung einleiten, zeigt die Anwendung nun die Zeitmarke Ihrer Anforderung im Browser an.</p>
+<p>Da Sie Zugriff auf das Anforderungsobjekt, das Antwortobjekt, die nächste Middlewarefunktion im Stack und die gesamte Node.js-API haben, sind die Möglichkeiten, die Sie mit Middlewarefunktionen haben, nahezu unendlich.</p>
+<p>Weitere Informationen zur Verwendung von Middleware in Express siehe <a href="/%7B%7B%20page.lang%20%7D%7D/guide/using-middleware.html">Express-Middleware verwenden</a>.</p>
+</body>
+</html>

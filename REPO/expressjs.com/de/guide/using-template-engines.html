@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Template-Engines in Express verwenden</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Template-Engines in Express verwenden</h1>
+</header>
+<h1 id="template-engines-in-express-verwenden">Template-Engines in Express verwenden</h1>
+<p>Bevor über Express Vorlagendateien ausgegeben werden können, müssen die folgenden Anwendungseinstellungen festgelegt werden:</p>
+<ul>
+<li><code>views</code>, das Verzeichnis, in dem sich die Vorlagendateien befinden. Beispiel: <code>app.set('views', './views')</code></li>
+<li><code>view engine</code>, die zu verwendende Template-Engine. Beispiel: <code>app.set('view engine', 'pug')</code></li>
+</ul>
+<p>Installieren Sie dann das entsprechende npm-Paket für die Template-Engine:</p>
+<pre>
+<code class="language-sh" translate="no">
+$ npm install pug --save
+</code>
+</pre>
+<div class="doc-box doc-notice" data-markdown="1">
+<p>Express-konforme Template-Engines wie Pug exportieren eine Funktion namens <code>__express(filePath, options, callback)</code>, die über die Funktion <code>res.render()</code> aufgerufen wird, um den Vorlagencode ausgeben zu können. Einige Template-Engines folgen dieser Konvention nicht. Die Bibliothek <a href="https://www.npmjs.org/package/consolidate">Consolidate.js</a> folgt dieser Konvention, indem alle gängigen Node.js-Template-Engines zugeordnet werden. Daher ist eine reibungslose Funktion in Express gewährleistet.</p>
+</div>
+<p>Nach der Festlegung der View-Engine muss die Engine nicht angegeben oder das Template-Engine-Modul nicht in Ihre Anwendung geladen werden. Express lädt das Modul intern (wie unten für das obige Beispiel gezeigt).</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.set('view engine', 'pug');
+</code>
+</pre>
+<p>Erstellen Sie eine Pug-Vorlagendatei namens <code>index.pug</code> im Verzeichnis <code>views</code> mit dem folgenden Inhalt:</p>
+<pre>
+<code class="language-javascript" translate="no">
+html
+  head
+    title= title
+  body
+    h1= message
+</code>
+</pre>
+<p>Dann erstellen Sie eine Weiterleitung, um die Datei <code>index.pug</code> auszugeben. Wenn die Eigenschaft <code>view engine</code> nicht festgelegt wurde, müssen Sie die Erweiterung der Datei <code>view</code> angeben. Andernfalls müssen Sie diese Erweiterung nicht angeben.</p>
+<pre>
+<code class="language-javascript" translate="no">
+app.get('/', function (req, res) {
+  res.render('index', { title: 'Hey', message: 'Hello there!'});
+});
+</code>
+</pre>
+<p>Wenn Sie eine Anforderung zur Homepage ausführen, wird die Datei <code>index.pug</code> im HTML-Format ausgegeben.</p>
+<p>Weitere Informationen zur Funktionsweise von Template-Engines in Express siehe <a href="/%7B%7B%20page.lang%20%7D%7D/advanced/developing-template-engines.html">“Template-Engines für Express entwickeln”</a>.</p>
+</body>
+</html>
