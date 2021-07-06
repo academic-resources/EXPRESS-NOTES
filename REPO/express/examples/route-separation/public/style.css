@@ -3,18 +3,18 @@ body {
   font: 14px "Helvetica Neue", Arial, sans-serif;
 }
 a {
-  color: #00AEFF;
+  color: #00aeff;
   text-decoration: none;
 }
 a.edit {
   color: #000;
-  opacity: .3;
+  opacity: 0.3;
 }
 a.edit::before {
-  content: ' [';
+  content: " [";
 }
 a.edit::after {
-  content: ']';
+  content: "]";
 }
 dt {
   font-weight: bold;

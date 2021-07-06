@@ -2,24 +2,24 @@
  * Module dependencies.
  */
 
-var escapeHtml = require('escape-html')
-var express = require('../../lib/express');
+var escapeHtml = require("escape-html");
+var express = require("../../lib/express");
 
-var verbose = process.env.NODE_ENV !== 'test'
+var verbose = process.env.NODE_ENV !== "test";
 
-var app = module.exports = express();
+var app = (module.exports = express());
 
-app.map = function(a, route){
-  route = route || '';
+app.map = function (a, route) {
+  route = route || "";
   for (var key in a) {
     switch (typeof a[key]) {
       // { '/path': { ... }}
-      case 'object':
+      case "object":
         app.map(a[key], route + key);
         break;
       // get: function(){ ... }
-      case 'function':
-        if (verbose) console.log('%s %s', key, route);
+      case "function":
+        if (verbose) console.log("%s %s", key, route);
         app[key](route, a[key]);
         break;
     }
@@ -27,47 +27,52 @@ app.map = function(a, route){
 };
 
 var users = {
-  list: function(req, res){
-    res.send('user list');
+  list: function (req, res) {
+    res.send("user list");
   },
 
-  get: function(req, res){
-    res.send('user ' +  escapeHtml(req.params.uid))
+  get: function (req, res) {
+    res.send("user " + escapeHtml(req.params.uid));
   },
 
-  delete: function(req, res){
-    res.send('delete users');
-  }
+  delete: function (req, res) {
+    res.send("delete users");
+  },
 };
 
 var pets = {
-  list: function(req, res){
-    res.send('user ' + escapeHtml(req.params.uid) + '\'s pets')
+  list: function (req, res) {
+    res.send("user " + escapeHtml(req.params.uid) + "'s pets");
   },
 
-  delete: function(req, res){
-    res.send('delete ' + escapeHtml(req.params.uid) + '\'s pet ' + escapeHtml(req.params.pid))
-  }
+  delete: function (req, res) {
+    res.send(
+      "delete " +
+        escapeHtml(req.params.uid) +
+        "'s pet " +
+        escapeHtml(req.params.pid)
+    );
+  },
 };
 
 app.map({
-  '/users': {
+  "/users": {
     get: users.list,
     delete: users.delete,
-    '/:uid': {
+    "/:uid": {
       get: users.get,
-      '/pets': {
+      "/pets": {
         get: pets.list,
-        '/:pid': {
-          delete: pets.delete
-        }
-      }
-    }
-  }
+        "/:pid": {
+          delete: pets.delete,
+        },
+      },
+    },
+  },
 });
 
 /* istanbul ignore next */
 if (!module.parent) {
   app.listen(3000);
-  console.log('Express started on port 3000');
+  console.log("Express started on port 3000");
 }

@@ -114,6 +114,7 @@ is ready when all proposed code, tests and documentation updates are complete
 In the patch flow: skip this step.
 
 In the non-patch flow:
+
 ```sh
 $ git checkout <release-branch>
 $ git merge --ff-only <proposal-branch>
@@ -123,8 +124,8 @@ $ git merge --ff-only <proposal-branch>
 <proposal-branch> - see "Proposal branch" of "Non-patch flow" above.
 
 **NOTE:** You may need to rebase the proposal branch to allow a fast-forward
-          merge. Using a fast-forward merge keeps the history clean as it does
-          not introduce merge commits.
+merge. Using a fast-forward merge keeps the history clean as it does
+not introduce merge commits.
 
 ### Step 3. Update the History.md and package.json to the new version number
 
@@ -183,4 +184,4 @@ $ npm publish
 ```
 
 **NOTE:** The version number to publish will be picked up automatically from
-          package.json.
+package.json.

@@ -1,19 +1,18 @@
-
 /**
  * Module dependencies.
  * @private
  */
 
-var assert = require('assert');
-var Buffer = require('safe-buffer').Buffer
+var assert = require("assert");
+var Buffer = require("safe-buffer").Buffer;
 
 /**
  * Module exports.
  * @public
  */
 
-exports.shouldHaveBody = shouldHaveBody
-exports.shouldNotHaveBody = shouldNotHaveBody
+exports.shouldHaveBody = shouldHaveBody;
+exports.shouldNotHaveBody = shouldNotHaveBody;
 exports.shouldNotHaveHeader = shouldNotHaveHeader;
 
 /**
@@ -23,14 +22,12 @@ exports.shouldNotHaveHeader = shouldNotHaveHeader;
  * @returns {function}
  */
 
-function shouldHaveBody (buf) {
+function shouldHaveBody(buf) {
   return function (res) {
-    var body = !Buffer.isBuffer(res.body)
-      ? Buffer.from(res.text)
-      : res.body
-    assert.ok(body, 'response has body')
-    assert.strictEqual(body.toString('hex'), buf.toString('hex'))
-  }
+    var body = !Buffer.isBuffer(res.body) ? Buffer.from(res.text) : res.body;
+    assert.ok(body, "response has body");
+    assert.strictEqual(body.toString("hex"), buf.toString("hex"));
+  };
 }
 
 /**
@@ -39,10 +36,10 @@ function shouldHaveBody (buf) {
  * @returns {function}
  */
 
-function shouldNotHaveBody () {
+function shouldNotHaveBody() {
   return function (res) {
-    assert.ok(res.text === '' || res.text === undefined)
-  }
+    assert.ok(res.text === "" || res.text === undefined);
+  };
 }
 
 /**
@@ -53,6 +50,9 @@ function shouldNotHaveBody () {
  */
 function shouldNotHaveHeader(header) {
   return function (res) {
-    assert.ok(!(header.toLowerCase() in res.headers), 'should not have header ' + header);
+    assert.ok(
+      !(header.toLowerCase() in res.headers),
+      "should not have header " + header
+    );
   };
 }

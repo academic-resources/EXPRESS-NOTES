@@ -1,60 +1,50 @@
+var express = require("../"),
+  request = require("supertest");
 
-var express = require('../')
-  , request = require('supertest')
-
-describe('req', function(){
-  describe('.param(name, default)', function(){
-    it('should use the default value unless defined', function(done){
+describe("req", function () {
+  describe(".param(name, default)", function () {
+    it("should use the default value unless defined", function (done) {
       var app = express();
 
-      app.use(function(req, res){
-        res.end(req.param('name', 'tj'));
+      app.use(function (req, res) {
+        res.end(req.param("name", "tj"));
       });
 
-      request(app)
-      .get('/')
-      .expect('tj', done);
-    })
-  })
+      request(app).get("/").expect("tj", done);
+    });
+  });
 
-  describe('.param(name)', function(){
-    it('should check req.query', function(done){
+  describe(".param(name)", function () {
+    it("should check req.query", function (done) {
       var app = express();
 
-      app.use(function(req, res){
-        res.end(req.param('name'));
+      app.use(function (req, res) {
+        res.end(req.param("name"));
       });
 
-      request(app)
-      .get('/?name=tj')
-      .expect('tj', done);
-    })
+      request(app).get("/?name=tj").expect("tj", done);
+    });
 
-    it('should check req.body', function(done){
+    it("should check req.body", function (done) {
       var app = express();
 
-      app.use(express.json())
+      app.use(express.json());
 
-      app.use(function(req, res){
-        res.end(req.param('name'));
+      app.use(function (req, res) {
+        res.end(req.param("name"));
       });
 
-      request(app)
-      .post('/')
-      .send({ name: 'tj' })
-      .expect('tj', done);
-    })
+      request(app).post("/").send({ name: "tj" }).expect("tj", done);
+    });
 
-    it('should check req.params', function(done){
+    it("should check req.params", function (done) {
       var app = express();
 
-      app.get('/user/:name', function(req, res){
-        res.end(req.param('filter') + req.param('name'));
+      app.get("/user/:name", function (req, res) {
+        res.end(req.param("filter") + req.param("name"));
       });
 
-      request(app)
-      .get('/user/tj')
-      .expect('undefinedtj', done);
-    })
-  })
-})
+      request(app).get("/user/tj").expect("undefinedtj", done);
+    });
+  });
+});

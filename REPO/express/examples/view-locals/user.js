@@ -8,17 +8,17 @@ function User(name, age, species) {
   this.species = species;
 }
 
-User.all = function(fn){
+User.all = function (fn) {
   // process.nextTick makes sure this function API
   // behaves in an asynchronous manner, like if it
   // was a real DB query to read all users.
-  process.nextTick(function(){
+  process.nextTick(function () {
     fn(null, users);
   });
 };
 
-User.count = function(fn){
-  process.nextTick(function(){
+User.count = function (fn) {
+  process.nextTick(function () {
     fn(null, users.length);
   });
 };
@@ -27,8 +27,8 @@ User.count = function(fn){
 
 var users = [];
 
-users.push(new User('Tobi', 2, 'ferret'));
-users.push(new User('Loki', 1, 'ferret'));
-users.push(new User('Jane', 6, 'ferret'));
-users.push(new User('Luna', 1, 'cat'));
-users.push(new User('Manny', 1, 'cat'));
+users.push(new User("Tobi", 2, "ferret"));
+users.push(new User("Loki", 1, "ferret"));
+users.push(new User("Jane", 6, "ferret"));
+users.push(new User("Luna", 1, "cat"));
+users.push(new User("Manny", 1, "cat"));

@@ -19,6 +19,7 @@ applicable badges, such as npm version/downloads, build status, test coverage,
 and so on. Badges should resolve properly (not display a broken image).
 
 Possible badges include:
+
 - npm version: `[![NPM Version][npm-image]][npm-url]`
 - npm downloads: `[![NPM Downloads][downloads-image]][downloads-url]`
 - Build status: `[![Build Status][travis-image]][travis-url]`
@@ -39,7 +40,7 @@ a TOC.
 
 Optionally, include a section of one or two paragraphs with more high-level
 information on what the module does, what problems it solves, why one would
-use it and how.  Don't just repeat what's in the summary.
+use it and how. Don't just repeat what's in the summary.
 
 ## Installation
 
@@ -80,9 +81,9 @@ For arguments that are objects (for example, options object), describe the
 properties in a table, as follows. This matches the formatting used in the
 [Express API docs](https://expressjs.com/en/4x/api.html).
 
-|Property | Description | Type | Default|
-|----------|-----------|------------|-------------|
-|Name of the property in `monospace`. | Brief description | String, Number, Boolean, etc. | If applicable.|
+| Property                             | Description       | Type                          | Default        |
+| ------------------------------------ | ----------------- | ----------------------------- | -------------- |
+| Name of the property in `monospace`. | Brief description | String, Number, Boolean, etc. | If applicable. |
 
 If all the properties are required (i.e. there are no defaults), then you
 can omit the default column.
@@ -96,7 +97,7 @@ tables. See [`trust proxy` and `etag` properties](https://expressjs.com/en/4x/ap
 
 ## Examples
 
-Every README should have at least one example; ideally more.  For code samples,
+Every README should have at least one example; ideally more. For code samples,
 be sure to use the `js` code block, for proper display in the website, e.g.:
 
 ```js

@@ -8,7 +8,7 @@ For more information, see the [routing guide](/guide/routing.html).
 #### Example
 
 ```js
-app.delete('/', function (req, res) {
-  res.send('DELETE request to homepage')
-})
+app.delete("/", function (req, res) {
+  res.send("DELETE request to homepage");
+});
 ```
