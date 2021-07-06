@@ -4,6 +4,7 @@ title: Error handling v Express-e
 menu: guide
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -94,7 +95,7 @@ function errorHandler(err, req, res, next) {
 
 Ak do funkcie `next()` predáte čokoľvek (okrem stringu `'route'`), Express bude považovať toto volanie ako error a automaticky preskočí všetky zostávajúce non-error middleware funkcie. Ak potrebujete tento error spracovať špeciálne, budete musieť vytvoriť error-handling route, ako je popísane v ďalšej sekcii.
 
-Ak váš route handler obsahuje viacero callback funkcií, môžete k preskočeniu na ďalší route handler v poradí použiť parameter `route`.  Napr.:
+Ak váš route handler obsahuje viacero callback funkcií, môžete k preskočeniu na ďalší route handler v poradí použiť parameter `route`. Napr.:
 
 <pre>
 <code class="language-javascript" translate="no">

@@ -7,17 +7,17 @@
  * MIT Licensed
  */
 
-'use strict'
+"use strict";
 
 /**
  * Module dependencies.
  */
 
-var debug = require('debug')('method-override')
-var methods = require('methods')
-var parseurl = require('parseurl')
-var querystring = require('querystring')
-var vary = require('vary')
+var debug = require("debug")("method-override");
+var methods = require("methods");
+var parseurl = require("parseurl");
+var querystring = require("querystring");
+var vary = require("vary");
 
 /**
  * Method Override:
@@ -41,104 +41,101 @@ var vary = require('vary')
  * @api public
  */
 
-module.exports = function methodOverride (getter, options) {
-  var opts = options || {}
+module.exports = function methodOverride(getter, options) {
+  var opts = options || {};
 
   // get the getter fn
-  var get = typeof getter === 'function'
-    ? getter
-    : createGetter(getter || 'X-HTTP-Method-Override')
+  var get =
+    typeof getter === "function"
+      ? getter
+      : createGetter(getter || "X-HTTP-Method-Override");
 
   // get allowed request methods to examine
-  var methods = opts.methods === undefined
-    ? ['POST']
-    : opts.methods
+  var methods = opts.methods === undefined ? ["POST"] : opts.methods;
 
-  return function methodOverride (req, res, next) {
-    var method
-    var val
+  return function methodOverride(req, res, next) {
+    var method;
+    var val;
 
-    req.originalMethod = req.originalMethod || req.method
+    req.originalMethod = req.originalMethod || req.method;
 
     // validate request is an allowed method
     if (methods && methods.indexOf(req.originalMethod) === -1) {
-      return next()
+      return next();
     }
 
-    val = get(req, res)
-    method = Array.isArray(val)
-      ? val[0]
-      : val
+    val = get(req, res);
+    method = Array.isArray(val) ? val[0] : val;
 
     // replace
     if (method !== undefined && supports(method)) {
-      req.method = method.toUpperCase()
-      debug('override %s as %s', req.originalMethod, req.method)
+      req.method = method.toUpperCase();
+      debug("override %s as %s", req.originalMethod, req.method);
     }
 
-    next()
-  }
-}
+    next();
+  };
+};
 
 /**
  * Create a getter for the given string.
  */
 
-function createGetter (str) {
-  if (str.substr(0, 2).toUpperCase() === 'X-') {
+function createGetter(str) {
+  if (str.substr(0, 2).toUpperCase() === "X-") {
     // header getter
-    return createHeaderGetter(str)
+    return createHeaderGetter(str);
   }
 
-  return createQueryGetter(str)
+  return createQueryGetter(str);
 }
 
 /**
  * Create a getter for the given query key name.
  */
 
-function createQueryGetter (key) {
+function createQueryGetter(key) {
   return function (req, res) {
-    var url = parseurl(req)
-    var query = querystring.parse(url.query || '')
-    return query[key]
-  }
+    var url = parseurl(req);
+    var query = querystring.parse(url.query || "");
+    return query[key];
+  };
 }
 
 /**
  * Create a getter for the given header name.
  */
 
-function createHeaderGetter (str) {
-  var name = str.toLowerCase()
+function createHeaderGetter(str) {
+  var name = str.toLowerCase();
 
   return function (req, res) {
     // set appropriate Vary header
-    vary(res, str)
+    vary(res, str);
 
     // get header
-    var header = req.headers[name]
+    var header = req.headers[name];
 
     if (!header) {
-      return undefined
+      return undefined;
     }
 
     // multiple headers get joined with comma by node.js core
-    var index = header.indexOf(',')
+    var index = header.indexOf(",");
 
     // return first value
-    return index !== -1
-      ? header.substr(0, index).trim()
-      : header.trim()
-  }
+    return index !== -1 ? header.substr(0, index).trim() : header.trim();
+  };
 }
 
 /**
  * Check if node supports `method`.
  */
 
-function supports (method) {
-  return method &&
-    typeof method === 'string' &&
+function supports(method) {
+  return (
+    method &&
+    typeof method === "string" &&
     methods.indexOf(method.toLowerCase()) !== -1
+  );
 }

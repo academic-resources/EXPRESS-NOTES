@@ -8,38 +8,39 @@ Building on the `router.param()` example above, the following code shows how to 
 `router.route()` to specify various HTTP method handlers.
 
 ```js
-const router = express.Router()
+const router = express.Router();
 
-router.param('user_id', function (req, res, next, id) {
+router.param("user_id", function (req, res, next, id) {
   // sample user, would actually fetch from DB, etc...
   req.user = {
     id: id,
-    name: 'TJ'
-  }
-  next()
-})
+    name: "TJ",
+  };
+  next();
+});
 
-router.route('/users/:user_id')
+router
+  .route("/users/:user_id")
   .all(function (req, res, next) {
-  // runs for all HTTP verbs first
-  // think of it as route specific middleware!
-    next()
+    // runs for all HTTP verbs first
+    // think of it as route specific middleware!
+    next();
   })
   .get(function (req, res, next) {
-    res.json(req.user)
+    res.json(req.user);
   })
   .put(function (req, res, next) {
-  // just an example of maybe updating the user
-    req.user.name = req.params.name
+    // just an example of maybe updating the user
+    req.user.name = req.params.name;
     // save user ... etc
-    res.json(req.user)
+    res.json(req.user);
   })
   .post(function (req, res, next) {
-    next(new Error('not implemented'))
+    next(new Error("not implemented"));
   })
   .delete(function (req, res, next) {
-    next(new Error('not implemented'))
-  })
+    next(new Error("not implemented"));
+  });
 ```
 
 This approach re-uses the single `/users/:user_id` path and adds handlers for

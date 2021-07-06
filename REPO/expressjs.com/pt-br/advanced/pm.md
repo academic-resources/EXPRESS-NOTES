@@ -7,9 +7,8 @@ lang: pt-br
 
 # Gerenciadores de processos para aplicativos do Express
 
-Ao executar aplicativos do Express para produção, é útil usar um *gerenciador de processos* para completar as
+Ao executar aplicativos do Express para produção, é útil usar um _gerenciador de processos_ para completar as
 seguintes tarefas:
-
 
 - Reiniciar o aplicativo automaticamente se cair.
 - Ganhe insights sobre o desempenho em tempo de execução e o consumo de recursos.
@@ -28,14 +27,12 @@ Os gerenciadores de processos mais populares para o Express e outros aplicativos
 - [PM2](#pm2)
 - [Forever](#forever)
 
-
 Usar qualquer uma dessas três ferramentas pode ser muito útil,
 entretanto o StrongLoop Process Manager é a única ferramenta que
 fornece uma solução abrangente de tempo de execução e implementação
 que é atende ao ciclo de vida completo de aplicativos do Node.js, com
 ferramentas para todas as etapas antes e depois da produção, em uma
 interface unificada.
-
 
 Aqui está uma breve visão de cada uma dessas ferramentas.
 Para obter uma comparação detalhada, consulte [http://strong-pm.io/compare/](http://strong-pm.io/compare/).
@@ -50,12 +47,11 @@ hosts integrada, e um console gráfico.
 
 - Construir, empacotar, e implementar aplicativos do Node.js para um sistema local ou remoto.
 - Visualizar perfis de CPU e captura instantânea de heap para
-otimizar o desempenho e diagnosticar fugas de memória.
+  otimizar o desempenho e diagnosticar fugas de memória.
 - Manter processos e clusters ativos para sempre.
 - Visualizar métricas de desempenho no seu aplicativo.
 - Facilmente gerenciar implementações em múltiplos hosts com a integração com o Nginx.
 - Unificar vários StrongLoop PMs para um tempo de execução de microsserviços distribuído que é gerenciado a partir de um Arc.
-
 
 É possível trabalhar com o StrongLoop PM usando uma poderosa
 ferramenta de interface da linha de comandos chamada
@@ -70,6 +66,7 @@ Documentação completa:
 - [Usando o StrongLoop Process Manager](http://docs.strongloop.com/display/SLC/Using+Process+Manager).
 
 ### Instalação
+
 <pre>
 <code class="language-sh" translate="no">
 $ [sudo] npm install -g strongloop
@@ -77,6 +74,7 @@ $ [sudo] npm install -g strongloop
 </pre>
 
 ### Uso Básico
+
 <pre>
 <code class="language-sh" translate="no">
 $ cd my-app
@@ -136,7 +134,6 @@ $ slc ctl restart my-app
 processos de trabalho um período de tolerância para fechar conexões
 existentes, e em seguida reiniciar o aplicativo atual:
 
-
 <pre>
 <code class="language-sh" translate="no">
 $ slc ctl soft-restart my-app
@@ -157,9 +154,8 @@ O PM2 é um gerenciador de processos de produção para aplicativos do Node.js,
 que possui um balanceador de carga integrado. O PM2 permite manter os
 aplicativos ativos para sempre e recarregá-los sem tempo de
 inatividade, e facilitará tarefas comuns de administração de
-sistemas. O PM2 também permite que você gerencie  o registro de logs,
+sistemas. O PM2 também permite que você gerencie o registro de logs,
 o monitoramento, e a clusterização do aplicativo.
-
 
 Para obter mais informações, consulte: [https://github.com/Unitech/pm2](https://github.com/Unitech/pm2).
 
@@ -177,7 +173,6 @@ Ao iniciar um aplicativo usando o comando
 `pm2`, você deve especificar o caminho do aplicativo. No
 entanto, ao parar, reiniciar, ou excluir um aplicativo, é possível
 especificar apenas o nome ou o id do aplicativo.
-
 
 <pre>
 <code class="language-sh" translate="no">
@@ -242,7 +237,6 @@ $ pm2 delete 0
 </code>
 </pre>
 
-
 ## <a id="forever">Forever</a>
 
 Forever é uma ferramenta simples de interface da linha de
@@ -250,7 +244,6 @@ comandos para assegurar que um dado script executa continuamente
 (para sempre). A interface simples do Forever torna-o ideal para a
 execução de implementações menores dos aplicativos e scripts do
 Node.js.
-
 
 Para obter mais informações, consulte: [https://github.com/foreverjs/forever](https://github.com/foreverjs/forever).
 
@@ -285,7 +278,6 @@ $ forever script.js
 É uma boa ideia registrar os logs da saída da ferramenta Forever e do script usando as opções de log `-l`,
 `-o`, e `-e`, como mostradas nesse exemplo:
 
-
 <pre>
 <code class="language-sh" translate="no">
 $ forever start -l forever.log -o out.log -e err.log script.js
@@ -302,8 +294,7 @@ $ forever list
 
 Para parar um script que foi iniciado pelo Forever use o
 comando `forever stop` e especifique o índice do
-processo (conforme listado pelo comando `forever
-list`).
+processo (conforme listado pelo comando `forever list`).
 
 <pre>
 <code class="language-sh" translate="no">
@@ -328,4 +319,3 @@ $ forever stopall
 </pre>
 
 O Forever possui muitas outras opções, e ele também fornece uma API programática.
-

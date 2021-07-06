@@ -1,60 +1,104 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Inštalácia Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Inštalácia Express</h1>
-</header>
-<!---
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Inštalácia Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Inštalácia Express</h1>
+    </header>
+    <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
 -->
-<h1 id="inštalácia">Inštalácia</h1>
-<p>Za predpokladu, že už máte nainštalovaný <a href="https://nodejs.org/">Node.js</a>, vytvorte priečinok pre vašu aplikáciu a presuňte sa tam.</p>
-<pre>
+    <h1 id="inštalácia">Inštalácia</h1>
+    <p>
+      Za predpokladu, že už máte nainštalovaný
+      <a href="https://nodejs.org/">Node.js</a>, vytvorte priečinok pre vašu
+      aplikáciu a presuňte sa tam.
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ mkdir myapp
 $ cd myapp
 </code>
 </pre>
-<p>Pomocou príkazu <code>npm init</code> vytvorte pre vašu aplikáciu súbor <code>package.json</code>. Viac informácií o tom, ako funguje <code>package.json</code> sa dozviete po prečítaní <a href="https://docs.npmjs.com/files/package.json">Specifics of npm’s package.json handling</a>.</p>
-<pre>
+    <p>
+      Pomocou príkazu <code>npm init</code> vytvorte pre vašu aplikáciu súbor
+      <code>package.json</code>. Viac informácií o tom, ako funguje
+      <code>package.json</code> sa dozviete po prečítaní
+      <a href="https://docs.npmjs.com/files/package.json"
+        >Specifics of npm’s package.json handling</a
+      >.
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm init
 </code>
 </pre>
-<p>Tento príkaz vás vyzve k zadaniu viacerých informácií, ako sú napr. názov a verzia vašej aplikácie. Teraz, kvôli zjednodušeniu, stlačte len ENTER k potvrdeniu defaultných hodnôt väčšiny z nich, okrem bodu:</p>
-<pre>
+    <p>
+      Tento príkaz vás vyzve k zadaniu viacerých informácií, ako sú napr. názov
+      a verzia vašej aplikácie. Teraz, kvôli zjednodušeniu, stlačte len ENTER k
+      potvrdeniu defaultných hodnôt väčšiny z nich, okrem bodu:
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 entry point: (index.js)
 </code>
 </pre>
-<p>Zadajte <code>app.js</code>, prípadne akýkoľvek iný názov hlavného súboru vašej aplikácie. Ak ho chcete nazvať <code>index.js</code>, stlačte ENTER k potvrdeniu navrhovaného názvu súboru.</p>
-<p>Teraz v <code>myapp</code> priečinku nainštalujte Express a pridajte ho ako dependenciu do package.json. Takto:</p>
-<pre>
+    <p>
+      Zadajte <code>app.js</code>, prípadne akýkoľvek iný názov hlavného súboru
+      vašej aplikácie. Ak ho chcete nazvať <code>index.js</code>, stlačte ENTER
+      k potvrdeniu navrhovaného názvu súboru.
+    </p>
+    <p>
+      Teraz v <code>myapp</code> priečinku nainštalujte Express a pridajte ho
+      ako dependenciu do package.json. Takto:
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install express --save
 </code>
 </pre>
-<p>Ak chcete nainštalovať Express bez toho, aby bol pridaný ako dependencia, vynechajte prepínač <code>--save</code></p>
-<pre>
+    <p>
+      Ak chcete nainštalovať Express bez toho, aby bol pridaný ako dependencia,
+      vynechajte prepínač <code>--save</code>
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install express
 </code>
 </pre>
-<div class="doc-box doc-info" data-markdown="1">
-<p>Node moduly inštalované s prepínačom <code>--save</code> sú automaticky pridané do <code>dependencies</code> zoznamu v súbore <code>package.json</code>. Následne spustením príkazu <code>npm install</code> v <code>app</code> priečinku sa všetky dependencie zo zoznamu automaticky nainštalujú.</p>
-</div>
-</body>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        Node moduly inštalované s prepínačom <code>--save</code> sú automaticky
+        pridané do <code>dependencies</code> zoznamu v súbore
+        <code>package.json</code>. Následne spustením príkazu
+        <code>npm install</code> v <code>app</code> priečinku sa všetky
+        dependencie zo zoznamu automaticky nainštalujú.
+      </p>
+    </div>
+  </body>
 </html>

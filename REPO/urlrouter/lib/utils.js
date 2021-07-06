@@ -27,35 +27,39 @@ function Router(url, strict) {
 
   var keys = [];
   this.source = url;
-  url = url.replace(/\//g, '\\/') // '/' => '\/'
-  .replace(/\./g, '\\.?') // '.' => '\.?'
-  .replace(/\*/g, '.+'); // '*' => '.+'
+  url = url
+    .replace(/\//g, "\\/") // '/' => '\/'
+    .replace(/\./g, "\\.?") // '.' => '\.?'
+    .replace(/\*/g, ".+"); // '*' => '.+'
 
-  // ':id' => ([^\/]+), 
-  // ':id?' => ([^\/]*), 
-  // ':id([0-9]+)' => ([0-9]+)+, 
-  // ':id([0-9]+)?' => ([0-9]+)* 
-  url = url.replace(/:(\w+)(?:\(([^\)]+)\))?(\?)?/g, function (all, name, rex, atLeastOne) {
-    keys.push(name);
-    if (!rex) {
-      rex = '[^\\/]' + (atLeastOne === '?' ? '*' : '+');
+  // ':id' => ([^\/]+),
+  // ':id?' => ([^\/]*),
+  // ':id([0-9]+)' => ([0-9]+)+,
+  // ':id([0-9]+)?' => ([0-9]+)*
+  url = url.replace(
+    /:(\w+)(?:\(([^\)]+)\))?(\?)?/g,
+    function (all, name, rex, atLeastOne) {
+      keys.push(name);
+      if (!rex) {
+        rex = "[^\\/]" + (atLeastOne === "?" ? "*" : "+");
+      }
+      return "(" + rex + ")";
     }
-    return '(' + rex + ')';
-  });
+  );
   // /user/:id => /user, /user/123
-  url = url.replace(/\\\/\(\[\^\\\/\]\*\)/g, '(?:\\/(\\w*))?');
+  url = url.replace(/\\\/\(\[\^\\\/\]\*\)/g, "(?:\\/(\\w*))?");
   this.keys = keys;
-  var re = '^' + url;
+  var re = "^" + url;
   if (!strict) {
-    re += '\\/?';
+    re += "\\/?";
   }
-  re += '$';
+  re += "$";
   this.rex = new RegExp(re);
 }
 
 /**
  * Try to match given pathname, if match, return the match `params`.
- * 
+ *
  * @param {String} pathname
  * @return {Object|null} match `params` or null.
  */

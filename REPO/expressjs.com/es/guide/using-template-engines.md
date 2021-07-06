@@ -9,8 +9,8 @@ lang: es
 
 Para que Express pueda representar archivos de plantilla, deben establecerse los siguientes valores de aplicación:
 
-* `views`, el directorio donde se encuentran los archivos de plantilla. Ejemplo: `app.set('views', './views')`
-* `view engine`, el motor de plantilla que se utiliza. Ejemplo: `app.set('view engine', 'pug')`
+- `views`, el directorio donde se encuentran los archivos de plantilla. Ejemplo: `app.set('views', './views')`
+- `view engine`, el motor de plantilla que se utiliza. Ejemplo: `app.set('view engine', 'pug')`
 
 A continuación, instale el paquete npm de motor de plantilla correspondiente:
 
@@ -24,6 +24,7 @@ $ npm install pug --save
 Los motores de plantilla compatibles con Express como, por ejemplo, Pug exportan una función denominada `__express(filePath, options, callback)`, que es invocada por la función `res.render()` para representar el código de plantilla.
 
 Algunos motores de plantilla no siguen esta convención. La biblioteca [Consolidate.js](https://www.npmjs.org/package/consolidate) sigue esta convención correlacionando todos los motores de plantilla de Node.js más conocidos, por lo que funciona de forma ininterrumpida en Express.
+
 </div>
 
 Una vez establecida la propiedad view engine, no tiene que especificar el motor ni cargar el módulo de motor de plantilla en la aplicación; Express carga el módulo internamente, como se muestra a continuación (para el ejemplo anterior).

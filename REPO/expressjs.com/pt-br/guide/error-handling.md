@@ -42,14 +42,12 @@ Repostas de dentro de uma função de middleware podem estar em
 qualquer formato que preferir, como uma página HTML de erros, uma
 mensagem simples, ou uma sequência de caracteres JSON.
 
-
 Para propósitos organizacionais (e estrutura de alto nível), é
 possível definir várias funções de middleware de manipulação de
 erros, de forma muito parecida como você faria com funções de
 middleware comuns. Por exemplo, se desejar definir um manipulador de
 erros para solicitações feitas usando o `XHR`, e
 aqueles sem, você pode usar os seguintes comandos:
-
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -81,7 +79,6 @@ Também neste exemplo, o `clientErrorHandler` é
 definido como segue; neste caso, o erro é explicitamente passado para
 o próximo:
 
-
 <pre>
 <code class="language-javascript" translate="no">
 function clientErrorHandler(err, req, res, next) {
@@ -95,7 +92,6 @@ function clientErrorHandler(err, req, res, next) {
 </pre>
 
 A função "catch-all" `errorHandler` pode ser implementada como segue:
-
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -113,7 +109,6 @@ ignorar quaisquer funções restantes de roteamento e middleware que
 não sejam de manipulação de erros. Se desejar manipular este erro de
 alguma forma, você terá que criar uma rota de manipulação de erros na
 próxima seção.
-
 
 Se você tiver um manipulador de rota com as funções de retorno
 de chamada é possível usar o parâmetro `route`
@@ -143,7 +138,6 @@ será ignorado mas qualquer manipulador remanescente no
 `/a_route_behind_paywall` continuariam sendo
 executados.
 
-
 <div class="doc-box doc-info" markdown="1">
 Chamadas para `next()` e `next(err)`
 indicam que o manipulador atual está completo e em qual estado.
@@ -159,13 +153,11 @@ de qualquer erro que possa ser encontrado no aplicativo. Essa função
 de middleware de manipulação de erros padrão é incluída no final da
 pilha de funções de middleware.
 
-
 se você passar um erro para o `next()` e você
 não manipulá-lo com um manipulador de erros, ele irá ser manipulado
 por um manipulador de erros integrado; o erro será escrito no cliente
 com o rastreio de pilha. O rastreio de pilha não será incluído no
 ambiente de produção.
-
 
 <div class="doc-box doc-info" markdown="1">
 Configura a variável de ambiente `NODE_ENV` para
@@ -178,11 +170,9 @@ inicializado escrevendo a resposta (por exemplo, se encontrar um erro
 enquanto passa a resposta ao cliente) o manipulador de erros padrão do
 Express fecha a conexão e falha a solicitação.
 
-
 Portanto ao incluir um manipulador de erro customizado, você
 desejará delegar para o mecanismo de manipulação de erros padrão no
 Express, quando os cabeçalhos já tiverem sido enviados para o cliente:
-
 
 <pre>
 <code class="language-javascript" translate="no">

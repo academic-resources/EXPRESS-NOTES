@@ -31,8 +31,8 @@ Express 4 中进行了若干重大更改：
 
 另请参阅：
 
-* [New features in 4.x](https://github.com/expressjs/express/wiki/New-features-in-4.x)。
-* [Migrating from 3.x to 4.x](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)。
+- [New features in 4.x](https://github.com/expressjs/express/wiki/New-features-in-4.x)。
+- [Migrating from 3.x to 4.x](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)。
 
 <h3 id="core-changes">
 对 Express 核心和中间件系统的更改。
@@ -109,8 +109,9 @@ app.use('/book/:id', function(req, res, next) {
 定义路由的方式并未改变，但是路由系统新增了两个功能，用于帮助组织路由：
 
 {: .doclist }
-* 一个新方法 `app.route()`，用于为路由路径创建可链接的路由处理程序。
-* 一个新类 `express.Router`，用于创建可安装的模块化路由处理程序。
+
+- 一个新方法 `app.route()`，用于为路由路径创建可链接的路由处理程序。
+- 一个新类 `express.Router`，用于创建可安装的模块化路由处理程序。
 
 <h4 id="app-route"><code>app.route()</code> 方法</h4>
 
@@ -495,6 +496,7 @@ $ node .
 $ npm uninstall -g express
 </code>
 </pre>
+
 根据您的文件和目录特权的配置方式，可能需要使用 `sudo` 来运行此命令。
 立即安装新的生成器：
 
@@ -506,7 +508,6 @@ $ npm install -g express-generator
 
 根据您的文件和目录特权的配置方式，可能需要使用 `sudo` 来运行此命令。
 
-
 现在，系统上的 `express` 命令已更新到 Express 4 生成器。
 
 <h3 id="">对应用程序生成器的更改</h3>
@@ -514,9 +515,10 @@ $ npm install -g express-generator
 命令选项和用法大体保持相同，但也存在以下例外：
 
 {: .doclist }
-* 已移除 `--sessions` 选项。
-* 已移除 `--jshtml` 选项。
-* 已添加 `--hogan` 选项来支持 [Hogan.js](http://twitter.github.io/hogan.js/)。
+
+- 已移除 `--sessions` 选项。
+- 已移除 `--jshtml` 选项。
+- 已添加 `--hogan` 选项来支持 [Hogan.js](http://twitter.github.io/hogan.js/)。
 
 <h3 id="">示例</h3>
 

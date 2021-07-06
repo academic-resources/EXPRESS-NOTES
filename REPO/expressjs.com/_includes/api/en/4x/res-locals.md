@@ -9,8 +9,8 @@ authenticated user, user settings, and so on.
 
 ```js
 app.use(function (req, res, next) {
-  res.locals.user = req.user
-  res.locals.authenticated = !req.user.anonymous
-  next()
-})
+  res.locals.user = req.user;
+  res.locals.authenticated = !req.user.anonymous;
+  next();
+});
 ```

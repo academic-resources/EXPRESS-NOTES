@@ -1,24 +1,42 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Gestione degli errori di Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Gestione degli errori di Express</h1>
-</header>
-<h1 id="gestione-degli-errori">Gestione degli errori</h1>
-<p>Definire le funzioni middleware di gestione degli errori nello stesso modo in cui si definiscono altre funzioni middleware, ad eccezione delle funzioni di gestione degli errori che hanno quattro argomenti invece di tre: <code>(err, req, res, next)</code>. Ad esempio:</p>
-<pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Gestione degli errori di Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Gestione degli errori di Express</h1>
+    </header>
+    <h1 id="gestione-degli-errori">Gestione degli errori</h1>
+    <p>
+      Definire le funzioni middleware di gestione degli errori nello stesso modo
+      in cui si definiscono altre funzioni middleware, ad eccezione delle
+      funzioni di gestione degli errori che hanno quattro argomenti invece di
+      tre: <code>(err, req, res, next)</code>. Ad esempio:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.use(function(err, req, res, next) {
   console.error(err.stack);
@@ -26,8 +44,11 @@ app.use(function(err, req, res, next) {
 });
 </code>
 </pre>
-<p>Si definisce il middleware di gestione degli errori per ultimo, successivamente <code>app.use()</code> e altre chiamate route; ad esempio:</p>
-<pre>
+    <p>
+      Si definisce il middleware di gestione degli errori per ultimo,
+      successivamente <code>app.use()</code> e altre chiamate route; ad esempio:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
@@ -39,9 +60,20 @@ app.use(function(err, req, res, next) {
 });
 </code>
 </pre>
-<p>Le risposte dall’interno delle funzione middleware possono essere in qualsiasi formato desiderato, ad esempio una pagina di errore HTML, un messaggio semplice o una stringa JSON.</p>
-<p>Per motivi organizzativi (e framework di livello più alto), è possibile definire diverse funzioni middleware di gestione degli errori, come solitamente si fa con le funzioni middleware normali. Ad esempio, se si desidera definire un programma di gestione errori per le richieste effettuate utilizzando <code>XHR</code> e quelle senza, è necessario utilizzare i seguenti comandi:</p>
-<pre>
+    <p>
+      Le risposte dall’interno delle funzione middleware possono essere in
+      qualsiasi formato desiderato, ad esempio una pagina di errore HTML, un
+      messaggio semplice o una stringa JSON.
+    </p>
+    <p>
+      Per motivi organizzativi (e framework di livello più alto), è possibile
+      definire diverse funzioni middleware di gestione degli errori, come
+      solitamente si fa con le funzioni middleware normali. Ad esempio, se si
+      desidera definire un programma di gestione errori per le richieste
+      effettuate utilizzando <code>XHR</code> e quelle senza, è necessario
+      utilizzare i seguenti comandi:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
@@ -53,8 +85,12 @@ app.use(clientErrorHandler);
 app.use(errorHandler);
 </code>
 </pre>
-<p>In questo esempio, il <code>logErrors</code> generico potrebbe scrivere le richieste e le informazioni sull’errore su <code>stderr</code>, ad esempio:</p>
-<pre>
+    <p>
+      In questo esempio, il <code>logErrors</code> generico potrebbe scrivere le
+      richieste e le informazioni sull’errore su <code>stderr</code>, ad
+      esempio:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 function logErrors(err, req, res, next) {
   console.error(err.stack);
@@ -62,8 +98,12 @@ function logErrors(err, req, res, next) {
 }
 </code>
 </pre>
-<p>Inoltre, in questo esempio, <code>clientErrorHandler</code> viene definito come segue; in questo caso, l’errore viene chiaramente tramandato al successivo:</p>
-<pre>
+    <p>
+      Inoltre, in questo esempio, <code>clientErrorHandler</code> viene definito
+      come segue; in questo caso, l’errore viene chiaramente tramandato al
+      successivo:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 function clientErrorHandler(err, req, res, next) {
   if (req.xhr) {
@@ -74,8 +114,11 @@ function clientErrorHandler(err, req, res, next) {
 }
 </code>
 </pre>
-<p>La funzione “catch-all” <code>errorHandler</code> potrebbe essere implementata come segue:</p>
-<pre>
+    <p>
+      La funzione “catch-all” <code>errorHandler</code> potrebbe essere
+      implementata come segue:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 function errorHandler(err, req, res, next) {
   res.status(500);
@@ -83,9 +126,20 @@ function errorHandler(err, req, res, next) {
 }
 </code>
 </pre>
-<p>Se si trasmette qualsiasi cosa alla funzione <code>next()</code> (ad eccezione della stringa <code>'route'</code>), Express considera la richiesta corrente come se contenesse errori e ignorerà qualsiasi altra funzione middleware e routing di non gestione degli errori restante. Se si desidera gestire quell’errore in qualche modo, sarà necessario creare una route di gestione degli errori come descritto nella sezione successiva.</p>
-<p>Se si dispone di un gestore route con più funzioni di callback, è possibile utilizzare il parametro <code>route</code> per passare al successivo gestore route. Ad esempio:</p>
-<pre>
+    <p>
+      Se si trasmette qualsiasi cosa alla funzione <code>next()</code> (ad
+      eccezione della stringa <code>'route'</code>), Express considera la
+      richiesta corrente come se contenesse errori e ignorerà qualsiasi altra
+      funzione middleware e routing di non gestione degli errori restante. Se si
+      desidera gestire quell’errore in qualche modo, sarà necessario creare una
+      route di gestione degli errori come descritto nella sezione successiva.
+    </p>
+    <p>
+      Se si dispone di un gestore route con più funzioni di callback, è
+      possibile utilizzare il parametro <code>route</code> per passare al
+      successivo gestore route. Ad esempio:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/a_route_behind_paywall',
   function checkIfPaidSubscriber(req, res, next) {
@@ -102,19 +156,52 @@ app.get('/a_route_behind_paywall',
   });
 </code>
 </pre>
-<p>In questo esempio, il gestore <code>getPaidContent</code> verrà ignorato ma qualsiasi altro gestore rimanente in <code>app</code> per <code>/a_route_behind_paywall</code> verrà eseguito senza interruzione.</p>
-<div class="doc-box doc-info" data-markdown="1">
-<p>Le chiamate a <code>next()</code> e <code>next(err)</code> indicano che il gestore corrente è completo e in che stato si trova. <code>next(err)</code> ignorerà tutti gli handler rimanenti nella catena ad eccezione degli handler configurati per gestire gli errori come descritto sopra.</p>
-</div>
-<h2 id="il-gestore-errori-predefinito">Il gestore errori predefinito</h2>
-<p>Express viene fornito insieme a un gestore degli errori integrato, il quale gestisce gli errori che potrebbero verificarsi nell’applicazione. Questa funzione middleware di gestione degli errori viene aggiunta alla fine dello stack della funzione middleware.</p>
-<p>Se un errore viene ignorato e passato a <code>next()</code> e non viene gestito in un gestore degli errori, verrà gestito dal gestore errori integrato; l’errore verrà scritto sul client con la traccia stack. La traccia stack non viene inclusa nell’ambiente di produzione.</p>
-<div class="doc-box doc-info" data-markdown="1">
-<p>Impostare la variabile di ambiente <code>NODE_ENV</code> su <code>production</code>, per eseguire l’applicazione nella modalità di produzione.</p>
-</div>
-<p>Se si chiama <code>next()</code> con un errore dopo che si è iniziato a scrivere la risposta (ad esempio, se si riscontra un errore mentre si esegue lo streaming della risposta al client) il gestore degli errori predefinito di Express chiude la connessione e rifiuta la richiesta.</p>
-<p>Pertanto, quando si aggiunge un gestore degli errori personalizzato, si consiglia di associarlo al meccanismo di gestione degli errori predefinito in Express, quando le intestazioni sono state già inviate al client:</p>
-<pre>
+    <p>
+      In questo esempio, il gestore <code>getPaidContent</code> verrà ignorato
+      ma qualsiasi altro gestore rimanente in <code>app</code> per
+      <code>/a_route_behind_paywall</code> verrà eseguito senza interruzione.
+    </p>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        Le chiamate a <code>next()</code> e <code>next(err)</code> indicano che
+        il gestore corrente è completo e in che stato si trova.
+        <code>next(err)</code> ignorerà tutti gli handler rimanenti nella catena
+        ad eccezione degli handler configurati per gestire gli errori come
+        descritto sopra.
+      </p>
+    </div>
+    <h2 id="il-gestore-errori-predefinito">Il gestore errori predefinito</h2>
+    <p>
+      Express viene fornito insieme a un gestore degli errori integrato, il
+      quale gestisce gli errori che potrebbero verificarsi nell’applicazione.
+      Questa funzione middleware di gestione degli errori viene aggiunta alla
+      fine dello stack della funzione middleware.
+    </p>
+    <p>
+      Se un errore viene ignorato e passato a <code>next()</code> e non viene
+      gestito in un gestore degli errori, verrà gestito dal gestore errori
+      integrato; l’errore verrà scritto sul client con la traccia stack. La
+      traccia stack non viene inclusa nell’ambiente di produzione.
+    </p>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        Impostare la variabile di ambiente <code>NODE_ENV</code> su
+        <code>production</code>, per eseguire l’applicazione nella modalità di
+        produzione.
+      </p>
+    </div>
+    <p>
+      Se si chiama <code>next()</code> con un errore dopo che si è iniziato a
+      scrivere la risposta (ad esempio, se si riscontra un errore mentre si
+      esegue lo streaming della risposta al client) il gestore degli errori
+      predefinito di Express chiude la connessione e rifiuta la richiesta.
+    </p>
+    <p>
+      Pertanto, quando si aggiunge un gestore degli errori personalizzato, si
+      consiglia di associarlo al meccanismo di gestione degli errori predefinito
+      in Express, quando le intestazioni sono state già inviate al client:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 function errorHandler(err, req, res, next) {
   if (res.headersSent) {
@@ -125,5 +212,5 @@ function errorHandler(err, req, res, next) {
 }
 </code>
 </pre>
-</body>
+  </body>
 </html>

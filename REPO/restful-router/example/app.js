@@ -10,18 +10,18 @@
  * Module dependencies.
  */
 
-var connect = require('connect');
-var urlrouter = require('urlrouter');
-var restful = require('../');
-var user = require('./controllers/user');
-var foo = require('./controllers/foo');
+var connect = require("connect");
+var urlrouter = require("urlrouter");
+var restful = require("../");
+var user = require("./controllers/user");
+var foo = require("./controllers/foo");
 
 var server = connect(
   connect.query(),
   connect.bodyParser(),
   urlrouter(function (app) {
-    app.get('/', function (req, res) {
-      res.end('hello world');
+    app.get("/", function (req, res) {
+      res.end("hello world");
     });
 
     /**
@@ -35,8 +35,8 @@ var server = connect(
      */
     restful({
       app: app,
-      name: 'users',
-      controller: user
+      name: "users",
+      controller: user,
     });
 
     /**
@@ -46,16 +46,15 @@ var server = connect(
      */
     restful({
       app: app,
-      key: 'date',
-      baseURL: '/users/:uid',
-      name: 'foos',
+      key: "date",
+      baseURL: "/users/:uid",
+      name: "foos",
       controller: foo,
     });
-
   })
 );
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== "test") {
   server.listen(3000);
 }
 

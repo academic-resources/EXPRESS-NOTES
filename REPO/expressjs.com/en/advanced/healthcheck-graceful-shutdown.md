@@ -10,26 +10,27 @@ redirect_from: "/advanced/healthcheck-graceful-shutdown.html"
 
 ## Graceful shutdown
 
-When you deploy a new version of your application, you must replace the previous version. The [process manager](pm.html) you're using will first send a SIGTERM signal to the application to notify it that it will be killed. Once the application gets this signal, it should stop accepting new requests, finish all the ongoing requests, clean up the resources it used,  including database connections and file locks then exit.
+When you deploy a new version of your application, you must replace the previous version. The [process manager](pm.html) you're using will first send a SIGTERM signal to the application to notify it that it will be killed. Once the application gets this signal, it should stop accepting new requests, finish all the ongoing requests, clean up the resources it used, including database connections and file locks then exit.
 
 ### Example Graceful Shutdown
-```js
-const server = app.listen(port)
 
-process.on('SIGTERM', () => {
-  debug('SIGTERM signal received: closing HTTP server')
+```js
+const server = app.listen(port);
+
+process.on("SIGTERM", () => {
+  debug("SIGTERM signal received: closing HTTP server");
   server.close(() => {
-    debug('HTTP server closed')
-  })
-})
+    debug("HTTP server closed");
+  });
+});
 ```
 
 ## Health checks
 
 A load balancer uses health checks to determine if an application instance is healthy and can accept requests. For example, [Kubernetes has two health checks](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/):
 
-* `liveness`, that determines when to restart a container.
-* `readiness`, that determines when a container is ready to start accepting traffic. When a pod is not ready, it is removed from the service load balancers.
+- `liveness`, that determines when to restart a container.
+- `readiness`, that determines when a container is ready to start accepting traffic. When a pod is not ready, it is removed from the service load balancers.
 
 ## Third-party solutions
 
@@ -45,38 +46,38 @@ Install terminus as follows:
 npm i @godaddy/terminus --save
 ```
 
-Here's a basic template that illustrates using terminus.  For more information, see <https://github.com/godaddy/terminus>.
+Here's a basic template that illustrates using terminus. For more information, see <https://github.com/godaddy/terminus>.
 
 ```js
-const http = require('http')
-const express = require('express')
-const { createTerminus } = require('@godaddy/terminus')
+const http = require("http");
+const express = require("express");
+const { createTerminus } = require("@godaddy/terminus");
 
-const app = express()
+const app = express();
 
-app.get('/', (req, res) => {
-  res.send('ok')
-})
+app.get("/", (req, res) => {
+  res.send("ok");
+});
 
-const server = http.createServer(app)
+const server = http.createServer(app);
 
-function onSignal () {
-  console.log('server is starting cleanup')
+function onSignal() {
+  console.log("server is starting cleanup");
   // start cleanup of resource, like databases or file descriptors
 }
 
-async function onHealthCheck () {
+async function onHealthCheck() {
   // checks if the system is healthy, like the db connection is live
   // resolves, if health, rejects if not
 }
 
 createTerminus(server, {
-  signal: 'SIGINT',
-  healthChecks: { '/healthcheck': onHealthCheck },
-  onSignal
-})
+  signal: "SIGINT",
+  healthChecks: { "/healthcheck": onHealthCheck },
+  onSignal,
+});
 
-server.listen(3000)
+server.listen(3000);
 ```
 
 ### Lightship
@@ -93,24 +94,22 @@ npm install lightship
 Basic template that illustrates using Lightship:
 
 ```js
-const http = require('http')
-const express = require('express')
-const {
-  createLightship
-} = require('lightship')
+const http = require("http");
+const express = require("express");
+const { createLightship } = require("lightship");
 
 // Lightship will start a HTTP service on port 9000.
-const lightship = createLightship()
+const lightship = createLightship();
 
-const app = express()
+const app = express();
 
-app.get('/', (req, res) => {
-  res.send('ok')
-})
+app.get("/", (req, res) => {
+  res.send("ok");
+});
 
 app.listen(3000, () => {
-  lightship.signalReady()
-})
+  lightship.signalReady();
+});
 
 // You can signal that the service is not ready using `lightship.signalNotReady()`.
 ```
@@ -133,24 +132,24 @@ npm install http-terminator
 Basic template that illustrates using http-terminator:
 
 ```js
-const express = require('express')
-const { createHttpTerminator } = require('http-terminator')
+const express = require("express");
+const { createHttpTerminator } = require("http-terminator");
 
-const app = express()
+const app = express();
 
-const server = app.listen(3000)
+const server = app.listen(3000);
 
-const httpTerminator = createHttpTerminator({ server })
+const httpTerminator = createHttpTerminator({ server });
 
-app.get('/', (req, res) => {
-  res.send('ok')
-})
+app.get("/", (req, res) => {
+  res.send("ok");
+});
 
 // A server will terminate after invoking `httpTerminator.terminate()`.
 // Note: Timeout is used for illustration of delayed termination purposes only.
 setTimeout(() => {
-  httpTerminator.terminate()
-}, 1000)
+  httpTerminator.terminate();
+}, 1000);
 ```
 
 [http-terminator documentation](https://github.com/gajus/http-terminator) provides API documentation and comparison to other existing third-party solutions.
@@ -168,14 +167,14 @@ npm install --save express-actuator
 Basic template that illustrates using express-actuator:
 
 ```js
-const express = require('express')
-const actuator = require('express-actuator')
+const express = require("express");
+const actuator = require("express-actuator");
 
-const app = express()
+const app = express();
 
-app.use(actuator())
+app.use(actuator());
 
-app.listen(3000)
+app.listen(3000);
 ```
 
 The [express-actuator documentation](https://github.com/rcruzper/express-actuator) provides different options for customization.

@@ -9,24 +9,24 @@ lang: es
 
 Express es una infraestructura web de direccionamiento y middleware que tiene una funcionalidad mínima propia: una aplicación Express es fundamentalmente una serie de llamadas a funciones de middleware.
 
-Las funciones de *middleware* son funciones que tienen acceso al [objeto de solicitud](/{{ page.lang }}/4x/api.html#req) (`req`), al [objeto de respuesta](/{{ page.lang }}/4x/api.html#res) (`res`) y a la siguiente función de middleware en el ciclo de solicitud/respuestas de la aplicación. La siguiente función de middleware se denota normalmente con una variable denominada `next`.
+Las funciones de _middleware_ son funciones que tienen acceso al [objeto de solicitud](/{{ page.lang }}/4x/api.html#req) (`req`), al [objeto de respuesta](/{{ page.lang }}/4x/api.html#res) (`res`) y a la siguiente función de middleware en el ciclo de solicitud/respuestas de la aplicación. La siguiente función de middleware se denota normalmente con una variable denominada `next`.
 
 Las funciones de middleware pueden realizar las siguientes tareas:
 
-* Ejecutar cualquier código.
-* Realizar cambios en la solicitud y los objetos de respuesta.
-* Finalizar el ciclo de solicitud/respuestas.
-* Invocar la siguiente función de middleware en la pila.
+- Ejecutar cualquier código.
+- Realizar cambios en la solicitud y los objetos de respuesta.
+- Finalizar el ciclo de solicitud/respuestas.
+- Invocar la siguiente función de middleware en la pila.
 
 Si la función de middleware actual no finaliza el ciclo de solicitud/respuestas, debe invocar `next()` para pasar el control a la siguiente función de middleware. De lo contrario, la solicitud quedará colgada.
 
 Una aplicación Express puede utilizar los siguientes tipos de middleware:
 
- - [Middleware de nivel de aplicación](#middleware.application)
- - [Middleware de nivel de direccionador](#middleware.router)
- - [Middleware de manejo de errores](#middleware.error-handling)
- - [Middleware incorporado](#middleware.built-in)
- - [Middleware de terceros](#middleware.third-party)
+- [Middleware de nivel de aplicación](#middleware.application)
+- [Middleware de nivel de direccionador](#middleware.router)
+- [Middleware de manejo de errores](#middleware.error-handling)
+- [Middleware incorporado](#middleware.built-in)
+- [Middleware de terceros](#middleware.third-party)
 
 Puede cargar middleware de nivel de aplicación y de nivel de direccionador con una vía de acceso de montaje opcional.
 También puede cargar una serie de funciones de middleware a la vez, lo que crea una subpila del sistema de middleware en un punto de montaje.
@@ -137,6 +137,7 @@ El middleware de nivel de direccionador funciona de la misma manera que el middl
 var router = express.Router();
 </code>
 </pre>
+
 Cargue el middleware de nivel de direccionador utilizando las funciones `router.use()` y `router.METHOD()`.
 
 El siguiente código de ejemplo replica el sistema de middleware que se ha mostrado anteriormente para el middleware de nivel de aplicación, utilizando el middleware de nivel de direccionador:
@@ -214,16 +215,16 @@ El argumento `root` especifica el directorio raíz desde el que se realiza el se
 
 El objeto `options` opcional puede tener las siguientes propiedades:
 
-| Propiedad      | Descripción                                                           |   Tipo      | Valor predeterminado         |
-|---------------|-----------------------------------------------------------------------|-------------|-----------------|
-| `dotfiles`    | Opción para el servicio de dotfiles. Los valores posibles son "allow", "deny" e "ignore" | Serie | "ignore" |
-| `etag`        | Habilitar o inhabilitar la generación de etag  | Booleano | `true` |
-| `extensions`  | Establece las reservas de extensiones de archivos. | Matriz | `[]` |
-| `index`       | Envía el archivo de índices de directorios. Establézcalo en `false` para inhabilitar la indexación de directorios. | Mixto | "index.html" |
- `lastModified` | Establezca la cabecera `Last-Modified` en la última fecha de modificación del archivo en el sistema operativo. Los valores posibles son `true` o `false`. | Booleano | `true` |
-| `maxAge`      | Establezca la propiedad max-age de la cabecera Cache-Control en milisegundos o una serie en [formato ms](https://www.npmjs.org/package/ms) | Número | 0 |
-| `redirect`    | Redireccionar a la "/" final cuando el nombre de vía de acceso es un directorio. | Booleano | `true` |
-| `setHeaders`  | Función para establecer las cabeceras HTTP que se sirven con el archivo. | Función |  |
+| Propiedad      | Descripción                                                                                                                                               | Tipo     | Valor predeterminado |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------------------- |
+| `dotfiles`     | Opción para el servicio de dotfiles. Los valores posibles son "allow", "deny" e "ignore"                                                                  | Serie    | "ignore"             |
+| `etag`         | Habilitar o inhabilitar la generación de etag                                                                                                             | Booleano | `true`               |
+| `extensions`   | Establece las reservas de extensiones de archivos.                                                                                                        | Matriz   | `[]`                 |
+| `index`        | Envía el archivo de índices de directorios. Establézcalo en `false` para inhabilitar la indexación de directorios.                                        | Mixto    | "index.html"         |
+| `lastModified` | Establezca la cabecera `Last-Modified` en la última fecha de modificación del archivo en el sistema operativo. Los valores posibles son `true` o `false`. | Booleano | `true`               |
+| `maxAge`       | Establezca la propiedad max-age de la cabecera Cache-Control en milisegundos o una serie en [formato ms](https://www.npmjs.org/package/ms)                | Número   | 0                    |
+| `redirect`     | Redireccionar a la "/" final cuando el nombre de vía de acceso es un directorio.                                                                          | Booleano | `true`               |
+| `setHeaders`   | Función para establecer las cabeceras HTTP que se sirven con el archivo.                                                                                  | Función  |                      |
 
 A continuación, se muestra un ejemplo de uso de la función de middleware `express.static` con un objeto de opciones elaboradas:
 

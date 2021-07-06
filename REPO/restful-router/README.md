@@ -1,5 +1,4 @@
-restful-router [![Build Status](https://travis-ci.org/expressjs/restful-router.svg?branch=master)](http://travis-ci.org/expressjs/restful-router) [![Coverage Status](https://coveralls.io/repos/fengmk2/restful-router/badge.png)](https://coveralls.io/r/fengmk2/restful-router)
-=======
+# restful-router [![Build Status](https://travis-ci.org/expressjs/restful-router.svg?branch=master)](http://travis-ci.org/expressjs/restful-router) [![Coverage Status](https://coveralls.io/repos/fengmk2/restful-router/badge.png)](https://coveralls.io/r/fengmk2/restful-router)
 
 [![NPM](https://nodei.co/npm/restful-router.png?downloads=true&stars=true)](https://nodei.co/npm/restful-router/)
 
@@ -41,18 +40,18 @@ function restfulRouter(app, name, mod);
 ## Usage
 
 ```js
-var restful = require('restful-router');
-var connect = require('connect');
-var urlrouter = require('urlrouter');
-var user = require('./controllers/user');
-var foo = require('./controllers/foo');
+var restful = require("restful-router");
+var connect = require("connect");
+var urlrouter = require("urlrouter");
+var user = require("./controllers/user");
+var foo = require("./controllers/foo");
 
 var server = connect(
   connect.query(),
   connect.bodyParser(),
   urlrouter(function (app) {
-    app.get('/', function (req, res) {
-      res.end('hello world');
+    app.get("/", function (req, res) {
+      res.end("hello world");
     });
 
     /**
@@ -66,8 +65,8 @@ var server = connect(
      */
     restful({
       app: app,
-      name: 'users',
-      controller: user
+      name: "users",
+      controller: user,
     });
 
     /**
@@ -77,12 +76,11 @@ var server = connect(
      */
     restful({
       app: app,
-      key: 'date',
-      baseURL: '/users/:uid',
-      name: 'foos',
+      key: "date",
+      baseURL: "/users/:uid",
+      name: "foos",
       controller: foo,
     });
-
   })
 ).listen(3000);
 ```

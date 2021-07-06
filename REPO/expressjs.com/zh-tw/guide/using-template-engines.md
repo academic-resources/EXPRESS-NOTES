@@ -9,8 +9,8 @@ lang: zh-tw
 
 您必須先設定下列應用程式設定，Express 才能呈現範本檔：
 
-* `views`：範本檔所在的目錄。例如：`app.set('views', './views')`
-* `view engine`：要使用的範本引擎。例如：`app.set('view engine', 'pug')`
+- `views`：範本檔所在的目錄。例如：`app.set('views', './views')`
+- `view engine`：要使用的範本引擎。例如：`app.set('view engine', 'pug')`
 
 然後安裝對應的範本引擎 npm 套件：
 
@@ -24,6 +24,7 @@ $ npm install pug --save
 與 Express 相容的範本引擎（例如 Pug）會匯出一個名稱是 `__express(filePath, options, callback)` 的函數，以供 `res.render()` 函數呼叫，來呈現範本程式碼。
 
 有些範本引擎不遵循這項慣例。[Consolidate.js](https://www.npmjs.org/package/consolidate) 程式庫遵循這項慣例，它會對映所有常見的 Node.js 範本引擎，因此能在 Express 內平順無礙地運作。
+
 </div>
 
 設定視圖引擎之後，您不必指定引擎或將範本引擎模組載入到應用程式中；Express 會在內部載入模組，如以下所示（針對上述範例）。

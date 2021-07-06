@@ -13,13 +13,13 @@ No hay una respuesta definitiva a esta pregunta. La respuesta depende de la esca
 
 Las rutas y otra lógica específica de la aplicación puede residir en tantos archivos como desee, con la estructura de directorios que prefiera. Vea los siguientes ejemplos como inspiración:
 
-* [Listas de rutas](https://github.com/expressjs/express/blob/4.13.1/examples/route-separation/index.js#L32-47)
-* [Correlación de rutas](https://github.com/expressjs/express/blob/4.13.1/examples/route-map/index.js#L52-L66)
-* [Controladores de estilo MVC](https://github.com/expressjs/express/tree/master/examples/mvc)
+- [Listas de rutas](https://github.com/expressjs/express/blob/4.13.1/examples/route-separation/index.js#L32-47)
+- [Correlación de rutas](https://github.com/expressjs/express/blob/4.13.1/examples/route-map/index.js#L52-L66)
+- [Controladores de estilo MVC](https://github.com/expressjs/express/tree/master/examples/mvc)
 
 Asimismo, hay extensiones de terceros para Express, que simplifican algunos de estos patrones:
 
-* [express-resource](https://github.com/expressjs/express-resource)
+- [express-resource](https://github.com/expressjs/express-resource)
 
 ## ¿Cómo debo definir los modelos?
 
@@ -29,9 +29,8 @@ Consulte [LoopBack](http://loopback.io) para ver una infraestructura basada en E
 
 ## ¿Cómo puedo autenticar los usuarios?
 
-La autenticación es otra área rígida en la que no entra Express.  Puede utilizar el esquema de autenticación que desee.
+La autenticación es otra área rígida en la que no entra Express. Puede utilizar el esquema de autenticación que desee.
 Para ver un esquema simple de nombre de usuario/contraseña, consulte [este ejemplo](https://github.com/expressjs/express/tree/master/examples/auth).
-
 
 ## ¿A qué motor de plantilla da soporte Express?
 

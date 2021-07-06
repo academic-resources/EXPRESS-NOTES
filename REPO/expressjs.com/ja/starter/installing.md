@@ -30,7 +30,7 @@ entry point: (index.js)
 
 `app.js` と入力するか、メインファイルの名前にしたいものを何か入力してください。もしそれを `index.js` にしたいのなら、RETURN キーを押して提案されたデフォルトのファイル名を受け入れてください。
 
-Expressを `myapp` ディレクトリにインストールし、それを依存関係リストに保存してください。例えば：
+Express を `myapp` ディレクトリにインストールし、それを依存関係リストに保存してください。例えば：
 
 ```sh
 $ npm install express --save
@@ -46,4 +46,4 @@ $ npm install express --no-save
 npm 5.0 以降のデフォルトでは、npm install はモジュールを `package.json` ファイルの `dependencies` リストに追加します。以前のバージョンの npm では、`--save` オプションを明示的に指定しなければなりません。その後、app ディレクトリで `npm install` を実行すると、依存関係リストにモジュールが自動的にインストールされます。
 </div>
 
-###  [Next: Hello World ](/{{ page.lang }}/starter/hello-world.html)
+### [Next: Hello World ](/{{ page.lang }}/starter/hello-world.html)

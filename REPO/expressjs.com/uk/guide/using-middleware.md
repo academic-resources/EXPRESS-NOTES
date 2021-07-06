@@ -9,24 +9,24 @@ lang: uk
 
 Express is a routing and middleware web framework that has minimal functionality of its own: An Express application is essentially a series of middleware function calls.
 
-_Middleware_ functions are functions that have access to the [request object](/{{ page.lang }}/4x/api.html#req)  (`req`), the [response object](/{{ page.lang }}/4x/api.html#res) (`res`), and the next middleware function in the application's request-response cycle. The next middleware function is commonly denoted by a variable named `next`.
+_Middleware_ functions are functions that have access to the [request object](/{{ page.lang }}/4x/api.html#req) (`req`), the [response object](/{{ page.lang }}/4x/api.html#res) (`res`), and the next middleware function in the application's request-response cycle. The next middleware function is commonly denoted by a variable named `next`.
 
 Middleware functions can perform the following tasks:
 
-* Execute any code.
-* Make changes to the request and the response objects.
-* End the request-response cycle.
-* Call the next middleware function in the stack.
+- Execute any code.
+- Make changes to the request and the response objects.
+- End the request-response cycle.
+- Call the next middleware function in the stack.
 
 If the current middleware function does not end the request-response cycle, it must call `next()` to pass control to the next middleware function. Otherwise, the request will be left hanging.
 
 An Express application can use the following types of middleware:
 
- - [Application-level middleware](#middleware.application)
- - [Router-level middleware](#middleware.router)
- - [Error-handling middleware](#middleware.error-handling)
- - [Built-in middleware](#middleware.built-in)
- - [Third-party middleware](#middleware.third-party)
+- [Application-level middleware](#middleware.application)
+- [Router-level middleware](#middleware.router)
+- [Error-handling middleware](#middleware.error-handling)
+- [Built-in middleware](#middleware.built-in)
+- [Third-party middleware](#middleware.third-party)
 
 You can load application-level and router-level middleware with an optional mount path.
 You can also load a series of middleware functions together, which creates a sub-stack of the middleware system at a mount point.
@@ -124,6 +124,7 @@ Router-level middleware works in the same way as application-level middleware, e
 <pre><code class="language-javascript" translate="no">
 var router = express.Router();
 </code></pre>
+
 Load router-level middleware by using the `router.use()` and `router.METHOD()` functions.
 
 The following example code replicates the middleware system that is shown above for application-level middleware, by using router-level middleware:
@@ -193,6 +194,7 @@ functions that were previously included with Express' are now in separate module
 The only built-in middleware function in Express is `express.static`. This function is based on [serve-static](https://github.com/expressjs/serve-static), and is responsible for serving static assets such as HTML files, images, and so on.
 
 The function signature is:
+
 <pre><code class="language-javascript" translate="no">
 express.static(root, [options])
 </code></pre>

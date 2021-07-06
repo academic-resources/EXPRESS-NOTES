@@ -4,6 +4,7 @@ title: Použitie Express middleware
 menu: guide
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -13,24 +14,24 @@ lang: sk
 
 Express je webový framework s minimálnou vlastnou funkcionalitou: Express aplikácia je v podstate séria volaní middleware funkcií.
 
-_Middleware_ funkcie sú funkcie, ktoré majú prístup k [request objektu](/4x/api.html#req)  (`req`), [response objektu](/4x/api.html#res) (`res`) a nasledujúcej middleware funkcii v request-response cykle aplikácie. Nasledujúca middleware funkcia v poradí je bežne označovaná premennou `next`.
+_Middleware_ funkcie sú funkcie, ktoré majú prístup k [request objektu](/4x/api.html#req) (`req`), [response objektu](/4x/api.html#res) (`res`) a nasledujúcej middleware funkcii v request-response cykle aplikácie. Nasledujúca middleware funkcia v poradí je bežne označovaná premennou `next`.
 
 Middleware funkcie dokážu vykonávať nasledujúce úlohy:
 
-* Vykonať akýkoľvek kód.
-* Vykonať zmeny na request a response objektoch.
-* Ukončiť request-response cyklus.
-* Zavolať nasledujúcu middleware funkciu v poradí.
+- Vykonať akýkoľvek kód.
+- Vykonať zmeny na request a response objektoch.
+- Ukončiť request-response cyklus.
+- Zavolať nasledujúcu middleware funkciu v poradí.
 
 Ak aktuálna middleware funkcia neukončuje request-response cyklus, musí posunúť obsluhu nasledujúcej middleware funkcii vyvolaním `next()`. V opačnom prípade zostane request 'visieť'.
 
 Express aplikácia môže použiť nasledovné typy middleware funkcií:
 
- - [Application-level middleware](#middleware.application)
- - [Router-level middleware](#middleware.router)
- - [Error-handling middleware](#middleware.error-handling)
- - [Built-in middleware](#middleware.built-in)
- - [Third-party middleware](#middleware.third-party)
+- [Application-level middleware](#middleware.application)
+- [Router-level middleware](#middleware.router)
+- [Error-handling middleware](#middleware.error-handling)
+- [Built-in middleware](#middleware.built-in)
+- [Third-party middleware](#middleware.third-party)
 
 Application-level a router-level middleware môžete načítať s voliteľnou cestou (path-om).
 Môžete taktiež načítať skupinu middleware funkcií dohromady, čím vytvoríte sub-stack middleware systém na danej ceste.
@@ -140,6 +141,7 @@ Router-level middleware funguje rovnakým spôsobom ako application-level middle
 var router = express.Router();
 </code>
 </pre>
+
 Router-level middleware načítate pomocou `router.use()` a `router.METHOD()` funkcií.
 
 Nasledujúci príklad replikuje vyššie zobrazený application-level middleware použitím router-level middlewaru:
@@ -209,7 +211,7 @@ Pre viac informácií ohľadom error-handling middlewarov si pozrite sekciu: [Er
 
 Express počnúc od verzie 4.x nie je závislý na [Connect](https://github.com/senchalabs/connect) module. Okrem výnimky `express.static`, všetky predošlé middleware funkcie pôvodne obsiahnuté v Express sú teraz samostatné moduly. Zoznam middleware funkcií [si pozrite tu](https://github.com/senchalabs/connect#middleware).
 
-Jediným vstavaným  middlewarom v Express je `express.static` funkcia. Tento middleware je založený na [serve-static](https://github.com/expressjs/serve-static) module a je zodpovedný za servovanie statických assetov ako HTML súbory, obráky atď.
+Jediným vstavaným middlewarom v Express je `express.static` funkcia. Tento middleware je založený na [serve-static](https://github.com/expressjs/serve-static) module a je zodpovedný za servovanie statických assetov ako HTML súbory, obráky atď.
 
 Signatúra tejto funkcie je:
 

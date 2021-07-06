@@ -1,71 +1,103 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Tvorba middleware pre použitie v Express applikáciách</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Tvorba middleware pre použitie v Express applikáciách</h1>
-</header>
-<!---
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Tvorba middleware pre použitie v Express applikáciách</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">
+        Tvorba middleware pre použitie v Express applikáciách
+      </h1>
+    </header>
+    <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
 -->
-<h1 id="tvorba-middleware-pre-použitie-v-express-aplikáciách">Tvorba middleware pre použitie v Express aplikáciách</h1>
-<h2>
-Prehľad
-</h2>
-<p><em>Middleware</em> funkcie sú funkcie, ktoré majú prístup k <a href="/4x/api.html#req">request objektu</a> (<code>req</code>), <a href="/4x/api.html#res">response objektu</a> (<code>res</code>) a nasledujúcej middleware funkcii v request-response cykle aplikácie. Nasledujúca middleware funkcia v poradí je bežne označovaná premennou <code>next</code>.</p>
-<p>Middleware funkcie dokážu vykonávať nasledujúce úlohy:</p>
-<ul>
-<li>Vykonať akýkoľvek kód.</li>
-<li>Vykonať zmeny na request a response objektoch.</li>
-<li>Ukončiť request-response cyklus.</li>
-<li>Zavolať nasledujúcu middleware funkciu v poradí.</li>
-</ul>
-<p>Ak aktuálna middleware funkcia neukončuje request-response cyklus, musí posunúť obsluhu nasledujúcej middleware funkcii vyvolaním <code>next()</code>. V opačnom prípade zostane request ‘visieť’.</p>
-<p>Nasledujúci diagram ukazuje jednotlivé časti volania middleware funkcie:</p>
-<table id="mw-fig">
-<tr>
-<td id="mw-fig-imgcell">
-<img src="/images/express-mw.png" id="mw-fig-img" />
-</td>
-<td class="mw-fig-callouts">
-<div id="callout1" class="callout">
-HTTP metóda pre ktorú je middleware funkcia aplikovateľná.
-</div>
-<div id="callout2" class="callout">
-Cesta (route) pre ktorú je middleware funkcia aplikovateľná.
-</div>
-<div id="callout3" class="callout">
-Middleware funkcia.
-</div>
-<div id="callout4" class="callout">
-Callback argument k middleware funkcii, nazvaný “next” podľa konvencie.
-</div>
-<div id="callout5" class="callout">
-HTTP <a href="/en/4x/api.html#res">response</a> argument k middleware funkcii, nazvaný “res” podľa konvencie.
-</div>
-<div id="callout6" class="callout">
-HTTP <a href="/en/4x/api.html#req">request</a> argument k middleware funkcii, nazvaný “req” podľa konvencie.
-</div>
-</td>
-</tr>
-</table>
-<h2>
-Príklad
-</h2>
-<p>Tu je príklad jednoduchej “Hello World” Express aplikácie. Zvyšná časť tohto článku definuje a pridáva do aplikácie dve middleware funkcie: jedna nazvaná <code>myLogger</code> ktorá vypíše jednoduchú log message a druhá nazvaná <code>requestTime</code> ktorá vypíše timestamp HTTP requestu.</p>
-<pre>
+    <h1 id="tvorba-middleware-pre-použitie-v-express-aplikáciách">
+      Tvorba middleware pre použitie v Express aplikáciách
+    </h1>
+    <h2>Prehľad</h2>
+    <p>
+      <em>Middleware</em> funkcie sú funkcie, ktoré majú prístup k
+      <a href="/4x/api.html#req">request objektu</a> (<code>req</code>),
+      <a href="/4x/api.html#res">response objektu</a> (<code>res</code>) a
+      nasledujúcej middleware funkcii v request-response cykle aplikácie.
+      Nasledujúca middleware funkcia v poradí je bežne označovaná premennou
+      <code>next</code>.
+    </p>
+    <p>Middleware funkcie dokážu vykonávať nasledujúce úlohy:</p>
+    <ul>
+      <li>Vykonať akýkoľvek kód.</li>
+      <li>Vykonať zmeny na request a response objektoch.</li>
+      <li>Ukončiť request-response cyklus.</li>
+      <li>Zavolať nasledujúcu middleware funkciu v poradí.</li>
+    </ul>
+    <p>
+      Ak aktuálna middleware funkcia neukončuje request-response cyklus, musí
+      posunúť obsluhu nasledujúcej middleware funkcii vyvolaním
+      <code>next()</code>. V opačnom prípade zostane request ‘visieť’.
+    </p>
+    <p>
+      Nasledujúci diagram ukazuje jednotlivé časti volania middleware funkcie:
+    </p>
+    <table id="mw-fig">
+      <tr>
+        <td id="mw-fig-imgcell">
+          <img src="/images/express-mw.png" id="mw-fig-img" />
+        </td>
+        <td class="mw-fig-callouts">
+          <div id="callout1" class="callout">
+            HTTP metóda pre ktorú je middleware funkcia aplikovateľná.
+          </div>
+          <div id="callout2" class="callout">
+            Cesta (route) pre ktorú je middleware funkcia aplikovateľná.
+          </div>
+          <div id="callout3" class="callout">Middleware funkcia.</div>
+          <div id="callout4" class="callout">
+            Callback argument k middleware funkcii, nazvaný “next” podľa
+            konvencie.
+          </div>
+          <div id="callout5" class="callout">
+            HTTP <a href="/en/4x/api.html#res">response</a> argument k
+            middleware funkcii, nazvaný “res” podľa konvencie.
+          </div>
+          <div id="callout6" class="callout">
+            HTTP <a href="/en/4x/api.html#req">request</a> argument k middleware
+            funkcii, nazvaný “req” podľa konvencie.
+          </div>
+        </td>
+      </tr>
+    </table>
+    <h2>Príklad</h2>
+    <p>
+      Tu je príklad jednoduchej “Hello World” Express aplikácie. Zvyšná časť
+      tohto článku definuje a pridáva do aplikácie dve middleware funkcie: jedna
+      nazvaná <code>myLogger</code> ktorá vypíše jednoduchú log message a druhá
+      nazvaná <code>requestTime</code> ktorá vypíše timestamp HTTP requestu.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var express = require('express');
 var app = express();
@@ -77,11 +109,13 @@ app.get('/', function (req, res) {
 app.listen(3000);
 </code>
 </pre>
-<h2>
-Middleware funkcia myLogger
-</h2>
-<p>Tu je príklad jednoduchej middleware funkcie nazvanej “myLogger”. Táto funkcia len vypíše “LOGGED”, vždy keď aplikácia odchytí request. Middleware funkcia je priradená premennej nazvanej <code>myLogger</code>.</p>
-<pre>
+    <h2>Middleware funkcia myLogger</h2>
+    <p>
+      Tu je príklad jednoduchej middleware funkcie nazvanej “myLogger”. Táto
+      funkcia len vypíše “LOGGED”, vždy keď aplikácia odchytí request.
+      Middleware funkcia je priradená premennej nazvanej <code>myLogger</code>.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var myLogger = function (req, res, next) {
   console.log('LOGGED');
@@ -89,11 +123,24 @@ var myLogger = function (req, res, next) {
 };
 </code>
 </pre>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>Všimnite si volanie <code>next()</code> metódy hore. Zavolanie tejto funkcie vyvolá ďalší middleware v aplikácii. Funkcia <code>next()</code> nie je súčasťou Node.js či Express API, ale je tretím argumentom s ktorým je middleware funkcia vyvolaná. Funkcia <code>next()</code> môže byť nazvaná hocijako, ale podľa konvencie sa zvykne nazývať vždy “next”. Aby ste predišli zmätkom používajte túto konvenciu.</p>
-</div>
-<p>Pre načítanie middleware funkcie zavolajte <code>app.use()</code>, prostredníctvom ktorej ho špecifikujete. Nasledujúci kód načíta <code>myLogger</code> middleware funkciu ešte pred route definíciou hlavnej cesty aplikácie (/).</p>
-<pre>
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        Všimnite si volanie <code>next()</code> metódy hore. Zavolanie tejto
+        funkcie vyvolá ďalší middleware v aplikácii. Funkcia
+        <code>next()</code> nie je súčasťou Node.js či Express API, ale je
+        tretím argumentom s ktorým je middleware funkcia vyvolaná. Funkcia
+        <code>next()</code> môže byť nazvaná hocijako, ale podľa konvencie sa
+        zvykne nazývať vždy “next”. Aby ste predišli zmätkom používajte túto
+        konvenciu.
+      </p>
+    </div>
+    <p>
+      Pre načítanie middleware funkcie zavolajte <code>app.use()</code>,
+      prostredníctvom ktorej ho špecifikujete. Nasledujúci kód načíta
+      <code>myLogger</code> middleware funkciu ešte pred route definíciou
+      hlavnej cesty aplikácie (/).
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var express = require('express');
 var app = express();
@@ -112,15 +159,30 @@ app.get('/', function (req, res) {
 app.listen(3000);
 </code>
 </pre>
-<p>Vždy keď aplikácia obdrží request požiadavku, vypíše do konzoly správu “LOGGED”.</p>
-<p>Poradie načítania middleware-ov je dôležité: middleware funkcie, ktoré sú načítane prvé, sú aj ako prvé vyvolané.</p>
-<p>Ak by <code>myLogger</code> bol načítaný až za definíciou route pre hlavnú stránku aplikácie, nikdy by ho request nedosiahol a aplikácia by nevypísala “LOGGED”, pretože route handler ukončí request-response cyklus.</p>
-<p>Táto <code>myLogger</code> middleware funkcia len vypisuje správu a posunie spracovanie ďalšej middleware funkcii v poradí zavolaním funkcie <code>next()</code>.</p>
-<h3>
-Middleware funkcia requestTime
-</h3>
-<p>Ďalej vytvoríme middleware funkciu s názvom “requestTime” a ktorá pridáva <code>requestTime</code> atribút na request objekt.</p>
-<pre>
+    <p>
+      Vždy keď aplikácia obdrží request požiadavku, vypíše do konzoly správu
+      “LOGGED”.
+    </p>
+    <p>
+      Poradie načítania middleware-ov je dôležité: middleware funkcie, ktoré sú
+      načítane prvé, sú aj ako prvé vyvolané.
+    </p>
+    <p>
+      Ak by <code>myLogger</code> bol načítaný až za definíciou route pre hlavnú
+      stránku aplikácie, nikdy by ho request nedosiahol a aplikácia by
+      nevypísala “LOGGED”, pretože route handler ukončí request-response cyklus.
+    </p>
+    <p>
+      Táto <code>myLogger</code> middleware funkcia len vypisuje správu a
+      posunie spracovanie ďalšej middleware funkcii v poradí zavolaním funkcie
+      <code>next()</code>.
+    </p>
+    <h3>Middleware funkcia requestTime</h3>
+    <p>
+      Ďalej vytvoríme middleware funkciu s názvom “requestTime” a ktorá pridáva
+      <code>requestTime</code> atribút na request objekt.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var requestTime = function (req, res, next) {
   req.requestTime = Date.now();
@@ -128,8 +190,13 @@ var requestTime = function (req, res, next) {
 };
 </code>
 </pre>
-<p>Aplikácia teraz používa <code>requestTime</code> middleware funkciu. Taktiež callback funkcia pre obsluhu route hlavnej stránky aplikácie používa atribút, ktorý táto middleware funkcia pridala na <code>req</code> (request objekt).</p>
-<pre>
+    <p>
+      Aplikácia teraz používa <code>requestTime</code> middleware funkciu.
+      Taktiež callback funkcia pre obsluhu route hlavnej stránky aplikácie
+      používa atribút, ktorý táto middleware funkcia pridala na
+      <code>req</code> (request objekt).
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var express = require('express');
 var app = express();
@@ -150,8 +217,19 @@ app.get('/', function (req, res) {
 app.listen(3000);
 </code>
 </pre>
-<p>Po vykonaní requestu na hlavnú stránku aplikácie sa zobrazí v prehliadači timestamp vášho requestu.</p>
-<p>Keďže máte prístup k request a response objektu, ďalšej middleware funkcii v poradí a celému Node.js API, možnosti middleware funkcií sú nekonečné.</p>
-<p>Pre viac informácií ohľadom Express middleware si pozrite: <a href="/%7B%7B%20page.lang%20%7D%7D/guide/using-middleware.html">Použitie Express middleware</a>.</p>
-</body>
+    <p>
+      Po vykonaní requestu na hlavnú stránku aplikácie sa zobrazí v prehliadači
+      timestamp vášho requestu.
+    </p>
+    <p>
+      Keďže máte prístup k request a response objektu, ďalšej middleware funkcii
+      v poradí a celému Node.js API, možnosti middleware funkcií sú nekonečné.
+    </p>
+    <p>
+      Pre viac informácií ohľadom Express middleware si pozrite:
+      <a href="/%7B%7B%20page.lang%20%7D%7D/guide/using-middleware.html"
+        >Použitie Express middleware</a
+      >.
+    </p>
+  </body>
 </html>

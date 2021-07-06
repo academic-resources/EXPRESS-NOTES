@@ -1,96 +1,256 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express 보안 업데이트</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express 보안 업데이트</h1>
-</header>
-<h1 id="보안-업데이트">보안 업데이트</h1>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>Node.js 취약성은 Express에 직접 영향을 미칩니다. 따라서 <a href="http://blog.nodejs.org/vulnerability/">Node.js 취약성을 항상 주시해야 하며</a>, 반드시 안정적인 최신 버전의 Node.js를 사용해야 합니다.</p>
-</div>
-<p>아래의 목록에는 지정된 버전 업데이트에서 수정된 Express 취약성이 열거되어 있습니다.</p>
-<h2 id="x">4.x</h2>
-<ul>
-<li>4.16.0
-<ul>
-<li>의존성 <code>forwarded</code>가 <a href="https://npmjs.com/advisories/527">발견된 취약점</a>에 따라 업데이트되었습니다. <code>req.host</code>, <code>req.hostname</code>, <code>req.ip</code>, <code>req.ips</code>, <code>req.protocol</code>을 사용하는 애플리케이션에 영향을 끼칠 수 있습니다.</li>
-<li>의존성 <code>mime</code>이 <a href="https://npmjs.com/advisories/535">발견된 취약점</a>에 따라 업데이트되었으나, Express에 영향을 끼치지는 않습니다.</li>
-<li>의존성 <code>send</code>가 <a href="https://nodejs.org/en/blog/vulnerability/september-2017-path-validation/">Node.js 8.5.0의 취약점</a>에 대응하기 위해 업데이트되었습니다. Node.js 버전 8.5.0에서 실행되는 Express에만 영향을 끼칩니다.</li>
-</ul></li>
-<li>4.15.5
-<ul>
-<li>의존성 <code>debug</code>가 <a href="https://snyk.io/vuln/npm:debug:20170905">발견된 취약점</a>에 따라 업데이트되었으나, Express에 영향을 끼치지는 않습니다.</li>
-<li>의존성 <code>fresh</code>가 <a href="https://npmjs.com/advisories/526">발견된 취약점</a>에 따라 업데이트되었습니다. <code>express.static</code>, <code>req.fresh</code>, <code>res.json</code>, <code>res.jsonp</code>, <code>res.send</code>, <code>res.sendfile</code> <code>res.sendFile</code>, <code>res.sendStatus</code>를 사용하고 있는 애플리케이션에 영향을 끼칩니다.</li>
-</ul></li>
-<li>4.15.3
-<ul>
-<li>의존성 <code>ms</code>가 <a href="https://snyk.io/vuln/npm:ms:20170412">발견된 취약점</a>에 따라 업데이트되었습니다. 애플리케이션이 <code>express.static</code>, <code>res.sendfile</code>, <code>res.sendFile</code>의 <code>maxAge</code> 옵션에 Untrusted 문자열을 입력받고 있으면 영향을 끼칠 수 있습니다.</li>
-</ul></li>
-<li>4.15.2
-<ul>
-<li>의존성 <code>qs</code>가 <a href="https://snyk.io/vuln/npm:qs:20170213">발견된 취약점</a>에 따라 업데이트되었으나, Express에 영향을 끼치지는 않습니다. 4.15.2로 업데이트하는 것을 권장하나, 취약점을 막는 업데이트는 아닙니다..</li>
-</ul></li>
-<li>4.11.1
-<ul>
-<li><code>express.static</code>, <code>res.sendfile</code> 및 <code>res.sendFile</code>의 루트 경로 노출 취약성을 수정했습니다.</li>
-</ul></li>
-<li>4.10.7
-<ul>
-<li><code>express.static</code>의 개방된 경로 재지정 취약성을 수정했습니다(<a href="https://npmjs.com/advisories/35">보안 권고문</a>, <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1164">CVE-2015-1164</a>).</li>
-</ul></li>
-<li>4.8.8
-<ul>
-<li><code>express.static</code>의 디렉토리 조회 취약성을 수정했습니다(<a href="http://npmjs.com/advisories/32">보안 권고문</a>, <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-6394">CVE-2014-6394</a>).</li>
-</ul></li>
-<li>4.8.4
-<ul>
-<li>Node.js 0.10 이용 시, 특정한 상황에서 <code>fd</code> 누수가 발생할 수 있으며, 이는 <code>express.static</code> 및 <code>res.sendfile</code>에 영향을 미칩니다. 악성 요청은 <code>fd</code> 누수를 발생시킬 수 있으며, 결국 <code>EMFILE</code> 오류와 서버 무응답을 초래할 수 있습니다.</li>
-</ul></li>
-<li>4.8.0
-<ul>
-<li>조회 문자열에서 극단적으로 높은 인덱스를 갖는 스파스 배열은 프로세스가 메모리 부족을 발생시키고 서버에서 충돌이 발생하도록 하는 원인이 될 수 있습니다.</li>
-<li>극단적인 수준으로 중첩된 조회 문자열 오브젝트는 프로세스가 서버를 차단하고 일시적으로 서버를 무응답 상태로 만드는 원인이 될 수 있습니다.</li>
-</ul></li>
-</ul>
-<h2 id="x-1">3.x</h2>
-<ul>
-<li>3.19.1
-<ul>
-<li><code>express.static</code>, <code>res.sendfile</code> 및 <code>res.sendFile</code>의 루트 경로 노출 취약성을 수정했습니다.</li>
-</ul></li>
-<li>3.19.0
-<ul>
-<li><code>express.static</code>의 개방된 경로 재지정 취약성을 수정했습니다(<a href="https://npmjs.com/advisories/35">보안 권고문</a>, <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1164">CVE-2015-1164</a>).</li>
-</ul></li>
-<li>3.16.10
-<ul>
-<li><code>express.static</code>의 디렉토리 조회 취약성을 수정했습니다.</li>
-</ul></li>
-<li>3.16.6
-<ul>
-<li>Node.js 0.10 이용 시, 특정한 상황에서 <code>fd</code> 누수가 발생할 수 있으며, 이는 <code>express.static</code> 및 <code>res.sendfile</code>에 영향을 미칩니다. 악성 요청은 <code>fd</code> 누수를 발생시킬 수 있으며, 결국 <code>EMFILE</code> 오류와 서버 무응답을 초래할 수 있습니다.</li>
-</ul></li>
-<li>3.16.0
-<ul>
-<li>조회 문자열에서 극단적으로 높은 인덱스를 갖는 스파스 배열은 프로세스가 메모리 부족을 발생시키고 서버에서 충돌이 발생하도록 하는 원인이 될 수 있습니다.</li>
-<li>극단적인 수준으로 중첩된 조회 문자열 오브젝트는 프로세스가 서버를 차단하고 일시적으로 서버를 무응답 상태로 만드는 원인이 될 수 있습니다.</li>
-</ul></li>
-<li>3.3.0
-<ul>
-<li>지원되지 않는 메소드 대체 시도의 404 응답은 XSS(Cross-site scripting) 공격을 받기 쉬웠습니다.</li>
-</ul></li>
-</ul>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express 보안 업데이트</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express 보안 업데이트</h1>
+    </header>
+    <h1 id="보안-업데이트">보안 업데이트</h1>
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        Node.js 취약성은 Express에 직접 영향을 미칩니다. 따라서
+        <a href="http://blog.nodejs.org/vulnerability/"
+          >Node.js 취약성을 항상 주시해야 하며</a
+        >, 반드시 안정적인 최신 버전의 Node.js를 사용해야 합니다.
+      </p>
+    </div>
+    <p>
+      아래의 목록에는 지정된 버전 업데이트에서 수정된 Express 취약성이 열거되어
+      있습니다.
+    </p>
+    <h2 id="x">4.x</h2>
+    <ul>
+      <li>
+        4.16.0
+        <ul>
+          <li>
+            의존성 <code>forwarded</code>가
+            <a href="https://npmjs.com/advisories/527">발견된 취약점</a>에 따라
+            업데이트되었습니다. <code>req.host</code>,
+            <code>req.hostname</code>, <code>req.ip</code>,
+            <code>req.ips</code>, <code>req.protocol</code>을 사용하는
+            애플리케이션에 영향을 끼칠 수 있습니다.
+          </li>
+          <li>
+            의존성 <code>mime</code>이
+            <a href="https://npmjs.com/advisories/535">발견된 취약점</a>에 따라
+            업데이트되었으나, Express에 영향을 끼치지는 않습니다.
+          </li>
+          <li>
+            의존성 <code>send</code>가
+            <a
+              href="https://nodejs.org/en/blog/vulnerability/september-2017-path-validation/"
+              >Node.js 8.5.0의 취약점</a
+            >에 대응하기 위해 업데이트되었습니다. Node.js 버전 8.5.0에서
+            실행되는 Express에만 영향을 끼칩니다.
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.15.5
+        <ul>
+          <li>
+            의존성 <code>debug</code>가
+            <a href="https://snyk.io/vuln/npm:debug:20170905">발견된 취약점</a
+            >에 따라 업데이트되었으나, Express에 영향을 끼치지는 않습니다.
+          </li>
+          <li>
+            의존성 <code>fresh</code>가
+            <a href="https://npmjs.com/advisories/526">발견된 취약점</a>에 따라
+            업데이트되었습니다. <code>express.static</code>,
+            <code>req.fresh</code>, <code>res.json</code>,
+            <code>res.jsonp</code>, <code>res.send</code>,
+            <code>res.sendfile</code> <code>res.sendFile</code>,
+            <code>res.sendStatus</code>를 사용하고 있는 애플리케이션에 영향을
+            끼칩니다.
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.15.3
+        <ul>
+          <li>
+            의존성 <code>ms</code>가
+            <a href="https://snyk.io/vuln/npm:ms:20170412">발견된 취약점</a>에
+            따라 업데이트되었습니다. 애플리케이션이 <code>express.static</code>,
+            <code>res.sendfile</code>, <code>res.sendFile</code>의
+            <code>maxAge</code> 옵션에 Untrusted 문자열을 입력받고 있으면 영향을
+            끼칠 수 있습니다.
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.15.2
+        <ul>
+          <li>
+            의존성 <code>qs</code>가
+            <a href="https://snyk.io/vuln/npm:qs:20170213">발견된 취약점</a>에
+            따라 업데이트되었으나, Express에 영향을 끼치지는 않습니다. 4.15.2로
+            업데이트하는 것을 권장하나, 취약점을 막는 업데이트는 아닙니다..
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.11.1
+        <ul>
+          <li>
+            <code>express.static</code>, <code>res.sendfile</code> 및
+            <code>res.sendFile</code>의 루트 경로 노출 취약성을 수정했습니다.
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.10.7
+        <ul>
+          <li>
+            <code>express.static</code>의 개방된 경로 재지정 취약성을
+            수정했습니다(<a href="https://npmjs.com/advisories/35"
+              >보안 권고문</a
+            >,
+            <a
+              href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1164"
+              >CVE-2015-1164</a
+            >).
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.8.8
+        <ul>
+          <li>
+            <code>express.static</code>의 디렉토리 조회 취약성을 수정했습니다(<a
+              href="http://npmjs.com/advisories/32"
+              >보안 권고문</a
+            >,
+            <a
+              href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-6394"
+              >CVE-2014-6394</a
+            >).
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.8.4
+        <ul>
+          <li>
+            Node.js 0.10 이용 시, 특정한 상황에서 <code>fd</code> 누수가 발생할
+            수 있으며, 이는 <code>express.static</code> 및
+            <code>res.sendfile</code>에 영향을 미칩니다. 악성 요청은
+            <code>fd</code> 누수를 발생시킬 수 있으며, 결국
+            <code>EMFILE</code> 오류와 서버 무응답을 초래할 수 있습니다.
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.8.0
+        <ul>
+          <li>
+            조회 문자열에서 극단적으로 높은 인덱스를 갖는 스파스 배열은
+            프로세스가 메모리 부족을 발생시키고 서버에서 충돌이 발생하도록 하는
+            원인이 될 수 있습니다.
+          </li>
+          <li>
+            극단적인 수준으로 중첩된 조회 문자열 오브젝트는 프로세스가 서버를
+            차단하고 일시적으로 서버를 무응답 상태로 만드는 원인이 될 수
+            있습니다.
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <h2 id="x-1">3.x</h2>
+    <ul>
+      <li>
+        3.19.1
+        <ul>
+          <li>
+            <code>express.static</code>, <code>res.sendfile</code> 및
+            <code>res.sendFile</code>의 루트 경로 노출 취약성을 수정했습니다.
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.19.0
+        <ul>
+          <li>
+            <code>express.static</code>의 개방된 경로 재지정 취약성을
+            수정했습니다(<a href="https://npmjs.com/advisories/35"
+              >보안 권고문</a
+            >,
+            <a
+              href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1164"
+              >CVE-2015-1164</a
+            >).
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.16.10
+        <ul>
+          <li>
+            <code>express.static</code>의 디렉토리 조회 취약성을 수정했습니다.
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.16.6
+        <ul>
+          <li>
+            Node.js 0.10 이용 시, 특정한 상황에서 <code>fd</code> 누수가 발생할
+            수 있으며, 이는 <code>express.static</code> 및
+            <code>res.sendfile</code>에 영향을 미칩니다. 악성 요청은
+            <code>fd</code> 누수를 발생시킬 수 있으며, 결국
+            <code>EMFILE</code> 오류와 서버 무응답을 초래할 수 있습니다.
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.16.0
+        <ul>
+          <li>
+            조회 문자열에서 극단적으로 높은 인덱스를 갖는 스파스 배열은
+            프로세스가 메모리 부족을 발생시키고 서버에서 충돌이 발생하도록 하는
+            원인이 될 수 있습니다.
+          </li>
+          <li>
+            극단적인 수준으로 중첩된 조회 문자열 오브젝트는 프로세스가 서버를
+            차단하고 일시적으로 서버를 무응답 상태로 만드는 원인이 될 수
+            있습니다.
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.3.0
+        <ul>
+          <li>
+            지원되지 않는 메소드 대체 시도의 404 응답은 XSS(Cross-site
+            scripting) 공격을 받기 쉬웠습니다.
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </body>
 </html>

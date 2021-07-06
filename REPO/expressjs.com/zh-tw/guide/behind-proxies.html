@@ -1,104 +1,152 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-tw" xml:lang="zh-tw">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>位於 Proxy 背後的 Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">位於 Proxy 背後的 Express</h1>
-</header>
-<h1 id="位於-proxy-背後的-express">位於 Proxy 背後的 Express</h1>
-<p>當 Express 應用程式是在 Proxy 背後執行時，請使用 <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.set">app.set()</a>，將 <code>trust proxy</code> 應用程式變數設為下表列出的其中一值。</p>
-<div class="doc-box doc-info" data-markdown="1">
-<p>雖然未設定 <code>trust proxy</code> 應用程式變數時，應用程式並不會無法執行，但除非配置 <code>trust proxy</code>，否則，它會將 Proxy 的 IP 位址登錄成錯誤的用戶端 IP 位址。</p>
-</div>
-<table class="doctable" border="1" markdown="1">
-<thead>
-<tr>
-<th>
-類型
-</th>
-<th>
-值
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-布林
-</td>
-<td>
-<p>若為 <code>true</code>，會將用戶端的 IP 位址視為 <code>X-Forwarded-*</code> 標頭中的最左側項目。</p>
-若為 <code>false</code>，會將應用程式視為直接面對網際網路，且用戶端的 IP 位址衍生自 <code>req.connection.remoteAddress</code>。這是預設值。
-</td>
-</tr>
-<tr>
-<td>
-IP 位址
-</td>
-<td>
-<p>要信任的 IP 位址、子網路，或是 IP 位址與子網路陣列。下列清單顯示預先配置的子網路名稱：</p>
-<ul>
-<li>loopback - <code>127.0.0.1/8</code>、<code>::1/128</code></li>
-<li>linklocal - <code>169.254.0.0/16</code>、<code>fe80::/10</code></li>
-<li>uniquelocal - <code>10.0.0.0/8</code>、<code>172.16.0.0/12</code>、<code>192.168.0.0/16</code>、<code>fc00::/7</code></li>
-</ul>
-<p>您可以採下列任何方式來設定 IP 位址：</p>
-<pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>位於 Proxy 背後的 Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">位於 Proxy 背後的 Express</h1>
+    </header>
+    <h1 id="位於-proxy-背後的-express">位於 Proxy 背後的 Express</h1>
+    <p>
+      當 Express 應用程式是在 Proxy 背後執行時，請使用
+      <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.set">app.set()</a
+      >，將 <code>trust proxy</code> 應用程式變數設為下表列出的其中一值。
+    </p>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        雖然未設定
+        <code>trust proxy</code>
+        應用程式變數時，應用程式並不會無法執行，但除非配置
+        <code>trust proxy</code>，否則，它會將 Proxy 的 IP
+        位址登錄成錯誤的用戶端 IP 位址。
+      </p>
+    </div>
+    <table class="doctable" border="1" markdown="1">
+      <thead>
+        <tr>
+          <th>類型</th>
+          <th>值</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>布林</td>
+          <td>
+            <p>
+              若為 <code>true</code>，會將用戶端的 IP 位址視為
+              <code>X-Forwarded-*</code> 標頭中的最左側項目。
+            </p>
+            若為
+            <code>false</code>，會將應用程式視為直接面對網際網路，且用戶端的 IP
+            位址衍生自 <code>req.connection.remoteAddress</code>。這是預設值。
+          </td>
+        </tr>
+        <tr>
+          <td>IP 位址</td>
+          <td>
+            <p>
+              要信任的 IP 位址、子網路，或是 IP
+              位址與子網路陣列。下列清單顯示預先配置的子網路名稱：
+            </p>
+            <ul>
+              <li>loopback - <code>127.0.0.1/8</code>、<code>::1/128</code></li>
+              <li>
+                linklocal - <code>169.254.0.0/16</code>、<code>fe80::/10</code>
+              </li>
+              <li>
+                uniquelocal -
+                <code>10.0.0.0/8</code
+                >、<code>172.16.0.0/12</code>、<code>192.168.0.0/16</code>、<code
+                  >fc00::/7</code
+                >
+              </li>
+            </ul>
+            <p>您可以採下列任何方式來設定 IP 位址：</p>
+            <pre>
 <code class="language-js" translate="no">app.set('trust proxy', 'loopback') // specify a single subnet
 app.set('trust proxy', 'loopback, 123.123.123.123') // specify a subnet and an address
 app.set('trust proxy', 'loopback, linklocal, uniquelocal') // specify multiple subnets as CSV
 app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']) // specify multiple subnets as an array</code>
 </pre>
-若有指定，位址判定程序中會排除 IP 位址或子網路，且會將最接近應用程式伺服器的未授信 IP 位址判斷為用戶端的 IP 位址。
-</td>
-</tr>
-<tr>
-<td>
-號碼
-</td>
-<td>
-信任來自正面 Proxy 伺服器的第 <code>n</code> 個躍點就是用戶端。
-</td>
-</tr>
-<tr>
-<td>
-函數
-</td>
-<td>
-自訂信任實作。只有在您清楚自己要做什麼時，才能使用此項。
-<pre>
+            若有指定，位址判定程序中會排除 IP
+            位址或子網路，且會將最接近應用程式伺服器的未授信 IP
+            位址判斷為用戶端的 IP 位址。
+          </td>
+        </tr>
+        <tr>
+          <td>號碼</td>
+          <td>
+            信任來自正面 Proxy 伺服器的第 <code>n</code> 個躍點就是用戶端。
+          </td>
+        </tr>
+        <tr>
+          <td>函數</td>
+          <td>
+            自訂信任實作。只有在您清楚自己要做什麼時，才能使用此項。
+            <pre>
 <code class="language-js" translate="no">app.set('trust proxy', function (ip) {
   if (ip === '127.0.0.1' || ip === '123.123.123.123') return true; // trusted IPs
   else return false;
 });</code>
 </pre>
-</td>
-</tr>
-</tbody>
-</table>
-<p>如果設定 <code>false</code> <code>trust proxy</code> 以外的值，會造成三項重要的變更：</p>
-<ul>
-<li>
-<a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.hostname">req.hostname</a> 值會衍生自 <code>X-Forwarded-Host</code> 標頭中所設定的值，且該值可能由用戶端或 Proxy 所設定。
-</li>
-<li>
-反向 Proxy 可能設定 <code>X-Forwarded-Proto</code>，以告知應用程式它是 <code>https</code> 或 <code>http</code> 或甚至是無效的名稱。<a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.protocol">req.protocol</a> 會反映此值。
-</li>
-<li>
-<a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.ip">req.ip</a> 和 <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.ips">req.ips</a> 值中會移入 <code>X-Forwarded-For</code> 中的位址清單。
-</li>
-</ul>
-<p>會使用 <a href="https://www.npmjs.com/package/proxy-addr">proxy-addr</a> 套件來實作 <code>trust proxy</code> 設定。如需相關資訊，請參閱其說明文件。</p>
-</body>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      如果設定 <code>false</code>
+      <code>trust proxy</code> 以外的值，會造成三項重要的變更：
+    </p>
+    <ul>
+      <li>
+        <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.hostname"
+          >req.hostname</a
+        >
+        值會衍生自
+        <code>X-Forwarded-Host</code> 標頭中所設定的值，且該值可能由用戶端或
+        Proxy 所設定。
+      </li>
+      <li>
+        反向 Proxy 可能設定 <code>X-Forwarded-Proto</code>，以告知應用程式它是
+        <code>https</code> 或 <code>http</code> 或甚至是無效的名稱。<a
+          href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.protocol"
+          >req.protocol</a
+        >
+        會反映此值。
+      </li>
+      <li>
+        <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.ip">req.ip</a> 和
+        <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#req.ips">req.ips</a>
+        值中會移入 <code>X-Forwarded-For</code> 中的位址清單。
+      </li>
+    </ul>
+    <p>
+      會使用
+      <a href="https://www.npmjs.com/package/proxy-addr">proxy-addr</a>
+      套件來實作 <code>trust proxy</code> 設定。如需相關資訊，請參閱其說明文件。
+    </p>
+  </body>
 </html>

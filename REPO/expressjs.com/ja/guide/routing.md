@@ -7,14 +7,14 @@ lang: ja
 
 # ルーティング
 
-*ルーティング* とは、アプリケーション・エンドポイント (URI) と、クライアントリクエストに対するそれらのレスポンスの定義のことです。
+_ルーティング_ とは、アプリケーション・エンドポイント (URI) と、クライアントリクエストに対するそれらのレスポンスの定義のことです。
 ルーティングの概要については、[基本的なルーティング](/{{ page.lang }}/starter/basic-routing.html)を参照してください。
 
-ルーティングはHTTPメソッドに対応するExpressの`app`オブジェクトのメソッドを使用して定義します。たとえば、GETリクエストを処理する`app.get()`やPOSTリクエストを処理する`app.post`があります。
-完全なリストについては、[app.METHOD](/{{ page.lang }}/4x/ api.html#app.METHODを)を参照してください。
-また、すべてのHTTPメソッドを制御するために[app.all()](/{{ page.lang }}/4x/api.html#app.all)を、ミドルウェアを指定するために[app.use()](/{{ page.lang }}/4x/api.html#app.use)をコールバック関数として使用することができます(詳細については、[Using middleware](/{{ page.lang }}/guide/using-middleware.html)を参照してください)。
+ルーティングは HTTP メソッドに対応する Express の`app`オブジェクトのメソッドを使用して定義します。たとえば、GET リクエストを処理する`app.get()`や POST リクエストを処理する`app.post`があります。
+完全なリストについては、[app.METHOD](/{{ page.lang }}/4x/ api.html#app.METHOD を)を参照してください。
+また、すべての HTTP メソッドを制御するために[app.all()](/{{ page.lang }}/4x/api.html#app.all)を、ミドルウェアを指定するために[app.use()](/{{ page.lang }}/4x/api.html#app.use)をコールバック関数として使用することができます(詳細については、[Using middleware](/{{ page.lang }}/guide/using-middleware.html)を参照してください)。
 
-これらのルーティングメソッドは、アプリケーションが指定されたルート（エンドポイント）とHTTPメソッドへのリクエストを受け取ったときに呼び出されるコールバック関数（ハンドラ関数とも呼ばれます）を指定します。 つまり、アプリケーションは指定されたルートとメソッドに一致するリクエストをリッスンし、一致を検出すると指定されたコールバック関数を呼び出します。
+これらのルーティングメソッドは、アプリケーションが指定されたルート（エンドポイント）と HTTP メソッドへのリクエストを受け取ったときに呼び出されるコールバック関数（ハンドラ関数とも呼ばれます）を指定します。 つまり、アプリケーションは指定されたルートとメソッドに一致するリクエストをリッスンし、一致を検出すると指定されたコールバック関数を呼び出します。
 
 実際、ルーティングメソッドは複数のコールバック関数を引数として持つことができます。
 複数のコールバック関数では、コールバック関数に引数として`next`を指定し、次のコールバックに制御を渡す関数の本体内で`next()`を呼び出すことが重要です。
@@ -22,13 +22,13 @@ lang: ja
 次のコードは、極めて基本的なルートの例です。
 
 ```js
-var express = require('express')
-var app = express()
+var express = require("express");
+var app = express();
 
 // respond with "hello world" when a GET request is made to the homepage
-app.get('/', function (req, res) {
-  res.send('hello world')
-})
+app.get("/", function (req, res) {
+  res.send("hello world");
+});
 ```
 
 <h2 id="route-methods">route メソッド</h2>
@@ -39,26 +39,26 @@ route メソッドは、いずれかの HTTP メソッドから派生され、`e
 
 ```js
 // GET method route
-app.get('/', function (req, res) {
-  res.send('GET request to the homepage')
-})
+app.get("/", function (req, res) {
+  res.send("GET request to the homepage");
+});
 
 // POST method route
-app.post('/', function (req, res) {
-  res.send('POST request to the homepage')
-})
+app.post("/", function (req, res) {
+  res.send("POST request to the homepage");
+});
 ```
 
-Expressは、すべてのHTTPリクエストメソッドに対応するメソッド（`get`、`post`など）をサポートしています。
+Express は、すべての HTTP リクエストメソッドに対応するメソッド（`get`、`post`など）をサポートしています。
 完全なリストについては、[app.METHOD](/{{ page.lang }}/4x/api.html#app.METHOD)を参照して下さい。
 
-_すべての_ HTTPリクエストメソッドのパスにミドルウェア関数をロードするために使用される特別なルーティングメソッド、`app.all()`があります。 たとえば、GET、POST、PUT、DELETE、または[httpモジュール](https://nodejs.org/api/http.html#http_http_methods)でサポートされているその他のHTTPリクエストメソッドを使用するかどうかにかかわらず、"/secret"ルートへのリクエストに対して次のハンドラが実行されます。
+_すべての_ HTTP リクエストメソッドのパスにミドルウェア関数をロードするために使用される特別なルーティングメソッド、`app.all()`があります。 たとえば、GET、POST、PUT、DELETE、または[http モジュール](https://nodejs.org/api/http.html#http_http_methods)でサポートされているその他の HTTP リクエストメソッドを使用するかどうかにかかわらず、"/secret"ルートへのリクエストに対して次のハンドラが実行されます。
 
 ```js
-app.all('/secret', function (req, res, next) {
-  console.log('Accessing the secret section ...')
-  next() // pass control to the next handler
-})
+app.all("/secret", function (req, res, next) {
+  console.log("Accessing the secret section ...");
+  next(); // pass control to the next handler
+});
 ```
 
 <h2 id="route-paths">ルート・パス</h2>
@@ -82,25 +82,25 @@ Express は、ルート・パスのマッチングに [path-to-regexp](https://w
 このルート・パスは、リクエストをルートのルート `/` にマッチングします。
 
 ```js
-app.get('/', function (req, res) {
-  res.send('root')
-})
+app.get("/", function (req, res) {
+  res.send("root");
+});
 ```
 
 このルート・パスは、リクエストを `/about` にマッチングします。
 
 ```js
-app.get('/about', function (req, res) {
-  res.send('about')
-})
+app.get("/about", function (req, res) {
+  res.send("about");
+});
 ```
 
 このルート・パスは、リクエストを `/random.text` にマッチングします。
 
 ```js
-app.get('/random.text', function (req, res) {
-  res.send('random.text')
-})
+app.get("/random.text", function (req, res) {
+  res.send("random.text");
+});
 ```
 
 次に、ストリング・パターンに基づくルート・パスの例を示します。
@@ -108,33 +108,33 @@ app.get('/random.text', function (req, res) {
 このルート・パスは、`acd` および `abcd` をマッチングします。
 
 ```js
-app.get('/ab?cd', function (req, res) {
-  res.send('ab?cd')
-})
+app.get("/ab?cd", function (req, res) {
+  res.send("ab?cd");
+});
 ```
 
 このルート・パスは、`abcd`、`abbcd`、`abbbcd` などをマッチングします。
 
 ```js
-app.get('/ab+cd', function (req, res) {
-  res.send('ab+cd')
-})
+app.get("/ab+cd", function (req, res) {
+  res.send("ab+cd");
+});
 ```
 
 このルート・パスは、`abcd`、`abxcd`、`abRABDOMcd`、`ab123cd` などをマッチングします。
 
 ```js
-app.get('/ab*cd', function (req, res) {
-  res.send('ab*cd')
-})
+app.get("/ab*cd", function (req, res) {
+  res.send("ab*cd");
+});
 ```
 
 このルート・パスは、`/abe` および `/abcde` をマッチングします。
 
 ```js
-app.get('/ab(cd)?e', function (req, res) {
-  res.send('ab(cd)?e')
-})
+app.get("/ab(cd)?e", function (req, res) {
+  res.send("ab(cd)?e");
+});
 ```
 
 次に、正規表現に基づくルート・パスの例を示します。
@@ -143,21 +143,21 @@ app.get('/ab(cd)?e', function (req, res) {
 
 ```js
 app.get(/a/, function (req, res) {
-  res.send('/a/')
-})
+  res.send("/a/");
+});
 ```
 
 このルート・パスは、`butterfly` および `dragonfly` をマッチングしますが、`butterflyman`、`dragonfly man` などはマッチングしません。
 
 ```js
 app.get(/.*fly$/, function (req, res) {
-  res.send('/.*fly$/')
-})
+  res.send("/.*fly$/");
+});
 ```
 
 <h3 id="route-parameters">ルート・パラメータ</h3>
 
-ルート・パラメータは、URL内の指定された値を取得するために使用されるURLセグメントのことを言います。捕捉された値は`req.params`オブジェクトの中で、パスに指定されたルート・パラメータの名前をそれぞれのキーとして設定されます。
+ルート・パラメータは、URL 内の指定された値を取得するために使用される URL セグメントのことを言います。捕捉された値は`req.params`オブジェクトの中で、パスに指定されたルート・パラメータの名前をそれぞれのキーとして設定されます。
 
 ```
 ルート・パス: /users/:userId/books/:bookId
@@ -168,9 +168,9 @@ req.params: { "userId": "34", "bookId": "8989" }
 ルート・パラメータを使用してルートを定義するには、以下に示すようにルートのパスにルート・パラメータを指定するだけです。
 
 ```js
-app.get('/users/:userId/books/:bookId', function (req, res) {
-  res.send(req.params)
-})
+app.get("/users/:userId/books/:bookId", function (req, res) {
+  res.send(req.params);
+});
 ```
 
 <div class="doc-box doc-notice" markdown="1">
@@ -216,78 +216,87 @@ Express 4.xでは、<a href="https://github.com/expressjs/express/issues/2495">�
 単一のコールバック関数で 1 つのルートを処理できます。次に例を示します。
 
 ```js
-app.get('/example/a', function (req, res) {
-  res.send('Hello from A!')
-})
+app.get("/example/a", function (req, res) {
+  res.send("Hello from A!");
+});
 ```
 
-複数のコールバック関数で1つのルートを処理できます (必ず、`next` オブジェクトを指定してください)。次に例を示します。
+複数のコールバック関数で 1 つのルートを処理できます (必ず、`next` オブジェクトを指定してください)。次に例を示します。
 
 ```js
-app.get('/example/b', function (req, res, next) {
-  console.log('the response will be sent by the next function ...')
-  next()
-}, function (req, res) {
-  res.send('Hello from B!')
-})
+app.get(
+  "/example/b",
+  function (req, res, next) {
+    console.log("the response will be sent by the next function ...");
+    next();
+  },
+  function (req, res) {
+    res.send("Hello from B!");
+  }
+);
 ```
 
 コールバック関数の配列で 1 つのルートを処理できます。次に例を示します。
 
 ```js
 var cb0 = function (req, res, next) {
-  console.log('CB0')
-  next()
-}
+  console.log("CB0");
+  next();
+};
 
 var cb1 = function (req, res, next) {
-  console.log('CB1')
-  next()
-}
+  console.log("CB1");
+  next();
+};
 
 var cb2 = function (req, res) {
-  res.send('Hello from C!')
-}
+  res.send("Hello from C!");
+};
 
-app.get('/example/c', [cb0, cb1, cb2])
+app.get("/example/c", [cb0, cb1, cb2]);
 ```
 
-独立した関数と、関数の配列の組み合わせで1つのルートを処理できます。次に例を示します。
+独立した関数と、関数の配列の組み合わせで 1 つのルートを処理できます。次に例を示します。
 
 ```js
 var cb0 = function (req, res, next) {
-  console.log('CB0')
-  next()
-}
+  console.log("CB0");
+  next();
+};
 
 var cb1 = function (req, res, next) {
-  console.log('CB1')
-  next()
-}
+  console.log("CB1");
+  next();
+};
 
-app.get('/example/d', [cb0, cb1], function (req, res, next) {
-  console.log('the response will be sent by the next function ...')
-  next()
-}, function (req, res) {
-  res.send('Hello from D!')
-})
+app.get(
+  "/example/d",
+  [cb0, cb1],
+  function (req, res, next) {
+    console.log("the response will be sent by the next function ...");
+    next();
+  },
+  function (req, res) {
+    res.send("Hello from D!");
+  }
+);
 ```
 
 <h2 id="response-methods">レスポンスメソッド</h2>
 
 次の表に示すレスポンスオブジェクト (`res`) のメソッドは、レスポンスをクライアントに送信して、リクエストとレスポンスのサイクルを終了することができます。これらのメソッドのいずれもルート・ハンドラーから呼び出されない場合、クライアントリクエストはハングしたままになります。
 
-| メソッド               | 説明
-|----------------------|--------------------------------------
-| [res.download()](/{{ page.lang }}/4x/api.html#res.download)   | ファイルのダウンロードのプロンプトを出します。
-| [res.end()](/{{ page.lang }}/4x/api.html#res.end)        | レスポンスプロセスを終了します。
-| [res.json()](/{{ page.lang }}/4x/api.html#res.json)       | JSON レスポンスを送信します。
-| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)      | JSONP をサポートする JSON レスポンスを送信します。
-| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)   | リクエストをリダイレクトします。
-| [res.render()](/{{ page.lang }}/4x/api.html#res.render)     | ビュー・テンプレートをレンダリングします。
-| [res.send()](/{{ page.lang }}/4x/api.html#res.send)       | さまざまなタイプのレスポンスを送信します。
-| [res.sendFile](/{{ page.lang }}/4x/api.html#res.sendFile)     | ファイルをオクテット・ストリームとして送信します。
-| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | レスポンスのステータスコードを設定して、そのストリング表現をレスポンス本文として送信します。
+| メソッド                                                        | 説明                                                                                         |
+| --------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [res.download()](/{{ page.lang }}/4x/api.html#res.download)     | ファイルのダウンロードのプロンプトを出します。                                               |
+| [res.end()](/{{ page.lang }}/4x/api.html#res.end)               | レスポンスプロセスを終了します。                                                             |
+| [res.json()](/{{ page.lang }}/4x/api.html#res.json)             | JSON レスポンスを送信します。                                                                |
+| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)           | JSONP をサポートする JSON レスポンスを送信します。                                           |
+| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)     | リクエストをリダイレクトします。                                                             |
+| [res.render()](/{{ page.lang }}/4x/api.html#res.render)         | ビュー・テンプレートをレンダリングします。                                                   |
+| [res.send()](/{{ page.lang }}/4x/api.html#res.send)             | さまざまなタイプのレスポンスを送信します。                                                   |
+| [res.sendFile](/{{ page.lang }}/4x/api.html#res.sendFile)       | ファイルをオクテット・ストリームとして送信します。                                           |
+| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | レスポンスのステータスコードを設定して、そのストリング表現をレスポンス本文として送信します。 |
 
 <h2 id="app-route">app.route()</h2>
 
@@ -297,16 +306,17 @@ app.get('/example/d', [cb0, cb1], function (req, res, next) {
 次に、`app.route()` を使用して定義された、チェーニングされたルート・ハンドラーの例を示します。
 
 ```js
-app.route('/book')
+app
+  .route("/book")
   .get(function (req, res) {
-    res.send('Get a random book')
+    res.send("Get a random book");
   })
   .post(function (req, res) {
-    res.send('Add a book')
+    res.send("Add a book");
   })
   .put(function (req, res) {
-    res.send('Update the book')
-  })
+    res.send("Update the book");
+  });
 ```
 
 <h2 id="express-router">express.Router</h2>
@@ -318,32 +328,32 @@ app.route('/book')
 アプリケーション・ディレクトリーに次の内容で `birds.js` というルーター・ファイルを作成します。
 
 ```js
-var express = require('express')
-var router = express.Router()
+var express = require("express");
+var router = express.Router();
 
 // middleware that is specific to this router
-router.use(function timeLog (req, res, next) {
-  console.log('Time: ', Date.now())
-  next()
-})
+router.use(function timeLog(req, res, next) {
+  console.log("Time: ", Date.now());
+  next();
+});
 // define the home page route
-router.get('/', function (req, res) {
-  res.send('Birds home page')
-})
+router.get("/", function (req, res) {
+  res.send("Birds home page");
+});
 // define the about route
-router.get('/about', function (req, res) {
-  res.send('About birds')
-})
+router.get("/about", function (req, res) {
+  res.send("About birds");
+});
 
-module.exports = router
+module.exports = router;
 ```
 
 次に、ルーター・モジュールをアプリケーションにロードします。
 
 ```js
-var birds = require('./birds')
+var birds = require("./birds");
 // ...
-app.use('/birds', birds)
+app.use("/birds", birds);
 ```
 
 これで、アプリケーションは、`/birds` および `/birds/about` に対するリクエストを処理するほか、ルートに固有の `timeLog` ミドルウェア関数を呼び出すことができるようになります。

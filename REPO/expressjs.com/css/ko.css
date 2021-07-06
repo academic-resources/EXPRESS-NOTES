@@ -4,16 +4,30 @@
 */
 /* For image callouts in writing-middleware.md */
 
-.callout {position: relative;}
+.callout {
+  position: relative;
+}
 
-#callout1 {top: 40px; }
+#callout1 {
+  top: 40px;
+}
 
-#callout2 {top: 60px;}
+#callout2 {
+  top: 60px;
+}
 
-#callout3 {top: 75px;}
+#callout3 {
+  top: 75px;
+}
 
-#callout4 {top: 145px;}
+#callout4 {
+  top: 145px;
+}
 
-#callout5 {top: 165px;}
+#callout5 {
+  top: 165px;
+}
 
-#callout6 {top: 185px;}
+#callout6 {
+  top: 185px;
+}

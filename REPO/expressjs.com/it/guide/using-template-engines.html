@@ -1,45 +1,90 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Utilizzo di motori di template con Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Utilizzo di motori di template con Express</h1>
-</header>
-<h1 id="utilizzo-di-motori-di-template-con-express">Utilizzo di motori di template con Express</h1>
-<p>Prima che Express possa eseguire il rendering di file template, è necessario specificare le seguenti impostazioni dell’applicazione:</p>
-<ul>
-<li><code>views</code>, la directory dove sono ubicati i file di template. Ad esempio: <code>app.set('views', './views')</code></li>
-<li><code>view engine</code>, il motore di template da utilizzare. Ad esempio: <code>app.set('view engine', 'pug')</code></li>
-</ul>
-<p>Quindi, installare il pacchetto npm del motore di template corrispondente:</p>
-<pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Utilizzo di motori di template con Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Utilizzo di motori di template con Express</h1>
+    </header>
+    <h1 id="utilizzo-di-motori-di-template-con-express">
+      Utilizzo di motori di template con Express
+    </h1>
+    <p>
+      Prima che Express possa eseguire il rendering di file template, è
+      necessario specificare le seguenti impostazioni dell’applicazione:
+    </p>
+    <ul>
+      <li>
+        <code>views</code>, la directory dove sono ubicati i file di template.
+        Ad esempio: <code>app.set('views', './views')</code>
+      </li>
+      <li>
+        <code>view engine</code>, il motore di template da utilizzare. Ad
+        esempio: <code>app.set('view engine', 'pug')</code>
+      </li>
+    </ul>
+    <p>
+      Quindi, installare il pacchetto npm del motore di template corrispondente:
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install pug --save
 </code>
 </pre>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>I motori di template compatibili con Express, ad esempio Pug esportano una funzione denominata <code>__express(filePath, options, callback)</code>, che viene richiamata dalla funzione <code>res.render()</code>, per il rendering del codice di template.</p>
-<p>Alcuni motori di template non seguono questa convenzione. La libreria <a href="https://www.npmjs.org/package/consolidate">Consolidate.js</a> segue questa convenzione, associando tutti i motori di template Node.js popolari e, perciò, funziona ininterrottamente in Express.</p>
-</div>
-<p>Una volta specificata l’impostazione view engine, non è necessario specificare il motore o caricare il modulo del motore di template nella propria app; Express carica il modulo internamente, come mostrato di seguito (per l’esempio precedente).</p>
-<pre>
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        I motori di template compatibili con Express, ad esempio Pug esportano
+        una funzione denominata
+        <code>__express(filePath, options, callback)</code>, che viene
+        richiamata dalla funzione <code>res.render()</code>, per il rendering
+        del codice di template.
+      </p>
+      <p>
+        Alcuni motori di template non seguono questa convenzione. La libreria
+        <a href="https://www.npmjs.org/package/consolidate">Consolidate.js</a>
+        segue questa convenzione, associando tutti i motori di template Node.js
+        popolari e, perciò, funziona ininterrottamente in Express.
+      </p>
+    </div>
+    <p>
+      Una volta specificata l’impostazione view engine, non è necessario
+      specificare il motore o caricare il modulo del motore di template nella
+      propria app; Express carica il modulo internamente, come mostrato di
+      seguito (per l’esempio precedente).
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.set('view engine', 'pug');
 </code>
 </pre>
-<p>Creare un file di template Pug denominato <code>index.pug</code> nella directory <code>views</code>, con il seguente contenuto:</p>
-<pre>
+    <p>
+      Creare un file di template Pug denominato <code>index.pug</code> nella
+      directory <code>views</code>, con il seguente contenuto:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 html
   head
@@ -48,15 +93,30 @@ html
     h1= message
 </code>
 </pre>
-<p>Quindi, creare una route per il rendering del file <code>index.pug</code>. Se la proprietà <code>view engine</code> non è impostata, è necessario specificare l’estensione del file <code>view</code>. Altrimenti, è possibile ometterla.</p>
-<pre>
+    <p>
+      Quindi, creare una route per il rendering del file <code>index.pug</code>.
+      Se la proprietà <code>view engine</code> non è impostata, è necessario
+      specificare l’estensione del file <code>view</code>. Altrimenti, è
+      possibile ometterla.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/', function (req, res) {
   res.render('index', { title: 'Hey', message: 'Hello there!'});
 });
 </code>
 </pre>
-<p>Quando si fa una richiesta alla home page, verrà eseguito il rendering del file <code>index.pug</code> come HTML.</p>
-<p>Per ulteriori informazioni su come funzionano i motori di template in Express, consultare la sezione: <a href="/%7B%7B%20page.lang%20%7D%7D/advanced/developing-template-engines.html">“Sviluppo dei motori di template per Express”</a>.</p>
-</body>
+    <p>
+      Quando si fa una richiesta alla home page, verrà eseguito il rendering del
+      file <code>index.pug</code> come HTML.
+    </p>
+    <p>
+      Per ulteriori informazioni su come funzionano i motori di template in
+      Express, consultare la sezione:
+      <a
+        href="/%7B%7B%20page.lang%20%7D%7D/advanced/developing-template-engines.html"
+        >“Sviluppo dei motori di template per Express”</a
+      >.
+    </p>
+  </body>
 </html>

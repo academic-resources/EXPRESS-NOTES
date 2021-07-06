@@ -36,7 +36,9 @@ Ihre Anwendung ist jetzt in der Lage, `.ntl`-Dateien auszugeben. Erstellen Sie i
 #message#
 </code>
 </pre>
+
 Erstellen Sie dann in Ihrer Anwendung die folgende Route.
+
 <pre>
 <code class="language-javascript" translate="no">
 app.get('/', function (req, res) {
@@ -44,4 +46,5 @@ app.get('/', function (req, res) {
 });
 </code>
 </pre>
+
 Wenn Sie eine Anforderung zur Homepage einleiten, wird `index.ntl` im HTML-Format ausgegeben.

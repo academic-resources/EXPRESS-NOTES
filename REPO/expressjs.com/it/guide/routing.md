@@ -7,7 +7,7 @@ lang: it
 
 # Routing
 
-*Routing* fa riferimento alla definizione di endpoint dell'applicazione (URI) e alla loro modalità di risposta alle richieste del client.
+_Routing_ fa riferimento alla definizione di endpoint dell'applicazione (URI) e alla loro modalità di risposta alle richieste del client.
 Per un'introduzione al concetto di routing, consultare la sezione [Routing di base](/{{ page.lang }}/starter/basic-routing.html).
 
 Il codice seguente è un esempio di una route veramente di base.
@@ -182,7 +182,7 @@ app.get(/.*fly$/, function(req, res) {
 
 Gli handler di route possono avere il formato di una funzione, di un array di funzioni o di combinazioni di entrambi, come illustrato nei seguenti esempi.
 
-Una singola funzione di callback può gestire una route.  Ad esempio:
+Una singola funzione di callback può gestire una route. Ad esempio:
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -205,7 +205,7 @@ app.get('/example/b', function (req, res, next) {
 </code>
 </pre>
 
-Un array di funzioni callback possono gestire una route.  Ad esempio:
+Un array di funzioni callback possono gestire una route. Ad esempio:
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -227,7 +227,7 @@ app.get('/example/c', [cb0, cb1, cb2]);
 </code>
 </pre>
 
-Una combinazione di funzioni indipendenti e array di funzioni può gestire una route.  Ad esempio:
+Una combinazione di funzioni indipendenti e array di funzioni può gestire una route. Ad esempio:
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -254,17 +254,17 @@ app.get('/example/d', [cb0, cb1], function (req, res, next) {
 
 I metodi sull'oggetto risposta (`res`) nella seguente tabella possono inviare una risposta al client e terminare il ciclo richiesta-risposta. Se nessuno di questi metodi viene richiamato da un handler di route, la richiesta del client verrà lasciata in sospeso.
 
-| Metodo               | Descrizione
-|----------------------|--------------------------------------
-| [res.download()](/{{ page.lang }}/4x/api.html#res.download)   | Richiedere un file da scaricare.
-| [res.end()](/{{ page.lang }}/4x/api.html#res.end)        | Terminare il processo di risposta.
-| [res.json()](/{{ page.lang }}/4x/api.html#res.json)       | Inviare una risposta JSON.
-| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)      | Inviare una risposta JSON con supporto JSONP.
-| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)   | Reindirizzare una richiesta.
-| [res.render()](/{{ page.lang }}/4x/api.html#res.render)     | Eseguire il rendering di un template di vista.
-| [res.send()](/{{ page.lang }}/4x/api.html#res.send)       | Inviare una risposta di vari tipi.
-| [res.sendFile](/{{ page.lang }}/4x/api.html#res.sendFile)     | Inviare un file come un flusso di ottetti.
-| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | Impostare il codice di stato della risposta e inviare la relativa rappresentazione di stringa come corpo della risposta.
+| Metodo                                                          | Descrizione                                                                                                              |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| [res.download()](/{{ page.lang }}/4x/api.html#res.download)     | Richiedere un file da scaricare.                                                                                         |
+| [res.end()](/{{ page.lang }}/4x/api.html#res.end)               | Terminare il processo di risposta.                                                                                       |
+| [res.json()](/{{ page.lang }}/4x/api.html#res.json)             | Inviare una risposta JSON.                                                                                               |
+| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)           | Inviare una risposta JSON con supporto JSONP.                                                                            |
+| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)     | Reindirizzare una richiesta.                                                                                             |
+| [res.render()](/{{ page.lang }}/4x/api.html#res.render)         | Eseguire il rendering di un template di vista.                                                                           |
+| [res.send()](/{{ page.lang }}/4x/api.html#res.send)             | Inviare una risposta di vari tipi.                                                                                       |
+| [res.sendFile](/{{ page.lang }}/4x/api.html#res.sendFile)       | Inviare un file come un flusso di ottetti.                                                                               |
+| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | Impostare il codice di stato della risposta e inviare la relativa rappresentazione di stringa come corpo della risposta. |
 
 <h2 id="app-route">app.route()</h2>
 

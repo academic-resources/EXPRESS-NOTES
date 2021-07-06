@@ -31,7 +31,7 @@ app.listen(port, () => {
 </code>
 </pre>
 
-La aplicación inicia un servidor y escucha las conexiones en el puerto 3000. La aplicación responde con "Hello World!" para las solicitudes al URL raíz (`/`) o a la *ruta* raíz. Para cada vía de acceso diferente, responderá con un error **404 Not Found**.
+La aplicación inicia un servidor y escucha las conexiones en el puerto 3000. La aplicación responde con "Hello World!" para las solicitudes al URL raíz (`/`) o a la _ruta_ raíz. Para cada vía de acceso diferente, responderá con un error **404 Not Found**.
 
 <div class="doc-box doc-notice" markdown="1">
 `req` (solicitud) y `res` (respuesta) son exactamente los mismos objetos que proporciona Node, por lo que puede invocar `req.pipe()`, `req.on('data', callback)` y cualquier otro objeto que invocaría sin estar Express implicado.
@@ -46,4 +46,3 @@ $ node app.js
 </pre>
 
 A continuación, cargue [http://localhost:3000/](http://localhost:3000/) en un navegador para ver la salida.
-

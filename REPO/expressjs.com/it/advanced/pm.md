@@ -7,7 +7,7 @@ lang: it
 
 # Process manager per le applicazioni Express
 
-Quando si eseguono le applicazioni Express per la produzione, è utile utilizzare un *process manager* per effettuare le seguenti attività:
+Quando si eseguono le applicazioni Express per la produzione, è utile utilizzare un _process manager_ per effettuare le seguenti attività:
 
 - Riavviare l'applicazione automaticamente se termina in modo anomalo.
 - Ottenere insight relativi alle prestazioni di runtime e al consumo delle risorse.
@@ -21,7 +21,6 @@ I process manager più noti per Express e altre applicazioni Node.js sono i segu
 - [StrongLoop Process Manager](#sl)
 - [PM2](#pm2)
 - [Forever](#forever)
-
 
 L'utilizzo di uno di questi tre strumenti può essere molto utile, tuttavia, StrongLoop Process Manager è l'unico strumento che fornisce una soluzione di distribuzione e runtime completa che interessa il ciclo di vita dell'intera applicazione Node.js, con la possibilità di usufruire di strumenti in ciascuna fase prima e dopo la produzione, in un'interfaccia unificata.
 
@@ -50,6 +49,7 @@ Documentazione completa:
 - [Using StrongLoop Process Manager](http://docs.strongloop.com/display/SLC/Using+Process+Manager).
 
 ### Installazione
+
 <pre>
 <code class="language-sh" translate="no">
 $ [sudo] npm install -g strongloop
@@ -57,6 +57,7 @@ $ [sudo] npm install -g strongloop
 </pre>
 
 ### Utilizzo di base
+
 <pre>
 <code class="language-sh" translate="no">
 $ cd my-app
@@ -130,7 +131,7 @@ $ slc ctl remove my-app
 
 ## <a id="pm2">PM2</a>
 
-PM2 è un process manager di produzione per le applicazioni Node.js, che dispone di un servizio di bilanciamento del carico integrato. PM2 è utile per consentire alle applicazioni di essere sempre attive e consente di ricaricarle senza interruzione, inoltre faciliterà le attività di gestione del sistema comuni.  PM2 inoltre consente di gestire la registrazione dell'applicazione, il monitoraggio e il clustering.
+PM2 è un process manager di produzione per le applicazioni Node.js, che dispone di un servizio di bilanciamento del carico integrato. PM2 è utile per consentire alle applicazioni di essere sempre attive e consente di ricaricarle senza interruzione, inoltre faciliterà le attività di gestione del sistema comuni. PM2 inoltre consente di gestire la registrazione dell'applicazione, il monitoraggio e il clustering.
 
 Per ulteriori informazioni, consultare [https://github.com/Unitech/pm2](https://github.com/Unitech/pm2).
 
@@ -204,7 +205,6 @@ Per rimuovere un'applicazione dal registro di PM2:
 $ pm2 delete 0
 </code>
 </pre>
-
 
 ## <a id="forever">Forever</a>
 

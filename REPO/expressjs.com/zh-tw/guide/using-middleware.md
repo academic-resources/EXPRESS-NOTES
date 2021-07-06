@@ -13,20 +13,20 @@ Express 是一個本身功能極簡的路由與中介軟體 Web 架構：本質�
 
 中介軟體函數可以執行下列作業：
 
-* 執行任何程式碼。
-* 對要求和回應物件進行變更。
-* 結束要求/回應循環。
-* 呼叫堆疊中的下一個中介軟體函數。
+- 執行任何程式碼。
+- 對要求和回應物件進行變更。
+- 結束要求/回應循環。
+- 呼叫堆疊中的下一個中介軟體函數。
 
 如果現行中介軟體函數不會結束要求/回應循環，它必須呼叫 `next()`，以便將控制權傳遞給下一個中介軟體函數。否則，要求將會停擺。
 
 Express 應用程式可以使用下列類型的中介軟體：
 
- - [應用程式層次的中介軟體](#middleware.application)
- - [路由器層次的中介軟體](#middleware.router)
- - [錯誤處理中介軟體](#middleware.error-handling)
- - [內建中介軟體](#middleware.built-in)
- - [協力廠商中介軟體](#middleware.third-party)
+- [應用程式層次的中介軟體](#middleware.application)
+- [路由器層次的中介軟體](#middleware.router)
+- [錯誤處理中介軟體](#middleware.error-handling)
+- [內建中介軟體](#middleware.built-in)
+- [協力廠商中介軟體](#middleware.third-party)
 
 您可以使用選用的裝載路徑，來載入應用程式層次的中介軟體和路由器層次的中介軟體。您也可以一併載入一系列的中介軟體函數，如此會在裝載點建立一個中介軟體系統子堆疊。
 
@@ -135,6 +135,7 @@ app.get('/user/:id', function (req, res, next) {
 var router = express.Router();
 </code>
 </pre>
+
 請利用 `router.use()` 和 `router.METHOD()` 函數來載入路由器層次的中介軟體。
 
 下列的程式碼範例是使用路由器層次的中介軟體，抄寫上述針對應用程式層次的中介軟體顯示的中介軟體系統：
@@ -212,16 +213,16 @@ Express 唯一的內建中介軟體函數是 `express.static`。此函數以 [se
 
 `options` 選用物件可具有下列內容：
 
-| 內容      | 說明                                                           |   類型      | 預設值         |
-|---------------|-----------------------------------------------------------------------|-------------|-----------------|
-| `dotfiles`    | 用來提供點檔案的選項。可能的值是 "allow"、"deny" 和 "ignore" | 字串 | "ignore" |
-| `etag`        | 啟用或停用 etag 的產生  | 布林 | `true` |
-| `extensions`  | 設定副檔名遞補。 | 陣列 | `[]` |
-| `index`       | 傳送目錄索引檔。設定 `false`，會停用目錄檢索。 | 混合 | "index.html" |
- `lastModified` | 將 `Last-Modified` 標頭設為作業系統上檔案的前次修改日期。可能的值是 `true` 或 `false`。 | 布林 | `true` |
-| `maxAge`      | 設定 Cache-Control 標頭的 max-age 內容，以毫秒為單位或 [ms 格式](https://www.npmjs.org/package/ms)的字串 | 數字 | 0 |
-| `redirect`    | 當路徑名稱是目錄時，重新導向至尾端 "/"。 | 布林 | `true` |
-| `setHeaders`  | 用來設定 HTTP 標頭以提供檔案的函數。 | 函數 |  |
+| 內容           | 說明                                                                                                     | 類型 | 預設值       |
+| -------------- | -------------------------------------------------------------------------------------------------------- | ---- | ------------ |
+| `dotfiles`     | 用來提供點檔案的選項。可能的值是 "allow"、"deny" 和 "ignore"                                             | 字串 | "ignore"     |
+| `etag`         | 啟用或停用 etag 的產生                                                                                   | 布林 | `true`       |
+| `extensions`   | 設定副檔名遞補。                                                                                         | 陣列 | `[]`         |
+| `index`        | 傳送目錄索引檔。設定 `false`，會停用目錄檢索。                                                           | 混合 | "index.html" |
+| `lastModified` | 將 `Last-Modified` 標頭設為作業系統上檔案的前次修改日期。可能的值是 `true` 或 `false`。                  | 布林 | `true`       |
+| `maxAge`       | 設定 Cache-Control 標頭的 max-age 內容，以毫秒為單位或 [ms 格式](https://www.npmjs.org/package/ms)的字串 | 數字 | 0            |
+| `redirect`     | 當路徑名稱是目錄時，重新導向至尾端 "/"。                                                                 | 布林 | `true`       |
+| `setHeaders`   | 用來設定 HTTP 標頭以提供檔案的函數。                                                                     | 函數 |              |
 
 下列範例顯示如何使用 `express.static` 中介軟體函數，且其中詳細闡述了 options 物件：
 

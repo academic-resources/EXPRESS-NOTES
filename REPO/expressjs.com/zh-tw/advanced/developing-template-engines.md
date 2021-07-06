@@ -36,6 +36,7 @@ app.set('view engine', 'ntl'); // register the template engine
 #message#
 </code>
 </pre>
+
 然後在應用程式中建立下列路由。
 
 <pre>
@@ -45,4 +46,5 @@ app.get('/', function (req, res) {
 });
 </code>
 </pre>
+
 當您向首頁提出要求時，`index.ntl` 會呈現成 HTML。

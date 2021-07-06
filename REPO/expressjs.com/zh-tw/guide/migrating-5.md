@@ -104,7 +104,7 @@ Express 5 不再支援 `res.send(obj, status)` 簽章。請改以設定狀態，
 
 <h4 id="res.send.status">res.send(status)</h4>
 
-Express 5 不再支援 <code>res.send(<em>status</em>)</code> 簽章，其中 *`status`* 是數字。請改用 `res.sendStatus(statusCode)` 函數，此函數是設定 HTTP 回應標頭狀態碼，並傳送文字版的程式碼：「找不到」、「內部伺服器錯誤」等。
+Express 5 不再支援 <code>res.send(<em>status</em>)</code> 簽章，其中 _`status`_ 是數字。請改用 `res.sendStatus(statusCode)` 函數，此函數是設定 HTTP 回應標頭狀態碼，並傳送文字版的程式碼：「找不到」、「內部伺服器錯誤」等。
 如果您需要使用 `res.send()` 函數來傳送數字，請將數字括上引號來轉換成字串，這樣 Express 就不會解譯它以試圖使用不支援的舊簽章。
 
 <h4 id="res.sendfile">res.sendfile()</h4>

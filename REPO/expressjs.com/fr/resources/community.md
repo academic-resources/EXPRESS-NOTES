@@ -36,4 +36,3 @@ de fonctionnalité, ouvrez un ticket dans la [file d'attente d'incidents](https:
 Notre communauté si animée a créé une large gamme d'extensions,
 [modules middleware](/{{ page.lang }}/resources/middleware.html) et des
 infrastructures de niveau supérieur. Consultez-les sur le [wiki](https://github.com/expressjs/express/wiki).
-

@@ -1,2 +1,1 @@
-
-process.env.NO_DEPRECATION = 'express-session';
+process.env.NO_DEPRECATION = "express-session";

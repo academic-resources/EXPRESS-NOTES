@@ -39,4 +39,3 @@ aprire un ticket in [coda problemi](https://github.com/expressjs/express/issues)
 La nostra community molto attiva ha creato una vasta varietà di estensioni,
 [moduli middleware](/{{ page.lang }}/resources/middleware.html) e framework di livello più elevato. È possibile verificarli in
 [wiki](https://github.com/expressjs/express/wiki).
-

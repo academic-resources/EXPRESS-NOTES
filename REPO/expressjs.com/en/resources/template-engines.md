@@ -36,8 +36,6 @@ These template engines work "out-of-the-box" with Express:
 
 The [Consolidate.js](https://github.com/tj/consolidate.js) library unifies the APIs of these template engines to a single Express-compatible API.
 
-
-
 ### Add your template engine here!
 
-[Edit the Markdown file](https://github.com/expressjs/expressjs.com/blob/gh-pages/en/resources/template-engines.md) and add a link to your project, then submit a pull request (GitHub login required).  Follow the format of the above listings.
+[Edit the Markdown file](https://github.com/expressjs/expressjs.com/blob/gh-pages/en/resources/template-engines.md) and add a link to your project, then submit a pull request (GitHub login required). Follow the format of the above listings.

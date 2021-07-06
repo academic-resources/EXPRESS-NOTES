@@ -4,6 +4,7 @@ title: Migrating to Express 5
 menu: guide
 lang: tr
 ---
+
 <div id="page-doc" markdown="1">
 # Moving to Express 5
 
@@ -11,7 +12,7 @@ lang: tr
 
 Express 5.0 is still in the alpha release stage, but here is a preview of the changes that will be in the release and how to migrate your Express 4 app to Express 5.
 
-Express 5 is not very different from Express 4: The changes to the API are not as significant as from 3.0 to 4.0.  Although the basic API remains the same, there are still breaking changes; in other words an existing Express 4 program might not work if you update it to use Express 5.
+Express 5 is not very different from Express 4: The changes to the API are not as significant as from 3.0 to 4.0. Although the basic API remains the same, there are still breaking changes; in other words an existing Express 4 program might not work if you update it to use Express 5.
 
 To install the latest alpha and to preview Express 5, enter the following command in your application root directory:
 
@@ -71,7 +72,7 @@ The `app.param(fn)` signature was used for modifying the behavior of the `app.pa
 
 <h4 id="plural">Pluralized method names</h4>
 
-The following method names have been pluralized. In Express 4, using the old methods resulted in a deprecation warning.  Express 5 no longer supports them at all:
+The following method names have been pluralized. In Express 4, using the old methods resulted in a deprecation warning. Express 5 no longer supports them at all:
 
 `req.acceptsCharset()` is replaced by `req.acceptsCharsets()`.
 
@@ -129,4 +130,5 @@ In Express 4.7 and Express 5 onwards, the query parser option can accept `false`
 <h4 id="res.render">res.render()</h4>
 
 This method now enforces asynchronous behavior for all view engines, avoiding bugs caused by view engines that had a synchronous implementation and that violated the recommended interface.
+
 </div>

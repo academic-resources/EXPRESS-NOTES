@@ -1,59 +1,108 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="uk" xml:lang="uk">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Обробка статичних файлів в Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Обробка статичних файлів в Express</h1>
-</header>
-<h1 id="обробка-статичних-файлів-в-express">Обробка статичних файлів в Express</h1>
-<p>Для обробки статичних файлів, таких як зображення, CSS файли, та JavaScript файли, використовуйте вбудовану у Express функцію <code>express.static</code>.</p>
-<p>Передайте ім’я директорії яка містить статичні файли у <code>express.static</code> щоб розпочати отримувати їх напряму. Наприклад, використовуйте цей код для того, щоб обробляти статичні файли у директорії з іменем <code>public</code>:</p>
-<pre><code class="language-javascript" translate="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Обробка статичних файлів в Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Обробка статичних файлів в Express</h1>
+    </header>
+    <h1 id="обробка-статичних-файлів-в-express">
+      Обробка статичних файлів в Express
+    </h1>
+    <p>
+      Для обробки статичних файлів, таких як зображення, CSS файли, та
+      JavaScript файли, використовуйте вбудовану у Express функцію
+      <code>express.static</code>.
+    </p>
+    <p>
+      Передайте ім’я директорії яка містить статичні файли у
+      <code>express.static</code> щоб розпочати отримувати їх напряму.
+      Наприклад, використовуйте цей код для того, щоб обробляти статичні файли у
+      директорії з іменем <code>public</code>:
+    </p>
+    <pre><code class="language-javascript" translate="no">
 app.use(express.static('public'));
 </code></pre>
-<p>Тепер ви можете підключити файли з директорії <code>public</code>:</p>
-<pre class="plain-text"><code class="plain-text" translate="no">
+    <p>Тепер ви можете підключити файли з директорії <code>public</code>:</p>
+    <pre class="plain-text"><code class="plain-text" translate="no">
 http://localhost:3000/images/kitten.jpg
 http://localhost:3000/css/style.css
 http://localhost:3000/js/app.js
 http://localhost:3000/images/bg.png
 http://localhost:3000/hello.html
 </code></pre>
-<div class="doc-box doc-info">
-<p>Express looks up the files relative to the static directory, so the name of the static directory is not part of the URL.</p>
-</div>
-<p>Щоб використовувати декілька директорій для статичних файлів, викличіть функцію <code>express.static</code> декілька разів:</p>
-<pre><code class="language-javascript" translate="no">
+    <div class="doc-box doc-info">
+      <p>
+        Express looks up the files relative to the static directory, so the name
+        of the static directory is not part of the URL.
+      </p>
+    </div>
+    <p>
+      Щоб використовувати декілька директорій для статичних файлів, викличіть
+      функцію <code>express.static</code> декілька разів:
+    </p>
+    <pre><code class="language-javascript" translate="no">
 app.use(express.static('public'));
 app.use(express.static('files'));
 </code></pre>
-<p>Express шукає файли в тому порядку, в якому ви викликали функцію <code>express.static</code> та передали їй шлях до папки як аргумент.</p>
-<p>Щоб створити віртуальний префікс для шляху (якщо шлях насправді відсутній у файловій системі) для файлів які обробляються функцією <code>express.static</code>, <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.use">та встановити власний маршрут</a> зробіть як показано нище:</p>
-<pre><code class="language-javascript" translate="no">
+    <p>
+      Express шукає файли в тому порядку, в якому ви викликали функцію
+      <code>express.static</code> та передали їй шлях до папки як аргумент.
+    </p>
+    <p>
+      Щоб створити віртуальний префікс для шляху (якщо шлях насправді відсутній
+      у файловій системі) для файлів які обробляються функцією
+      <code>express.static</code>,
+      <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.use"
+        >та встановити власний маршрут</a
+      >
+      зробіть як показано нище:
+    </p>
+    <pre><code class="language-javascript" translate="no">
 app.use('/static', express.static('public'));
 </code></pre>
-<p>Тепер ви можете підключити файли, які знаходяться у директорії <code>public</code> з використанням префіксу <code>/static</code>.</p>
-<pre class="plain-text"><code class="plain-text" translate="no">
+    <p>
+      Тепер ви можете підключити файли, які знаходяться у директорії
+      <code>public</code> з використанням префіксу <code>/static</code>.
+    </p>
+    <pre class="plain-text"><code class="plain-text" translate="no">
 http://localhost:3000/static/images/kitten.jpg
 http://localhost:3000/static/css/style.css
 http://localhost:3000/static/js/app.js
 http://localhost:3000/static/images/bg.png
 http://localhost:3000/static/hello.html
 </code></pre>
-<p>Проте, шлях який ви передаєте у функцію <code>express.static</code> є відносним до директорії з якої ви запускаєте ваш <code>node</code> процес. Якщо ви запускаєете додаток з іншої директорії, більш безпечним є вказувати абсолютний шлях:</p>
-<pre><code class="language-javascript" translate="no">
+    <p>
+      Проте, шлях який ви передаєте у функцію <code>express.static</code> є
+      відносним до директорії з якої ви запускаєте ваш <code>node</code> процес.
+      Якщо ви запускаєете додаток з іншої директорії, більш безпечним є
+      вказувати абсолютний шлях:
+    </p>
+    <pre><code class="language-javascript" translate="no">
 app.use('/static', express.static(__dirname + '/public'));
 </code></pre>
-</body>
+  </body>
 </html>

@@ -5,6 +5,7 @@ menu: guide
 lang: en
 redirect_from: "/guide/error-handling.html"
 ---
+
 # Error Handling
 
 _Error Handling_ refers to how Express catches and processes errors that
@@ -21,25 +22,25 @@ require no extra work. If synchronous code throws an error, then Express will
 catch and process it. For example:
 
 ```js
-app.get('/', function (req, res) {
-  throw new Error('BROKEN') // Express will catch this on its own.
-})
+app.get("/", function (req, res) {
+  throw new Error("BROKEN"); // Express will catch this on its own.
+});
 ```
 
 For errors returned from asynchronous functions invoked by route handlers
 and middleware, you must pass them to the `next()` function, where Express will
-catch and process them.  For example:
+catch and process them. For example:
 
 ```js
-app.get('/', function (req, res, next) {
-  fs.readFile('/file-does-not-exist', function (err, data) {
+app.get("/", function (req, res, next) {
+  fs.readFile("/file-does-not-exist", function (err, data) {
     if (err) {
-      next(err) // Pass errors to Express.
+      next(err); // Pass errors to Express.
     } else {
-      res.send(data)
+      res.send(data);
     }
-  })
-})
+  });
+});
 ```
 
 Starting with Express 5, route handlers and middleware that return a Promise
@@ -47,10 +48,10 @@ will call `next(value)` automatically when they reject or throw an error.
 For example:
 
 ```js
-app.get('/user/:id', async function (req, res, next) {
-  var user = await getUserById(req.params.id)
-  res.send(user)
-})
+app.get("/user/:id", async function (req, res, next) {
+  var user = await getUserById(req.params.id);
+  res.send(user);
+});
 ```
 
 If `getUserById` throws an error or rejects, `next` will be called with either
@@ -65,14 +66,14 @@ If the callback in a sequence provides no data, only errors, you can simplify
 this code as follows:
 
 ```js
-app.get('/', [
+app.get("/", [
   function (req, res, next) {
-    fs.writeFile('/inaccessible-path', 'data', next)
+    fs.writeFile("/inaccessible-path", "data", next);
   },
   function (req, res) {
-    res.send('OK')
-  }
-])
+    res.send("OK");
+  },
+]);
 ```
 
 In the above example `next` is provided as the callback for `fs.writeFile`,
@@ -83,15 +84,15 @@ You must catch errors that occur in asynchronous code invoked by route handlers 
 middleware and pass them to Express for processing. For example:
 
 ```js
-app.get('/', function (req, res, next) {
+app.get("/", function (req, res, next) {
   setTimeout(function () {
     try {
-      throw new Error('BROKEN')
+      throw new Error("BROKEN");
     } catch (err) {
-      next(err)
+      next(err);
     }
-  }, 100)
-})
+  }, 100);
+});
 ```
 
 The above example uses a `try...catch` block to catch errors in the
@@ -100,14 +101,16 @@ block were omitted, Express would not catch the error since it is not part of th
 handler code.
 
 Use promises to avoid the overhead of the `try...catch` block or when using functions
-that return promises.  For example:
+that return promises. For example:
 
 ```js
-app.get('/', function (req, res, next) {
-  Promise.resolve().then(function () {
-    throw new Error('BROKEN')
-  }).catch(next) // Errors will be passed to Express.
-})
+app.get("/", function (req, res, next) {
+  Promise.resolve()
+    .then(function () {
+      throw new Error("BROKEN");
+    })
+    .catch(next); // Errors will be passed to Express.
+});
 ```
 
 Since promises automatically catch both synchronous errors and rejected promises,
@@ -117,20 +120,19 @@ because the catch handler is given the error as the first argument.
 You could also use a chain of handlers to rely on synchronous error
 catching, by reducing the asynchronous code to something trivial. For example:
 
-
 ```js
-app.get('/', [
+app.get("/", [
   function (req, res, next) {
-    fs.readFile('/maybe-valid-file', 'utf-8', function (err, data) {
-      res.locals.data = data
-      next(err)
-    })
+    fs.readFile("/maybe-valid-file", "utf-8", function (err, data) {
+      res.locals.data = data;
+      next(err);
+    });
   },
   function (req, res) {
-    res.locals.data = res.locals.data.split(',')[1]
-    res.send(res.locals.data)
-  }
-])
+    res.locals.data = res.locals.data.split(",")[1];
+    res.send(res.locals.data);
+  },
+]);
 ```
 
 The above example has a couple of trivial statements from the `readFile`
@@ -160,12 +162,12 @@ Set the environment variable `NODE_ENV` to `production`, to run the app in produ
 When an error is written, the following information is added to the
 response:
 
-* The `res.statusCode` is set from `err.status` (or `err.statusCode`). If
+- The `res.statusCode` is set from `err.status` (or `err.statusCode`). If
   this value is outside the 4xx or 5xx range, it will be set to 500.
-* The `res.statusMessage` is set according to the status code.
-* The body will be the HTML of the status code message when in production
+- The `res.statusMessage` is set according to the status code.
+- The body will be the HTML of the status code message when in production
   environment, otherwise will be `err.stack`.
-* Any headers specified in an `err.headers` object.
+- Any headers specified in an `err.headers` object.
 
 If you call `next()` with an error after you have started writing the
 response (for example, if you encounter an error while streaming the
@@ -177,12 +179,12 @@ the default Express error handler, when the headers
 have already been sent to the client:
 
 ```js
-function errorHandler (err, req, res, next) {
+function errorHandler(err, req, res, next) {
   if (res.headersSent) {
-    return next(err)
+    return next(err);
   }
-  res.status(500)
-  res.render('error', { error: err })
+  res.status(500);
+  res.render("error", { error: err });
 }
 ```
 
@@ -197,25 +199,27 @@ except error-handling functions have four arguments instead of three:
 
 ```js
 app.use(function (err, req, res, next) {
-  console.error(err.stack)
-  res.status(500).send('Something broke!')
-})
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
 ```
 
 You define error-handling middleware last, after other `app.use()` and routes calls; for example:
 
 ```js
-var bodyParser = require('body-parser')
-var methodOverride = require('method-override')
+var bodyParser = require("body-parser");
+var methodOverride = require("method-override");
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}))
-app.use(bodyParser.json())
-app.use(methodOverride())
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+app.use(bodyParser.json());
+app.use(methodOverride());
 app.use(function (err, req, res, next) {
   // logic
-})
+});
 ```
 
 Responses from within a middleware function can be in any format, such as an HTML error page, a simple message, or a JSON string.
@@ -226,26 +230,28 @@ regular middleware functions. For example, to define an error-handler
 for requests made by using `XHR` and those without:
 
 ```js
-var bodyParser = require('body-parser')
-var methodOverride = require('method-override')
+var bodyParser = require("body-parser");
+var methodOverride = require("method-override");
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}))
-app.use(bodyParser.json())
-app.use(methodOverride())
-app.use(logErrors)
-app.use(clientErrorHandler)
-app.use(errorHandler)
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+app.use(bodyParser.json());
+app.use(methodOverride());
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);
 ```
 
 In this example, the generic `logErrors` might write request and
 error information to `stderr`, for example:
 
 ```js
-function logErrors (err, req, res, next) {
-  console.error(err.stack)
-  next(err)
+function logErrors(err, req, res, next) {
+  console.error(err.stack);
+  next(err);
 }
 ```
 
@@ -254,11 +260,11 @@ Also in this example, `clientErrorHandler` is defined as follows; in this case, 
 Notice that when _not_ calling "next" in an error-handling function, you are responsible for writing (and ending) the response. Otherwise those requests will "hang" and will not be eligible for garbage collection.
 
 ```js
-function clientErrorHandler (err, req, res, next) {
+function clientErrorHandler(err, req, res, next) {
   if (req.xhr) {
-    res.status(500).send({ error: 'Something failed!' })
+    res.status(500).send({ error: "Something failed!" });
   } else {
-    next(err)
+    next(err);
   }
 }
 ```
@@ -266,29 +272,32 @@ function clientErrorHandler (err, req, res, next) {
 Implement the "catch-all" `errorHandler` function as follows (for example):
 
 ```js
-function errorHandler (err, req, res, next) {
-  res.status(500)
-  res.render('error', { error: err })
+function errorHandler(err, req, res, next) {
+  res.status(500);
+  res.render("error", { error: err });
 }
 ```
 
-If you have a route handler with multiple callback functions you can use the `route` parameter to skip to the next route handler.  For example:
+If you have a route handler with multiple callback functions you can use the `route` parameter to skip to the next route handler. For example:
 
 ```js
-app.get('/a_route_behind_paywall',
-  function checkIfPaidSubscriber (req, res, next) {
+app.get(
+  "/a_route_behind_paywall",
+  function checkIfPaidSubscriber(req, res, next) {
     if (!req.user.hasPaid) {
       // continue handling this request
-      next('route')
+      next("route");
     } else {
-      next()
+      next();
     }
-  }, function getPaidContent (req, res, next) {
+  },
+  function getPaidContent(req, res, next) {
     PaidContent.find(function (err, doc) {
-      if (err) return next(err)
-      res.json(doc)
-    })
-  })
+      if (err) return next(err);
+      res.json(doc);
+    });
+  }
+);
 ```
 
 In this example, the `getPaidContent` handler will be skipped but any remaining handlers in `app` for `/a_route_behind_paywall` would continue to be executed.

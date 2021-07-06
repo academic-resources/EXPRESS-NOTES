@@ -9,16 +9,16 @@ lang: uk
 
 Adding the capability to connect databases to Express apps is just a matter of loading an appropriate Node.js driver for the database in your app. This document briefly explains how to add and use some of the most popular Node.js modules for database systems in your Express app:
 
-* [Cassandra](#cassandra)
-* [CouchDB](#couchdb)
-* [LevelDB](#leveldb)
-* [MySQL](#mysql)
-* [MongoDB](#mongo)
-* [Neo4j](#neo4j)
-* [PostgreSQL](#postgres)
-* [Redis](#redis)
-* [SQLite](#sqlite)
-* [ElasticSearch](#elasticsearch)
+- [Cassandra](#cassandra)
+- [CouchDB](#couchdb)
+- [LevelDB](#leveldb)
+- [MySQL](#mysql)
+- [MongoDB](#mongo)
+- [Neo4j](#neo4j)
+- [PostgreSQL](#postgres)
+- [Redis](#redis)
+- [SQLite](#sqlite)
+- [ElasticSearch](#elasticsearch)
 
 <div class="doc-box doc-notice" markdown="1">
 These database drivers are among many that are available.  For other options,

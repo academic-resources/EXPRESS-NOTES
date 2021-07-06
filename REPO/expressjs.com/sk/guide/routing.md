@@ -4,10 +4,12 @@ title: Express routing
 menu: guide
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
 -->
+
 # Routing
 
 _Routing_ definuje tzv. koncové body aplikácie (URI) a spôsob, akým odpovedajú na requesty klientov.
@@ -208,7 +210,7 @@ app.get('/example/b', function (req, res, next) {
 </code>
 </pre>
 
-Môžete použiť aj pole callback funkcií.  Napr.:
+Môžete použiť aj pole callback funkcií. Napr.:
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -257,17 +259,17 @@ app.get('/example/d', [cb0, cb1], function (req, res, next) {
 
 Metódy response objektu (`res`) v nasledujúcej tabuľke dokážu odoslať odpoveť klientovi a ukončiť request-response cyklus. Ak žiadna z týchto metód nebude zavolaná z route handler-a, request klienta zostane "visieť" nespracovaný.
 
-| Method               | Description
-|----------------------|--------------------------------------
-| [res.download()](/{{ page.lang }}/4x/api.html#res.download)   | Ponúkne súbor na stianutie.
-| [res.end()](/{{ page.lang }}/4x/api.html#res.end)        | Ukončí proces odpovede.
-| [res.json()](/{{ page.lang }}/4x/api.html#res.json)       | Odošle odpoveď ako JSON.
-| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)      | Odošle JSON odpoveď s podporou JSONP.
-| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)   | Presmeruje request.
-| [res.render()](/{{ page.lang }}/4x/api.html#res.render)     | Vyrendruje view template.
-| [res.send()](/{{ page.lang }}/4x/api.html#res.send)       | Odošle odpoveď rôzneho typu.
-| [res.sendFile()](/{{ page.lang }}/4x/api.html#res.sendFile)     | Odošle súbor ako octet stream.
-| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | Nastaví status kód odpovede a odošle jej textovú reprezentáciu ako telo odpovede.
+| Method                                                          | Description                                                                       |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| [res.download()](/{{ page.lang }}/4x/api.html#res.download)     | Ponúkne súbor na stianutie.                                                       |
+| [res.end()](/{{ page.lang }}/4x/api.html#res.end)               | Ukončí proces odpovede.                                                           |
+| [res.json()](/{{ page.lang }}/4x/api.html#res.json)             | Odošle odpoveď ako JSON.                                                          |
+| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)           | Odošle JSON odpoveď s podporou JSONP.                                             |
+| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)     | Presmeruje request.                                                               |
+| [res.render()](/{{ page.lang }}/4x/api.html#res.render)         | Vyrendruje view template.                                                         |
+| [res.send()](/{{ page.lang }}/4x/api.html#res.send)             | Odošle odpoveď rôzneho typu.                                                      |
+| [res.sendFile()](/{{ page.lang }}/4x/api.html#res.sendFile)     | Odošle súbor ako octet stream.                                                    |
+| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | Nastaví status kód odpovede a odošle jej textovú reprezentáciu ako telo odpovede. |
 
 <h2 id="app-route">app.route()</h2>
 

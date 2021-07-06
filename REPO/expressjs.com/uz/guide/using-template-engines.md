@@ -9,8 +9,8 @@ lang: uz
 
 Before Express can render template files, the following application settings have to be set.
 
-* `views`, the directory where the template files are located. Eg: `app.set('views', './views')`
-* `view engine`, the template engine to use. Eg: `app.set('view engine', 'pug')`
+- `views`, the directory where the template files are located. Eg: `app.set('views', './views')`
+- `view engine`, the template engine to use. Eg: `app.set('view engine', 'pug')`
 
 Then install the corresponding template engine npm package.
 
@@ -22,6 +22,7 @@ $ npm install pug --save
 Express-compliant template engines such as Pug, export a function named `__express(filePath, options, callback)`, which is called by `res.render()` to render the template code.
 
 Some template engines do not follow this convention, the [Consolidate.js](https://www.npmjs.org/package/consolidate) library was created to map all of node's popular template engines to follow this convention, thus allowing them to work seamlessly within Express.
+
 </div>
 
 Once the view engine is set, you don't have to explicitly specify the engine or load the template engine module in your app, Express loads it internally as shown below, for the example above.

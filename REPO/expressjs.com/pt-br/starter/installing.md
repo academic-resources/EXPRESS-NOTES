@@ -10,7 +10,6 @@ lang: pt-br
 Assumindo que já tenha instalado o [Node.js](https://nodejs.org/), crie um diretório
 para conter o seu aplicativo, e torne-o seu diretório ativo.
 
-
 <pre>
 <code class="language-sh" translate="no">
 $ mkdir myapp
@@ -31,7 +30,6 @@ $ npm init
 Este comando solicita por várias coisas, como o nome e versão do seu aplicativo.
 Por enquanto, é possível simplesmente pressionar RETURN para aceitar
 os padrões para a maioria deles, com as seguintes exceções:
-
 
 <pre>
 <code class="language-sh" translate="no">

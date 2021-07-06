@@ -27,9 +27,9 @@ lang: zh-tw
 
 Express 路由層在最終要求處理程式之前所呼叫的函數，因此它位於原始要求與最終預期的路由中間。中介軟體周圍會有少許合宜的專有名詞點：
 
-  * `var foo = require('middleware')` 可稱為*需要*或*使用* Node.js 模組。接著，`var mw = foo()` 陳述式通常會傳回中介軟體。
-  * `app.use(mw)` 可稱為*將中介軟體新增至廣域處理程序堆疊*。
-  * `app.get('/foo', mw, function (req, res) { ... })` 可稱為*將中介軟體新增至 "GET /foo" 處理程序堆疊*。
+- `var foo = require('middleware')` 可稱為*需要*或*使用* Node.js 模組。接著，`var mw = foo()` 陳述式通常會傳回中介軟體。
+- `app.use(mw)` 可稱為*將中介軟體新增至廣域處理程序堆疊*。
+- `app.get('/foo', mw, function (req, res) { ... })` 可稱為*將中介軟體新增至 "GET /foo" 處理程序堆疊*。
 
 ### 回應 (response)
 

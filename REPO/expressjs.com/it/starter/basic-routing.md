@@ -7,11 +7,12 @@ lang: it
 
 # Routing di base
 
-Per *Routing* si intende determinare come un'applicazione risponde a una richiesta client a un endpoint particolare, il quale è un URI (o percorso) e un metodo di richiesta HTTP specifico (GET, POST e così via).
+Per _Routing_ si intende determinare come un'applicazione risponde a una richiesta client a un endpoint particolare, il quale è un URI (o percorso) e un metodo di richiesta HTTP specifico (GET, POST e così via).
 
 Ciascuna route può disporre di una o più funzioni dell'handler, le quali vengono eseguite quando si trova una corrispondenza per la route.
 
 La definizione della route ha la seguente struttura:
+
 <pre>
 <code class="language-javascript" translate="no">
 app.METHOD(PATH, HANDLER)

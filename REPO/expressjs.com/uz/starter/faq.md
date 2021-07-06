@@ -13,14 +13,14 @@ Bu savolga bitta javob yo'q. Bu dasturingiz hajmi va dasturchilar jamosiga bog'l
 
 Dasturning marshrutizatsiya va boshqa logika qismi ko'plab fayllarda joylashgan bo'lishi mumkin, struktura esa siz hohlagan holda yaratish imkoniyati mavjud. Ilhomlanish uchun quyidagi strukturalarni ko'rishingiz mumkin:
 
-* [Marshrutlarni e'lon qilish](https://github.com/expressjs/express/blob/master/examples/route-separation/index.js#L19)
-* [Marshrutlarni haritasi](https://github.com/expressjs/express/blob/master/examples/route-map/index.js#L47)
-* [MVC ko'rinishida kontrollerlar](https://github.com/expressjs/express/tree/master/examples/mvc)
+- [Marshrutlarni e'lon qilish](https://github.com/expressjs/express/blob/master/examples/route-separation/index.js#L19)
+- [Marshrutlarni haritasi](https://github.com/expressjs/express/blob/master/examples/route-map/index.js#L47)
+- [MVC ko'rinishida kontrollerlar](https://github.com/expressjs/express/tree/master/examples/mvc)
 
 Bundan tashqari, Express uchun qo'shimcha yordam beruvchi shablonlar mavjud:
 
-* [Resourceful marshrutizatsiya](https://github.com/expressjs/express-resource)
-* [Namespaced marshrutizatsiya](https://github.com/expressjs/express-namespace)
+- [Resourceful marshrutizatsiya](https://github.com/expressjs/express-resource)
+- [Namespaced marshrutizatsiya](https://github.com/expressjs/express-namespace)
 
 ## Modellarni qanday aniqlashim mumkin?
 
@@ -62,7 +62,7 @@ app.use('/public', express.static('public'));
 ## Siz qanday qilib 404 xatoni qayta ishlaysiz?
 
 Expressda, 404 xatosi, natija xatosi hisoblanmaydi. Shuning uchun ham xatolarni qayta ishlovchi middleware 404ni qayta ishlay olmaydi. Chunki 404 qo'shimcha ish yo'qligidan dalolat beradi;
-Boshqa qilib aytganda, Express hamma oraliq qayta ishlovchi(middleware)  / routerlarni(routes)larni ishga tushuradi,
+Boshqa qilib aytganda, Express hamma oraliq qayta ishlovchi(middleware) / routerlarni(routes)larni ishga tushuradi,
 va ularda hech biri ish haqida natija beramangani aniqlanadi.
 Buning uchun siz eng oxirida(hammasidan keyin) 404ni qayta ishlash oraliq qayta ishlovchi ko'rsatishingiz kerak bo'ladi:
 

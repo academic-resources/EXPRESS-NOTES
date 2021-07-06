@@ -4,6 +4,7 @@ title: Overriding the Express API
 menu: guide
 lang: en
 ---
+
 <div id="page-doc" markdown="1">
 
 # Overriding the Express API
@@ -24,10 +25,8 @@ Following is an example of overriding the behavior of [res.sendStatus](/4x/api.h
 ```js
 app.response.sendStatus = function (statusCode, type, message) {
   // code is intentionally kept simple for demonstration purpose
-  return this.contentType(type)
-    .status(statusCode)
-    .send(message)
-}
+  return this.contentType(type).status(statusCode).send(message);
+};
 ```
 
 The above implementation completely changes the original signature of `res.sendStatus`. It now accepts a status code, encoding type, and the message to be sent to the client.
@@ -35,7 +34,7 @@ The above implementation completely changes the original signature of `res.sendS
 The overridden method may now be used this way:
 
 ```js
-res.sendStatus(404, 'application/json', '{"error":"resource not found"}')
+res.sendStatus(404, "application/json", '{"error":"resource not found"}');
 ```
 
 ## Properties
@@ -52,10 +51,13 @@ Properties under category 2 can be overwritten using the Express API extensions 
 The following code rewrites how the value of `req.ip` is to be derived. Now, it simply returns the value of the `Client-IP` request header.
 
 ```js
-Object.defineProperty(app.request, 'ip', {
+Object.defineProperty(app.request, "ip", {
   configurable: true,
   enumerable: true,
-  get: function () { return this.get('Client-IP') }
-})
+  get: function () {
+    return this.get("Client-IP");
+  },
+});
 ```
+
 </div>

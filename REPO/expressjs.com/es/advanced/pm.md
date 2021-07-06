@@ -7,7 +7,7 @@ lang: es
 
 # Gestores de procesos para las aplicaciones Express
 
-Cuando ejecuta aplicaciones Express en producción, es muy útil utilizar un *gestor de procesos* para realizar las siguientes tareas:
+Cuando ejecuta aplicaciones Express en producción, es muy útil utilizar un _gestor de procesos_ para realizar las siguientes tareas:
 
 - Reiniciar la aplicación automáticamente si se bloquea.
 - Obtener información útil sobre el rendimiento en tiempo de ejecución y el consumo de recursos.
@@ -21,7 +21,6 @@ Los gestores de procesos más conocidos para Express y otras aplicaciones Node.j
 - [StrongLoop Process Manager](#sl)
 - [PM2](#pm2)
 - [Forever](#forever)
-
 
 El uso de estas tres herramientas puede ser muy útil, aunque StrongLoop Process Manager es la única que proporciona una solución completa de despliegue y tiempo de ejecución que gestiona el ciclo de vida completo de la aplicación Node.js, con herramientas para cada paso antes y después de la producción, en una interfaz unificada.
 
@@ -50,6 +49,7 @@ Documentación completa:
 - [Using StrongLoop Process Manager](http://docs.strongloop.com/display/SLC/Using+Process+Manager).
 
 ### Instalación
+
 <pre>
 <code class="language-sh" translate="no">
 $ [sudo] npm install -g strongloop
@@ -57,6 +57,7 @@ $ [sudo] npm install -g strongloop
 </pre>
 
 ### Uso básico
+
 <pre>
 <code class="language-sh" translate="no">
 $ cd my-app
@@ -130,7 +131,7 @@ $ slc ctl remove my-app
 
 ## <a id="pm2">PM2</a>
 
-PM2 es un gestor de procesos de producción para las aplicaciones Node.js que tiene un equilibrador de carga incorporado. PM2 permite mantener siempre activas las aplicaciones y volver a cargarlas sin ningún tiempo de inactividad, a la vez que facilita tareas comunes de administrador del sistema.  PM2 también permite gestionar el registro de aplicaciones, la supervisión y la agrupación en clúster.
+PM2 es un gestor de procesos de producción para las aplicaciones Node.js que tiene un equilibrador de carga incorporado. PM2 permite mantener siempre activas las aplicaciones y volver a cargarlas sin ningún tiempo de inactividad, a la vez que facilita tareas comunes de administrador del sistema. PM2 también permite gestionar el registro de aplicaciones, la supervisión y la agrupación en clúster.
 
 Para obtener más información, consulte [https://github.com/Unitech/pm2](https://github.com/Unitech/pm2).
 
@@ -204,7 +205,6 @@ Para eliminar una aplicación del registro de PM2:
 $ pm2 delete 0
 </code>
 </pre>
-
 
 ## <a id="forever">Forever</a>
 

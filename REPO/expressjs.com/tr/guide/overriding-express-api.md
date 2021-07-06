@@ -4,6 +4,7 @@ title: Express API'yı Ezmek
 menu: guide
 lang: tr
 ---
+
 <div id="page-doc" markdown="1">
 
 # Express API'yı Ezmek
@@ -24,10 +25,8 @@ Aşağıdaki örnek [res.sendStatus](/4x/api.html#res.sendStatus) metodunun davr
 ```js
 app.response.sendStatus = function (statusCode, type, message) {
   // kolaylık için kod kasıtlı olarak basit yapıldı
-  return this.contentType(type)
-    .status(statusCode)
-    .send(message)
-}
+  return this.contentType(type).status(statusCode).send(message);
+};
 ```
 
 Yukarıdaki implementasyon `res.sendStatus` metodunun orijinal imzasını tamamen değiştiriyor. Şimdi ise bir statü kodu, kodlama tipi, ve istemciye gönderilecek mesajı kabul ediyor.
@@ -35,7 +34,7 @@ Yukarıdaki implementasyon `res.sendStatus` metodunun orijinal imzasını tamame
 Geçersiz kılınan metot şimdi bu şekilde kullanılabilir:
 
 ```js
-res.sendStatus(404, 'application/json', '{"error":"resource not found"}')
+res.sendStatus(404, "application/json", '{"error":"resource not found"}');
 ```
 
 ## Özellikler
@@ -49,13 +48,16 @@ Express API özellikleri şunlardan biridir:
 
 2 numaralı kategoridekiler ise Express API'ın uzantılarının API'ları kullanılarak değiştirilip geçersiz kılınabilir.
 
-Aşağıdaki kod `req.ip` alanının değerinin nasıl türetileceğini yeniden yazar. Şimdi, sadece  `Client-IP` istek başlığının değerini döndürüyor.
+Aşağıdaki kod `req.ip` alanının değerinin nasıl türetileceğini yeniden yazar. Şimdi, sadece `Client-IP` istek başlığının değerini döndürüyor.
 
 ```js
-Object.defineProperty(app.request, 'ip', {
+Object.defineProperty(app.request, "ip", {
   configurable: true,
   enumerable: true,
-  get: function () { return this.get('Client-IP') }
-})
+  get: function () {
+    return this.get("Client-IP");
+  },
+});
 ```
+
 </div>

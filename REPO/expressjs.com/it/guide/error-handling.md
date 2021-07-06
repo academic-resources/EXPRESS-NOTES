@@ -94,7 +94,7 @@ function errorHandler(err, req, res, next) {
 
 Se si trasmette qualsiasi cosa alla funzione `next()` (ad eccezione della stringa `'route'`), Express considera la richiesta corrente come se contenesse errori e ignorerà qualsiasi altra funzione middleware e routing di non gestione degli errori restante. Se si desidera gestire quell'errore in qualche modo, sarà necessario creare una route di gestione degli errori come descritto nella sezione successiva.
 
-Se si dispone di un gestore route con più funzioni di callback, è possibile utilizzare il parametro `route` per passare al successivo gestore route.  Ad esempio:
+Se si dispone di un gestore route con più funzioni di callback, è possibile utilizzare il parametro `route` per passare al successivo gestore route. Ad esempio:
 
 <pre>
 <code class="language-javascript" translate="no">

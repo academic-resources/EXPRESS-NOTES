@@ -4,6 +4,7 @@ title: Express komunita
 menu: resources
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -37,4 +38,3 @@ Ak ste sa stretli s problémom, o ktorom si myslíte že je bug, alebo len chcet
 ## Tretie strany
 
 Naša aktívna komunita vytvorila množstvo rozšírení, [middleware modulov](/{{ page.lang }}/resources/middleware.html) a frameworkov. Pre viac info si pozrite [wiki](https://github.com/expressjs/express/wiki).
-

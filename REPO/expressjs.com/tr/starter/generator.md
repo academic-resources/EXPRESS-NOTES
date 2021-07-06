@@ -4,6 +4,7 @@ title: Express uygulama oluşturucu
 menu: starter
 lang: tr
 ---
+
 # Express uygulama oluşturucu
 
 Çabukça bir uygulama iskeleti oluşturmak için, `express-generator` aracını kullanın.
@@ -109,4 +110,4 @@ Oluşturulan uygulamanın dizini aşağıdaki yapıda olacaktır:
 Burada oluşturulan dizin yapısı, Express uygulamasını yapılandırabileceğiniz birçok seçenekten sadece birisidir. İhtiyacınıza en uygun şekilde bu yapıyı kullanabilir ya da düzenleyebilirsiniz.
 </div>
 
-###  [Önceki: Merhaba Dünya ](/{{ page.lang }}/starter/hello-world.html)&nbsp;&nbsp;&nbsp;&nbsp;[Sonraki: Basit Yol Atama](/{{ page.lang }}/starter/basic-routing.html)
+### [Önceki: Merhaba Dünya ](/{{ page.lang }}/starter/hello-world.html)&nbsp;&nbsp;&nbsp;&nbsp;[Sonraki: Basit Yol Atama](/{{ page.lang }}/starter/basic-routing.html)

@@ -253,17 +253,17 @@ app.get('/example/d', [cb0, cb1], function (req, res, next) {
 
 下表中响应对象 (`res`) 的方法可以向客户机发送响应，并终止请求/响应循环。如果没有从路由处理程序调用其中任何方法，客户机请求将保持挂起状态。
 
-|   方法               | 描述
-|----------------------|--------------------------------------
-| [res.download()](/{{ page.lang }}/4x/api.html#res.download)     | 提示将要下载文件。
-| [res.end()](/{{ page.lang }}/4x/api.html#res.end)               | 结束响应进程。
-| [res.json()](/{{ page.lang }}/4x/api.html#res.json)             | 发送 JSON 响应。
-| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)           | 在 JSONP 的支持下发送 JSON 响应。
-| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)     | 重定向请求。
-| [res.render()](/{{ page.lang }}/4x/api.html#res.render)         | 呈现视图模板。
-| [res.send()](/{{ page.lang }}/4x/api.html#res.send)             | 发送各种类型的响应。
-| [res.sendFile()](/{{ page.lang }}/4x/api.html#res.sendFile)       | 以八位元流形式发送文件。
-| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | 设置响应状态码并以响应主体形式发送其字符串表示。
+| 方法                                                            | 描述                                             |
+| --------------------------------------------------------------- | ------------------------------------------------ |
+| [res.download()](/{{ page.lang }}/4x/api.html#res.download)     | 提示将要下载文件。                               |
+| [res.end()](/{{ page.lang }}/4x/api.html#res.end)               | 结束响应进程。                                   |
+| [res.json()](/{{ page.lang }}/4x/api.html#res.json)             | 发送 JSON 响应。                                 |
+| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)           | 在 JSONP 的支持下发送 JSON 响应。                |
+| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)     | 重定向请求。                                     |
+| [res.render()](/{{ page.lang }}/4x/api.html#res.render)         | 呈现视图模板。                                   |
+| [res.send()](/{{ page.lang }}/4x/api.html#res.send)             | 发送各种类型的响应。                             |
+| [res.sendFile()](/{{ page.lang }}/4x/api.html#res.sendFile)     | 以八位元流形式发送文件。                         |
+| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | 设置响应状态码并以响应主体形式发送其字符串表示。 |
 
 <h2 id="app-route">app.route()</h2>
 

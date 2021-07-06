@@ -4,6 +4,7 @@ title: Prechod na Express 4
 menu: guide
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -36,8 +37,8 @@ Express 4 prináša niekoĺko podstatných zmien:
 
 Pozrite sa taktiež na:
 
-* [New features in 4.x.](https://github.com/expressjs/express/wiki/New-features-in-4.x)
-* [Migrating from 3.x to 4.x.](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
+- [New features in 4.x.](https://github.com/expressjs/express/wiki/New-features-in-4.x)
+- [Migrating from 3.x to 4.x.](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
 
 <h3 id="core-changes">
 Zmeny Express jadra a middleware systému
@@ -114,8 +115,9 @@ Aplikácia odteraz explicitne načíta routing middleware, takže už sa viac ne
 Spôsob, akým definujete route sa nezmenil, ale samotný routing systém má dve nové features k jeho lepšej organizácii:
 
 {: .doclist }
-* Nová metóda, `app.route()` slúži na vytvorenie zreťaziteľných route handlerov pre daný route path (cestu).
-* Nová trieda, `express.Router`, slúži na vytvorenie modulárnych, pripojiteľných route handlerov.
+
+- Nová metóda, `app.route()` slúži na vytvorenie zreťaziteľných route handlerov pre daný route path (cestu).
+- Nová trieda, `express.Router`, slúži na vytvorenie modulárnych, pripojiteľných route handlerov.
 
 <h4 id="app-route"><code>app.route()</code> metóda</h4>
 
@@ -382,14 +384,14 @@ $ npm install serve-favicon morgan method-override express-session body-parser m
 V `app.js` vykonajte tieto zmeny:
 
 1. Vstavané Express middleware funkcie `express.favicon`,
-    `express.logger`, `express.methodOverride`,
-    `express.session`, `express.bodyParser` a
-    `express.errorHandler` už nie sú dostupné na
-    `express` objekte. Musíte nainštalovať a načítať ich prislúchajúce alternatívy v aplikácii manuálne.
+   `express.logger`, `express.methodOverride`,
+   `express.session`, `express.bodyParser` a
+   `express.errorHandler` už nie sú dostupné na
+   `express` objekte. Musíte nainštalovať a načítať ich prislúchajúce alternatívy v aplikácii manuálne.
 
 2. Už viac nepotrebujete načítať `app.router` funkciu.
-    Nieje validným Express 4 app objektom, preto zmažte nasledujúci kód
-    `app.use(app.router);`.
+   Nieje validným Express 4 app objektom, preto zmažte nasledujúci kód
+   `app.use(app.router);`.
 
 3. Uistite sa, že middleware funkcie sú načítané v správnom poradí - načítajte `errorHandler` až po načítaní app routes.
 
@@ -495,12 +497,12 @@ $ node .
 </pre>
 
 Načítajte v prehliadači [http://localhost:3000](http://localhost:3000)
-  a pozrite si domovskú stránku aplikácie vyrendrovanú pomocou Express 4.
+a pozrite si domovskú stránku aplikácie vyrendrovanú pomocou Express 4.
 
 <h2 id="app-gen">Prechod na Express 4 app generátor</h2>
 
 Tento command-line tool slúžiaci na generovanie Express aplikácie je stále
-  `express`, ale k tomu, aby ste vykonali upgrade na novú verziu musíte najprv pôvodný Express 3 app generátor odinštalovať a potom nainštalovať nový `express-generator`.
+`express`, ale k tomu, aby ste vykonali upgrade na novú verziu musíte najprv pôvodný Express 3 app generátor odinštalovať a potom nainštalovať nový `express-generator`.
 
 <h3 id="">Inštalácia</h3>
 
@@ -511,6 +513,7 @@ Ak už máte Express 3 app generátor na vašom systéme nainštalovaný, musít
 $ npm uninstall -g express
 </code>
 </pre>
+
 V závislosti od toho, ako sú nakonfigurované vaše oprávnenia k súborom a priečinkom,
 môže byť potrebné spustiť tento príkaz pomocou `sudo`.
 
@@ -533,9 +536,10 @@ Express 4 generátor.
 Prepínače a použitia príkazu zostali prevažne rovnaké, okrem nasledujúcich výnimiek:
 
 {: .doclist }
-* Odstránený prepínač `--sessions`.
-* Odstránený prepínač `--jshtml`.
-* Pridaný prepínač `--hogan` pre podporu [Hogan.js](http://twitter.github.io/hogan.js/).
+
+- Odstránený prepínač `--sessions`.
+- Odstránený prepínač `--jshtml`.
+- Pridaný prepínač `--hogan` pre podporu [Hogan.js](http://twitter.github.io/hogan.js/).
 
 <h3 id="">Príklad</h3>
 
@@ -591,6 +595,6 @@ var debug = require('debug')('app4');
 </code>
 </pre>
 
-Ďalej zmeňte v súbore `package.json` riadok `"start": "node ./bin/www"`  na `"start": "node app.js"`.
+Ďalej zmeňte v súbore `package.json` riadok `"start": "node ./bin/www"` na `"start": "node app.js"`.
 
 Týmto ste presunuli funkcionalitu `./bin/www` späť do `app.js`. Táto zmena sa neodporúča, ale toto cvičenie vám pomôže porozumieť ako `./bin/www` súbor pracuje a prečo `app.js` už viac nie je možné samostatne spustiť.

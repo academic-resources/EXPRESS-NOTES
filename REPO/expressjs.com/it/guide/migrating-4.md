@@ -32,8 +32,8 @@ Sono state apportate diverse modifiche importanti alla versione Express 4:
 
 Consultare inoltre:
 
-* [Nuove funzioni in 4.x.](https://github.com/expressjs/express/wiki/New-features-in-4.x)
-* [Migrazione da 3.x a 4.x.](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
+- [Nuove funzioni in 4.x.](https://github.com/expressjs/express/wiki/New-features-in-4.x)
+- [Migrazione da 3.x a 4.x.](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
 
 <h3 id="core-changes">
 Modifiche al sistema middleware e al core di Express
@@ -119,8 +119,9 @@ Il modo in cui viene definita la route non è cambiato ma il sistema di routing 
 funzioni utili per organizzare le route:
 
 {: .doclist }
-* Un nuovo metodo, `app.route()`, per creare handler di route a catena per un percorso route.
-* Un nuova classe, `express.Router`, per creare handler di route assemblabili in modo modulare.
+
+- Un nuovo metodo, `app.route()`, per creare handler di route a catena per un percorso route.
+- Un nuova classe, `express.Router`, per creare handler di route assemblabili in modo modulare.
 
 <h4 id="app-route">Metodo <code>app.route()</code></h4>
 
@@ -401,15 +402,15 @@ $ npm install serve-favicon morgan method-override express-session body-parser m
 Apportare le seguenti modifiche a `app.js`:
 
 1. Le funzioni middleware di Express integrate `express.favicon`,
-    `express.logger`, `express.methodOverride`,
-    `express.session`, `express.bodyParser` e
-    `express.errorHandler` non sono più disponibili nell'oggetto
-    `express`.  È necessario installare le funzioni alternative
-    manualmente e caricarle sull'applicazione.
+   `express.logger`, `express.methodOverride`,
+   `express.session`, `express.bodyParser` e
+   `express.errorHandler` non sono più disponibili nell'oggetto
+   `express`. È necessario installare le funzioni alternative
+   manualmente e caricarle sull'applicazione.
 
 2. Non è più necessario caricare la funzione `app.router`.
-    Non è un oggetto applicazione Express 4 valido, pertanto rimuovere il codice
-    `app.use(app.router);`.
+   Non è un oggetto applicazione Express 4 valido, pertanto rimuovere il codice
+   `app.use(app.router);`.
 
 3. Assicurarsi che le funzioni middleware siano state caricate nell'ordine corretto - caricare `errorHandler` dopo aver caricato le route dell'applicazione.
 
@@ -517,14 +518,14 @@ $ node .
 </pre>
 
 Caricare [http://localhost:3000](http://localhost:3000)
-  e visualizzare la home page sottoposta a rendering da Express 4.
+e visualizzare la home page sottoposta a rendering da Express 4.
 
 <h2 id="app-gen">Aggiornamento al programma di creazione dell'applicazione Express 4</h2>
 
 Lo strumento della riga comandi per generare un'applicazione Express è sempre
-  `express` ma per effettuare l'aggiornamento alla nuova versione è necessario disinstallare
-  il programma di creazione dell'applicazione di Express 3 e successivamente installare il nuovo
-  `express-generator`.
+`express` ma per effettuare l'aggiornamento alla nuova versione è necessario disinstallare
+il programma di creazione dell'applicazione di Express 3 e successivamente installare il nuovo
+`express-generator`.
 
 <h3 id="">Installazione</h3>
 
@@ -536,6 +537,7 @@ Se il programma di creazione dell'applicazione di Express 3 è già installato s
 $ npm uninstall -g express
 </code>
 </pre>
+
 A seconda di come sono configurati i privilegi del file e della directory,
 potrebbe essere necessario eseguire questo comando con `sudo`.
 
@@ -558,9 +560,10 @@ di Express 4.
 L'utilizzo e le opzioni del comando sono rimaste quasi gli stessi, con le seguenti eccezioni:
 
 {: .doclist }
-* È stata rimossa l'opzione `--sessions`.
-* È stata rimossa l'opzione `--jshtml`.
-* È stata aggiunta l'opzione `--hogan` per supportare [Hogan.js](http://twitter.github.io/hogan.js/).
+
+- È stata rimossa l'opzione `--sessions`.
+- È stata rimossa l'opzione `--jshtml`.
+- È stata aggiunta l'opzione `--hogan` per supportare [Hogan.js](http://twitter.github.io/hogan.js/).
 
 <h3 id="">Esempio</h3>
 
@@ -628,6 +631,6 @@ var debug = require('debug')('app4');
 Successivamente, modificare `"start": "node ./bin/www"` nel file `package.json` in `"start": "node app.js"`.
 
 È stata spostata la funzionalità di `./bin/www` di nuovo in
-`app.js`.  Questa modifica non è consigliata, ma questa prova consente di comprendere in che modo funziona
+`app.js`. Questa modifica non è consigliata, ma questa prova consente di comprendere in che modo funziona
 il file `./bin/www` e perché il file `app.js`
 non si avvia più in modo autonomo.

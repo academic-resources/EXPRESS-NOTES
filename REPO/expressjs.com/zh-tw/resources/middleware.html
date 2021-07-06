@@ -1,88 +1,237 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-tw" xml:lang="zh-tw">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express 中介軟體</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express 中介軟體</h1>
-</header>
-<h1 id="協力廠商中介軟體">協力廠商中介軟體</h1>
-<p>以下是部分的 Express 中介軟體模組：</p>
-<ul>
-<li><a href="https://github.com/expressjs/body-parser">body-parser</a>：即先前的 <code>express.bodyParser</code>、<code>json</code> 和 <code>urlencoded</code>。另請參閱：
-<ul>
-<li><a href="https://github.com/raynos/body">body</a></li>
-<li><a href="https://github.com/visionmedia/co-body">co-body</a></li>
-<li><a href="https://github.com/stream-utils/raw-body">raw-body</a></li>
-</ul></li>
-<li><a href="https://github.com/expressjs/compression">compression</a>：即先前的 <code>express.compress</code></li>
-<li><a href="https://github.com/msemenistyi/connect-image-optimus">connect-image-optimus</a>：可提供最佳影像的 Connect/Express 中介軟體模組。如果可能的話，請將影像切換成 <code>.webp</code> 或 <code>.jxr</code>。</li>
-<li><a href="https://github.com/expressjs/timeout">connect-timeout</a>：即先前的 <code>express.timeout</code></li>
-<li><a href="https://github.com/expressjs/cookie-parser">cookie-parser</a>：即先前的 <code>express.cookieParser</code></li>
-<li><a href="https://github.com/expressjs/cookie-session">cookie-session</a>：即先前的 <code>express.cookieSession</code></li>
-<li><a href="https://github.com/expressjs/csurf">csurf</a>：即先前的 <code>express.csrf</code></li>
-<li><a href="https://github.com/expressjs/errorhandler">errorhandler</a>：即先前的 <code>express.errorHandler</code></li>
-<li><a href="https://github.com/devoidfury/express-debug">express-debug</a>：低調的開發工具，可在您的應用程式中新增標籤，內含範本變數 (locals)、現行階段作業、有用的要求資料等相關資訊。</li>
-<li><a href="https://github.com/nemtsov/express-partial-response">express-partial-response</a>：Express 中介軟體模組，會根據 <code>fields</code> 查詢字串，使用 Google API 的 Partial Response 來濾除 JSON 回應部分。</li>
-<li><a href="https://github.com/expressjs/session">express-session</a>：即先前的 <code>express.session</code></li>
-<li><a href="https://github.com/jamiesteven/express-simple-cdn">express-simple-cdn</a>：Express 中介軟體模組，會將 CDN 用於靜態資產，並支援多部主機（例如：cdn1.host.com、cdn2.host.com）。</li>
-<li><a href="https://github.com/ericf/express-slash">express-slash</a>：Express 中介軟體模組，供嚴格看待尾端斜線的人員使用。</li>
-<li><a href="https://github.com/stormpath/stormpath-express">express-stormpath</a>：Express 中介軟體模組，供使用者執行儲存、鑑別、授權、SSO 和資料安全。</li>
-<li><a href="https://github.com/jamiesteven/express-uncapitalize">express-uncapitalize</a>：中介軟體模組，可將含有大寫的 HTTP 要求重新導向至標準小寫形式。</li>
-<li><a href="https://github.com/helmetjs/helmet">helmet</a>：此模組會設定各種 HTTP 標頭，有助於保護您應用程式的安全。</li>
-<li><a href="https://github.com/coderaiser/join-io" title="join-io">join-io</a>：此模組會即時結合檔案，來減少要求計數。</li>
-<li><a href="https://github.com/expressjs/method-override">method-override</a>：即先前的 <code>express.methodOverride</code></li>
-<li><a href="https://github.com/expressjs/morgan">morgan</a>：即先前的 <code>logger</code></li>
-<li><a href="https://github.com/jaredhanson/passport">passport</a>：鑑別用的 Express 中介軟體模組。</li>
-<li><a href="https://github.com/expressjs/response-time">response-time</a>：即先前的 <code>express.responseTime</code></li>
-<li><a href="https://github.com/expressjs/serve-favicon">serve-favicon</a>：即先前的 <code>express.favicon</code></li>
-<li><a href="https://github.com/expressjs/serve-index">serve-index</a>：即先前的 <code>express.directory</code></li>
-<li><a href="https://github.com/expressjs/serve-static">serve-static</a>：此模組可提供靜態內容。</li>
-<li><a href="https://github.com/paulwalker/connect-static-expiry">static-expiry</a>：靜態資產的加指紋 URL 或「快取標頭」，還支援一或多個外部網域。</li>
-<li><a href="https://github.com/expressjs/vhost">vhost</a>：即先前的 <code>express.vhost</code></li>
-<li><a href="https://github.com/madhums/node-view-helpers">view-helpers</a>：Express 中介軟體模組，可提供一般 helper 方法給視圖。</li>
-<li><a href="https://github.com/hdngr/siracha">sriracha-admin</a>：Express 中介軟體模組，可為 Mongoose 動態產生管理網站。</li>
-</ul>
-<p>Connect/Express 團隊不再支援 Connect 先前隨附的一些中介軟體模組。這些模組會以替代模組取代，或者應以更好的模組取代。請使用下列其中一個替代項目：</p>
-<ul>
-<li>express.cookieParser
-<ul>
-<li><a href="https://github.com/jed/cookies">cookies</a> 和 <a href="https://github.com/jed/keygrip">keygrip</a></li>
-</ul></li>
-<li>express.limit
-<ul>
-<li><a href="https://github.com/stream-utils/raw-body">raw-body</a></li>
-</ul></li>
-<li>express.multipart
-<ul>
-<li><a href="https://github.com/mscdex/connect-busboy">connect-busboy</a></li>
-<li><a href="https://github.com/expressjs/multer">multer</a></li>
-<li><a href="https://github.com/superjoe30/connect-multiparty">connect-multiparty</a></li>
-</ul></li>
-<li>express.query
-<ul>
-<li><a href="https://github.com/visionmedia/node-querystring">qs</a></li>
-</ul></li>
-<li>express.staticCache
-<ul>
-<li><a href="https://github.com/isaacs/st">st</a></li>
-<li><a href="https://github.com/andrewrk/connect-static">connect-static</a></li>
-</ul></li>
-</ul>
-<p>如需其他的中介軟體模組，請參閱：</p>
-<ul>
-<li><a href="https://github.com/Raynos/http-framework/wiki/Modules">http-framework</a></li>
-<li><a href="https://github.com/expressjs">expressjs</a></li>
-</ul>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express 中介軟體</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express 中介軟體</h1>
+    </header>
+    <h1 id="協力廠商中介軟體">協力廠商中介軟體</h1>
+    <p>以下是部分的 Express 中介軟體模組：</p>
+    <ul>
+      <li>
+        <a href="https://github.com/expressjs/body-parser">body-parser</a
+        >：即先前的 <code>express.bodyParser</code>、<code>json</code> 和
+        <code>urlencoded</code>。另請參閱：
+        <ul>
+          <li><a href="https://github.com/raynos/body">body</a></li>
+          <li><a href="https://github.com/visionmedia/co-body">co-body</a></li>
+          <li>
+            <a href="https://github.com/stream-utils/raw-body">raw-body</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/compression">compression</a
+        >：即先前的 <code>express.compress</code>
+      </li>
+      <li>
+        <a href="https://github.com/msemenistyi/connect-image-optimus"
+          >connect-image-optimus</a
+        >：可提供最佳影像的 Connect/Express
+        中介軟體模組。如果可能的話，請將影像切換成 <code>.webp</code> 或
+        <code>.jxr</code>。
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/timeout">connect-timeout</a
+        >：即先前的 <code>express.timeout</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/cookie-parser">cookie-parser</a
+        >：即先前的 <code>express.cookieParser</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/cookie-session">cookie-session</a
+        >：即先前的 <code>express.cookieSession</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/csurf">csurf</a>：即先前的
+        <code>express.csrf</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/errorhandler">errorhandler</a
+        >：即先前的 <code>express.errorHandler</code>
+      </li>
+      <li>
+        <a href="https://github.com/devoidfury/express-debug">express-debug</a
+        >：低調的開發工具，可在您的應用程式中新增標籤，內含範本變數
+        (locals)、現行階段作業、有用的要求資料等相關資訊。
+      </li>
+      <li>
+        <a href="https://github.com/nemtsov/express-partial-response"
+          >express-partial-response</a
+        >：Express 中介軟體模組，會根據 <code>fields</code> 查詢字串，使用
+        Google API 的 Partial Response 來濾除 JSON 回應部分。
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/session">express-session</a
+        >：即先前的 <code>express.session</code>
+      </li>
+      <li>
+        <a href="https://github.com/jamiesteven/express-simple-cdn"
+          >express-simple-cdn</a
+        >：Express 中介軟體模組，會將 CDN
+        用於靜態資產，並支援多部主機（例如：cdn1.host.com、cdn2.host.com）。
+      </li>
+      <li>
+        <a href="https://github.com/ericf/express-slash">express-slash</a
+        >：Express 中介軟體模組，供嚴格看待尾端斜線的人員使用。
+      </li>
+      <li>
+        <a href="https://github.com/stormpath/stormpath-express"
+          >express-stormpath</a
+        >：Express 中介軟體模組，供使用者執行儲存、鑑別、授權、SSO 和資料安全。
+      </li>
+      <li>
+        <a href="https://github.com/jamiesteven/express-uncapitalize"
+          >express-uncapitalize</a
+        >：中介軟體模組，可將含有大寫的 HTTP 要求重新導向至標準小寫形式。
+      </li>
+      <li>
+        <a href="https://github.com/helmetjs/helmet">helmet</a
+        >：此模組會設定各種 HTTP 標頭，有助於保護您應用程式的安全。
+      </li>
+      <li>
+        <a href="https://github.com/coderaiser/join-io" title="join-io"
+          >join-io</a
+        >：此模組會即時結合檔案，來減少要求計數。
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/method-override"
+          >method-override</a
+        >：即先前的 <code>express.methodOverride</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/morgan">morgan</a>：即先前的
+        <code>logger</code>
+      </li>
+      <li>
+        <a href="https://github.com/jaredhanson/passport">passport</a>：鑑別用的
+        Express 中介軟體模組。
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/response-time">response-time</a
+        >：即先前的 <code>express.responseTime</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/serve-favicon">serve-favicon</a
+        >：即先前的 <code>express.favicon</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/serve-index">serve-index</a
+        >：即先前的 <code>express.directory</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/serve-static">serve-static</a
+        >：此模組可提供靜態內容。
+      </li>
+      <li>
+        <a href="https://github.com/paulwalker/connect-static-expiry"
+          >static-expiry</a
+        >：靜態資產的加指紋 URL 或「快取標頭」，還支援一或多個外部網域。
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/vhost">vhost</a>：即先前的
+        <code>express.vhost</code>
+      </li>
+      <li>
+        <a href="https://github.com/madhums/node-view-helpers">view-helpers</a
+        >：Express 中介軟體模組，可提供一般 helper 方法給視圖。
+      </li>
+      <li>
+        <a href="https://github.com/hdngr/siracha">sriracha-admin</a>：Express
+        中介軟體模組，可為 Mongoose 動態產生管理網站。
+      </li>
+    </ul>
+    <p>
+      Connect/Express 團隊不再支援 Connect
+      先前隨附的一些中介軟體模組。這些模組會以替代模組取代，或者應以更好的模組取代。請使用下列其中一個替代項目：
+    </p>
+    <ul>
+      <li>
+        express.cookieParser
+        <ul>
+          <li>
+            <a href="https://github.com/jed/cookies">cookies</a> 和
+            <a href="https://github.com/jed/keygrip">keygrip</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        express.limit
+        <ul>
+          <li>
+            <a href="https://github.com/stream-utils/raw-body">raw-body</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        express.multipart
+        <ul>
+          <li>
+            <a href="https://github.com/mscdex/connect-busboy"
+              >connect-busboy</a
+            >
+          </li>
+          <li><a href="https://github.com/expressjs/multer">multer</a></li>
+          <li>
+            <a href="https://github.com/superjoe30/connect-multiparty"
+              >connect-multiparty</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li>
+        express.query
+        <ul>
+          <li>
+            <a href="https://github.com/visionmedia/node-querystring">qs</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        express.staticCache
+        <ul>
+          <li><a href="https://github.com/isaacs/st">st</a></li>
+          <li>
+            <a href="https://github.com/andrewrk/connect-static"
+              >connect-static</a
+            >
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <p>如需其他的中介軟體模組，請參閱：</p>
+    <ul>
+      <li>
+        <a href="https://github.com/Raynos/http-framework/wiki/Modules"
+          >http-framework</a
+        >
+      </li>
+      <li><a href="https://github.com/expressjs">expressjs</a></li>
+    </ul>
+  </body>
 </html>

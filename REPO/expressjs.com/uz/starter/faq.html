@@ -1,70 +1,201 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="uz" xml:lang="uz">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express FAQ</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express FAQ</h1>
-</header>
-<h1 id="faq">FAQ</h1>
-<h2 id="dasturim-uchun-qanday-struktura-tanlashim-kerak">Dasturim uchun qanday struktura tanlashim kerak?</h2>
-<p>Bu savolga bitta javob yo’q. Bu dasturingiz hajmi va dasturchilar jamosiga bog’liq bo’ladi. Tobora moslashuvchan bo’lish uchun, Express struktura yaratishga hech qanday cheklovlar qo’ymaydi.</p>
-<p>Dasturning marshrutizatsiya va boshqa logika qismi ko’plab fayllarda joylashgan bo’lishi mumkin, struktura esa siz hohlagan holda yaratish imkoniyati mavjud. Ilhomlanish uchun quyidagi strukturalarni ko’rishingiz mumkin:</p>
-<ul>
-<li><a href="https://github.com/expressjs/express/blob/master/examples/route-separation/index.js#L19">Marshrutlarni e’lon qilish</a></li>
-<li><a href="https://github.com/expressjs/express/blob/master/examples/route-map/index.js#L47">Marshrutlarni haritasi</a></li>
-<li><a href="https://github.com/expressjs/express/tree/master/examples/mvc">MVC ko’rinishida kontrollerlar</a></li>
-</ul>
-<p>Bundan tashqari, Express uchun qo’shimcha yordam beruvchi shablonlar mavjud:</p>
-<ul>
-<li><a href="https://github.com/expressjs/express-resource">Resourceful marshrutizatsiya</a></li>
-<li><a href="https://github.com/expressjs/express-namespace">Namespaced marshrutizatsiya</a></li>
-</ul>
-<h2 id="modellarni-qanday-aniqlashim-mumkin">Modellarni qanday aniqlashim mumkin?</h2>
-<p>Express qaysi ma’lumotlar ombori bilan ishlashni keltirilmagan. Siz hohlagan Node modullarni ishlatishingiz mumkin bo’ladi, bu esa sizga hohlagan ma’lumotlar omborini ishlatish imkonini beradi.</p>
-<p><a href="http://loopback.io">LoopBack</a> ko’ring, Express asosida modellar bilan ishlash uchun yaratilgan freymvork.</p>
-<h2 id="qanday-qilish-foydalanuvchini-autenfikatsiya-qilishim-mumkin">Qanday qilish foydalanuvchini autenfikatsiya qilishim mumkin?</h2>
-<p>Bu ham Express o’ziga olmaydigan qismi hisoblanadi. Siz hohlagan autenfikatsiya tizimini ishlatishingiz mumkin bo’ladi. Oddiy username / password sxemasini ishlatish uchun <a href="https://github.com/expressjs/express/tree/master/examples/auth">ushbu misolni</a> ko’ring.</p>
-<h2 id="express-qaysi-shablonizator-ishlatadi">Express qaysi shablonizator ishlatadi?</h2>
-<p>Express <code>(path, locals, callback)</code> signaturasini maqullaydigan barcha shablonizatorni ishlatishi mumkin. Iterfey shablonizator va keshirovaniyani normalashtirish uchun, <a href="https://github.com/visionmedia/consolidate.js">consolidate.js</a> ni ko’ring.</p>
-<h2 id="qanday-qilib-bir-necha-direktoriyalarni-statik-fayllarga-aylantirishim-mumkin">Qanday qilib bir necha direktoriyalarni statik fayllarga aylantirishim mumkin?</h2>
-<p>Siz oraliq qayta ishlovchilarni bir necha marta ishatishingiz mumkin. Quyidagilar keltirilgan oraliq qayta ishlovchida, <code>GET /javascripts/jquery.js</code> ni olishga so’rov jo’natilganda, avvalo <code>./public/javascripts/jquery.js</code>ni tekshiradi; Agarda ushbu fayl direktoriyada topilmasa, undan keyingi oraliq qayta ishlovchida ko’rsatilgan direktoriyani <code>./files/javascripts/jquery.js</code> tekshiradi.</p>
-<pre><code class="language-javascript" translate="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express FAQ</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express FAQ</h1>
+    </header>
+    <h1 id="faq">FAQ</h1>
+    <h2 id="dasturim-uchun-qanday-struktura-tanlashim-kerak">
+      Dasturim uchun qanday struktura tanlashim kerak?
+    </h2>
+    <p>
+      Bu savolga bitta javob yo’q. Bu dasturingiz hajmi va dasturchilar jamosiga
+      bog’liq bo’ladi. Tobora moslashuvchan bo’lish uchun, Express struktura
+      yaratishga hech qanday cheklovlar qo’ymaydi.
+    </p>
+    <p>
+      Dasturning marshrutizatsiya va boshqa logika qismi ko’plab fayllarda
+      joylashgan bo’lishi mumkin, struktura esa siz hohlagan holda yaratish
+      imkoniyati mavjud. Ilhomlanish uchun quyidagi strukturalarni ko’rishingiz
+      mumkin:
+    </p>
+    <ul>
+      <li>
+        <a
+          href="https://github.com/expressjs/express/blob/master/examples/route-separation/index.js#L19"
+          >Marshrutlarni e’lon qilish</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://github.com/expressjs/express/blob/master/examples/route-map/index.js#L47"
+          >Marshrutlarni haritasi</a
+        >
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/express/tree/master/examples/mvc"
+          >MVC ko’rinishida kontrollerlar</a
+        >
+      </li>
+    </ul>
+    <p>
+      Bundan tashqari, Express uchun qo’shimcha yordam beruvchi shablonlar
+      mavjud:
+    </p>
+    <ul>
+      <li>
+        <a href="https://github.com/expressjs/express-resource"
+          >Resourceful marshrutizatsiya</a
+        >
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/express-namespace"
+          >Namespaced marshrutizatsiya</a
+        >
+      </li>
+    </ul>
+    <h2 id="modellarni-qanday-aniqlashim-mumkin">
+      Modellarni qanday aniqlashim mumkin?
+    </h2>
+    <p>
+      Express qaysi ma’lumotlar ombori bilan ishlashni keltirilmagan. Siz
+      hohlagan Node modullarni ishlatishingiz mumkin bo’ladi, bu esa sizga
+      hohlagan ma’lumotlar omborini ishlatish imkonini beradi.
+    </p>
+    <p>
+      <a href="http://loopback.io">LoopBack</a> ko’ring, Express asosida
+      modellar bilan ishlash uchun yaratilgan freymvork.
+    </p>
+    <h2 id="qanday-qilish-foydalanuvchini-autenfikatsiya-qilishim-mumkin">
+      Qanday qilish foydalanuvchini autenfikatsiya qilishim mumkin?
+    </h2>
+    <p>
+      Bu ham Express o’ziga olmaydigan qismi hisoblanadi. Siz hohlagan
+      autenfikatsiya tizimini ishlatishingiz mumkin bo’ladi. Oddiy username /
+      password sxemasini ishlatish uchun
+      <a href="https://github.com/expressjs/express/tree/master/examples/auth"
+        >ushbu misolni</a
+      >
+      ko’ring.
+    </p>
+    <h2 id="express-qaysi-shablonizator-ishlatadi">
+      Express qaysi shablonizator ishlatadi?
+    </h2>
+    <p>
+      Express <code>(path, locals, callback)</code> signaturasini maqullaydigan
+      barcha shablonizatorni ishlatishi mumkin. Iterfey shablonizator va
+      keshirovaniyani normalashtirish uchun,
+      <a href="https://github.com/visionmedia/consolidate.js">consolidate.js</a>
+      ni ko’ring.
+    </p>
+    <h2
+      id="qanday-qilib-bir-necha-direktoriyalarni-statik-fayllarga-aylantirishim-mumkin"
+    >
+      Qanday qilib bir necha direktoriyalarni statik fayllarga aylantirishim
+      mumkin?
+    </h2>
+    <p>
+      Siz oraliq qayta ishlovchilarni bir necha marta ishatishingiz mumkin.
+      Quyidagilar keltirilgan oraliq qayta ishlovchida,
+      <code>GET /javascripts/jquery.js</code> ni olishga so’rov jo’natilganda,
+      avvalo <code>./public/javascripts/jquery.js</code>ni tekshiradi; Agarda
+      ushbu fayl direktoriyada topilmasa, undan keyingi oraliq qayta ishlovchida
+      ko’rsatilgan direktoriyani
+      <code>./files/javascripts/jquery.js</code> tekshiradi.
+    </p>
+    <pre><code class="language-javascript" translate="no">
 app.use(express.static('public'));
 app.use(express.static('files'));
 </code></pre>
-<h2 id="statik-fayllarni-tarqatish-qanday-qilib-manzil-prefiksini-korsatsam-boladi">Statik fayllarni tarqatish qanday qilib manzil prefiksini ko’rsatsam bo’ladi?</h2>
-<p>Asosiy Connect “mounting” yordamida “prefiks” aniqlab qaysi middleware ishga tushishini ko’rsatish mumkin bo’ladi. Bu usul effektiv ishlaydi huddi prefiks hech qachon manzil qismi bo’lmagandek. Masalan, bizga <code>GET /files/javascripts/jquery.js</code> kerak bo’lsa. Siz <code>/files</code> prefiksini o’rnatib, <code>/javascripts/jquery.js</code>ni <code>req.url</code> aniqlashingiz mumkin, shu bilan tarqatish uchun middleware ko’rsatishingiz mumkin:</p>
-<pre><code class="language-javascript" translate="no">
+    <h2
+      id="statik-fayllarni-tarqatish-qanday-qilib-manzil-prefiksini-korsatsam-boladi"
+    >
+      Statik fayllarni tarqatish qanday qilib manzil prefiksini ko’rsatsam
+      bo’ladi?
+    </h2>
+    <p>
+      Asosiy Connect “mounting” yordamida “prefiks” aniqlab qaysi middleware
+      ishga tushishini ko’rsatish mumkin bo’ladi. Bu usul effektiv ishlaydi
+      huddi prefiks hech qachon manzil qismi bo’lmagandek. Masalan, bizga
+      <code>GET /files/javascripts/jquery.js</code> kerak bo’lsa. Siz
+      <code>/files</code> prefiksini o’rnatib,
+      <code>/javascripts/jquery.js</code>ni <code>req.url</code> aniqlashingiz
+      mumkin, shu bilan tarqatish uchun middleware ko’rsatishingiz mumkin:
+    </p>
+    <pre><code class="language-javascript" translate="no">
 app.use('/public', express.static('public'));
 </code></pre>
-<h2 id="siz-qanday-qilib-404-xatoni-qayta-ishlaysiz">Siz qanday qilib 404 xatoni qayta ishlaysiz?</h2>
-<p>Expressda, 404 xatosi, natija xatosi hisoblanmaydi. Shuning uchun ham xatolarni qayta ishlovchi middleware 404ni qayta ishlay olmaydi. Chunki 404 qo’shimcha ish yo’qligidan dalolat beradi; Boshqa qilib aytganda, Express hamma oraliq qayta ishlovchi(middleware) / routerlarni(routes)larni ishga tushuradi, va ularda hech biri ish haqida natija beramangani aniqlanadi. Buning uchun siz eng oxirida(hammasidan keyin) 404ni qayta ishlash oraliq qayta ishlovchi ko’rsatishingiz kerak bo’ladi:</p>
-<pre><code class="language-javascript" translate="no">
+    <h2 id="siz-qanday-qilib-404-xatoni-qayta-ishlaysiz">
+      Siz qanday qilib 404 xatoni qayta ishlaysiz?
+    </h2>
+    <p>
+      Expressda, 404 xatosi, natija xatosi hisoblanmaydi. Shuning uchun ham
+      xatolarni qayta ishlovchi middleware 404ni qayta ishlay olmaydi. Chunki
+      404 qo’shimcha ish yo’qligidan dalolat beradi; Boshqa qilib aytganda,
+      Express hamma oraliq qayta ishlovchi(middleware) /
+      routerlarni(routes)larni ishga tushuradi, va ularda hech biri ish haqida
+      natija beramangani aniqlanadi. Buning uchun siz eng oxirida(hammasidan
+      keyin) 404ni qayta ishlash oraliq qayta ishlovchi ko’rsatishingiz kerak
+      bo’ladi:
+    </p>
+    <pre><code class="language-javascript" translate="no">
 app.use(function(req, res, next){
   res.send(404, 'Sorry cant find that!');
 });
 </code></pre>
-<h2 id="xato-qayta-ishlovchisini-qanday-aniqlaysiz">Xato qayta ishlovchisini qanday aniqlaysiz?</h2>
-<p>Siz xatolarni qayta ishlovchi middlewareni ko’rsatishingiz mumkin, shu bilan qolgan qayta ishlovchisi(middleware)ga uchta argumentlar o’rniga to’rtta argument jo’natishingiz kerak; u quyidagicha <code>(err, req, res, next)</code>:</p>
-<pre><code class="language-javascript" translate="no">
+    <h2 id="xato-qayta-ishlovchisini-qanday-aniqlaysiz">
+      Xato qayta ishlovchisini qanday aniqlaysiz?
+    </h2>
+    <p>
+      Siz xatolarni qayta ishlovchi middlewareni ko’rsatishingiz mumkin, shu
+      bilan qolgan qayta ishlovchisi(middleware)ga uchta argumentlar o’rniga
+      to’rtta argument jo’natishingiz kerak; u quyidagicha
+      <code>(err, req, res, next)</code>:
+    </p>
+    <pre><code class="language-javascript" translate="no">
 app.use(function(err, req, res, next){
   console.error(err.stack);
   res.send(500, 'Something broke!');
 });
 </code></pre>
-<p>Batafsil ma’lumot uchun <a href="/guide/error-handling.html">Xatolarni qayta ishlash</a> o’qing.</p>
-<h2 id="qanday-qilib-plain-htmlni-render-qilishim-mumkin">Qanday qilib plain HTMLni render qilishim mumkin?</h2>
-<p>Siz buni qilishingiz kerak emas! HTMLni <code>res.render()</code> orqali “render” qilish kerak emas. Agar sizda shunday fayl bo’lsa, <code>res.sendFile()</code> ishlating. Agar siz ko’pgina bunday fayllarni ishlatsangiz <code>express.static()</code> qayta ishlovchisi(middleware)ni ishlatishingiz mumkin.</p>
-</body>
+    <p>
+      Batafsil ma’lumot uchun
+      <a href="/guide/error-handling.html">Xatolarni qayta ishlash</a> o’qing.
+    </p>
+    <h2 id="qanday-qilib-plain-htmlni-render-qilishim-mumkin">
+      Qanday qilib plain HTMLni render qilishim mumkin?
+    </h2>
+    <p>
+      Siz buni qilishingiz kerak emas! HTMLni <code>res.render()</code> orqali
+      “render” qilish kerak emas. Agar sizda shunday fayl bo’lsa,
+      <code>res.sendFile()</code> ishlating. Agar siz ko’pgina bunday fayllarni
+      ishlatsangiz <code>express.static()</code> qayta ishlovchisi(middleware)ni
+      ishlatishingiz mumkin.
+    </p>
+  </body>
 </html>

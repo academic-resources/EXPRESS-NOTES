@@ -4,6 +4,7 @@ title: Vývoj template enginov pre Express
 menu: advanced
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -40,6 +41,7 @@ Odteraz bude vaša aplikácia schopná rendrovať `.ntl` súbory. Vytvorte súbo
 #message#
 </code>
 </pre>
+
 Potom vo vašej aplikácii vytvorte takýto route:
 
 <pre>
@@ -49,4 +51,5 @@ app.get('/', function (req, res) {
 });
 </code>
 </pre>
+
 Keď vykonáte request na home page, `index.ntl` bude vyrendrované ako HTML.

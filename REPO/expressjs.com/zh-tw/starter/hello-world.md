@@ -46,4 +46,3 @@ $ node app.js
 </pre>
 
 然後在瀏覽器中載入 [http://localhost:3000/](http://localhost:3000/)，以查看輸出。
-

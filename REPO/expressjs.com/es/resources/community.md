@@ -31,4 +31,3 @@ Si se encuentra con lo que cree es un error o simplemente desea realizar una sol
 ## Terceros
 
 Nuestra vibrante comunidad ha creado una gran variedad de extensiones, [módulos de middleware](/{{ page.lang }}/resources/middleware.html) e infraestructuras de nivel superior. Investíguelos en la [wiki](https://github.com/expressjs/express/wiki).
-

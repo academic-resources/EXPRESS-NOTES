@@ -1,48 +1,130 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Glosario de Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Glosario de Express</h1>
-</header>
-<h1 id="glosario">Glosario</h1>
-<h3 id="api">API</h3>
-<p>Interfaz de programación de aplicaciones. Explique la abreviatura la primera vez que la utilice.</p>
-<h3 id="aplicación">aplicación</h3>
-<p>En general, uno o varios programas diseñados para realizar operaciones para un determinado propósito. En el contexto de Express, un programa que utiliza la API de Express que se ejecuta en la plataforma Node.js. También puede hacer referencia a un <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#express">objeto de aplicación</a>.</p>
-<h3 id="código-abierto">código abierto</h3>
-<p>Consulte <a href="http://en.wikipedia.org/wiki/Open-source_software">Open source software en la Wikipedia</a>.</p>
-<h3 id="direccionador">direccionador</h3>
-<p>Consulte <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router">direccionador</a> en la referencia de API.</p>
-<h3 id="express">Express</h3>
-<p>Una infraestructura web rápida, minimalista y flexible para las aplicaciones Node.js. En general, se prefiere “Express” a “Express.js”, aunque esta también se acepta.</p>
-<h3 id="libuv">libuv</h3>
-<p>Una biblioteca de soporte multiplataforma que se centra en la E/S asíncrona, desarrollada principalmente para su uso en Node.js.</p>
-<h3 id="middleware">middleware</h3>
-<p>Una función invocada por la capa de direccionamiento de Express antes del manejador de la última solicitud, por lo que se sitúa en medio de una solicitud sin formato y la última ruta prevista. Algunos puntos delicados de terminología relacionados con el middleware:</p>
-<ul>
-<li><code>var foo = require('middleware')</code> significa que <em>requiere</em> o <em>utiliza</em> un módulo Node.js. A continuación, la sentencia <code>var mw = foo()</code> normalmente devuelve el middleware.</li>
-<li><code>app.use(mw)</code> significa que <em>se añade el middleware a la pila de procesos global</em>.</li>
-<li><code>app.get('/foo', mw, function (req, res) { ... })</code> significa que <em>se añade el middleware a la pila de procesos “GET /foo”</em>.</li>
-</ul>
-<h3 id="node.js">Node.js</h3>
-<p>Una plataforma de software que se utiliza para crear aplicaciones de red escalables. Node.js utiliza JavaScript como lenguaje de script y consigue un elevado rendimiento mediante E/S sin bloqueo y un bucle de sucesos de una sola hebra. Consulte <a href="http://nodejs.org/">nodejs.org</a>. <strong>Nota de uso</strong>: inicialmente, “Node.js”, posteriormente “Node”.</p>
-<h3 id="respuesta">respuesta</h3>
-<p>Una respuesta HTTP. Un servidor devuelve un mensaje de respuesta HTTP al cliente. La respuesta contiene información de estado de finalización sobre la solicitud y también puede contener contenido de la solicitud en el cuerpo del mensaje.</p>
-<h3 id="ruta">ruta</h3>
-<p>Parte de un URL que identifica un recurso. Por ejemplo, en <code>http://foo.com/products/id</code>, “/products/id” es la ruta.</p>
-<h3 id="solicitud">solicitud</h3>
-<p>Una solicitud HTTP. Un cliente envía un mensaje de solicitud HTTP a un servidor, que devuelve una respuesta. La solicitud debe utilizar uno de los <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods">métodos de solicitud</a> como, por ejemplo, GET, POST, etc.</p>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Glosario de Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Glosario de Express</h1>
+    </header>
+    <h1 id="glosario">Glosario</h1>
+    <h3 id="api">API</h3>
+    <p>
+      Interfaz de programación de aplicaciones. Explique la abreviatura la
+      primera vez que la utilice.
+    </p>
+    <h3 id="aplicación">aplicación</h3>
+    <p>
+      En general, uno o varios programas diseñados para realizar operaciones
+      para un determinado propósito. En el contexto de Express, un programa que
+      utiliza la API de Express que se ejecuta en la plataforma Node.js. También
+      puede hacer referencia a un
+      <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#express"
+        >objeto de aplicación</a
+      >.
+    </p>
+    <h3 id="código-abierto">código abierto</h3>
+    <p>
+      Consulte
+      <a href="http://en.wikipedia.org/wiki/Open-source_software"
+        >Open source software en la Wikipedia</a
+      >.
+    </p>
+    <h3 id="direccionador">direccionador</h3>
+    <p>
+      Consulte
+      <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router"
+        >direccionador</a
+      >
+      en la referencia de API.
+    </p>
+    <h3 id="express">Express</h3>
+    <p>
+      Una infraestructura web rápida, minimalista y flexible para las
+      aplicaciones Node.js. En general, se prefiere “Express” a “Express.js”,
+      aunque esta también se acepta.
+    </p>
+    <h3 id="libuv">libuv</h3>
+    <p>
+      Una biblioteca de soporte multiplataforma que se centra en la E/S
+      asíncrona, desarrollada principalmente para su uso en Node.js.
+    </p>
+    <h3 id="middleware">middleware</h3>
+    <p>
+      Una función invocada por la capa de direccionamiento de Express antes del
+      manejador de la última solicitud, por lo que se sitúa en medio de una
+      solicitud sin formato y la última ruta prevista. Algunos puntos delicados
+      de terminología relacionados con el middleware:
+    </p>
+    <ul>
+      <li>
+        <code>var foo = require('middleware')</code> significa que
+        <em>requiere</em> o <em>utiliza</em> un módulo Node.js. A continuación,
+        la sentencia <code>var mw = foo()</code> normalmente devuelve el
+        middleware.
+      </li>
+      <li>
+        <code>app.use(mw)</code> significa que
+        <em>se añade el middleware a la pila de procesos global</em>.
+      </li>
+      <li>
+        <code>app.get('/foo', mw, function (req, res) { ... })</code> significa
+        que <em>se añade el middleware a la pila de procesos “GET /foo”</em>.
+      </li>
+    </ul>
+    <h3 id="node.js">Node.js</h3>
+    <p>
+      Una plataforma de software que se utiliza para crear aplicaciones de red
+      escalables. Node.js utiliza JavaScript como lenguaje de script y consigue
+      un elevado rendimiento mediante E/S sin bloqueo y un bucle de sucesos de
+      una sola hebra. Consulte <a href="http://nodejs.org/">nodejs.org</a>.
+      <strong>Nota de uso</strong>: inicialmente, “Node.js”, posteriormente
+      “Node”.
+    </p>
+    <h3 id="respuesta">respuesta</h3>
+    <p>
+      Una respuesta HTTP. Un servidor devuelve un mensaje de respuesta HTTP al
+      cliente. La respuesta contiene información de estado de finalización sobre
+      la solicitud y también puede contener contenido de la solicitud en el
+      cuerpo del mensaje.
+    </p>
+    <h3 id="ruta">ruta</h3>
+    <p>
+      Parte de un URL que identifica un recurso. Por ejemplo, en
+      <code>http://foo.com/products/id</code>, “/products/id” es la ruta.
+    </p>
+    <h3 id="solicitud">solicitud</h3>
+    <p>
+      Una solicitud HTTP. Un cliente envía un mensaje de solicitud HTTP a un
+      servidor, que devuelve una respuesta. La solicitud debe utilizar uno de
+      los
+      <a
+        href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods"
+        >métodos de solicitud</a
+      >
+      como, por ejemplo, GET, POST, etc.
+    </p>
+  </body>
 </html>

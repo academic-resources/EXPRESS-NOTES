@@ -11,7 +11,7 @@ lang: it
 
 Express 5.0 si trova ancora nella fase di release alfa, ma di seguito vengono mostrate le modifiche che verranno riportate nel release e come migrare l'applicazione Express 4 a Express 5.
 
-Express 5 non è molto differente da Express 4: le modifiche all'API non sono così importanti come quelle che sono state effettuate nel passaggio dalla 3.0 alla 4.0.  Anche se le API di base sono le stesse, ci sono comunque delle modifiche importanti; in altre parole, un programma Express 4 esistente potrebbe non funzionare se lo si aggiorna per utilizzare Express 5.
+Express 5 non è molto differente da Express 4: le modifiche all'API non sono così importanti come quelle che sono state effettuate nel passaggio dalla 3.0 alla 4.0. Anche se le API di base sono le stesse, ci sono comunque delle modifiche importanti; in altre parole, un programma Express 4 esistente potrebbe non funzionare se lo si aggiorna per utilizzare Express 5.
 
 Per installare l'ultima alfa e per vedere in anteprima Express 5, immettere il seguente comando nella directory root dell'applicazione:
 
@@ -73,7 +73,7 @@ La firma `app.param(fn)` è stata utilizzata per modificare la funzionalità del
 
 <h4 id="plural">Nomi di metodi al plurale</h4>
 
-I seguenti nomi di metodi sono stati messi al plurale. In Express 4, l'utilizzo di vecchi metodi ha dato origine ad avvisi di deprecazione.  Express 5 non li supporta più in alcun modo:
+I seguenti nomi di metodi sono stati messi al plurale. In Express 4, l'utilizzo di vecchi metodi ha dato origine ad avvisi di deprecazione. Express 5 non li supporta più in alcun modo:
 
 `req.acceptsCharset()` è stato sostituito con `req.acceptsCharsets()`.
 
@@ -105,7 +105,7 @@ Express 5 non supporta più la firma `res.send(obj, status)`. Al contrario, impo
 
 <h4 id="res.send.status">res.send(status)</h4>
 
-Express 5 non supporta più la firma <code>res.send(<em>status</em>)</code>, dove *`status`* è un numero. Al contrario, utilizzare la funzione `res.sendStatus(statusCode)`, la quale imposta il codice di stato dell'intestazione della risposta HTTP e invia la versione di testo del codice: "Non trovato", "Errore interno del server" e così via.
+Express 5 non supporta più la firma <code>res.send(<em>status</em>)</code>, dove _`status`_ è un numero. Al contrario, utilizzare la funzione `res.sendStatus(statusCode)`, la quale imposta il codice di stato dell'intestazione della risposta HTTP e invia la versione di testo del codice: "Non trovato", "Errore interno del server" e così via.
 Se è necessario inviare un numero utilizzando la funzione `res.send()`, citare il numero per convertirlo in una stringa, in modo tale che Express non lo interpreti come un tentativo di utilizzo di una firma vecchia non supportata.
 
 <h4 id="res.sendfile">res.sendfile()</h4>

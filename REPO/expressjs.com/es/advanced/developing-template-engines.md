@@ -36,6 +36,7 @@ La aplicación ahora podrá representar archivos `.ntl`. Cree un archivo denomin
 #message#
 </code>
 </pre>
+
 A continuación, cree la ruta siguiente en la aplicación.
 
 <pre>
@@ -45,4 +46,5 @@ app.get('/', function (req, res) {
 });
 </code>
 </pre>
+
 Cuando realice una solicitud a la página de inicio, `index.ntl` se representará como HTML.

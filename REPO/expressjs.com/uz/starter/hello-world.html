@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="uz" xml:lang="uz">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express “Hello World”</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express “Hello World”</h1>
-</header>
-<h1 id="hello-world">Hello world</h1>
-<p>Bu yerda Express dasturga eng sodda misol keltirilgan.</p>
-<pre><code class="language-javascript" translate="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express “Hello World”</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express “Hello World”</h1>
+    </header>
+    <h1 id="hello-world">Hello world</h1>
+    <p>Bu yerda Express dasturga eng sodda misol keltirilgan.</p>
+    <pre><code class="language-javascript" translate="no">
 const express = require('express')
 const app = express()
 const port = 3000
@@ -31,14 +44,30 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
 </code></pre>
-<div class="doc-box doc-notice" data-markdown="1">
-<p><code>req</code> (request) va <code>res</code> (response) Node taqdim etayotgan obyektlar hisoblanadi, shuning uchun <code>req.pipe()</code>, <code>req.on('data', callback)</code> Express talab qilmaydigan boshqa obyektlar.</p>
-</div>
-<p>Dastur serverni ishga tushuradi va 3000 portdagi aloqani eshitib turadi. Javob sifatida bosh sahifaga “Hello World!” so’zi jo’natiladi. Qolgan barcha sahifalarga esa <strong>404 Not Found</strong> javobi jo’natiladi.</p>
-<p>Kodni yozib, <code>app.js</code> faylida saqlab qoying. Uni ishga tushurish uchun quyidagi buyruqni ishga tushiring:</p>
-<pre><code class="language-sh" translate="no">
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        <code>req</code> (request) va <code>res</code> (response) Node taqdim
+        etayotgan obyektlar hisoblanadi, shuning uchun <code>req.pipe()</code>,
+        <code>req.on('data', callback)</code> Express talab qilmaydigan boshqa
+        obyektlar.
+      </p>
+    </div>
+    <p>
+      Dastur serverni ishga tushuradi va 3000 portdagi aloqani eshitib turadi.
+      Javob sifatida bosh sahifaga “Hello World!” so’zi jo’natiladi. Qolgan
+      barcha sahifalarga esa <strong>404 Not Found</strong> javobi jo’natiladi.
+    </p>
+    <p>
+      Kodni yozib, <code>app.js</code> faylida saqlab qoying. Uni ishga
+      tushurish uchun quyidagi buyruqni ishga tushiring:
+    </p>
+    <pre><code class="language-sh" translate="no">
 $ node app.js
 </code></pre>
-<p>Natijani ko’rish uchun, brauzerdan <a href="http://localhost:3000/">http://localhost:3000/</a> manziliga kiring.</p>
-</body>
+    <p>
+      Natijani ko’rish uchun, brauzerdan
+      <a href="http://localhost:3000/">http://localhost:3000/</a> manziliga
+      kiring.
+    </p>
+  </body>
 </html>

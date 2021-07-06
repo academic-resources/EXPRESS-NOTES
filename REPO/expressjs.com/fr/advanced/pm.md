@@ -8,8 +8,8 @@ lang: fr
 # Gestionnaires de processus pour les applications Express
 
 Quand vous exécutez l'application Express pour la
-production, utilisez un *gestionnaire de
-processus* car celui-ci peut vous permettre :
+production, utilisez un _gestionnaire de
+processus_ car celui-ci peut vous permettre :
 
 - De redémarrer l'application manuellement si elle subit une panne.
 - De vous informer sur les performances d'exécution et la consommation des ressources.
@@ -23,7 +23,6 @@ Les gestionnaires de processus les plus populaires pour Express et d'autres appl
 - [StrongLoop Process Manager](#sl)
 - [PM2](#pm2)
 - [Forever](#forever)
-
 
 L'utilisation d'un de ces trois outils peut être très utile, cependant le gestionnaire de processus StrongLoop est le seul qui fournisse un délai d'exécution exhaustif ainsi qu'une solution de déploiement qui s'adresse à l'intégralité du cycle de vie de l'application, avec des outils pour chaque étape avant et après la production, le tout dans une interface unifiée.
 
@@ -52,6 +51,7 @@ Documentation complète :
 - [Utilisation du gestionnaire de processus StrongLoop](http://docs.strongloop.com/display/SLC/Using+Process+Manager).
 
 ### Installation
+
 <pre>
 <code class="language-sh" translate="no">
 $ [sudo] npm install -g strongloop
@@ -59,6 +59,7 @@ $ [sudo] npm install -g strongloop
 </pre>
 
 ### Utilisation de base
+
 <pre>
 <code class="language-sh" translate="no">
 $ cd my-app
@@ -139,7 +140,7 @@ PM2 est un gestionnaire de processus de production pour les
 applications Node.js, qui possède un équilibreur de charge intégré. PM2
 vous permet de conserver des applications avec une durée de vie
 illimitée et de les recharger sans temps d'arrêt, ce qui facilite
-les tâches de l'administrateur système commun.  PM2 vous permet
+les tâches de l'administrateur système commun. PM2 vous permet
 également de gérer la journalisation, la surveillance et le
 regroupement de l'application.
 
@@ -229,7 +230,6 @@ Pour supprimer une application du registre PM2 :
 $ pm2 delete 0
 </code>
 </pre>
-
 
 ## <a id="forever">Forever</a>
 

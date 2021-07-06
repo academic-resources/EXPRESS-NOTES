@@ -4,6 +4,7 @@ title: Použitie template enginov v Express
 menu: guide
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -22,8 +23,8 @@ Pozrite si taktiež [Comparing JavaScript Templating Engines: Jade, Mustache, Du
 
 Aby Express dokázal spracovať a vyrendrovať template súbory, musí aplikácia obsahovať [nasledujúce nastavenia](/{{ page.lang }}/4x/api.html#app.set):
 
-* `views`, cesta k priečinku, kde sa nachádzajú template súbory. Napr: `app.set('views', './views')`. Defaultne to je priečinok `views` nachádzajúci sa v hlavnom priečinku aplikácie.
-* `view engine`, template engine, ktorý chcete použiť. Napr., ak by ste chceli použiť Pug: `app.set('view engine', 'pug')`
+- `views`, cesta k priečinku, kde sa nachádzajú template súbory. Napr: `app.set('views', './views')`. Defaultne to je priečinok `views` nachádzajúci sa v hlavnom priečinku aplikácie.
+- `view engine`, template engine, ktorý chcete použiť. Napr., ak by ste chceli použiť Pug: `app.set('view engine', 'pug')`
 
 Potom nainštalujte vybraný template engine ako npm dependenciu. Napr. pre inštaláciu Pug spustite:
 
@@ -37,6 +38,7 @@ $ npm install pug --save
 Templatovacie enginy kompatibilné s Express ako napr. Pug exportujú funkciu `__express(filePath, options, callback)`, ktorá je volaná pomocou `res.render()` funkcie k vyrendrovaniu template kódu.
 
 Niektoré template enginy používajú inú konvenciu. [Consolidate.js](https://www.npmjs.org/package/consolidate) knižnica mapuje konvencie všetkých populárnych Node.js template enginov tak, aby bezproblémov fungovali s Express.
+
 </div>
 
 Nastavenie parametra view engine zabezpečí, že nie je potrebné špecifikovať engine, ani načítať modul template enginu vo vašej aplikácii; Express načíta tento modul interne, ako je (pre príklad hore) zobrazené nižšie.

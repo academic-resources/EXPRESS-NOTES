@@ -22,6 +22,7 @@ Aunque la aplicación no dejará de ejecutarse si no se establece la variable de
 Si es `true`, la dirección IP del cliente se entiende como la entrada más a la izquierda en la cabecera `X-Forwarded-*`.
 
 Si es `false`, la aplicación se entiende como orientada directamente a Internet, y la dirección IP del cliente se obtiene de `req.connection.remoteAddress`. Este es el valor predeterminado.
+
 </td>
     </tr>
     <tr>
@@ -29,9 +30,9 @@ Si es `false`, la aplicación se entiende como orientada directamente a Internet
 <td markdown="1">
 Una dirección IP, una subred o una matriz de direcciones IP y subredes de confianza. La siguiente lista muestra los nombres de subred preconfigurados:
 
-* loopback - `127.0.0.1/8`, `::1/128`
-* linklocal - `169.254.0.0/16`, `fe80::/10`
-* uniquelocal - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
+- loopback - `127.0.0.1/8`, `::1/128`
+- linklocal - `169.254.0.0/16`, `fe80::/10`
+- uniquelocal - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
 
 Puede establecer direcciones IP de varias formas:
 
@@ -43,6 +44,7 @@ app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']) // specify mult
 </pre>
 
 Cuando se especifican, las direcciones IP o las subredes se excluyen del proceso de determinación de direcciones, y la dirección IP no de confianza más próxima al servidor de aplicaciones se establece como la dirección IP del cliente.
+
 </td>
     </tr>
     <tr>

@@ -9,8 +9,8 @@ Node.js compression middleware.
 
 The following compression codings are supported:
 
-  - deflate
-  - gzip
+- deflate
+- gzip
 
 ## Install
 
@@ -27,7 +27,7 @@ $ npm install compression
 <!-- eslint-disable no-unused-vars -->
 
 ```js
-var compression = require('compression')
+var compression = require("compression");
 ```
 
 ### compression([options])
@@ -74,17 +74,17 @@ compression). The special value `-1` can be used to mean the "default
 compression level", which is a default compromise between speed and
 compression (currently equivalent to level 6).
 
-  - `-1` Default compression level (also `zlib.Z_DEFAULT_COMPRESSION`).
-  - `0` No compression (also `zlib.Z_NO_COMPRESSION`).
-  - `1` Fastest compression (also `zlib.Z_BEST_SPEED`).
-  - `2`
-  - `3`
-  - `4`
-  - `5`
-  - `6` (currently what `zlib.Z_DEFAULT_COMPRESSION` points to).
-  - `7`
-  - `8`
-  - `9` Best compression (also `zlib.Z_BEST_COMPRESSION`).
+- `-1` Default compression level (also `zlib.Z_DEFAULT_COMPRESSION`).
+- `0` No compression (also `zlib.Z_NO_COMPRESSION`).
+- `1` Fastest compression (also `zlib.Z_BEST_SPEED`).
+- `2`
+- `3`
+- `4`
+- `5`
+- `6` (currently what `zlib.Z_DEFAULT_COMPRESSION` points to).
+- `7`
+- `8`
+- `9` Best compression (also `zlib.Z_BEST_COMPRESSION`).
 
 The default value is `zlib.Z_DEFAULT_COMPRESSION`, or `-1`.
 
@@ -107,19 +107,19 @@ This is used to tune the compression algorithm. This value only affects the
 compression ratio, not the correctness of the compressed output, even if it
 is not set appropriately.
 
-  - `zlib.Z_DEFAULT_STRATEGY` Use for normal data.
-  - `zlib.Z_FILTERED` Use for data produced by a filter (or predictor).
-    Filtered data consists mostly of small values with a somewhat random
-    distribution. In this case, the compression algorithm is tuned to
-    compress them better. The effect is to force more Huffman coding and less
-    string matching; it is somewhat intermediate between `zlib.Z_DEFAULT_STRATEGY`
-    and `zlib.Z_HUFFMAN_ONLY`.
-  - `zlib.Z_FIXED` Use to prevent the use of dynamic Huffman codes, allowing
-    for a simpler decoder for special applications.
-  - `zlib.Z_HUFFMAN_ONLY` Use to force Huffman encoding only (no string match).
-  - `zlib.Z_RLE` Use to limit match distances to one (run-length encoding).
-    This is designed to be almost as fast as `zlib.Z_HUFFMAN_ONLY`, but give
-    better compression for PNG image data.
+- `zlib.Z_DEFAULT_STRATEGY` Use for normal data.
+- `zlib.Z_FILTERED` Use for data produced by a filter (or predictor).
+  Filtered data consists mostly of small values with a somewhat random
+  distribution. In this case, the compression algorithm is tuned to
+  compress them better. The effect is to force more Huffman coding and less
+  string matching; it is somewhat intermediate between `zlib.Z_DEFAULT_STRATEGY`
+  and `zlib.Z_HUFFMAN_ONLY`.
+- `zlib.Z_FIXED` Use to prevent the use of dynamic Huffman codes, allowing
+  for a simpler decoder for special applications.
+- `zlib.Z_HUFFMAN_ONLY` Use to force Huffman encoding only (no string match).
+- `zlib.Z_RLE` Use to limit match distances to one (run-length encoding).
+  This is designed to be almost as fast as `zlib.Z_HUFFMAN_ONLY`, but give
+  better compression for PNG image data.
 
 **Note** in the list above, `zlib` is from `zlib = require('zlib')`.
 
@@ -147,20 +147,20 @@ The default `filter` function. This is used to construct a custom filter
 function that is an extension of the default function.
 
 ```js
-var compression = require('compression')
-var express = require('express')
+var compression = require("compression");
+var express = require("express");
 
-var app = express()
-app.use(compression({ filter: shouldCompress }))
+var app = express();
+app.use(compression({ filter: shouldCompress }));
 
-function shouldCompress (req, res) {
-  if (req.headers['x-no-compression']) {
+function shouldCompress(req, res) {
+  if (req.headers["x-no-compression"]) {
     // don't compress responses with this request header
-    return false
+    return false;
   }
 
   // fallback to standard filter function
-  return compression.filter(req, res)
+  return compression.filter(req, res);
 }
 ```
 
@@ -177,13 +177,13 @@ When using this module with express or connect, simply `app.use` the module as
 high as you like. Requests that pass through the middleware will be compressed.
 
 ```js
-var compression = require('compression')
-var express = require('express')
+var compression = require("compression");
+var express = require("express");
 
-var app = express()
+var app = express();
 
 // compress all responses
-app.use(compression())
+app.use(compression());
 
 // add all routes
 ```
@@ -199,31 +199,31 @@ You can achieve this by calling `res.flush()` when you need the data written to
 actually make it to the client.
 
 ```js
-var compression = require('compression')
-var express = require('express')
+var compression = require("compression");
+var express = require("express");
 
-var app = express()
+var app = express();
 
 // compress responses
-app.use(compression())
+app.use(compression());
 
 // server-sent event stream
-app.get('/events', function (req, res) {
-  res.setHeader('Content-Type', 'text/event-stream')
-  res.setHeader('Cache-Control', 'no-cache')
+app.get("/events", function (req, res) {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
 
   // send a ping approx every 2 seconds
   var timer = setInterval(function () {
-    res.write('data: ping\n\n')
+    res.write("data: ping\n\n");
 
     // !!! this is the important part
-    res.flush()
-  }, 2000)
+    res.flush();
+  }, 2000);
 
-  res.on('close', function () {
-    clearInterval(timer)
-  })
-})
+  res.on("close", function () {
+    clearInterval(timer);
+  });
+});
 ```
 
 ## License

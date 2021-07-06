@@ -22,6 +22,7 @@ lang: zh-tw
 若為 `true`，會將用戶端的 IP 位址視為 `X-Forwarded-*` 標頭中的最左側項目。
 
 若為 `false`，會將應用程式視為直接面對網際網路，且用戶端的 IP 位址衍生自 `req.connection.remoteAddress`。這是預設值。
+
 </td>
     </tr>
     <tr>
@@ -29,9 +30,9 @@ lang: zh-tw
 <td markdown="1">
 要信任的 IP 位址、子網路，或是 IP 位址與子網路陣列。下列清單顯示預先配置的子網路名稱：
 
-* loopback - `127.0.0.1/8`、`::1/128`
-* linklocal - `169.254.0.0/16`、`fe80::/10`
-* uniquelocal - `10.0.0.0/8`、`172.16.0.0/12`、`192.168.0.0/16`、`fc00::/7`
+- loopback - `127.0.0.1/8`、`::1/128`
+- linklocal - `169.254.0.0/16`、`fe80::/10`
+- uniquelocal - `10.0.0.0/8`、`172.16.0.0/12`、`192.168.0.0/16`、`fc00::/7`
 
 您可以採下列任何方式來設定 IP 位址：
 
@@ -43,6 +44,7 @@ app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']) // specify mult
 </pre>
 
 若有指定，位址判定程序中會排除 IP 位址或子網路，且會將最接近應用程式伺服器的未授信 IP 位址判斷為用戶端的 IP 位址。
+
 </td>
     </tr>
     <tr>

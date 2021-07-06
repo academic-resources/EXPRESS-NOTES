@@ -28,7 +28,7 @@ app.set('view engine', 'ntl'); // register the template engine
 </code>
 </pre>
 
-Votre application est désormais en mesure d'afficher le rendu des fichiers `.ntl`. Créez un fichier nommé  `index.ntl` dans le répertoire `views` avec le contenu suivant.
+Votre application est désormais en mesure d'afficher le rendu des fichiers `.ntl`. Créez un fichier nommé `index.ntl` dans le répertoire `views` avec le contenu suivant.
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -36,6 +36,7 @@ Votre application est désormais en mesure d'afficher le rendu des fichiers `.nt
 #message#
 </code>
 </pre>
+
 ENsuite, créez la route suivante dans votre application.
 
 <pre>
@@ -45,4 +46,5 @@ app.get('/', function (req, res) {
 });
 </code>
 </pre>
+
 Lorsque vous effectuerez une demande à la page d'accueil, `index.ntl` sera rendu au format HTML.

@@ -4,11 +4,10 @@
  * Module dependencies.
  */
 
-var EventEmitter = require('events').EventEmitter;
-var methods = require('methods');
-var http = require('http');
-var util = require('util');
-
+var EventEmitter = require("events").EventEmitter;
+var methods = require("methods");
+var http = require("http");
+var util = require("util");
 
 function Request(app) {
   this.data = [];
@@ -17,7 +16,7 @@ function Request(app) {
   this.server = app;
   this.addr = this.server.address();
   if (!this.addr) {
-    throw new Error('app Must be listen() first');
+    throw new Error("app Must be listen() first");
   }
 }
 
@@ -55,7 +54,7 @@ Request.prototype.expect = function (body, fn) {
       res.headers.should.have.property(body.toLowerCase(), args[1]);
       args[2]();
     } else {
-      if ('number' === typeof body) {
+      if ("number" === typeof body) {
         res.statusCode.should.equal(body);
       } else {
         res.body.should.equal(body);
@@ -71,36 +70,37 @@ Request.prototype.end = function (fn) {
     port: this.addr.port,
     host: this.addr.address,
     path: this.path,
-    headers: this.header
+    headers: this.header,
   });
 
   this.data.forEach(function (chunk) {
     req.write(chunk);
   });
-  
-  req.on('response', function (res) {
-    var chunks = [], size = 0;
-    res.on('data', function (chunk) { 
-      chunks.push(chunk); 
+
+  req.on("response", function (res) {
+    var chunks = [],
+      size = 0;
+    res.on("data", function (chunk) {
+      chunks.push(chunk);
       size += chunk.length;
     });
-    res.on('end', function () {
+    res.on("end", function () {
       var buf = null;
       switch (chunks.length) {
-      case 0: 
-        break;
-      case 1: 
-        buf = chunks[0]; 
-        break;
-      default:
-        buf = new Buffer(size);
-        var pos = 0;
-        for (var i = 0, l = chunks.length; i < l; i++) {
-          var chunk = chunks[i];
-          chunk.copy(buf, pos);
-          pos += chunk.length;
-        }
-        break;
+        case 0:
+          break;
+        case 1:
+          buf = chunks[0];
+          break;
+        default:
+          buf = new Buffer(size);
+          var pos = 0;
+          for (var i = 0, l = chunks.length; i < l; i++) {
+            var chunk = chunks[i];
+            chunk.copy(buf, pos);
+            pos += chunk.length;
+          }
+          break;
       }
       res.body = buf;
       fn(res);

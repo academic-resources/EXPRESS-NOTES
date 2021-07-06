@@ -4,6 +4,7 @@ title: Použitie správcov procesov pre Express aplikácie
 menu: advanced
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -27,7 +28,6 @@ Najpopulárnejšie s pomedzi správcov procesov pre Express i ostatné Node.js a
 - [PM2](#pm2)
 - [Forever](#forever)
 
-
 Použitie ktoréhokoľvek z hore spomenutých nástrojov môže byť veľmi nápomocné, avšak StrongLoop Process Manager je jediným nástrojom poskytujúcim obsiahle runtime a deployment riešenie adresujúce celý životný cyklus Node.js aplikácie pomocou nástrojov pre každý krok pred a po nasadení do produkcie a to v jednotnom rozhraní.
 
 Tu je jednoduchý náhľad na každý z týchto nástrojov. Pre detailnejšie porovnanie sa pozrite na [http://strong-pm.io/compare/](http://strong-pm.io/compare/).
@@ -44,7 +44,7 @@ StrongLoop PM môžete využiť na tieto úlohy:
 - Jednoduchá správa multi-host deploymentov s Nginx integráciou.
 - Unifikácia viacerých StrongLoop PM do distribuovaného runtime-u mikro servisov spravovateľných pomocou Arc.
 
-So StrongLoop PM dokážete pracovať pomocou výkonného command-line interface nástroja nazývaného `slc`, prípadne grafického nástroja nazývaného  Arc. Arc je open source s profesonálnou podporou od StrongLoop-u.
+So StrongLoop PM dokážete pracovať pomocou výkonného command-line interface nástroja nazývaného `slc`, prípadne grafického nástroja nazývaného Arc. Arc je open source s profesonálnou podporou od StrongLoop-u.
 
 Pre viac informácií si pozrite [http://strong-pm.io/](http://strong-pm.io/).
 
@@ -54,6 +54,7 @@ Celá dokumentácia:
 - [Using StrongLoop Process Manager](http://docs.strongloop.com/display/SLC/Using+Process+Manager).
 
 ### Inštalácia
+
 <pre>
 <code class="language-sh" translate="no">
 $ [sudo] npm install -g strongloop
@@ -61,6 +62,7 @@ $ [sudo] npm install -g strongloop
 </pre>
 
 ### Základné použitie
+
 <pre>
 <code class="language-sh" translate="no">
 $ cd my-app
@@ -134,7 +136,7 @@ $ slc ctl remove my-app
 
 ## <a id="pm2">PM2</a>
 
-PM2 je produkčný správca procesov pre Node.js aplikácie so vstavaným load balancerom. PM2 dokáže udržať aplikáciu nažive a vykonať jej prípadný reload bez výpadku a umožní vykonávať bežné system admin úlohy.  PM2 taktiež umožňuje spravovať logovanie, monitoring a clustering aplikácií.
+PM2 je produkčný správca procesov pre Node.js aplikácie so vstavaným load balancerom. PM2 dokáže udržať aplikáciu nažive a vykonať jej prípadný reload bez výpadku a umožní vykonávať bežné system admin úlohy. PM2 taktiež umožňuje spravovať logovanie, monitoring a clustering aplikácií.
 
 Pre viac informácií sa pozrite na [https://github.com/Unitech/pm2](https://github.com/Unitech/pm2).
 
@@ -209,7 +211,6 @@ $ pm2 delete 0
 </code>
 </pre>
 
-
 ## <a id="forever">Forever</a>
 
 Forever je jednoduchý command-line nástroj slúžiaci na udržanie vášho skriptu nažive. Jednoduché rozhranie nástroja Forever ho robí ideálnym pre správu menších deploymentov Node.js aplikácií a skriptov.
@@ -244,7 +245,7 @@ $ forever script.js
 </code>
 </pre>
 
-Je dobrým zvykom logovať výstup z nástroja Forever a skriptu pomocou prepínača `-l`, `-o` a `-e`,  ako je uvedené v príklade nižšie:
+Je dobrým zvykom logovať výstup z nástroja Forever a skriptu pomocou prepínača `-l`, `-o` a `-e`, ako je uvedené v príklade nižšie:
 
 <pre>
 <code class="language-sh" translate="no">

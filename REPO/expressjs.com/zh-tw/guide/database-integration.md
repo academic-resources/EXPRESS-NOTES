@@ -9,16 +9,16 @@ lang: zh-tw
 
 如果要在 Express 應用程式中新增連接資料庫的功能，只需在您的應用程式中載入資料庫的適當 Node.js 驅動程式即可。本文件簡要說明如何在您的 Express 應用程式中新增和使用一些最常用的 Node.js 資料庫系統模組。
 
-* [Cassandra](#cassandra)
-* [CouchDB](#couchdb)
-* [LevelDB](#leveldb)
-* [MySQL](#mysql)
-* [MongoDB](#mongo)
-* [Neo4j](#neo4j)
-* [PostgreSQL](#postgres)
-* [Redis](#redis)
-* [SQLite](#sqlite)
-* [ElasticSearch](#elasticsearch)
+- [Cassandra](#cassandra)
+- [CouchDB](#couchdb)
+- [LevelDB](#leveldb)
+- [MySQL](#mysql)
+- [MongoDB](#mongo)
+- [Neo4j](#neo4j)
+- [PostgreSQL](#postgres)
+- [Redis](#redis)
+- [SQLite](#sqlite)
+- [ElasticSearch](#elasticsearch)
 
 <div class="doc-box doc-notice" markdown="1">
 這些資料庫驅動程式只是眾多可用驅動程式中的一部分。如需其他選項，請在 [npm](https://www.npmjs.com/) 網站中搜尋。

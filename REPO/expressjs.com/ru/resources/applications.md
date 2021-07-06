@@ -30,7 +30,7 @@ Visit [LearnBoost](https://www.learnboost.com/)
 ##Storify
 
 Create stories using social media. Turn what people post
-on social media into compelling stories.  Collect the best photos, video,
+on social media into compelling stories. Collect the best photos, video,
 tweets and more to publish.
 
 [![](/images/apps/screenshots/storify.png)](http://storify.com/)
@@ -197,4 +197,4 @@ Visit [Gugamarket](http://www.gugamarket.com)
 ##Add your app or site
 
 [Edit the Markdown file](https://github.com/expressjs/expressjs.com/blob/gh-pages/{{ page.lang }}/resources/applications.md),
-add a link to your app, then submit a pull request (GitHub login required).  Follow the format of the above listings.
+add a link to your app, then submit a pull request (GitHub login required). Follow the format of the above listings.

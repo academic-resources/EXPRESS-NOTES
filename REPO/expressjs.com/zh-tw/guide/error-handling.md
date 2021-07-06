@@ -9,7 +9,6 @@ lang: zh-tw
 
 錯誤處理中介軟體函數的定義方式，與其他中介軟體函數相同，差別在於錯誤處理函數的引數是四個而非三個：`(err, req, res, next)`。例如：
 
-
 <pre>
 <code class="language-javascript" translate="no">
 app.use(function(err, req, res, next) {
@@ -90,7 +89,6 @@ function errorHandler(err, req, res, next) {
 不論您傳遞何者給 `next()` 函數（`'route'` 字串除外），Express 都會將現行要求視為發生錯誤，且會跳過其餘任何的非錯誤處理路由和中介軟體函數。如果您想以某種方式來處理該錯誤，您必須按照下一節的說明來建立錯誤處理路由。
 
 如果您的路由處理程式有多個回呼函數，可以使用 `route` 參數來跳到下一個路由處理程式。例如：
-
 
 <pre>
 <code class="language-javascript" translate="no">

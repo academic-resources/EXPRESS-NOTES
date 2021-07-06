@@ -5,6 +5,7 @@ menu: guide
 lang: tr
 redirect_from: "/guide/debugging.html"
 ---
+
 # Express hata ayıklama
 
 Express, rota eşleştirmeleri, kullanımda olan ara yazılım fonksiyonları, uygulama modu, ve istek-yanıt döngüsü akışı ile ilgili bilgileri loglamak için dahili olarak [debug](https://www.npmjs.com/package/debug) mödülünü kullanmaktadır.
@@ -23,6 +24,7 @@ Windows'ta aynı komutun karşılığını kullanın.
 ```sh
 > set DEBUG=express:* & node index.js
 ```
+
 [express generator](/{{ page.lang }}/starter/generator.html) kullanılarak yaratılan varsayılan uygulamada bu komutu koşmak aşağıdakileri yazdıracak:
 
 ```sh
@@ -111,15 +113,15 @@ $ DEBUG=http,mail,express:* node index.js
 
 Node.js üzerinden koşulduğunda hata ayıklama loglamasının davranışını değiştirecek birkaç ortam değişkeni ayarlayabilirsiniz:
 
-| İsim      | Amaç                                            |
-|-----------|-------------------------------------------------|
-| `DEBUG`   | Spesifik hata ayıklama isim alanlarını devre dışı bırakma veya etkinleştirme. |
-| `DEBUG_COLORS`| Hata ayıklama çıktısında renk kullanıp kullanmama.|
-| `DEBUG_DEPTH` | Nesne inceleme derinliği.|
-| `DEBUG_FD`    | Hata ayıklama çıktısının yazılacağı dosya tanımlayıcı. |
-| `DEBUG_SHOW_HIDDEN` | İncelenen nesnelerde gizli özellikleri gösterme. |
+| İsim                | Amaç                                                                          |
+| ------------------- | ----------------------------------------------------------------------------- |
+| `DEBUG`             | Spesifik hata ayıklama isim alanlarını devre dışı bırakma veya etkinleştirme. |
+| `DEBUG_COLORS`      | Hata ayıklama çıktısında renk kullanıp kullanmama.                            |
+| `DEBUG_DEPTH`       | Nesne inceleme derinliği.                                                     |
+| `DEBUG_FD`          | Hata ayıklama çıktısının yazılacağı dosya tanımlayıcı.                        |
+| `DEBUG_SHOW_HIDDEN` | İncelenen nesnelerde gizli özellikleri gösterme.                              |
 
-__Not:__ `DEBUG_` ile başlayan ortam değişkenleri, `%o`/`%O` biçemleyicileriyle kullanılmak üzere bir Seçenekler nesnesine dönüştürülür.
+**Not:** `DEBUG_` ile başlayan ortam değişkenleri, `%o`/`%O` biçemleyicileriyle kullanılmak üzere bir Seçenekler nesnesine dönüştürülür.
 Tam listeyi görmek için Node.js'in [`util.inspect()`](https://nodejs.org/api/util.html#util_util_inspect_object_options) dökümantasyonuna bakınız.
 
 ## Kaynaklar

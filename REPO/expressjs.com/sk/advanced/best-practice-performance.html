@@ -1,46 +1,89 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Osvedčené postupy pre Express v produkcii - výkonnosť a spoľahlivosť</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Osvedčené postupy pre Express v produkcii - výkonnosť a spoľahlivosť</h1>
-</header>
-<!---
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>
+      Osvedčené postupy pre Express v produkcii - výkonnosť a spoľahlivosť
+    </title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">
+        Osvedčené postupy pre Express v produkcii - výkonnosť a spoľahlivosť
+      </h1>
+    </header>
+    <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
 -->
-<h1 id="osvedčené-postupy-pre-express-v-produkcii-výkonnosť-a-spoľahlivosť">Osvedčené postupy pre Express v produkcii: výkonnosť a spoľahlivosť</h1>
-<h2 id="prehľad">Prehľad</h2>
-<p>Tento článok popisuje niektoré osvedčené postupy z pohľadu výkonnosti a spoľahlivosti Express aplikácií v produkcii.</p>
-<p>Táto časť jasne spadá do tzv. “devops” sveta, dotýkajúca sa tradičného vývoja a prevádzky. Podľa toho sú tieto informácie rozdelené do dvoch častí:</p>
-<ul>
-<li><a href="#code">Kroky, ktoré je potrebné vykonať vo vašom kóde</a> (časť vývoja).</li>
-<li><a href="#env">Kroky, ktoré je potrebné vykonať na vašom prostredí</a> (časť prevádzky).</li>
-</ul>
-<p><a name="code"></a></p>
-<h2 id="kroky-ktoré-je-potrebné-vykonať-vo-vašom-kóde">Kroky, ktoré je potrebné vykonať vo vašom kóde</h2>
-<p>Dodržiavanie nasledujúcich postupov vo vašom kóde môže viesť k zlepšeniu výkonnosti vašej aplikácie:</p>
-<ul>
-<li>Používajte gzip kompresiu</li>
-<li>Nepoužívajte synchrónne funkcie</li>
-<li>Pre servovanie statických súborov používajte middleware</li>
-<li>Správne logujte</li>
-<li>Správne odchytávajte a spracovávajte výnimky</li>
-</ul>
-<h3 id="používajte-gzip-kompresiu">Používajte gzip kompresiu</h3>
-<p>Použitie gzip kompresie môže veľmi znížiť veľkosť response body a tým zvýšíť rýchlosť webovej aplikácie. Pre zapnutie gzip kompresie vo vašej Express aplikácii používajte <a href="https://www.npmjs.com/package/compression">compression</a> middleware. Napr.:</p>
-<pre>
+    <h1 id="osvedčené-postupy-pre-express-v-produkcii-výkonnosť-a-spoľahlivosť">
+      Osvedčené postupy pre Express v produkcii: výkonnosť a spoľahlivosť
+    </h1>
+    <h2 id="prehľad">Prehľad</h2>
+    <p>
+      Tento článok popisuje niektoré osvedčené postupy z pohľadu výkonnosti a
+      spoľahlivosti Express aplikácií v produkcii.
+    </p>
+    <p>
+      Táto časť jasne spadá do tzv. “devops” sveta, dotýkajúca sa tradičného
+      vývoja a prevádzky. Podľa toho sú tieto informácie rozdelené do dvoch
+      častí:
+    </p>
+    <ul>
+      <li>
+        <a href="#code">Kroky, ktoré je potrebné vykonať vo vašom kóde</a> (časť
+        vývoja).
+      </li>
+      <li>
+        <a href="#env">Kroky, ktoré je potrebné vykonať na vašom prostredí</a>
+        (časť prevádzky).
+      </li>
+    </ul>
+    <p><a name="code"></a></p>
+    <h2 id="kroky-ktoré-je-potrebné-vykonať-vo-vašom-kóde">
+      Kroky, ktoré je potrebné vykonať vo vašom kóde
+    </h2>
+    <p>
+      Dodržiavanie nasledujúcich postupov vo vašom kóde môže viesť k zlepšeniu
+      výkonnosti vašej aplikácie:
+    </p>
+    <ul>
+      <li>Používajte gzip kompresiu</li>
+      <li>Nepoužívajte synchrónne funkcie</li>
+      <li>Pre servovanie statických súborov používajte middleware</li>
+      <li>Správne logujte</li>
+      <li>Správne odchytávajte a spracovávajte výnimky</li>
+    </ul>
+    <h3 id="používajte-gzip-kompresiu">Používajte gzip kompresiu</h3>
+    <p>
+      Použitie gzip kompresie môže veľmi znížiť veľkosť response body a tým
+      zvýšíť rýchlosť webovej aplikácie. Pre zapnutie gzip kompresie vo vašej
+      Express aplikácii používajte
+      <a href="https://www.npmjs.com/package/compression">compression</a>
+      middleware. Napr.:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var compression = require('compression');
 var express = require('express');
@@ -48,45 +91,209 @@ var app = express();
 app.use(compression());
 </code>
 </pre>
-<p>Pre stránky s vysokou návštevnosťou sa odporúča implementovať kompresiu na úrovni reverse proxy (pozrite sa na <a href="#proxy">Použitie reverse proxy</a>). V takom prípade nemusíte použiť compression middleware. Pre viac detailov ohľadom zapnutia gzip kompresie na Nginx serveri sa pozrite na <a href="http://nginx.org/en/docs/http/ngx_http_gzip_module.html">Module ngx_http_gzip_module</a> v Nginx dokumentácii.</p>
-<h3 id="nepoužívajte-synchrónne-funkcie">Nepoužívajte synchrónne funkcie</h3>
-<p>Synchrónne funkcie a metódy “držia” proces vykonania až do kým nebudú spracované. Jedno volanie synchrónnej funkcie môže trvať pár mikrosekúnd, či milisekúnd, avšak v prípade stránok s vysokou návštevnosťou, takéto volania znižujú výkonnosť aplikácie. Preto sa ich používaniu v produkcii vyhnite.</p>
-<p>Hoci samotný Node i mnohé jeho moduly poskytujú synchrónne a asynchrónne verzie ich funkcií, v produkcii vždy používajte ich asynchrónne verzie. Jediná situácia, kedy by malo použitie synchrónnej funkcie opodstatnenie, je pri prvotnom spustení aplikácie.</p>
-<p>Ak používate Node.js 4.0+ alebo io.js 2.1.0+, môžete použiť prepínač <code>--trace-sync-io</code>, ktorý vypíše warning a stack trace vždy, keď vaša aplikácia použije synchrónne API. V produkcii to samozrejme nepoužívajte, ale už pri developmente sa uistite, že vaša aplikácia je pripravená na produkciu. Pre viac informácií sa pozrite na <a href="https://nodejs.org/en/blog/weekly-updates/weekly-update.2015-05-22/#2-1-0">Weekly update for io.js 2.1.0</a>.</p>
-<h3 id="pre-servovanie-statických-súborov-používajte-middleware">Pre servovanie statických súborov používajte middleware</h3>
-<p>V developmente môžete pre servovanie statických súborov používať <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendFile">res.sendFile()</a>. V produkcii to však nepoužívajte, pretože táto funkcia musí pri každom requeste čítať dáta z file systému, čo má za následok značné oneskorenie a celkovo nepriaznivo ovlyvňuje výkonnosť aplikácie. <code>res.sendFile()</code> funkcia <em>nie</em> je implementovaná pomocou <a href="http://linux.die.net/man/2/sendfile">sendfile</a> systémového volania, ktoré by ju robilo oveľa efektívnejšou.</p>
-<p>Namiesto toho používajte <a href="https://www.npmjs.com/package/serve-static">serve-static</a> middleware (prípadne podobný ekvivalent), ktorý je optimalizovaný pre servovanie statických súborov v Express aplikáciách.</p>
-<p>Ešte lepšou možnosťou pre servovanie statických súborov je použitie reverse proxy; pre viac informácií sa pozrite na <a href="#proxy">Použitie reverse proxy</a>.</p>
-<h3 id="správne-logujte">Správne logujte</h3>
-<p>Vo všeobecnosti existujú dva dôvody k logovaniu vo vašej aplkácii a to debugovanie a logovanie aktivít vašej aplikácie. Použitie <code>console.log()</code> príp. <code>console.err()</code> k vypísaniu log správy je bežnou praxou počas developmentu. Avšak pozor, <a href="https://nodejs.org/api/console.html#console_console_1">tieto funkcie sú synchrónne</a> v prípade, ak je výstupom terminál príp. súbor, takže nie sú vhodné pre produkčné prostredie, pokiaľ výstup nepresmerujete do iného programu.</p>
-<h4 id="logovanie-z-dôvodu-debugovania">Logovanie z dôvodu debugovania</h4>
-<p>Ak používate na debugovanie logovanie pomocou <code>console.log()</code>, používajte radšej špeciálny modul na debugovanie, ako napr. <a href="https://www.npmjs.com/package/debug">debug</a>. Tento modul vám umožňuje použivať environment premennú DEBUG, pomocou ktorej dokážete kontrolovať, ktoré debug výpisy budú vypísané pomocou <code>console.err()</code>, príp. žiadne. Ak chcete, aby vaša aplikácia bola čisto asynchrónna, budete stále potrebovať presmerovať výstup <code>console.err()</code> do iného programu. Ale v skutočnosti asi nechcete debugovať v produkcii, však?</p>
-<h4 id="logovanie-aktivít-aplikácie">Logovanie aktivít aplikácie</h4>
-<p>Ak používate logovanie na sledovanie aktivít aplikácie (napr. sledovanie traffic-u, príp. API volaní), používajte namiesto <code>console.log()</code> logovacie knižnice, ako sú napr. <a href="https://www.npmjs.com/package/winston">Winston</a> či <a href="https://www.npmjs.com/package/bunyan">Bunyan</a>. Ak vás zaujíma detailnejšie porovnanie týchto dvoch knižníc, prečítajte si tento blog post: <a href="https://strongloop.com/strongblog/compare-node-js-logging-winston-bunyan/">Comparing Winston and Bunyan Node.js Logging</a>.</p>
-<p><a name="exceptions"></a></p>
-<h3 id="správne-odchytávajte-a-spracovávajte-výnimky">Správne odchytávajte a spracovávajte výnimky</h3>
-<p>V prípade neodchytenia výnimky Node.js aplikácia spadne. Tzn, že v prípade nespracovania výnimky a nevykonania správnej akcie vaša Express aplikácia spadne. Ak budete pokračovať podľa rád v časti <a href="#restart">Zabežpečte, aby sa vaša aplikácia automaticky reštartovala</a>, tak sa vaša aplikácia z pádu zotaví. Express aplikácie potrebujú naštastie len krátky čas k naštartovaniu. Bez ohľadu nato, by ste sa mali pádom aplikácie v prvom rade vyhnúť a k tomu potrebujete správne odchytávať výnimky.</p>
-<p>K uisteniu sa, že spracovávate všetky výnimky, používajte tieto techniky:</p>
-<ul>
-<li><a href="#try-catch">Používajte try-catch</a></li>
-<li><a href="#promises">Používajte promises</a></li>
-</ul>
-<p>Predtým, ako sa hlbšie pustíme do týchto tém, mali by ste mať základné znalosti Node/Express error handlingu, akými sú používanie error-first callback-ov a šírenie errorov middlewarmi. Node používa pre návrat errorov z asynchrónnych funkcií konvenciu “error-first callbackov”, kde prvým argumentom callback funkcie je error objekt, nasledovaný ostatnými návratovými hodnotami úspešného spracovanie funkcie. Ak nenastal žiaden error zabezpečte, aby prvým parametrom bol null. Definícia callback funkcie musí korešpondovať s error-first callback konvenciou a musí zmysluplne spracovať error. V Express aplikáciách je pre šírenie erroru middlewarmi osvedčenou a odporúčanou technikou použitie next() funkcie.</p>
-<p>Pre viac informácií ohľadom základov error handlingu sa pozrite na:</p>
-<ul>
-<li><a href="https://www.joyent.com/developers/node/design/errors">Error Handling in Node.js</a></li>
-<li><a href="https://strongloop.com/strongblog/robust-node-applications-error-handling/">Building Robust Node Applications: Error Handling</a> (StrongLoop blog)</li>
-</ul>
-<h4 id="čo-nerobiť">Čo nerobiť</h4>
-<p>Jedna z vecí, ktorú by ste robiť <em>nemali</em> je počúvať na <code>uncaughtException</code> event, ktorý je emitovaný v okamihu kedy výnimka “bublá” celou cestu späť do event loop-u. Pridanie event listenera <code>uncaughtException</code> zmení defaultné chovanie procesu, ktorý narazil na výnimku; proces bude pokračovať napriek výnimke. Toto sa môže zdať ako dobrým riešením, ako predísť pádu vašej aplikácie, avšak pokračovanie behu vašej aplikácie, v prípade neodchytenej výnimky je nebezpečnou praktikou a nepodporúča sa, pretože sa tým stav procesu stáva nespoľahlivým a nepredpovedateľným.</p>
-<p>Navyše, použitie <code>uncaughtException</code> je oficiálne uznané ako <a href="https://nodejs.org/api/process.html#process_event_uncaughtexception">hrubé</a> a existuje <a href="https://github.com/nodejs/node-v0.x-archive/issues/2582">návrh</a> na jeho odstránenie z jadra. Takže počúvanie na <code>uncaughtException</code> nie je dobrým nápadom. To je dôvod, prečo odporúčame veci ako viacero procesov a supervisorov: pád a reštartovanie je často najspolalivejším spôsobom zotavenia sa z erorru.</p>
-<p>Taktiež neodporúčame používať <a href="https://nodejs.org/api/domain.html">domain</a> modul. Všeobecne nerieši žiaden problém a je označený ako deprecated modul.</p>
-<p><a name="try-catch"></a></p>
-<h4 id="používajte-try-catch">Používajte try-catch</h4>
-<p>Try-catch je klasická konštrukcia v jazyku JavaScript, pomocou ktorej dokážete odchytiť výnimky v synchrónnom kóde. Použite try-catch, napr. na spracovanie chýb pri JSON parsingu, ako na ukážke nižšie.</p>
-<p>Používajte nástroje <a href="http://jshint.com/">JSHint</a> príp. <a href="http://www.jslint.com/">JSLint</a>, ktoré vám pomôžu nájsť implicitné výnimky, ako napr. <a href="http://www.jshint.com/docs/options/#undef">reference errors on undefined variables</a>.</p>
-<p>Tu je príklad použitia try-catch k odchyteniu potenciálnej výnimky zapríčiňujúcej pád procesu. Táto middleware funkcia príjma query parameter nazvaný “params” ktorý je JSON objekt.</p>
-<pre>
+    <p>
+      Pre stránky s vysokou návštevnosťou sa odporúča implementovať kompresiu na
+      úrovni reverse proxy (pozrite sa na
+      <a href="#proxy">Použitie reverse proxy</a>). V takom prípade nemusíte
+      použiť compression middleware. Pre viac detailov ohľadom zapnutia gzip
+      kompresie na Nginx serveri sa pozrite na
+      <a href="http://nginx.org/en/docs/http/ngx_http_gzip_module.html"
+        >Module ngx_http_gzip_module</a
+      >
+      v Nginx dokumentácii.
+    </p>
+    <h3 id="nepoužívajte-synchrónne-funkcie">
+      Nepoužívajte synchrónne funkcie
+    </h3>
+    <p>
+      Synchrónne funkcie a metódy “držia” proces vykonania až do kým nebudú
+      spracované. Jedno volanie synchrónnej funkcie môže trvať pár mikrosekúnd,
+      či milisekúnd, avšak v prípade stránok s vysokou návštevnosťou, takéto
+      volania znižujú výkonnosť aplikácie. Preto sa ich používaniu v produkcii
+      vyhnite.
+    </p>
+    <p>
+      Hoci samotný Node i mnohé jeho moduly poskytujú synchrónne a asynchrónne
+      verzie ich funkcií, v produkcii vždy používajte ich asynchrónne verzie.
+      Jediná situácia, kedy by malo použitie synchrónnej funkcie opodstatnenie,
+      je pri prvotnom spustení aplikácie.
+    </p>
+    <p>
+      Ak používate Node.js 4.0+ alebo io.js 2.1.0+, môžete použiť prepínač
+      <code>--trace-sync-io</code>, ktorý vypíše warning a stack trace vždy, keď
+      vaša aplikácia použije synchrónne API. V produkcii to samozrejme
+      nepoužívajte, ale už pri developmente sa uistite, že vaša aplikácia je
+      pripravená na produkciu. Pre viac informácií sa pozrite na
+      <a
+        href="https://nodejs.org/en/blog/weekly-updates/weekly-update.2015-05-22/#2-1-0"
+        >Weekly update for io.js 2.1.0</a
+      >.
+    </p>
+    <h3 id="pre-servovanie-statických-súborov-používajte-middleware">
+      Pre servovanie statických súborov používajte middleware
+    </h3>
+    <p>
+      V developmente môžete pre servovanie statických súborov používať
+      <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendFile"
+        >res.sendFile()</a
+      >. V produkcii to však nepoužívajte, pretože táto funkcia musí pri každom
+      requeste čítať dáta z file systému, čo má za následok značné oneskorenie a
+      celkovo nepriaznivo ovlyvňuje výkonnosť aplikácie.
+      <code>res.sendFile()</code> funkcia <em>nie</em> je implementovaná pomocou
+      <a href="http://linux.die.net/man/2/sendfile">sendfile</a> systémového
+      volania, ktoré by ju robilo oveľa efektívnejšou.
+    </p>
+    <p>
+      Namiesto toho používajte
+      <a href="https://www.npmjs.com/package/serve-static">serve-static</a>
+      middleware (prípadne podobný ekvivalent), ktorý je optimalizovaný pre
+      servovanie statických súborov v Express aplikáciách.
+    </p>
+    <p>
+      Ešte lepšou možnosťou pre servovanie statických súborov je použitie
+      reverse proxy; pre viac informácií sa pozrite na
+      <a href="#proxy">Použitie reverse proxy</a>.
+    </p>
+    <h3 id="správne-logujte">Správne logujte</h3>
+    <p>
+      Vo všeobecnosti existujú dva dôvody k logovaniu vo vašej aplkácii a to
+      debugovanie a logovanie aktivít vašej aplikácie. Použitie
+      <code>console.log()</code> príp. <code>console.err()</code> k vypísaniu
+      log správy je bežnou praxou počas developmentu. Avšak pozor,
+      <a href="https://nodejs.org/api/console.html#console_console_1"
+        >tieto funkcie sú synchrónne</a
+      >
+      v prípade, ak je výstupom terminál príp. súbor, takže nie sú vhodné pre
+      produkčné prostredie, pokiaľ výstup nepresmerujete do iného programu.
+    </p>
+    <h4 id="logovanie-z-dôvodu-debugovania">Logovanie z dôvodu debugovania</h4>
+    <p>
+      Ak používate na debugovanie logovanie pomocou <code>console.log()</code>,
+      používajte radšej špeciálny modul na debugovanie, ako napr.
+      <a href="https://www.npmjs.com/package/debug">debug</a>. Tento modul vám
+      umožňuje použivať environment premennú DEBUG, pomocou ktorej dokážete
+      kontrolovať, ktoré debug výpisy budú vypísané pomocou
+      <code>console.err()</code>, príp. žiadne. Ak chcete, aby vaša aplikácia
+      bola čisto asynchrónna, budete stále potrebovať presmerovať výstup
+      <code>console.err()</code> do iného programu. Ale v skutočnosti asi
+      nechcete debugovať v produkcii, však?
+    </p>
+    <h4 id="logovanie-aktivít-aplikácie">Logovanie aktivít aplikácie</h4>
+    <p>
+      Ak používate logovanie na sledovanie aktivít aplikácie (napr. sledovanie
+      traffic-u, príp. API volaní), používajte namiesto
+      <code>console.log()</code> logovacie knižnice, ako sú napr.
+      <a href="https://www.npmjs.com/package/winston">Winston</a> či
+      <a href="https://www.npmjs.com/package/bunyan">Bunyan</a>. Ak vás zaujíma
+      detailnejšie porovnanie týchto dvoch knižníc, prečítajte si tento blog
+      post:
+      <a
+        href="https://strongloop.com/strongblog/compare-node-js-logging-winston-bunyan/"
+        >Comparing Winston and Bunyan Node.js Logging</a
+      >.
+    </p>
+    <p><a name="exceptions"></a></p>
+    <h3 id="správne-odchytávajte-a-spracovávajte-výnimky">
+      Správne odchytávajte a spracovávajte výnimky
+    </h3>
+    <p>
+      V prípade neodchytenia výnimky Node.js aplikácia spadne. Tzn, že v prípade
+      nespracovania výnimky a nevykonania správnej akcie vaša Express aplikácia
+      spadne. Ak budete pokračovať podľa rád v časti
+      <a href="#restart"
+        >Zabežpečte, aby sa vaša aplikácia automaticky reštartovala</a
+      >, tak sa vaša aplikácia z pádu zotaví. Express aplikácie potrebujú
+      naštastie len krátky čas k naštartovaniu. Bez ohľadu nato, by ste sa mali
+      pádom aplikácie v prvom rade vyhnúť a k tomu potrebujete správne
+      odchytávať výnimky.
+    </p>
+    <p>
+      K uisteniu sa, že spracovávate všetky výnimky, používajte tieto techniky:
+    </p>
+    <ul>
+      <li><a href="#try-catch">Používajte try-catch</a></li>
+      <li><a href="#promises">Používajte promises</a></li>
+    </ul>
+    <p>
+      Predtým, ako sa hlbšie pustíme do týchto tém, mali by ste mať základné
+      znalosti Node/Express error handlingu, akými sú používanie error-first
+      callback-ov a šírenie errorov middlewarmi. Node používa pre návrat errorov
+      z asynchrónnych funkcií konvenciu “error-first callbackov”, kde prvým
+      argumentom callback funkcie je error objekt, nasledovaný ostatnými
+      návratovými hodnotami úspešného spracovanie funkcie. Ak nenastal žiaden
+      error zabezpečte, aby prvým parametrom bol null. Definícia callback
+      funkcie musí korešpondovať s error-first callback konvenciou a musí
+      zmysluplne spracovať error. V Express aplikáciách je pre šírenie erroru
+      middlewarmi osvedčenou a odporúčanou technikou použitie next() funkcie.
+    </p>
+    <p>Pre viac informácií ohľadom základov error handlingu sa pozrite na:</p>
+    <ul>
+      <li>
+        <a href="https://www.joyent.com/developers/node/design/errors"
+          >Error Handling in Node.js</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://strongloop.com/strongblog/robust-node-applications-error-handling/"
+          >Building Robust Node Applications: Error Handling</a
+        >
+        (StrongLoop blog)
+      </li>
+    </ul>
+    <h4 id="čo-nerobiť">Čo nerobiť</h4>
+    <p>
+      Jedna z vecí, ktorú by ste robiť <em>nemali</em> je počúvať na
+      <code>uncaughtException</code> event, ktorý je emitovaný v okamihu kedy
+      výnimka “bublá” celou cestu späť do event loop-u. Pridanie event listenera
+      <code>uncaughtException</code> zmení defaultné chovanie procesu, ktorý
+      narazil na výnimku; proces bude pokračovať napriek výnimke. Toto sa môže
+      zdať ako dobrým riešením, ako predísť pádu vašej aplikácie, avšak
+      pokračovanie behu vašej aplikácie, v prípade neodchytenej výnimky je
+      nebezpečnou praktikou a nepodporúča sa, pretože sa tým stav procesu stáva
+      nespoľahlivým a nepredpovedateľným.
+    </p>
+    <p>
+      Navyše, použitie <code>uncaughtException</code> je oficiálne uznané ako
+      <a
+        href="https://nodejs.org/api/process.html#process_event_uncaughtexception"
+        >hrubé</a
+      >
+      a existuje
+      <a href="https://github.com/nodejs/node-v0.x-archive/issues/2582"
+        >návrh</a
+      >
+      na jeho odstránenie z jadra. Takže počúvanie na
+      <code>uncaughtException</code> nie je dobrým nápadom. To je dôvod, prečo
+      odporúčame veci ako viacero procesov a supervisorov: pád a reštartovanie
+      je často najspolalivejším spôsobom zotavenia sa z erorru.
+    </p>
+    <p>
+      Taktiež neodporúčame používať
+      <a href="https://nodejs.org/api/domain.html">domain</a> modul. Všeobecne
+      nerieši žiaden problém a je označený ako deprecated modul.
+    </p>
+    <p><a name="try-catch"></a></p>
+    <h4 id="používajte-try-catch">Používajte try-catch</h4>
+    <p>
+      Try-catch je klasická konštrukcia v jazyku JavaScript, pomocou ktorej
+      dokážete odchytiť výnimky v synchrónnom kóde. Použite try-catch, napr. na
+      spracovanie chýb pri JSON parsingu, ako na ukážke nižšie.
+    </p>
+    <p>
+      Používajte nástroje <a href="http://jshint.com/">JSHint</a> príp.
+      <a href="http://www.jslint.com/">JSLint</a>, ktoré vám pomôžu nájsť
+      implicitné výnimky, ako napr.
+      <a href="http://www.jshint.com/docs/options/#undef"
+        >reference errors on undefined variables</a
+      >.
+    </p>
+    <p>
+      Tu je príklad použitia try-catch k odchyteniu potenciálnej výnimky
+      zapríčiňujúcej pád procesu. Táto middleware funkcia príjma query parameter
+      nazvaný “params” ktorý je JSON objekt.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/search', function (req, res) {
   // Simulating async operation
@@ -102,11 +309,19 @@ app.get('/search', function (req, res) {
 });
 </code>
 </pre>
-<p>Pozor, try-catch funguje len pre synchrónny kód. Vzhľadom nato, že Node platforma je primárne asynchrónna (obzvlášť v produkčnom prostredí), veľa výnimiek try-catch neodchytí.</p>
-<p><a name="promises"></a></p>
-<h4 id="používajte-promises">Používajte promises</h4>
-<p>Promises dokážu spracovať všetky typy výnimiek (explicitné aj implicitné) v asynchrónnych blokoch kódu používajuce <code>then()</code>, pridaním <code>.catch(next)</code> na koniec promise reťazca. Napr.:</p>
-<pre>
+    <p>
+      Pozor, try-catch funguje len pre synchrónny kód. Vzhľadom nato, že Node
+      platforma je primárne asynchrónna (obzvlášť v produkčnom prostredí), veľa
+      výnimiek try-catch neodchytí.
+    </p>
+    <p><a name="promises"></a></p>
+    <h4 id="používajte-promises">Používajte promises</h4>
+    <p>
+      Promises dokážu spracovať všetky typy výnimiek (explicitné aj implicitné)
+      v asynchrónnych blokoch kódu používajuce <code>then()</code>, pridaním
+      <code>.catch(next)</code> na koniec promise reťazca. Napr.:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/', function (req, res, next) {
   // do some sync stuff
@@ -126,13 +341,26 @@ app.use(function (err, req, res, next) {
 });
 </code>
 </pre>
-<p>Takto sa všetky asynchrónne i synchrónne errory prešíria do error middleware-u.</p>
-<p>Avšak, dve upozornenia:</p>
-<ol type="1">
-<li>Všetky vaše asynchrónne kódy musia vracať promises (okrem emitorov). Ak niektorá z knižníc nevracia promises, konvertnite základný objekt použitím funkcie ako napr. <a href="http://bluebirdjs.com/docs/api/promise.promisifyall.html">Bluebird.promisifyAll()</a>.</li>
-<li>Event emitory (ako sú streams) môžu spôsobiť neodchytené výnimky. Preto sa uistite, že správne spracovávate error eventy. Napr.:</li>
-</ol>
-<pre>
+    <p>
+      Takto sa všetky asynchrónne i synchrónne errory prešíria do error
+      middleware-u.
+    </p>
+    <p>Avšak, dve upozornenia:</p>
+    <ol type="1">
+      <li>
+        Všetky vaše asynchrónne kódy musia vracať promises (okrem emitorov). Ak
+        niektorá z knižníc nevracia promises, konvertnite základný objekt
+        použitím funkcie ako napr.
+        <a href="http://bluebirdjs.com/docs/api/promise.promisifyall.html"
+          >Bluebird.promisifyAll()</a
+        >.
+      </li>
+      <li>
+        Event emitory (ako sú streams) môžu spôsobiť neodchytené výnimky. Preto
+        sa uistite, že správne spracovávate error eventy. Napr.:
+      </li>
+    </ol>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/', wrap(async (req, res, next) => {
   let company = await getCompanyById(req.query.id);
@@ -141,94 +369,248 @@ app.get('/', wrap(async (req, res, next) => {
 }));
 </code>
 </pre>
-<p>Pre viac informácií ohľadom error handling-u použitím promises si prečítajte:</p>
-<ul>
-<li><a href="https://strongloop.com/strongblog/async-error-handling-expressjs-es7-promises-generators/">Asynchronous Error Handling in Express with Promises, Generators and ES7</a></li>
-<li><a href="https://strongloop.com/strongblog/promises-in-node-js-with-q-an-alternative-to-callbacks/">Promises in Node.js with Q – An Alternative to Callbacks</a></li>
-</ul>
-<p><a name="env"></a></p>
-<h2 id="kroky-ktoré-je-potrebné-vykonať-na-vašom-prostredí">Kroky, ktoré je potrebné vykonať na vašom prostredí</h2>
-<p>Tu je niekoľko krokov, ktoré môžete vykonať na vašom environment-e pre zlepšenie výkonnosti vašej aplikácie:</p>
-<ul>
-<li>Nastavte NODE_ENV premennú na “production”</li>
-<li>Zabezpečte automatický reštart vašej aplikácie</li>
-<li>Zabezpečte, aby vaša aplikácia bežala v clusteri</li>
-<li>Cachujte request resulty</li>
-<li>Používajte load balancer</li>
-<li>Používajte reverse proxy</li>
-</ul>
-<h3 id="nastavte-node_env-premennú-na-production">Nastavte NODE_ENV premennú na “production”</h3>
-<p>NODE_ENV environment premenná špecifikuje, v ktorom environmente vaša aplikácia beží, zvyčajne (development alebo production). Jedna z najjednoduchších vecí, ktorú môžete vykonať k zlepšeniu výkonnosti vašej aplikácie je nastavenie premennej NODE_ENV na “production”.</p>
-<p>Nastavenie NODE_ENV na “production” zabezpečí, aby Express:</p>
-<ul>
-<li>Cachoval view templates.</li>
-<li>Cachoval CSS súbory generované z CSS extenzií.</li>
-<li>Generoval “menej ukecané” error messages.</li>
-</ul>
-<p><a href="http://apmblog.dynatrace.com/2015/07/22/the-drastic-effects-of-omitting-node_env-in-your-express-js-applications/">Testy ukazujú</a>, že tym dokážete zlepšiť výkonnosť aplikácie až trojnásobne!</p>
-<p>Ak potrebujete písať kód, ktorý je environment-specific, môžete hodnotu NODE_ENV premennej zistiť pomocou <code>process.env.NODE_ENV</code>. Pamätajte však nato, že zisťovanie hodnoty akejkoľvek environment premennej má čiastočný dopad na výkonnosť, preto by ste to mali robiť skôr sporadicky.</p>
-<p>Počas vývoja nastavujete environment premenné zvyčajne pomocou shellu, napr. použitím <code>export</code> vo vašom <code>.bash_profile</code> súbore. Toto by ste však nemali robiť na produkčnom serveri; namiesto toho, použite init systém vášho operačného systému (systemd alebo Upstart). Nasledujúca sekcia poskytuje viac detailov ohľadom použitia init systému, pričom nastavenie NODE_ENV premennej je veľmi dôležité z pohľadu výkonnosti (a zároveň veľmi jednoduché), ako je načrtnuté tu:</p>
-<p>Pomocou Upstart, použite kľúčové slovo <code>env</code> vo vašom job súbore. Napr.:</p>
-<pre>
+    <p>
+      Pre viac informácií ohľadom error handling-u použitím promises si
+      prečítajte:
+    </p>
+    <ul>
+      <li>
+        <a
+          href="https://strongloop.com/strongblog/async-error-handling-expressjs-es7-promises-generators/"
+          >Asynchronous Error Handling in Express with Promises, Generators and
+          ES7</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://strongloop.com/strongblog/promises-in-node-js-with-q-an-alternative-to-callbacks/"
+          >Promises in Node.js with Q – An Alternative to Callbacks</a
+        >
+      </li>
+    </ul>
+    <p><a name="env"></a></p>
+    <h2 id="kroky-ktoré-je-potrebné-vykonať-na-vašom-prostredí">
+      Kroky, ktoré je potrebné vykonať na vašom prostredí
+    </h2>
+    <p>
+      Tu je niekoľko krokov, ktoré môžete vykonať na vašom environment-e pre
+      zlepšenie výkonnosti vašej aplikácie:
+    </p>
+    <ul>
+      <li>Nastavte NODE_ENV premennú na “production”</li>
+      <li>Zabezpečte automatický reštart vašej aplikácie</li>
+      <li>Zabezpečte, aby vaša aplikácia bežala v clusteri</li>
+      <li>Cachujte request resulty</li>
+      <li>Používajte load balancer</li>
+      <li>Používajte reverse proxy</li>
+    </ul>
+    <h3 id="nastavte-node_env-premennú-na-production">
+      Nastavte NODE_ENV premennú na “production”
+    </h3>
+    <p>
+      NODE_ENV environment premenná špecifikuje, v ktorom environmente vaša
+      aplikácia beží, zvyčajne (development alebo production). Jedna z
+      najjednoduchších vecí, ktorú môžete vykonať k zlepšeniu výkonnosti vašej
+      aplikácie je nastavenie premennej NODE_ENV na “production”.
+    </p>
+    <p>Nastavenie NODE_ENV na “production” zabezpečí, aby Express:</p>
+    <ul>
+      <li>Cachoval view templates.</li>
+      <li>Cachoval CSS súbory generované z CSS extenzií.</li>
+      <li>Generoval “menej ukecané” error messages.</li>
+    </ul>
+    <p>
+      <a
+        href="http://apmblog.dynatrace.com/2015/07/22/the-drastic-effects-of-omitting-node_env-in-your-express-js-applications/"
+        >Testy ukazujú</a
+      >, že tym dokážete zlepšiť výkonnosť aplikácie až trojnásobne!
+    </p>
+    <p>
+      Ak potrebujete písať kód, ktorý je environment-specific, môžete hodnotu
+      NODE_ENV premennej zistiť pomocou <code>process.env.NODE_ENV</code>.
+      Pamätajte však nato, že zisťovanie hodnoty akejkoľvek environment
+      premennej má čiastočný dopad na výkonnosť, preto by ste to mali robiť skôr
+      sporadicky.
+    </p>
+    <p>
+      Počas vývoja nastavujete environment premenné zvyčajne pomocou shellu,
+      napr. použitím <code>export</code> vo vašom
+      <code>.bash_profile</code> súbore. Toto by ste však nemali robiť na
+      produkčnom serveri; namiesto toho, použite init systém vášho operačného
+      systému (systemd alebo Upstart). Nasledujúca sekcia poskytuje viac
+      detailov ohľadom použitia init systému, pričom nastavenie NODE_ENV
+      premennej je veľmi dôležité z pohľadu výkonnosti (a zároveň veľmi
+      jednoduché), ako je načrtnuté tu:
+    </p>
+    <p>
+      Pomocou Upstart, použite kľúčové slovo <code>env</code> vo vašom job
+      súbore. Napr.:
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 # /etc/init/env.conf
  env NODE_ENV=production
 </code>
 </pre>
-<p>Pre viac informácií si prečítajte <a href="http://upstart.ubuntu.com/cookbook/#environment-variables">Upstart Intro, Cookbook and Best Practices</a>.</p>
-<p>Pomocou systemd, použite direktívu <code>Environment</code> vo vašom unit súbore. Napr.:</p>
-<pre>
+    <p>
+      Pre viac informácií si prečítajte
+      <a href="http://upstart.ubuntu.com/cookbook/#environment-variables"
+        >Upstart Intro, Cookbook and Best Practices</a
+      >.
+    </p>
+    <p>
+      Pomocou systemd, použite direktívu <code>Environment</code> vo vašom unit
+      súbore. Napr.:
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 # /etc/systemd/system/myservice.service
 Environment=NODE_ENV=production
 </code>
 </pre>
-<p>Pre viac informácií si prečítajte <a href="https://coreos.com/os/docs/latest/using-environment-variables-in-systemd-units.html">Using Environment Variables In systemd Units</a>.</p>
-<p>Ak používate StrongLoop Process Manager, môžete <a href="https://docs.strongloop.com/display/SLC/Setting+up+a+production+host#Settingupaproductionhost-Setenvironmentvariables">nastaviť environment premennú taktiež keď nainštalujete StrongLoop PM ako službu</a>.</p>
-<h3 id="zabežpečte-aby-sa-vaša-aplikácia-automaticky-reštartovala">Zabežpečte, aby sa vaša aplikácia automaticky reštartovala</h3>
-<p>V produkcii zvyčajne nechcete, aby vaša aplikácia bola offline, nikdy. To znamená, že musíte zabezpečiť, aby sa reštartovala v obidvoch prípadoch, či už je to pád aplikácie, alebo servera samotného. Hoci si určite želáte, aby sa ani jedna z týchto vecí nestala, musíte s tým počítať pomocou:</p>
-<ul>
-<li>Použitím správcu procesov k reštartovaniu aplikácie (a Node procesu) v prípade pádu.</li>
-<li>Použitím init systému poskytovaného vašim OS na reštartovanie správcu procesov v prípade pádu OS. Taktiež je možné použiť init systém bez správcu procesov.</li>
-</ul>
-<p>Node aplikácie zhavarujú v prípade výskytu neodchytenej výnimky. Ako prvé by ste sa mali uistiť, že vaša aplikácia je dostatočne otestovaná a spracováva všetky výnimky (pre viac detailov si pozrite časť <a href="#exceptions">Správne odchytávajte a spracovávajte výnimky</a>). Ako záchranu vytvorte/nastavte mechanizmus automatického reštartu.</p>
-<h4 id="používajte-správcu-procesov">Používajte správcu procesov</h4>
-<p>Počas vývoja štartujete vašu aplikáciu jednoducho z príkazového riadka pomocou <code>node server.js</code>, príp. niečoho podobného. Tento spôsob je však v prípade produkcie cesta do pekla. Ak vaša aplikácia spadne, bude offline až dokým ju nereštartujete. Aby ste sa uistili, že sa vaša aplikácia v prípade pádu reštartuje, používajte správcu procesov. Správca procesov je “kontainer” pre aplikácie, ktorý vám pomáha pri deploymente, poskytuje vysokú dostupnosť a umožňuje správu aplikácie v runtime.</p>
-<p>Správca procesov umožňuje okrem automatického reštartu vašej aplikácie taktiež:</p>
-<ul>
-<li>Získať pohľad o výkonnosti runtime a spotrebe resourcov.</li>
-<li>Dynamicky upravovať nastavenia pre zlepšenie výkonnosti.</li>
-<li>Kontrolu clusteringu (StrongLoop PM a pm2).</li>
-</ul>
-<p>Spomedzi správcov procesov pre Node sú najpopulárnejši:</p>
-<ul>
-<li><a href="http://strong-pm.io/">StrongLoop Process Manager</a></li>
-<li><a href="https://github.com/Unitech/pm2">PM2</a></li>
-<li><a href="https://www.npmjs.com/package/forever">Forever</a></li>
-</ul>
-<p>Pre detailnejšie porovnanie vlastností si pozrite <a href="http://strong-pm.io/compare/">http://strong-pm.io/compare/</a>. Pre detailnejšie intro si pozrite <a href="/%7B%7B%20page.lang%20%7D%7D/advanced/pm.html">Process managers for Express apps</a>.</p>
-<p>Použitím hociktorého z týchto správcov procesov zabezpečíte, aby vaša aplikácia zostala “hore” i v prípade občasného pádu.</p>
-<p>Avšak, StrongLoop PM má veľa ďalších features špeciálne určené pre produkčné prostredie. Môžete ich použiť na:</p>
-<ul>
-<li>Vytvorenie buildu vašej aplikácie lokálne a následný bezpečný deployment do produkcie.</li>
-<li>Automatický reštart vašej aplikácie v prípade pádu.</li>
-<li>Vzdialenú správu vášho clustera.</li>
-<li>Zobrazenie CPU profilov a heap snapshotov k optimalizácii výkonnosti a diagnostike memory leakov.</li>
-<li>Zabrazenie performance metrík vašej aplikácie.</li>
-<li>Jednoduchú škálovateľnosť na viacero hostov s intergrovanou kontrolou pre Nginx load balancer.</li>
-</ul>
-<p>Ako je vysvetlené nižšie, pri inštalácii StrongLoop PM pomocou init systému, ako služby operačného systému, sa služba automaticky reštartuje po reštartovaní systému. Takto bude vaša aplikácia a cluster bežať navždy.</p>
-<h4 id="používajte-init-systém">Používajte init systém</h4>
-<p>Ďalšiou vrstvou spoľahlivosti je zabezpečenie, aby sa vaša aplikácia reštartovala pri reštartovaní servera. Systémy môžu spadnúť z rôznych dôvodov. Aby bolo zaistené, aby sa vaša aplikácie reštartovala v prípade, ak dôjde k chybe servera, použite init systém zabudovaný do vášho operačného systému. Dva hlavné init systémy používané v súčasnosti sú <a href="https://wiki.debian.org/systemd">systemd</a> a <a href="http://upstart.ubuntu.com/">Upstart</a>.</p>
-<p>Existujú dva spôsoby použitia init systémov s vašou Express aplikáciou:</p>
-<ul>
-<li>Spustite vašu aplikáciu v správcovi procesov a nainštalujte správcu procesov ako službu s init systémom. Správca procesov zabezpečí reštart aplikácie pri jej páde a init systém reštartuje správcu procesov v prípade reštartu OS. Jedná sa o odporúčaný postup.</li>
-<li>Spustite vašu aplikáciu (a Node) priamo s init systémom. Tento postup je trocha jednoduchší, ale prídete tým o ďalšie výhody plynúce z použitia správcu procesov.</li>
-</ul>
-<h5 id="systemd">Systemd</h5>
-<p>Systemd je správca služieb používaný niektorými distribúciami Linuxu. Väčšina hlavných linuxových distribúcií prijala systemd ako svoj defaultný init systém.</p>
-<p>Konfiguračný súbor pre systemd sa nazýva <em>unit file</em>, ktorého názov má príponu .service. Tu je príklad súboru pre priamu správu Node aplikácie (nahradte tučný text s hodnotami vášho systéme a aplikácie):</p>
-<pre>
+    <p>
+      Pre viac informácií si prečítajte
+      <a
+        href="https://coreos.com/os/docs/latest/using-environment-variables-in-systemd-units.html"
+        >Using Environment Variables In systemd Units</a
+      >.
+    </p>
+    <p>
+      Ak používate StrongLoop Process Manager, môžete
+      <a
+        href="https://docs.strongloop.com/display/SLC/Setting+up+a+production+host#Settingupaproductionhost-Setenvironmentvariables"
+        >nastaviť environment premennú taktiež keď nainštalujete StrongLoop PM
+        ako službu</a
+      >.
+    </p>
+    <h3 id="zabežpečte-aby-sa-vaša-aplikácia-automaticky-reštartovala">
+      Zabežpečte, aby sa vaša aplikácia automaticky reštartovala
+    </h3>
+    <p>
+      V produkcii zvyčajne nechcete, aby vaša aplikácia bola offline, nikdy. To
+      znamená, že musíte zabezpečiť, aby sa reštartovala v obidvoch prípadoch,
+      či už je to pád aplikácie, alebo servera samotného. Hoci si určite želáte,
+      aby sa ani jedna z týchto vecí nestala, musíte s tým počítať pomocou:
+    </p>
+    <ul>
+      <li>
+        Použitím správcu procesov k reštartovaniu aplikácie (a Node procesu) v
+        prípade pádu.
+      </li>
+      <li>
+        Použitím init systému poskytovaného vašim OS na reštartovanie správcu
+        procesov v prípade pádu OS. Taktiež je možné použiť init systém bez
+        správcu procesov.
+      </li>
+    </ul>
+    <p>
+      Node aplikácie zhavarujú v prípade výskytu neodchytenej výnimky. Ako prvé
+      by ste sa mali uistiť, že vaša aplikácia je dostatočne otestovaná a
+      spracováva všetky výnimky (pre viac detailov si pozrite časť
+      <a href="#exceptions">Správne odchytávajte a spracovávajte výnimky</a>).
+      Ako záchranu vytvorte/nastavte mechanizmus automatického reštartu.
+    </p>
+    <h4 id="používajte-správcu-procesov">Používajte správcu procesov</h4>
+    <p>
+      Počas vývoja štartujete vašu aplikáciu jednoducho z príkazového riadka
+      pomocou <code>node server.js</code>, príp. niečoho podobného. Tento spôsob
+      je však v prípade produkcie cesta do pekla. Ak vaša aplikácia spadne, bude
+      offline až dokým ju nereštartujete. Aby ste sa uistili, že sa vaša
+      aplikácia v prípade pádu reštartuje, používajte správcu procesov. Správca
+      procesov je “kontainer” pre aplikácie, ktorý vám pomáha pri deploymente,
+      poskytuje vysokú dostupnosť a umožňuje správu aplikácie v runtime.
+    </p>
+    <p>
+      Správca procesov umožňuje okrem automatického reštartu vašej aplikácie
+      taktiež:
+    </p>
+    <ul>
+      <li>Získať pohľad o výkonnosti runtime a spotrebe resourcov.</li>
+      <li>Dynamicky upravovať nastavenia pre zlepšenie výkonnosti.</li>
+      <li>Kontrolu clusteringu (StrongLoop PM a pm2).</li>
+    </ul>
+    <p>Spomedzi správcov procesov pre Node sú najpopulárnejši:</p>
+    <ul>
+      <li><a href="http://strong-pm.io/">StrongLoop Process Manager</a></li>
+      <li><a href="https://github.com/Unitech/pm2">PM2</a></li>
+      <li><a href="https://www.npmjs.com/package/forever">Forever</a></li>
+    </ul>
+    <p>
+      Pre detailnejšie porovnanie vlastností si pozrite
+      <a href="http://strong-pm.io/compare/">http://strong-pm.io/compare/</a>.
+      Pre detailnejšie intro si pozrite
+      <a href="/%7B%7B%20page.lang%20%7D%7D/advanced/pm.html"
+        >Process managers for Express apps</a
+      >.
+    </p>
+    <p>
+      Použitím hociktorého z týchto správcov procesov zabezpečíte, aby vaša
+      aplikácia zostala “hore” i v prípade občasného pádu.
+    </p>
+    <p>
+      Avšak, StrongLoop PM má veľa ďalších features špeciálne určené pre
+      produkčné prostredie. Môžete ich použiť na:
+    </p>
+    <ul>
+      <li>
+        Vytvorenie buildu vašej aplikácie lokálne a následný bezpečný deployment
+        do produkcie.
+      </li>
+      <li>Automatický reštart vašej aplikácie v prípade pádu.</li>
+      <li>Vzdialenú správu vášho clustera.</li>
+      <li>
+        Zobrazenie CPU profilov a heap snapshotov k optimalizácii výkonnosti a
+        diagnostike memory leakov.
+      </li>
+      <li>Zabrazenie performance metrík vašej aplikácie.</li>
+      <li>
+        Jednoduchú škálovateľnosť na viacero hostov s intergrovanou kontrolou
+        pre Nginx load balancer.
+      </li>
+    </ul>
+    <p>
+      Ako je vysvetlené nižšie, pri inštalácii StrongLoop PM pomocou init
+      systému, ako služby operačného systému, sa služba automaticky reštartuje
+      po reštartovaní systému. Takto bude vaša aplikácia a cluster bežať navždy.
+    </p>
+    <h4 id="používajte-init-systém">Používajte init systém</h4>
+    <p>
+      Ďalšiou vrstvou spoľahlivosti je zabezpečenie, aby sa vaša aplikácia
+      reštartovala pri reštartovaní servera. Systémy môžu spadnúť z rôznych
+      dôvodov. Aby bolo zaistené, aby sa vaša aplikácie reštartovala v prípade,
+      ak dôjde k chybe servera, použite init systém zabudovaný do vášho
+      operačného systému. Dva hlavné init systémy používané v súčasnosti sú
+      <a href="https://wiki.debian.org/systemd">systemd</a> a
+      <a href="http://upstart.ubuntu.com/">Upstart</a>.
+    </p>
+    <p>
+      Existujú dva spôsoby použitia init systémov s vašou Express aplikáciou:
+    </p>
+    <ul>
+      <li>
+        Spustite vašu aplikáciu v správcovi procesov a nainštalujte správcu
+        procesov ako službu s init systémom. Správca procesov zabezpečí reštart
+        aplikácie pri jej páde a init systém reštartuje správcu procesov v
+        prípade reštartu OS. Jedná sa o odporúčaný postup.
+      </li>
+      <li>
+        Spustite vašu aplikáciu (a Node) priamo s init systémom. Tento postup je
+        trocha jednoduchší, ale prídete tým o ďalšie výhody plynúce z použitia
+        správcu procesov.
+      </li>
+    </ul>
+    <h5 id="systemd">Systemd</h5>
+    <p>
+      Systemd je správca služieb používaný niektorými distribúciami Linuxu.
+      Väčšina hlavných linuxových distribúcií prijala systemd ako svoj defaultný
+      init systém.
+    </p>
+    <p>
+      Konfiguračný súbor pre systemd sa nazýva <em>unit file</em>, ktorého názov
+      má príponu .service. Tu je príklad súboru pre priamu správu Node aplikácie
+      (nahradte tučný text s hodnotami vášho systéme a aplikácie):
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 [Unit]
 Description=Awesome Express App
@@ -259,27 +641,60 @@ Restart=always
 WantedBy=multi-user.target
 </code>
 </pre>
-<p>Pre viac informácií ohľadom systemd si prečítajte <a href="http://www.freedesktop.org/software/systemd/man/systemd.unit.html">systemd reference (man page)</a>.</p>
-<h5 id="strongloop-pm-ako-systemd-služba">StrongLoop PM ako systemd služba</h5>
-<p>StrongLoop PM možete jednoducho nainštalovať ako systemd službu. Následne, v prípade že nastane reštart servera, systemd automaticky reštartuje i StrongLoop PM, ktorý následne reštartuje i aplikácie ktoré spravuje.</p>
-<p>Pre inštaláciu StrongLoop PM ako systemd služby spustite:</p>
-<pre>
+    <p>
+      Pre viac informácií ohľadom systemd si prečítajte
+      <a
+        href="http://www.freedesktop.org/software/systemd/man/systemd.unit.html"
+        >systemd reference (man page)</a
+      >.
+    </p>
+    <h5 id="strongloop-pm-ako-systemd-služba">
+      StrongLoop PM ako systemd služba
+    </h5>
+    <p>
+      StrongLoop PM možete jednoducho nainštalovať ako systemd službu. Následne,
+      v prípade že nastane reštart servera, systemd automaticky reštartuje i
+      StrongLoop PM, ktorý následne reštartuje i aplikácie ktoré spravuje.
+    </p>
+    <p>Pre inštaláciu StrongLoop PM ako systemd služby spustite:</p>
+    <pre>
 <code class="language-sh" translate="no">
 $ sudo sl-pm-install --systemd
 </code>
 </pre>
-<p>Potom spustite službu pomocou:</p>
-<pre>
+    <p>Potom spustite službu pomocou:</p>
+    <pre>
 <code class="language-sh" translate="no">
 $ sudo /usr/bin/systemctl start strong-pm
 </code>
 </pre>
-<p>Pre viac informácií si prečítajte <a href="https://docs.strongloop.com/display/SLC/Setting+up+a+production+host#Settingupaproductionhost-RHEL7+,Ubuntu15.04or15.10">Setting up a production host (StrongLoop documentation)</a>.</p>
-<h5 id="upstart">Upstart</h5>
-<p>Upstart je systémový nástroj dostupný v mnohých linuxových distribúciách slúžiaci na spúšťanie taskov a služieb počas štartu systému, ich zastavenie počas vypnutia a dohľadu nad nimi. Vašu Express aplikáciu, alebo správcu procesov môžete nakonfigurovať ako službu a potom Upstart zabezpečí jej reštart v prípade pádu.</p>
-<p>Upstart služba je definovaná v konfiguračnom súbore (tiež nazývaný “job”) s názvom súboru končiacim <code>.conf</code>. Nasledujúci príklad ukazuje, ako vytvoriť job súbor s názvom “myapp” pre aplikáciu s názvom “myapp” s hlavným súbor umiestneným v <code>/projects/myapp/index.js</code>.</p>
-<p>Vytvorte súbor s názvom <code>myapp.conf</code> umiestnený v <code>/etc/init /</code> s nasledujúcim obsahom (nahraďte tučný text s hodnotami pre váš systém a aplikáciu):</p>
-<pre>
+    <p>
+      Pre viac informácií si prečítajte
+      <a
+        href="https://docs.strongloop.com/display/SLC/Setting+up+a+production+host#Settingupaproductionhost-RHEL7+,Ubuntu15.04or15.10"
+        >Setting up a production host (StrongLoop documentation)</a
+      >.
+    </p>
+    <h5 id="upstart">Upstart</h5>
+    <p>
+      Upstart je systémový nástroj dostupný v mnohých linuxových distribúciách
+      slúžiaci na spúšťanie taskov a služieb počas štartu systému, ich
+      zastavenie počas vypnutia a dohľadu nad nimi. Vašu Express aplikáciu,
+      alebo správcu procesov môžete nakonfigurovať ako službu a potom Upstart
+      zabezpečí jej reštart v prípade pádu.
+    </p>
+    <p>
+      Upstart služba je definovaná v konfiguračnom súbore (tiež nazývaný “job”)
+      s názvom súboru končiacim <code>.conf</code>. Nasledujúci príklad ukazuje,
+      ako vytvoriť job súbor s názvom “myapp” pre aplikáciu s názvom “myapp” s
+      hlavným súbor umiestneným v <code>/projects/myapp/index.js</code>.
+    </p>
+    <p>
+      Vytvorte súbor s názvom <code>myapp.conf</code> umiestnený v
+      <code>/etc/init /</code> s nasledujúcim obsahom (nahraďte tučný text s
+      hodnotami pre váš systém a aplikáciu):
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 # When to start the process
 start on runlevel [2345]
@@ -310,60 +725,212 @@ respawn
 respawn limit 10 10
 </code>
 </pre>
-<p>Pozn.: Tento skript vyžaduje Upstart 1.4 príp. novší, podporovaný na Ubuntu 12.04-14.10.</p>
-<p>Potom, ako je job nakonfigurovaný k spusteniu po štarte systému, bude vaša aplikácia spustená spolu s operačným systémom a automaticky reštartovaná v prípade pádu aplikácie alebo reštartu samotného systému.</p>
-<p>Okrem automatického reštartovania aplikácie, Upstart umožňuje použíť tieto príkazy:</p>
-<ul>
-<li><code>start myapp</code> – Start the app</li>
-<li><code>restart myapp</code> – Restart the app</li>
-<li><code>stop myapp</code> – Stop the app.</li>
-</ul>
-<p>Pre viac informácií ohľadom Upstart si prečítajte tu: <a href="http://upstart.ubuntu.com/cookbook">Upstart Intro, Cookbook and Best Practises</a>.</p>
-<h5 id="strongloop-pm-ako-upstart-služba">StrongLoop PM ako Upstart služba</h5>
-<p>StrongLoop PM možete jednoducho nainštalovať ako Upstart službu. Následne, v prípade že nastane reštart servra, Upstart automaticky reštartuje i StrongLoop PM, ktorý následne reštartuje aj aplikácie ktoré spravuje.</p>
-<p>Pre inštaláciu StrongLoop PM ako Upstart 1.4 služby:</p>
-<pre>
+    <p>
+      Pozn.: Tento skript vyžaduje Upstart 1.4 príp. novší, podporovaný na
+      Ubuntu 12.04-14.10.
+    </p>
+    <p>
+      Potom, ako je job nakonfigurovaný k spusteniu po štarte systému, bude vaša
+      aplikácia spustená spolu s operačným systémom a automaticky reštartovaná v
+      prípade pádu aplikácie alebo reštartu samotného systému.
+    </p>
+    <p>
+      Okrem automatického reštartovania aplikácie, Upstart umožňuje použíť tieto
+      príkazy:
+    </p>
+    <ul>
+      <li><code>start myapp</code> – Start the app</li>
+      <li><code>restart myapp</code> – Restart the app</li>
+      <li><code>stop myapp</code> – Stop the app.</li>
+    </ul>
+    <p>
+      Pre viac informácií ohľadom Upstart si prečítajte tu:
+      <a href="http://upstart.ubuntu.com/cookbook"
+        >Upstart Intro, Cookbook and Best Practises</a
+      >.
+    </p>
+    <h5 id="strongloop-pm-ako-upstart-služba">
+      StrongLoop PM ako Upstart služba
+    </h5>
+    <p>
+      StrongLoop PM možete jednoducho nainštalovať ako Upstart službu. Následne,
+      v prípade že nastane reštart servra, Upstart automaticky reštartuje i
+      StrongLoop PM, ktorý následne reštartuje aj aplikácie ktoré spravuje.
+    </p>
+    <p>Pre inštaláciu StrongLoop PM ako Upstart 1.4 služby:</p>
+    <pre>
 <code class="language-sh" translate="no">
 $ sudo sl-pm-install
 </code>
 </pre>
-<p>Pre spustenie služby:</p>
-<pre>
+    <p>Pre spustenie služby:</p>
+    <pre>
 <code class="language-sh" translate="no">
 $ sudo /sbin/initctl start strong-pm
 </code>
 </pre>
-<p>Pozn.: Pre systémy bez podpory Upstart 1.4 sú príkazy mierne odlišné. Pre viac informácií sa pozrite na <a href="https://docs.strongloop.com/display/SLC/Setting+up+a+production+host#Settingupaproductionhost-RHELLinux5and6,Ubuntu10.04-.10,11.04-.10">Setting up a production host (StrongLoop documentation)</a>.</p>
-<h3 id="zabezpečte-aby-vaša-aplikácia-bežala-v-clusteri">Zabezpečte aby vaša aplikácia bežala v clusteri</h3>
-<p>V prípade multi-core systémov môžete zvýšiť výkonnosť Node aplikácie niekoľko násobne jej spustením clusterom procesov. V clusteri beží niekoľko inštancií aplikácie, ideálne jedna pre každé CPU jadro, čím sa rozloží záťaž a úlohy medzi jednotlívé inštancie.</p>
-<figure>
-<img src="/images/clustering.png" alt="Balancovanie medzi inštanciami aplikácie použitím cluster API" /><figcaption>Balancovanie medzi inštanciami aplikácie použitím cluster API</figcaption>
-</figure>
-<p>Dôležité: Od momentu kedy inštancia aplikácie beží ako samostatný proces, nezdieľajú spoločnu pamäť. Tzn. objekty sú lokálne pre každú inštanciu aplikácie. Preto nedokážete spravovať stav v kóde aplikácie. Namiesto toho môžete k ukladaniu dát týkajúcich sa session a stavu použiť tzv. in-memory datastore ako <a href="http://redis.io/">Redis</a>. Toto varovanie platí v podstate pre všetky formy horizontálneho škálovania, či už clustering s viacerými procesmi alebo viacero fyzických servrov.</p>
-<p>V clusterovaných aplikáciách, worker procesy môžu spadnúť individuálne bez toho, aby ovplyvnili zvyšok procesov. Okrem výhody z pohľadu výkonnosti, izolovanie chybovosti je ďalším dôvodom pre beh clustra procesov aplikácie. V prípade, že worker proces spadne zabezpečte, že vždy sa zalogujte event a vytvorí nový process (spawn) pomocou cluster.fork().</p>
-<h4 id="použite-node-cluster-modulu">Použite Node cluster modulu</h4>
-<p>Clustering je možný pomocou Node <a href="https://nodejs.org/dist/latest-v4.x/docs/api/cluster.html">cluster modulu</a>. Ten dovoľuje master procesu vyrobiť (spawn) worker procesy a rozdistribuovať prichádzajúce spojenia medzi workerov. Avšak, lepšie než priame použitie tohto modulu je použiť jeden z mnohých existujúcich toolov, ktoré to robia automaticky, napr. <a href="https://www.npmjs.com/package/node-pm">node-pm</a> alebo <a href="https://www.npmjs.com/package/cluster-service">cluster-service</a>.</p>
-<h4 id="použitie-strongloop-pm">Použitie StrongLoop PM</h4>
-<p>V prípade, že deploynete vašu aplikáciu do StrongLoop Process Manager (PM), získate tým výhody clusteringu <em>bez</em> modifikácie kódu vašej aplikácie.</p>
-<p>Keď StrongLoop Process Manager (PM) spúšta aplikáciu, aplikácia je spustená automaticky v clusteri s takým množstvom workerov, aý je počet jadier CPU systéme. Počet worker procesov v clustri môžete manuálne zmeniť použitím slc nástroja bez nutnosti stopnutia aplikácie.</p>
-<p>Napr., predpokladajúc, že ste deployli vašu aplikáciu na prod.foo.com a StrongLoop PM počúva na porte 8701 (defaultný), tak nastavenie veľkosti clustera na osem vykonáte pomocou slc takto:</p>
-<pre>
+    <p>
+      Pozn.: Pre systémy bez podpory Upstart 1.4 sú príkazy mierne odlišné. Pre
+      viac informácií sa pozrite na
+      <a
+        href="https://docs.strongloop.com/display/SLC/Setting+up+a+production+host#Settingupaproductionhost-RHELLinux5and6,Ubuntu10.04-.10,11.04-.10"
+        >Setting up a production host (StrongLoop documentation)</a
+      >.
+    </p>
+    <h3 id="zabezpečte-aby-vaša-aplikácia-bežala-v-clusteri">
+      Zabezpečte aby vaša aplikácia bežala v clusteri
+    </h3>
+    <p>
+      V prípade multi-core systémov môžete zvýšiť výkonnosť Node aplikácie
+      niekoľko násobne jej spustením clusterom procesov. V clusteri beží
+      niekoľko inštancií aplikácie, ideálne jedna pre každé CPU jadro, čím sa
+      rozloží záťaž a úlohy medzi jednotlívé inštancie.
+    </p>
+    <figure>
+      <img
+        src="/images/clustering.png"
+        alt="Balancovanie medzi inštanciami aplikácie použitím cluster API"
+      />
+      <figcaption>
+        Balancovanie medzi inštanciami aplikácie použitím cluster API
+      </figcaption>
+    </figure>
+    <p>
+      Dôležité: Od momentu kedy inštancia aplikácie beží ako samostatný proces,
+      nezdieľajú spoločnu pamäť. Tzn. objekty sú lokálne pre každú inštanciu
+      aplikácie. Preto nedokážete spravovať stav v kóde aplikácie. Namiesto toho
+      môžete k ukladaniu dát týkajúcich sa session a stavu použiť tzv. in-memory
+      datastore ako <a href="http://redis.io/">Redis</a>. Toto varovanie platí v
+      podstate pre všetky formy horizontálneho škálovania, či už clustering s
+      viacerými procesmi alebo viacero fyzických servrov.
+    </p>
+    <p>
+      V clusterovaných aplikáciách, worker procesy môžu spadnúť individuálne bez
+      toho, aby ovplyvnili zvyšok procesov. Okrem výhody z pohľadu výkonnosti,
+      izolovanie chybovosti je ďalším dôvodom pre beh clustra procesov
+      aplikácie. V prípade, že worker proces spadne zabezpečte, že vždy sa
+      zalogujte event a vytvorí nový process (spawn) pomocou cluster.fork().
+    </p>
+    <h4 id="použite-node-cluster-modulu">Použite Node cluster modulu</h4>
+    <p>
+      Clustering je možný pomocou Node
+      <a href="https://nodejs.org/dist/latest-v4.x/docs/api/cluster.html"
+        >cluster modulu</a
+      >. Ten dovoľuje master procesu vyrobiť (spawn) worker procesy a
+      rozdistribuovať prichádzajúce spojenia medzi workerov. Avšak, lepšie než
+      priame použitie tohto modulu je použiť jeden z mnohých existujúcich
+      toolov, ktoré to robia automaticky, napr.
+      <a href="https://www.npmjs.com/package/node-pm">node-pm</a> alebo
+      <a href="https://www.npmjs.com/package/cluster-service">cluster-service</a
+      >.
+    </p>
+    <h4 id="použitie-strongloop-pm">Použitie StrongLoop PM</h4>
+    <p>
+      V prípade, že deploynete vašu aplikáciu do StrongLoop Process Manager
+      (PM), získate tým výhody clusteringu <em>bez</em> modifikácie kódu vašej
+      aplikácie.
+    </p>
+    <p>
+      Keď StrongLoop Process Manager (PM) spúšta aplikáciu, aplikácia je
+      spustená automaticky v clusteri s takým množstvom workerov, aý je počet
+      jadier CPU systéme. Počet worker procesov v clustri môžete manuálne zmeniť
+      použitím slc nástroja bez nutnosti stopnutia aplikácie.
+    </p>
+    <p>
+      Napr., predpokladajúc, že ste deployli vašu aplikáciu na prod.foo.com a
+      StrongLoop PM počúva na porte 8701 (defaultný), tak nastavenie veľkosti
+      clustera na osem vykonáte pomocou slc takto:
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ slc ctl -C http://prod.foo.com:8701 set-size my-app 8
 </code>
 </pre>
-<p>Pre viac informácií ohľadom clusteringu pomocou StrongLoop PM sa pozrite na časť <a href="https://docs.strongloop.com/display/SLC/Clustering">Clustering</a> v StrongLoop dokumentácii.</p>
-<h3 id="cache-ovanie-odpovedí-requestov">Cache-ovanie odpovedí requestov</h3>
-<p>Ďalšou stratégiou pre zlepšenie výkonosti v produkcii je cachovanie odpovedí na prichádzajúce requesty, čím zabezpečíte, že vaša aplikácia nemusí opakovane vykonávat tie isté operácie pre obslúženie rovnakých requestov.</p>
-<p>Použitie caching servra, ako [Varnish] (https://www.varnish-cache.org/) alebo <a href="https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/">Nginx</a> (pozrite si tiež <a href="https://serversforhackers.com/nginx-caching/">Nginx Caching</a>) výrazne zvýši rýchlosť a výkon vášej aplikácie.</p>
-<h3 id="použitie-load-balancera">Použitie load balancera</h3>
-<p>Bez ohľadu na to, ako je optimalizovaná aplikácia, jedna inštancia môže spracovať iba obmedzené množstvo záťaže a requestov. Jedným spôsobom škálovania aplikácie je spustenei jej viacerých inštancií a distribuovať zaťaženie pomocou load balancera. Zapojenie load balancera môže zlepšiť výkon a rýchlosť vašej aplikácie a umožní jej vačšie škálovanie, než by bolo možné v prípade jedinej inštancie.</p>
-<p>Load balancer je zvyčajne reverzné proxy, ktoré organizuje prevádzku medzi viacerými inštanciami aplikácie a serverov. Load balancer môžete pre vašu aplikáciu setupnúť jednoducho použítím <a href="http://nginx.org/en/docs/http/load_balancing.html">Nginx</a>, alebo <a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-haproxy-and-load-balancing-concepts">HAProxy</a>.</p>
-<p>Load balancer zabezpečí správne spárovanie requestov súvisiacich s konkrétnym session ID a procesom, ktorý túto session spravuje. Tento prístup sa nazýva <em>session affinity</em>, alebo <em>sticky sessions</em> a môže byť riešený návrhom popísaným vyššie, teda použitím dátového úložiska ako je Redis (v závislosti od aplikácie). Prečítajte si nasledujúcu diskusiu <a href="http://socket.io/docs/using-multiple-nodes/">Using multiple nodes</a>.</p>
-<h4 id="použitie-strongloop-pm-spolu-s-nginx-load-balancerom">Použitie StrongLoop PM spolu s Nginx load balancerom</h4>
-<p><a href="http://strong-pm.io/">StrongLoop Process Manager</a> je integrovaný s Nginx Controller-om, čo uľahčuje konfiguráciu multi-host produkčného prostredia. Pre viac informácií sa pozrite na <a href="https://docs.strongloop.com/display/SLC/Scaling+to+multiple+servers">Scaling to multiple servers</a> (StrongLoop dokumentácia). <a name="proxy"></a></p>
-<h3 id="použitie-reverzného-proxy">Použitie reverzného proxy</h3>
-<p>Reverzné proxy je umiestnené pred webovou aplikáciou a vykonáva podporné operácie k requestom smerovaných na aplikáciu. Medzi inným, dokáže handlovať stránky s errormi, kompresiu, caching, servovanie súborov a load balancing.</p>
-<p>Odovzdanie úloh, ktoré nevyžadujú znalosť stavu aplikácie reverznému proxy, odbremení Express aplikáciu a umožní jej vykonávať špecializované úlohy. Z tohto dôvodu sa v produkcii odporúča fungovanie Express za reverzným proxy ako je <a href="https://www.nginx.com/">Nginx</a> či <a href="http://www.haproxy.org/">HAProxy</a>.</p>
-</body>
+    <p>
+      Pre viac informácií ohľadom clusteringu pomocou StrongLoop PM sa pozrite
+      na časť
+      <a href="https://docs.strongloop.com/display/SLC/Clustering"
+        >Clustering</a
+      >
+      v StrongLoop dokumentácii.
+    </p>
+    <h3 id="cache-ovanie-odpovedí-requestov">
+      Cache-ovanie odpovedí requestov
+    </h3>
+    <p>
+      Ďalšou stratégiou pre zlepšenie výkonosti v produkcii je cachovanie
+      odpovedí na prichádzajúce requesty, čím zabezpečíte, že vaša aplikácia
+      nemusí opakovane vykonávat tie isté operácie pre obslúženie rovnakých
+      requestov.
+    </p>
+    <p>
+      Použitie caching servra, ako [Varnish] (https://www.varnish-cache.org/)
+      alebo
+      <a
+        href="https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/"
+        >Nginx</a
+      >
+      (pozrite si tiež
+      <a href="https://serversforhackers.com/nginx-caching/">Nginx Caching</a>)
+      výrazne zvýši rýchlosť a výkon vášej aplikácie.
+    </p>
+    <h3 id="použitie-load-balancera">Použitie load balancera</h3>
+    <p>
+      Bez ohľadu na to, ako je optimalizovaná aplikácia, jedna inštancia môže
+      spracovať iba obmedzené množstvo záťaže a requestov. Jedným spôsobom
+      škálovania aplikácie je spustenei jej viacerých inštancií a distribuovať
+      zaťaženie pomocou load balancera. Zapojenie load balancera môže zlepšiť
+      výkon a rýchlosť vašej aplikácie a umožní jej vačšie škálovanie, než by
+      bolo možné v prípade jedinej inštancie.
+    </p>
+    <p>
+      Load balancer je zvyčajne reverzné proxy, ktoré organizuje prevádzku medzi
+      viacerými inštanciami aplikácie a serverov. Load balancer môžete pre vašu
+      aplikáciu setupnúť jednoducho použítím
+      <a href="http://nginx.org/en/docs/http/load_balancing.html">Nginx</a>,
+      alebo
+      <a
+        href="https://www.digitalocean.com/community/tutorials/an-introduction-to-haproxy-and-load-balancing-concepts"
+        >HAProxy</a
+      >.
+    </p>
+    <p>
+      Load balancer zabezpečí správne spárovanie requestov súvisiacich s
+      konkrétnym session ID a procesom, ktorý túto session spravuje. Tento
+      prístup sa nazýva <em>session affinity</em>, alebo
+      <em>sticky sessions</em> a môže byť riešený návrhom popísaným vyššie, teda
+      použitím dátového úložiska ako je Redis (v závislosti od aplikácie).
+      Prečítajte si nasledujúcu diskusiu
+      <a href="http://socket.io/docs/using-multiple-nodes/"
+        >Using multiple nodes</a
+      >.
+    </p>
+    <h4 id="použitie-strongloop-pm-spolu-s-nginx-load-balancerom">
+      Použitie StrongLoop PM spolu s Nginx load balancerom
+    </h4>
+    <p>
+      <a href="http://strong-pm.io/">StrongLoop Process Manager</a> je
+      integrovaný s Nginx Controller-om, čo uľahčuje konfiguráciu multi-host
+      produkčného prostredia. Pre viac informácií sa pozrite na
+      <a
+        href="https://docs.strongloop.com/display/SLC/Scaling+to+multiple+servers"
+        >Scaling to multiple servers</a
+      >
+      (StrongLoop dokumentácia). <a name="proxy"></a>
+    </p>
+    <h3 id="použitie-reverzného-proxy">Použitie reverzného proxy</h3>
+    <p>
+      Reverzné proxy je umiestnené pred webovou aplikáciou a vykonáva podporné
+      operácie k requestom smerovaných na aplikáciu. Medzi inným, dokáže
+      handlovať stránky s errormi, kompresiu, caching, servovanie súborov a load
+      balancing.
+    </p>
+    <p>
+      Odovzdanie úloh, ktoré nevyžadujú znalosť stavu aplikácie reverznému
+      proxy, odbremení Express aplikáciu a umožní jej vykonávať špecializované
+      úlohy. Z tohto dôvodu sa v produkcii odporúča fungovanie Express za
+      reverzným proxy ako je <a href="https://www.nginx.com/">Nginx</a> či
+      <a href="http://www.haproxy.org/">HAProxy</a>.
+    </p>
+  </body>
 </html>

@@ -22,6 +22,7 @@ Although the app will not fail to run if the application variable `trust proxy` 
 If `true`, the client's IP address is understood as the left-most entry in the `X-Forwarded-*` header.
 
 If `false`, the app is understood as directly facing the Internet and the client's IP address is derived from `req.connection.remoteAddress`. This is the default setting.
+
 </td>
     </tr>
     <tr>
@@ -29,9 +30,9 @@ If `false`, the app is understood as directly facing the Internet and the client
 <td markdown="1">
 An IP address, subnet, or an array of IP addresses and subnets to trust. The following list shows the pre-configured subnet names:
 
-* loopback - `127.0.0.1/8`, `::1/128`
-* linklocal - `169.254.0.0/16`, `fe80::/10`
-* uniquelocal - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
+- loopback - `127.0.0.1/8`, `::1/128`
+- linklocal - `169.254.0.0/16`, `fe80::/10`
+- uniquelocal - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
 
 You can set IP addresses in any of the following ways:
 
@@ -41,6 +42,7 @@ app.set('trust proxy', 'loopback, linklocal, uniquelocal') // specify multiple s
 app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']) // specify multiple subnets as an array</code></pre>
 
 When specified, the IP addresses or the subnets are excluded from the address determination process, and the untrusted IP address nearest to the application server is determined as the client's IP address.
+
 </td>
     </tr>
     <tr>

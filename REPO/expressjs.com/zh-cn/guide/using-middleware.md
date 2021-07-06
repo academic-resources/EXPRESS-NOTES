@@ -13,20 +13,20 @@ Express 是一个路由和中间件 Web 框架，其自身只具有最低程度�
 
 中间件函数可以执行以下任务：
 
-* 执行任何代码。
-* 对请求和响应对象进行更改。
-* 结束请求/响应循环。
-* 调用堆栈中的下一个中间件函数。
+- 执行任何代码。
+- 对请求和响应对象进行更改。
+- 结束请求/响应循环。
+- 调用堆栈中的下一个中间件函数。
 
 如果当前中间件函数没有结束请求/响应循环，那么它必须调用 `next()`，以将控制权传递给下一个中间件函数。否则，请求将保持挂起状态。
 
 Express 应用程序可以使用以下类型的中间件：
 
- - [应用层中间件](#middleware.application)
- - [路由器层中间件](#middleware.router)
- - [错误处理中间件](#middleware.error-handling)
- - [内置中间件](#middleware.built-in)
- - [第三方中间件](#middleware.third-party)
+- [应用层中间件](#middleware.application)
+- [路由器层中间件](#middleware.router)
+- [错误处理中间件](#middleware.error-handling)
+- [内置中间件](#middleware.built-in)
+- [第三方中间件](#middleware.third-party)
 
 您可以使用可选安装路径来装入应用层和路由器层中间件。
 还可以将一系列中间件函数一起装入，这样会在安装点创建中间件系统的子堆栈。
@@ -137,6 +137,7 @@ app.get('/user/:id', function (req, res, next) {
 var router = express.Router();
 </code>
 </pre>
+
 使用 `router.use()` 和 `router.METHOD()` 函数装入路由器层中间件。
 以下示例代码使用路由器层中间件复制以上为应用层中间件显示的中间件系统：
 
@@ -213,16 +214,16 @@ Express 中唯一内置的中间件函数是 `express.static`。此函数基于 
 
 可选的 `options` 对象可以具有以下属性：
 
-| 属性          |        描述                                                           |   类型      |  缺省值         |
-|---------------|-----------------------------------------------------------------------|-------------|-----------------|
-| `dotfiles`    | 是否对外输出文件名以点（.）开头的文件。有效值包括“allow”、“deny”和“ignore” | 字符串 | “ignore” |
-| `etag`        | 启用或禁用 etag 生成  | 布尔 | `true` |
-| `extensions`  | 用于设置后备文件扩展名。 | 数组 | `[]` |
-| `index`       | 发送目录索引文件。设置为 `false` 可禁用建立目录索引。 | 混合 | “index.html” |
- `lastModified` | 将 `Last-Modified` 的头设置为操作系统上该文件的上次修改日期。有效值包括 `true` 或 `false`。 | 布尔 | `true` |
-| `maxAge`      | 设置 Cache-Control 头的 max-age 属性（以毫秒或者 [ms 格式](https://www.npmjs.org/package/ms)中的字符串为单位） | 数字 | 0 |
-| `redirect`    | 当路径名是目录时重定向到结尾的“/”。 | 布尔 | `true` |
-| `setHeaders`  | 用于设置随文件一起提供的 HTTP 头的函数。 | 函数 |  |
+| 属性           | 描述                                                                                                           | 类型   | 缺省值       |
+| -------------- | -------------------------------------------------------------------------------------------------------------- | ------ | ------------ |
+| `dotfiles`     | 是否对外输出文件名以点（.）开头的文件。有效值包括“allow”、“deny”和“ignore”                                     | 字符串 | “ignore”     |
+| `etag`         | 启用或禁用 etag 生成                                                                                           | 布尔   | `true`       |
+| `extensions`   | 用于设置后备文件扩展名。                                                                                       | 数组   | `[]`         |
+| `index`        | 发送目录索引文件。设置为 `false` 可禁用建立目录索引。                                                          | 混合   | “index.html” |
+| `lastModified` | 将 `Last-Modified` 的头设置为操作系统上该文件的上次修改日期。有效值包括 `true` 或 `false`。                    | 布尔   | `true`       |
+| `maxAge`       | 设置 Cache-Control 头的 max-age 属性（以毫秒或者 [ms 格式](https://www.npmjs.org/package/ms)中的字符串为单位） | 数字   | 0            |
+| `redirect`     | 当路径名是目录时重定向到结尾的“/”。                                                                            | 布尔   | `true`       |
+| `setHeaders`   | 用于设置随文件一起提供的 HTTP 头的函数。                                                                       | 函数   |              |
 
 以下示例将使用了 `express.static` 中间件，并且提供了一个详细的'options'对象（作为示例）：
 

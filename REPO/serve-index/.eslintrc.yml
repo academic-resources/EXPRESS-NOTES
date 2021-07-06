@@ -4,8 +4,8 @@ extends:
 plugins:
   - markdown
 overrides:
-  - files: '**/*.md'
-    processor: 'markdown/markdown'
+  - files: "**/*.md"
+    processor: "markdown/markdown"
 rules:
   eol-last: error
   eqeqeq: [error, allow-null]

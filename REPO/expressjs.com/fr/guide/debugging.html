@@ -1,40 +1,78 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Débogage d’Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Débogage d’Express</h1>
-</header>
-<h1 id="débogage-dexpress">Débogage d’Express</h1>
-<p>Express fait appel au module <a href="https://www.npmjs.com/package/debug">debug</a> en interne pour journaliser les informations concernant les correspondances de route, les fonctions middleware utilisées, le mode de l’application ainsi que le flux du cycle de demande-réponse.</p>
-<div class="doc-box doc-info" data-markdown="1">
-<p>Le module <code>debug</code> est en quelque sorte une version étendue de <code>console.log</code>, mais contrairement à ce dernier,`<code>vous n'avez pas besoin de mettre en commentaire les journaux de</code>debug<code>dans le code de production. La journalisation est désactivée par défaut et peut être activée de manière conditionnelle à l'aide de la variable d'environnement</code>DEBUG`.</p>
-</div>
-<p>Pour afficher tous les journaux internes utilisés dans Express, affectez à la variable d’environnement <code>DEBUG</code> la valeur <code>express:*</code> lors du lancement de votre application.</p>
-<pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Débogage d’Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Débogage d’Express</h1>
+    </header>
+    <h1 id="débogage-dexpress">Débogage d’Express</h1>
+    <p>
+      Express fait appel au module
+      <a href="https://www.npmjs.com/package/debug">debug</a> en interne pour
+      journaliser les informations concernant les correspondances de route, les
+      fonctions middleware utilisées, le mode de l’application ainsi que le flux
+      du cycle de demande-réponse.
+    </p>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        Le module <code>debug</code> est en quelque sorte une version étendue de
+        <code>console.log</code>, mais contrairement à ce dernier,`<code
+          >vous n'avez pas besoin de mettre en commentaire les journaux de</code
+        >debug<code
+          >dans le code de production. La journalisation est désactivée par
+          défaut et peut être activée de manière conditionnelle à l'aide de la
+          variable d'environnement</code
+        >DEBUG`.
+      </p>
+    </div>
+    <p>
+      Pour afficher tous les journaux internes utilisés dans Express, affectez à
+      la variable d’environnement <code>DEBUG</code> la valeur
+      <code>express:*</code> lors du lancement de votre application.
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ DEBUG=express:* node index.js
 </code>
 </pre>
-<p>Sous Windows, utilisez la commande correspondante.</p>
-<pre>
+    <p>Sous Windows, utilisez la commande correspondante.</p>
+    <pre>
 <code class="language-sh" translate="no">
 > set DEBUG=express:* & node index.js
 </code>
 </pre>
-<p>L’exécution de cette commande sur l’application par défaut générée par le <a href="/%7B%7B%20page.lang%20%7D%7D/starter/generator.html">générateur express</a> imprime le résultat suivant :</p>
-<pre>
+    <p>
+      L’exécution de cette commande sur l’application par défaut générée par le
+      <a href="/%7B%7B%20page.lang%20%7D%7D/starter/generator.html"
+        >générateur express</a
+      >
+      imprime le résultat suivant :
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ DEBUG=express:* node ./bin/www
   express:router:route new / +0ms
@@ -79,8 +117,11 @@ $ DEBUG=express:* node ./bin/www
   express:router:layer new / +0ms
 </code>
 </pre>
-<p>Si une demande est par la suite effectuée à l’application, vous verrez les journaux spécifiés dans le code Express :</p>
-<pre>
+    <p>
+      Si une demande est par la suite effectuée à l’application, vous verrez les
+      journaux spécifiés dans le code Express :
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
   express:router dispatching GET / +4h
   express:router query  : / +2ms
@@ -99,21 +140,44 @@ $ DEBUG=express:* node ./bin/www
   express:view render "/projects/example/views/index.pug" +1ms
 </code>
 </pre>
-<p>Pour afficher les journaux uniquement à partir de l’implémentation du routeur, affectez à la variable d’environnement <code>DEBUG</code> la valeur <code>express:router</code>. De la même façon, pour afficher les journaux uniquement à partir de l’implémentation de l’application, affectez à la variable d’environnement <code>DEBUG</code> la valeur <code>express:application</code>, et ainsi de suite.</p>
-<h2 id="applications-générées-par-la-commande-express">Applications générées par la commande <code>express</code></h2>
-<p>Une application générée par la commande <code>express</code> fait également appel au module <code>debug</code> et son espace de nom de débogage est délimité par le nom de l’application.</p>
-<p>Ainsi, si vous avez généré l’application à l’aide de <code>$ express sample-app</code>, vous pouvez activer les instructions de débogage en exécutant la commande suivante :</p>
-<pre>
+    <p>
+      Pour afficher les journaux uniquement à partir de l’implémentation du
+      routeur, affectez à la variable d’environnement <code>DEBUG</code> la
+      valeur <code>express:router</code>. De la même façon, pour afficher les
+      journaux uniquement à partir de l’implémentation de l’application,
+      affectez à la variable d’environnement <code>DEBUG</code> la valeur
+      <code>express:application</code>, et ainsi de suite.
+    </p>
+    <h2 id="applications-générées-par-la-commande-express">
+      Applications générées par la commande <code>express</code>
+    </h2>
+    <p>
+      Une application générée par la commande <code>express</code> fait
+      également appel au module <code>debug</code> et son espace de nom de
+      débogage est délimité par le nom de l’application.
+    </p>
+    <p>
+      Ainsi, si vous avez généré l’application à l’aide de
+      <code>$ express sample-app</code>, vous pouvez activer les instructions de
+      débogage en exécutant la commande suivante :
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ DEBUG=sample-app:* node ./bin/www
 </code>
 </pre>
-<p>Vous pouvez spécifier plusieurs espaces de noms de débogage en affectant une liste de noms séparés par des virgules :</p>
-<pre>
+    <p>
+      Vous pouvez spécifier plusieurs espaces de noms de débogage en affectant
+      une liste de noms séparés par des virgules :
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ DEBUG=http,mail,express:* node index.js
 </code>
 </pre>
-<p>Pour plus d’informations sur le module <code>debug</code>, voir <a href="https://www.npmjs.com/package/debug">debug</a>.</p>
-</body>
+    <p>
+      Pour plus d’informations sur le module <code>debug</code>, voir
+      <a href="https://www.npmjs.com/package/debug">debug</a>.
+    </p>
+  </body>
 </html>

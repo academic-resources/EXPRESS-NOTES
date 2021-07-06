@@ -14,7 +14,7 @@ _เส้นทาง (Routing)_ เป็นการกำหนดการ�
 การกำหนดเส้นทางใช้โครงสร้างดังนี้:
 
 ```js
-app.METHOD(PATH, HANDLER)
+app.METHOD(PATH, HANDLER);
 ```
 
 เมื่อ:
@@ -33,32 +33,33 @@ app.METHOD(PATH, HANDLER)
 ตอบสนองด้วยข้อความ `Hello World!` บนเพจหลัก:
 
 ```js
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
+app.get("/", function (req, res) {
+  res.send("Hello World!");
+});
 ```
 
 ตอบสนองต่อการร้องขอด้วยวิธี POST บนเส้นทาง root (`/`) บนเพจหลักของแอปพลิเคชัน:
 
 ```js
-app.post('/', function (req, res) {
-  res.send('Got a POST request')
-})
+app.post("/", function (req, res) {
+  res.send("Got a POST request");
+});
 ```
 
 ตอบสนองต่อการร้องขอด้วยวิธี PUT บนเส้นทาง `/user`:
 
 ```js
-app.put('/user', function (req, res) {
-  res.send('Got a PUT request at /user')
-})
+app.put("/user", function (req, res) {
+  res.send("Got a PUT request at /user");
+});
 ```
 
 ตอบสนองต่อการร้องขอด้วยวิธี DELETE บนเส้นทาง `/user`:
 
 ```js
-app.delete('/user', function (req, res) {
-  res.send('Got a DELETE request at /user')
-})
+app.delete("/user", function (req, res) {
+  res.send("Got a DELETE request at /user");
+});
 ```
+
 สำหรับข้อมูลเพิ่มเติมเกี่ยวกับการกำหนดเส้นทาง ดูได้ที่ [คำแนะนำการกำหนดเส้นทาง](/{{ page.lang }}/guide/routing.html)

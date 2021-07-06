@@ -1,73 +1,118 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Direccionamiento básico de Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Direccionamiento básico de Express</h1>
-</header>
-<h1 id="direccionamiento-básico">Direccionamiento básico</h1>
-<p>El <em>direccionamiento</em> hace referencia a la determinación de cómo responde una aplicación a una solicitud de cliente en un determinado punto final, que es un URI (o una vía de acceso) y un método de solicitud HTTP específico (GET, POST, etc.).</p>
-<p>Cada ruta puede tener una o varias funciones de manejador, que se excluyen cuando se correlaciona la ruta.</p>
-La definición de ruta tiene la siguiente estructura:
-<pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Direccionamiento básico de Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Direccionamiento básico de Express</h1>
+    </header>
+    <h1 id="direccionamiento-básico">Direccionamiento básico</h1>
+    <p>
+      El <em>direccionamiento</em> hace referencia a la determinación de cómo
+      responde una aplicación a una solicitud de cliente en un determinado punto
+      final, que es un URI (o una vía de acceso) y un método de solicitud HTTP
+      específico (GET, POST, etc.).
+    </p>
+    <p>
+      Cada ruta puede tener una o varias funciones de manejador, que se excluyen
+      cuando se correlaciona la ruta.
+    </p>
+    La definición de ruta tiene la siguiente estructura:
+    <pre>
 <code class="language-javascript" translate="no">
 app.METHOD(PATH, HANDLER)
 </code>
 </pre>
-<p>Donde:</p>
-<ul>
-<li><code>app</code> es una instancia de <code>express</code>.</li>
-<li><code>METHOD</code> es un <a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">método de solicitud HTTP</a>.</li>
-<li><code>PATH</code> es una vía de acceso en el servidor.</li>
-<li><code>HANDLER</code> es la función que se ejecuta cuando se correlaciona la ruta.</li>
-</ul>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>En esta guía de aprendizaje se supone que se crea una instancia de <code>express</code> denominada <code>app</code> y que el servidor está en ejecución. Si no está familiarizado con la creación y el inicio de una aplicación, consulte el <a href="/%7B%7B%20page.lang%20%7D%7D/starter/hello-world.html">Ejemplo Hello world</a>.</p>
-</div>
-<p>El siguiente ejemplo ilustra la definición de rutas simples.</p>
-<p>Responda con <code>Hello World!</code> en la página inicial:</p>
-<pre>
+    <p>Donde:</p>
+    <ul>
+      <li><code>app</code> es una instancia de <code>express</code>.</li>
+      <li>
+        <code>METHOD</code> es un
+        <a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol"
+          >método de solicitud HTTP</a
+        >.
+      </li>
+      <li><code>PATH</code> es una vía de acceso en el servidor.</li>
+      <li>
+        <code>HANDLER</code> es la función que se ejecuta cuando se correlaciona
+        la ruta.
+      </li>
+    </ul>
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        En esta guía de aprendizaje se supone que se crea una instancia de
+        <code>express</code> denominada <code>app</code> y que el servidor está
+        en ejecución. Si no está familiarizado con la creación y el inicio de
+        una aplicación, consulte el
+        <a href="/%7B%7B%20page.lang%20%7D%7D/starter/hello-world.html"
+          >Ejemplo Hello world</a
+        >.
+      </p>
+    </div>
+    <p>El siguiente ejemplo ilustra la definición de rutas simples.</p>
+    <p>Responda con <code>Hello World!</code> en la página inicial:</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/', function (req, res) {
   res.send('Hello World!');
 });
 </code>
 </pre>
-<p>Responda a la solicitud POST en la ruta raíz (<code>/</code>), la página de inicio de la aplicación:</p>
-<pre>
+    <p>
+      Responda a la solicitud POST en la ruta raíz (<code>/</code>), la página
+      de inicio de la aplicación:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.post('/', function (req, res) {
   res.send('Got a POST request');
 });
 </code>
 </pre>
-<p>Responda a una solicitud PUT en la ruta <code>/user</code>:</p>
-<pre>
+    <p>Responda a una solicitud PUT en la ruta <code>/user</code>:</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.put('/user', function (req, res) {
   res.send('Got a PUT request at /user');
 });
 </code>
 </pre>
-<p>Responda a una solicitud DELETE en la ruta <code>/user</code>:</p>
-<pre>
+    <p>Responda a una solicitud DELETE en la ruta <code>/user</code>:</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.delete('/user', function (req, res) {
   res.send('Got a DELETE request at /user');
 });
 </code>
 </pre>
-<p>Para obtener más detalles sobre el direccionamiento, consulte la <a href="/%7B%7B%20page.lang%20%7D%7D/guide/routing.html">guía de direccionamiento</a>.</p>
-</body>
+    <p>
+      Para obtener más detalles sobre el direccionamiento, consulte la
+      <a href="/%7B%7B%20page.lang%20%7D%7D/guide/routing.html"
+        >guía de direccionamiento</a
+      >.
+    </p>
+  </body>
 </html>

@@ -1,51 +1,131 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Glossário do Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Glossário do Express</h1>
-</header>
-<h1 id="glossário">Glossário</h1>
-<div class="doc-box doc-warn">
-Este é atualmente um rascunho de trabalho
-</div>
-<h3 id="aplicativo">aplicativo</h3>
-<p>Em geral, um ou mais programas que são designados a executar operações com um propósito específico. No contexto do Express, um programa que usa a API do Express executando na plataforma. Pode também se referir a um <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#express">objeto app</a>.</p>
-<h3 id="api">API</h3>
-<p>Interface de programação de aplicativos. Especifique o significado da abreviação no seu primeiro uso.</p>
-<h3 id="express">Express</h3>
-<p>Uma estrutura web rápida, flexível e minimalista para aplicativos Node.js. Em geral, “Express” é preferido a “Express.js,” apesar de que o último ser aceitável.</p>
-<h3 id="libuv">libuv</h3>
-<p>Uma biblioteca de suporte multiplataforma que foca em E/S assíncrona, primeiramente desenvolvida para uso pelo Node.js.</p>
-<h3 id="middleware">middleware</h3>
-<p>Uma função que é chamada pela camada de roteamento do Express antes do manipulador final da solicitação, e assim ficando no meio, entre uma solicitação bruta a rota final desejada. Alguns poucos pontos de refinamento da terminologia envolvendo middleware:</p>
-<ul>
-<li><code>var foo = require('middleware')</code> é chamado <em>requerendo</em> ou <em>usando</em> um módulo do Node.js. Então a instrução <code>var mw = foo()</code> tipicamente retorna o middleware.</li>
-<li><code>app.use(mw)</code> é chamado <em>incluindo o middleware na pilha global de processamento</em>.</li>
-<li><code>app.get('/foo', mw, function (req, res) { ... })</code> é chamado <em>incluindo o middleware para a pilha de processamento do “GET /foo” </em>.</li>
-</ul>
-<h3 id="node.js">Node.js</h3>
-<p>Uma plataforma de software que é usada para construir aplicativos de rede escaláveis. O Node.js usa o JavaScript como linguagem de script, e alcança rendimentos altos através de E/S não bloqueante e um loop de eventos de thread única. Consulte <a href="http://nodejs.org/">nodejs.org</a>. <strong>Nota de uso</strong>: Inicialmente, “Node.js,” posteriormente “Node”.</p>
-<h3 id="open-source-open-source">open-source, open source</h3>
-<p>Quando usado como adjetivo, colocar o hífen; por exemplo “Este é um software open-source”. Consulte <a href="http://en.wikipedia.org/wiki/Open-source_software">Software Open-source na Wikipedia</a>. Nota: Apesar de ser comum não colocar o hífen neste termo, estamos usando as regras padrões do Inglês para colocar o hífen em adjetivos compostos.</p>
-<h3 id="resposta">resposta</h3>
-<p>Uma resposta HTTP. Um servidor retorna uma mensagem de resposta HTTP para o cliente. A resposta contém informações do status de conclusão sobre a solicitação e pode também conter conteúdo da solicitação no corpo da mensagem.</p>
-<h3 id="rota">rota</h3>
-<p>Parte de uma URL que identifica um recurso. Por exemplo, em <code>http://foo.com/products/id</code>, “/products/id” é a rota.</p>
-<h3 id="roteador">roteador</h3>
-<p>Consulte <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router">roteador</a> na referência da API.</p>
-<h3 id="solicitação">solicitação</h3>
-<p>Uma solicitação HTTP. Um cliente envia uma mensagem HTTP para um servidor, que retorna uma resposta. A solicitação deve usar um dos vários <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods">métodos de solicitação</a> como GET, POST, e assim por diante.</p>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Glossário do Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Glossário do Express</h1>
+    </header>
+    <h1 id="glossário">Glossário</h1>
+    <div class="doc-box doc-warn">
+      Este é atualmente um rascunho de trabalho
+    </div>
+    <h3 id="aplicativo">aplicativo</h3>
+    <p>
+      Em geral, um ou mais programas que são designados a executar operações com
+      um propósito específico. No contexto do Express, um programa que usa a API
+      do Express executando na plataforma. Pode também se referir a um
+      <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#express">objeto app</a>.
+    </p>
+    <h3 id="api">API</h3>
+    <p>
+      Interface de programação de aplicativos. Especifique o significado da
+      abreviação no seu primeiro uso.
+    </p>
+    <h3 id="express">Express</h3>
+    <p>
+      Uma estrutura web rápida, flexível e minimalista para aplicativos Node.js.
+      Em geral, “Express” é preferido a “Express.js,” apesar de que o último ser
+      aceitável.
+    </p>
+    <h3 id="libuv">libuv</h3>
+    <p>
+      Uma biblioteca de suporte multiplataforma que foca em E/S assíncrona,
+      primeiramente desenvolvida para uso pelo Node.js.
+    </p>
+    <h3 id="middleware">middleware</h3>
+    <p>
+      Uma função que é chamada pela camada de roteamento do Express antes do
+      manipulador final da solicitação, e assim ficando no meio, entre uma
+      solicitação bruta a rota final desejada. Alguns poucos pontos de
+      refinamento da terminologia envolvendo middleware:
+    </p>
+    <ul>
+      <li>
+        <code>var foo = require('middleware')</code> é chamado
+        <em>requerendo</em> ou <em>usando</em> um módulo do Node.js. Então a
+        instrução <code>var mw = foo()</code> tipicamente retorna o middleware.
+      </li>
+      <li>
+        <code>app.use(mw)</code> é chamado
+        <em>incluindo o middleware na pilha global de processamento</em>.
+      </li>
+      <li>
+        <code>app.get('/foo', mw, function (req, res) { ... })</code> é chamado
+        <em
+          >incluindo o middleware para a pilha de processamento do “GET /foo” </em
+        >.
+      </li>
+    </ul>
+    <h3 id="node.js">Node.js</h3>
+    <p>
+      Uma plataforma de software que é usada para construir aplicativos de rede
+      escaláveis. O Node.js usa o JavaScript como linguagem de script, e alcança
+      rendimentos altos através de E/S não bloqueante e um loop de eventos de
+      thread única. Consulte <a href="http://nodejs.org/">nodejs.org</a>.
+      <strong>Nota de uso</strong>: Inicialmente, “Node.js,” posteriormente
+      “Node”.
+    </p>
+    <h3 id="open-source-open-source">open-source, open source</h3>
+    <p>
+      Quando usado como adjetivo, colocar o hífen; por exemplo “Este é um
+      software open-source”. Consulte
+      <a href="http://en.wikipedia.org/wiki/Open-source_software"
+        >Software Open-source na Wikipedia</a
+      >. Nota: Apesar de ser comum não colocar o hífen neste termo, estamos
+      usando as regras padrões do Inglês para colocar o hífen em adjetivos
+      compostos.
+    </p>
+    <h3 id="resposta">resposta</h3>
+    <p>
+      Uma resposta HTTP. Um servidor retorna uma mensagem de resposta HTTP para
+      o cliente. A resposta contém informações do status de conclusão sobre a
+      solicitação e pode também conter conteúdo da solicitação no corpo da
+      mensagem.
+    </p>
+    <h3 id="rota">rota</h3>
+    <p>
+      Parte de uma URL que identifica um recurso. Por exemplo, em
+      <code>http://foo.com/products/id</code>, “/products/id” é a rota.
+    </p>
+    <h3 id="roteador">roteador</h3>
+    <p>
+      Consulte
+      <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router">roteador</a> na
+      referência da API.
+    </p>
+    <h3 id="solicitação">solicitação</h3>
+    <p>
+      Uma solicitação HTTP. Um cliente envia uma mensagem HTTP para um servidor,
+      que retorna uma resposta. A solicitação deve usar um dos vários
+      <a
+        href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods"
+        >métodos de solicitação</a
+      >
+      como GET, POST, e assim por diante.
+    </p>
+  </body>
 </html>

@@ -6,22 +6,22 @@
  * MIT Licensed
  */
 
-'use strict'
+"use strict";
 
 /**
  * Module dependencies
  * @private
  */
 
-var deprecate = require('depd')('response-time')
-var onHeaders = require('on-headers')
+var deprecate = require("depd")("response-time");
+var onHeaders = require("on-headers");
 
 /**
  * Module exports.
  * @public
  */
 
-module.exports = responseTime
+module.exports = responseTime;
 
 /**
  * Create a middleware to add a `X-Response-Time` header displaying
@@ -35,32 +35,32 @@ module.exports = responseTime
  * @public
  */
 
-function responseTime (options) {
-  var opts = options || {}
+function responseTime(options) {
+  var opts = options || {};
 
-  if (typeof options === 'number') {
+  if (typeof options === "number") {
     // back-compat single number argument
-    deprecate('number argument: use {digits: ' + JSON.stringify(options) + '} instead')
-    opts = { digits: options }
+    deprecate(
+      "number argument: use {digits: " + JSON.stringify(options) + "} instead"
+    );
+    opts = { digits: options };
   }
 
   // get the function to invoke
-  var fn = typeof opts !== 'function'
-    ? createSetHeader(opts)
-    : opts
+  var fn = typeof opts !== "function" ? createSetHeader(opts) : opts;
 
-  return function responseTime (req, res, next) {
-    var startAt = process.hrtime()
+  return function responseTime(req, res, next) {
+    var startAt = process.hrtime();
 
-    onHeaders(res, function onHeaders () {
-      var diff = process.hrtime(startAt)
-      var time = diff[0] * 1e3 + diff[1] * 1e-6
+    onHeaders(res, function onHeaders() {
+      var diff = process.hrtime(startAt);
+      var time = diff[0] * 1e3 + diff[1] * 1e-6;
 
-      fn(req, res, time)
-    })
+      fn(req, res, time);
+    });
 
-    next()
-  }
+    next();
+  };
 }
 
 /**
@@ -68,31 +68,27 @@ function responseTime (options) {
  * @private
  */
 
-function createSetHeader (options) {
+function createSetHeader(options) {
   // response time digits
-  var digits = options.digits !== undefined
-    ? options.digits
-    : 3
+  var digits = options.digits !== undefined ? options.digits : 3;
 
   // header name
-  var header = options.header || 'X-Response-Time'
+  var header = options.header || "X-Response-Time";
 
   // display suffix
-  var suffix = options.suffix !== undefined
-    ? Boolean(options.suffix)
-    : true
+  var suffix = options.suffix !== undefined ? Boolean(options.suffix) : true;
 
-  return function setResponseHeader (req, res, time) {
+  return function setResponseHeader(req, res, time) {
     if (res.getHeader(header)) {
-      return
+      return;
     }
 
-    var val = time.toFixed(digits)
+    var val = time.toFixed(digits);
 
     if (suffix) {
-      val += 'ms'
+      val += "ms";
     }
 
-    res.setHeader(header, val)
-  }
+    res.setHeader(header, val);
+  };
 }

@@ -1,135 +1,341 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express ミドルウェアの使用</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-  <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express ミドルウェアの使用</h1>
-</header>
-<h1 id="ミドルウェアの使用">ミドルウェアの使用</h1>
-<p>Express は、それ自体では最小限の機能を備えたルーティングとミドルウェアの Web フレームワークです。Express アプリケーションは基本的に一連のミドルウェア関数呼び出しです。</p>
-<p><em>ミドルウェア</em> 関数は、<a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#req">requestオブジェクト</a> (<code>req</code>)、<a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res">responseオブジェクト</a> (<code>res</code>)、およびアプリケーションのリクエストレスポンスサイクルにおける次のミドルウェア関数に対するアクセス権限を持つ関数です。次のミドルウェア関数は一般的に、<code>next</code> という変数で表されます。</p>
-<p>ミドルウェア関数は以下のタスクを実行できます。</p>
-<ul>
-<li>任意のコードを実行する。</li>
-<li>リクエストオブジェクトとレスポンスオブジェクトを変更する。</li>
-<li>リクエストレスポンスサイクルを終了する。</li>
-<li>スタック内の次のミドルウェア関数を呼び出す。</li>
-</ul>
-<p>現在のミドルウェア関数がリクエストレスポンスサイクルを終了しない場合は、<code>next()</code> を呼び出して、次のミドルウェア関数に制御を渡す必要があります。そうしないと、リクエストはハングしたままになります。</p>
-<p>Express アプリケーションは、以下のタイプのミドルウェアを使用できます。</p>
-<ul>
-<li><a href="#middleware.application">アプリケーション・レベルのミドルウェア</a></li>
-<li><a href="#middleware.router">ルーター・レベルのミドルウェア</a></li>
-<li><a href="#middleware.error-handling">エラー処理ミドルウェア</a></li>
-<li><a href="#middleware.built-in">標準装備のミドルウェア</a></li>
-<li><a href="#middleware.third-party">サード・パーティー・ミドルウェア</a></li>
-</ul>
-<p>アプリケーション・レベルとルーター・レベルのミドルウェアは、オプションのマウント・パスを指定してロードできます。 また、一連のミドルウェア関数を一緒にロードできます。こうすると、マウント・ポイントにミドルウェア・システムのサブスタックが作成されます。</p>
-<h2 id="middleware.application">
-アプリケーション・レベルのミドルウェア
-</h2>
-<p><code>app.use()</code> 関数と <code>app.METHOD()</code> 関数を使用して、アプリケーション・レベルのミドルウェアを <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app">appオブジェクト</a> のインスタンスにバインドします。ここで、<code>METHOD</code> は、ミドルウェア関数が小文字で処理するリクエスト (GET、PUT、POST など) の HTTP メソッドです。</p>
-<p>次の例は、マウント・パスを指定しないミドルウェア関数を示しています。この関数は、アプリケーションがリクエストを受け取るたびに実行されます。</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express ミドルウェアの使用</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+    <style type="text/css">
+      a.sourceLine {
+        display: inline-block;
+        line-height: 1.25;
+      }
+      a.sourceLine {
+        pointer-events: none;
+        color: inherit;
+        text-decoration: inherit;
+      }
+      a.sourceLine:empty {
+        height: 1.2em;
+      }
+      .sourceCode {
+        overflow: visible;
+      }
+      code.sourceCode {
+        white-space: pre;
+        position: relative;
+      }
+      div.sourceCode {
+        margin: 1em 0;
+      }
+      pre.sourceCode {
+        margin: 0;
+      }
+      @media screen {
+        div.sourceCode {
+          overflow: auto;
+        }
+      }
+      @media print {
+        code.sourceCode {
+          white-space: pre-wrap;
+        }
+        a.sourceLine {
+          text-indent: -1em;
+          padding-left: 1em;
+        }
+      }
+      pre.numberSource a.sourceLine {
+        position: relative;
+        left: -4em;
+      }
+      pre.numberSource a.sourceLine::before {
+        content: attr(title);
+        position: relative;
+        left: -1em;
+        text-align: right;
+        vertical-align: baseline;
+        border: none;
+        pointer-events: all;
+        display: inline-block;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        padding: 0 4px;
+        width: 4em;
+        color: #aaaaaa;
+      }
+      pre.numberSource {
+        margin-left: 3em;
+        border-left: 1px solid #aaaaaa;
+        padding-left: 4px;
+      }
+      div.sourceCode {
+      }
+      @media screen {
+        a.sourceLine::before {
+          text-decoration: underline;
+        }
+      }
+      code span.al {
+        color: #ff0000;
+        font-weight: bold;
+      } /* Alert */
+      code span.an {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Annotation */
+      code span.at {
+        color: #7d9029;
+      } /* Attribute */
+      code span.bn {
+        color: #40a070;
+      } /* BaseN */
+      code span.bu {
+      } /* BuiltIn */
+      code span.cf {
+        color: #007020;
+        font-weight: bold;
+      } /* ControlFlow */
+      code span.ch {
+        color: #4070a0;
+      } /* Char */
+      code span.cn {
+        color: #880000;
+      } /* Constant */
+      code span.co {
+        color: #60a0b0;
+        font-style: italic;
+      } /* Comment */
+      code span.cv {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* CommentVar */
+      code span.do {
+        color: #ba2121;
+        font-style: italic;
+      } /* Documentation */
+      code span.dt {
+        color: #902000;
+      } /* DataType */
+      code span.dv {
+        color: #40a070;
+      } /* DecVal */
+      code span.er {
+        color: #ff0000;
+        font-weight: bold;
+      } /* Error */
+      code span.ex {
+      } /* Extension */
+      code span.fl {
+        color: #40a070;
+      } /* Float */
+      code span.fu {
+        color: #06287e;
+      } /* Function */
+      code span.im {
+      } /* Import */
+      code span.in {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Information */
+      code span.kw {
+        color: #007020;
+        font-weight: bold;
+      } /* Keyword */
+      code span.op {
+        color: #666666;
+      } /* Operator */
+      code span.ot {
+        color: #007020;
+      } /* Other */
+      code span.pp {
+        color: #bc7a00;
+      } /* Preprocessor */
+      code span.sc {
+        color: #4070a0;
+      } /* SpecialChar */
+      code span.ss {
+        color: #bb6688;
+      } /* SpecialString */
+      code span.st {
+        color: #4070a0;
+      } /* String */
+      code span.va {
+        color: #19177c;
+      } /* Variable */
+      code span.vs {
+        color: #4070a0;
+      } /* VerbatimString */
+      code span.wa {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Warning */
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express ミドルウェアの使用</h1>
+    </header>
+    <h1 id="ミドルウェアの使用">ミドルウェアの使用</h1>
+    <p>
+      Express は、それ自体では最小限の機能を備えたルーティングとミドルウェアの
+      Web フレームワークです。Express
+      アプリケーションは基本的に一連のミドルウェア関数呼び出しです。
+    </p>
+    <p>
+      <em>ミドルウェア</em> 関数は、<a
+        href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#req"
+        >requestオブジェクト</a
+      >
+      (<code>req</code>)、<a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res"
+        >responseオブジェクト</a
+      >
+      (<code>res</code>)、およびアプリケーションのリクエストレスポンスサイクルにおける次のミドルウェア関数に対するアクセス権限を持つ関数です。次のミドルウェア関数は一般的に、<code
+        >next</code
+      >
+      という変数で表されます。
+    </p>
+    <p>ミドルウェア関数は以下のタスクを実行できます。</p>
+    <ul>
+      <li>任意のコードを実行する。</li>
+      <li>リクエストオブジェクトとレスポンスオブジェクトを変更する。</li>
+      <li>リクエストレスポンスサイクルを終了する。</li>
+      <li>スタック内の次のミドルウェア関数を呼び出す。</li>
+    </ul>
+    <p>
+      現在のミドルウェア関数がリクエストレスポンスサイクルを終了しない場合は、<code
+        >next()</code
+      >
+      を呼び出して、次のミドルウェア関数に制御を渡す必要があります。そうしないと、リクエストはハングしたままになります。
+    </p>
+    <p>
+      Express アプリケーションは、以下のタイプのミドルウェアを使用できます。
+    </p>
+    <ul>
+      <li>
+        <a href="#middleware.application"
+          >アプリケーション・レベルのミドルウェア</a
+        >
+      </li>
+      <li><a href="#middleware.router">ルーター・レベルのミドルウェア</a></li>
+      <li><a href="#middleware.error-handling">エラー処理ミドルウェア</a></li>
+      <li><a href="#middleware.built-in">標準装備のミドルウェア</a></li>
+      <li>
+        <a href="#middleware.third-party">サード・パーティー・ミドルウェア</a>
+      </li>
+    </ul>
+    <p>
+      アプリケーション・レベルとルーター・レベルのミドルウェアは、オプションのマウント・パスを指定してロードできます。
+      また、一連のミドルウェア関数を一緒にロードできます。こうすると、マウント・ポイントにミドルウェア・システムのサブスタックが作成されます。
+    </p>
+    <h2 id="middleware.application">アプリケーション・レベルのミドルウェア</h2>
+    <p>
+      <code>app.use()</code> 関数と
+      <code>app.METHOD()</code>
+      関数を使用して、アプリケーション・レベルのミドルウェアを
+      <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app">appオブジェクト</a>
+      のインスタンスにバインドします。ここで、<code>METHOD</code>
+      は、ミドルウェア関数が小文字で処理するリクエスト (GET、PUT、POST など) の
+      HTTP メソッドです。
+    </p>
+    <p>
+      次の例は、マウント・パスを指定しないミドルウェア関数を示しています。この関数は、アプリケーションがリクエストを受け取るたびに実行されます。
+    </p>
+    <div class="sourceCode" id="cb1">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
 <a class="sourceLine" id="cb1-2" title="2"></a>
 <a class="sourceLine" id="cb1-3" title="3"><span class="va">app</span>.<span class="at">use</span>(<span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb1-4" title="4">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;Time:&#39;</span><span class="op">,</span> <span class="va">Date</span>.<span class="at">now</span>())</a>
 <a class="sourceLine" id="cb1-5" title="5">  <span class="at">next</span>()</a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="op">}</span>)</a></code></pre></div>
-<p>次の例は、<code>/user/:id</code> パスにマウントされたミドルウェア関数を示しています。この関数は、<code>/user/:id</code> パスに対するすべてのタイプの HTTP リクエストで実行されます。</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb2-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="op">}</span>)</a></code></pre>
+    </div>
+    <p>
+      次の例は、<code>/user/:id</code>
+      パスにマウントされたミドルウェア関数を示しています。この関数は、<code
+        >/user/:id</code
+      >
+      パスに対するすべてのタイプの HTTP リクエストで実行されます。
+    </p>
+    <div class="sourceCode" id="cb2">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb2-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb2-2" title="2">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;Request Type:&#39;</span><span class="op">,</span> <span class="va">req</span>.<span class="at">method</span>)</a>
 <a class="sourceLine" id="cb2-3" title="3">  <span class="at">next</span>()</a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="op">}</span>)</a></code></pre></div>
-<p>次の例は、ルートとそのハンドラー関数 (ミドルウェア・システム) を示しています。この関数は、<code>/user/:id</code> パスへの GET リクエストを処理します。</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb3-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="op">}</span>)</a></code></pre>
+    </div>
+    <p>
+      次の例は、ルートとそのハンドラー関数 (ミドルウェア・システム)
+      を示しています。この関数は、<code>/user/:id</code> パスへの GET
+      リクエストを処理します。
+    </p>
+    <div class="sourceCode" id="cb3">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb3-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb3-2" title="2">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;USER&#39;</span>)</a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="op">}</span>)</a></code></pre></div>
-<p>次に、マウント・パスを指定して、一連のミドルウェア関数をマウント・ポイントにロードする例を示します。 <code>/user/:id</code> パスへのすべてのタイプの HTTP リクエストに関するリクエスト情報を出力するミドルウェア・サブスタックを示しています。</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb4-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="op">}</span>)</a></code></pre>
+    </div>
+    <p>
+      次に、マウント・パスを指定して、一連のミドルウェア関数をマウント・ポイントにロードする例を示します。
+      <code>/user/:id</code> パスへのすべてのタイプの HTTP
+      リクエストに関するリクエスト情報を出力するミドルウェア・サブスタックを示しています。
+    </p>
+    <div class="sourceCode" id="cb4">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb4-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb4-2" title="2">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;Request URL:&#39;</span><span class="op">,</span> <span class="va">req</span>.<span class="at">originalUrl</span>)</a>
 <a class="sourceLine" id="cb4-3" title="3">  <span class="at">next</span>()</a>
 <a class="sourceLine" id="cb4-4" title="4"><span class="op">},</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb4-5" title="5">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;Request Type:&#39;</span><span class="op">,</span> <span class="va">req</span>.<span class="at">method</span>)</a>
 <a class="sourceLine" id="cb4-6" title="6">  <span class="at">next</span>()</a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="op">}</span>)</a></code></pre></div>
-<p>ルート・ハンドラーを使用すると、パスに複数のルートを定義できます。下記の例では、<code>/user/:id</code> パスへの GET リクエストに 2 つのルートを定義しています。2 番目のルートは、問題を発生させるものではありませんが、最初のルートがリクエストレスポンスサイクルを終了するため、呼び出されることはありません。</p>
-<p>次の例は、<code>/user/:id</code> パスへの GET リクエストを処理するミドルウェア・サブスタックを示しています。</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb5-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="op">}</span>)</a></code></pre>
+    </div>
+    <p>
+      ルート・ハンドラーを使用すると、パスに複数のルートを定義できます。下記の例では、<code
+        >/user/:id</code
+      >
+      パスへの GET リクエストに 2 つのルートを定義しています。2
+      番目のルートは、問題を発生させるものではありませんが、最初のルートがリクエストレスポンスサイクルを終了するため、呼び出されることはありません。
+    </p>
+    <p>
+      次の例は、<code>/user/:id</code> パスへの GET
+      リクエストを処理するミドルウェア・サブスタックを示しています。
+    </p>
+    <div class="sourceCode" id="cb5">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb5-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb5-2" title="2">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;ID:&#39;</span><span class="op">,</span> <span class="va">req</span>.<span class="va">params</span>.<span class="at">id</span>)</a>
 <a class="sourceLine" id="cb5-3" title="3">  <span class="at">next</span>()</a>
 <a class="sourceLine" id="cb5-4" title="4"><span class="op">},</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
@@ -139,10 +345,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb5-8" title="8"><span class="co">// handler for the /user/:id path, which prints the user ID</span></a>
 <a class="sourceLine" id="cb5-9" title="9"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb5-10" title="10">  <span class="va">res</span>.<span class="at">end</span>(<span class="va">req</span>.<span class="va">params</span>.<span class="at">id</span>)</a>
-<a class="sourceLine" id="cb5-11" title="11"><span class="op">}</span>)</a></code></pre></div>
-<p>ルーター・ミドルウェア・スタックの残りのミドルウェア関数をスキップするには、<code>next('route')</code> を呼び出して、次のルートに制御を渡します。 <strong>注</strong>: <code>next('route')</code> は、<code>app.METHOD()</code> 関数または <code>router.METHOD()</code> 関数を使用してロードされたミドルウェア関数でのみ機能します。</p>
-<p>次の例は、<code>/user/:id</code> パスへの GET リクエストを処理するミドルウェア・サブスタックを示しています。</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb6-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="op">}</span>)</a></code></pre>
+    </div>
+    <p>
+      ルーター・ミドルウェア・スタックの残りのミドルウェア関数をスキップするには、<code
+        >next('route')</code
+      >
+      を呼び出して、次のルートに制御を渡します。 <strong>注</strong>:
+      <code>next('route')</code> は、<code>app.METHOD()</code> 関数または
+      <code>router.METHOD()</code>
+      関数を使用してロードされたミドルウェア関数でのみ機能します。
+    </p>
+    <p>
+      次の例は、<code>/user/:id</code> パスへの GET
+      リクエストを処理するミドルウェア・サブスタックを示しています。
+    </p>
+    <div class="sourceCode" id="cb6">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb6-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb6-2" title="2">  <span class="co">// if the user ID is 0, skip to the next route</span></a>
 <a class="sourceLine" id="cb6-3" title="3">  <span class="cf">if</span> (<span class="at">Number</span>(<span class="va">req</span>.<span class="va">params</span>.<span class="at">id</span>) <span class="op">===</span> <span class="dv">0</span>) <span class="at">next</span>(<span class="st">&#39;route&#39;</span>)</a>
 <a class="sourceLine" id="cb6-4" title="4">  <span class="co">// otherwise pass the control to the next middleware function in this stack</span></a>
@@ -155,15 +376,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb6-11" title="11"><span class="co">// handler for the /user/:id path, which renders a special page</span></a>
 <a class="sourceLine" id="cb6-12" title="12"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb6-13" title="13">  <span class="va">res</span>.<span class="at">render</span>(<span class="st">&#39;special&#39;</span>)</a>
-<a class="sourceLine" id="cb6-14" title="14"><span class="op">}</span>)</a></code></pre></div>
-<h2 id="middleware.router">
-ルーター・レベルのミドルウェア
-</h2>
-<p>ルーター・レベルのミドルウェアは、<code>express.Router()</code> のインスタンスにバインドされる点を除き、アプリケーション・レベルのミドルウェアと同じように動作します。</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">var</span> router <span class="op">=</span> <span class="va">express</span>.<span class="at">Router</span>()</a></code></pre></div>
-<p><code>router.use()</code> 関数と <code>router.METHOD()</code> 関数を使用して、ルーター・レベルのミドルウェアをロードします。</p>
-<p>次のコードの例では、ルーター・レベルのミドルウェアを使用して、上記のアプリケーション・レベルのミドルウェアで示されているミドルウェア・システムを複製します。</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
+<a class="sourceLine" id="cb6-14" title="14"><span class="op">}</span>)</a></code></pre>
+    </div>
+    <h2 id="middleware.router">ルーター・レベルのミドルウェア</h2>
+    <p>
+      ルーター・レベルのミドルウェアは、<code>express.Router()</code>
+      のインスタンスにバインドされる点を除き、アプリケーション・レベルのミドルウェアと同じように動作します。
+    </p>
+    <div class="sourceCode" id="cb7">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">var</span> router <span class="op">=</span> <span class="va">express</span>.<span class="at">Router</span>()</a></code></pre>
+    </div>
+    <p>
+      <code>router.use()</code> 関数と
+      <code>router.METHOD()</code>
+      関数を使用して、ルーター・レベルのミドルウェアをロードします。
+    </p>
+    <p>
+      次のコードの例では、ルーター・レベルのミドルウェアを使用して、上記のアプリケーション・レベルのミドルウェアで示されているミドルウェア・システムを複製します。
+    </p>
+    <div class="sourceCode" id="cb8">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
 <a class="sourceLine" id="cb8-2" title="2"><span class="kw">var</span> router <span class="op">=</span> <span class="va">express</span>.<span class="at">Router</span>()</a>
 <a class="sourceLine" id="cb8-3" title="3"></a>
 <a class="sourceLine" id="cb8-4" title="4"><span class="co">// a middleware function with no mount path. This code is executed for every request to the router</span></a>
@@ -199,10 +435,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb8-34" title="34"><span class="op">}</span>)</a>
 <a class="sourceLine" id="cb8-35" title="35"></a>
 <a class="sourceLine" id="cb8-36" title="36"><span class="co">// mount the router on the app</span></a>
-<a class="sourceLine" id="cb8-37" title="37"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/&#39;</span><span class="op">,</span> router)</a></code></pre></div>
-<p>ルータのミドルウェア機能の残りの部分をスキップするには、<code>next('router')</code>を呼び出してルータインスタンスから制御を戻します。</p>
-<p>この例は、<code>/user/:id</code>パスに対するGET要求を処理するミドルウェアサブスタックを示しています。</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
+<a class="sourceLine" id="cb8-37" title="37"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/&#39;</span><span class="op">,</span> router)</a></code></pre>
+    </div>
+    <p>
+      ルータのミドルウェア機能の残りの部分をスキップするには、<code>next('router')</code>を呼び出してルータインスタンスから制御を戻します。
+    </p>
+    <p>
+      この例は、<code>/user/:id</code>パスに対するGET要求を処理するミドルウェアサブスタックを示しています。
+    </p>
+    <div class="sourceCode" id="cb9">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
 <a class="sourceLine" id="cb9-2" title="2"><span class="kw">var</span> router <span class="op">=</span> <span class="va">express</span>.<span class="at">Router</span>()</a>
 <a class="sourceLine" id="cb9-3" title="3"></a>
 <a class="sourceLine" id="cb9-4" title="4"><span class="co">// predicate the router with a check and bail out when needed</span></a>
@@ -218,42 +462,102 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb9-14" title="14"><span class="co">// use the router and 401 anything falling through</span></a>
 <a class="sourceLine" id="cb9-15" title="15"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/admin&#39;</span><span class="op">,</span> router<span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
 <a class="sourceLine" id="cb9-16" title="16">  <span class="va">res</span>.<span class="at">sendStatus</span>(<span class="dv">401</span>)</a>
-<a class="sourceLine" id="cb9-17" title="17"><span class="op">}</span>)</a></code></pre></div>
-<h2 id="middleware.error-handling">
-エラー処理ミドルウェア
-</h2>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>エラー処理ミドルウェアは常に <em>4つ</em> の引数を使用します。エラー処理ミドルウェア関数として識別されるように 4 つの引数を指定する必要があります。<code>next</code> オブジェクトは、使用する必要がない場合でも、シグニチャーを維持するために指定する必要があります。指定しないと、<code>next</code> オブジェクトは通常のミドルウェアとして解釈され、エラーを処理できなくなります。</p>
-</div>
-<p>エラー処理ミドルウェア関数は、その他のミドルウェア関数と同じ方法で定義しますが、例外として、シグニチャーで3つではなく4つの引数 <code>(err、req、res、next)</code>) を明示的に指定します。</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb10-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="kw">function</span> (err<span class="op">,</span> req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb9-17" title="17"><span class="op">}</span>)</a></code></pre>
+    </div>
+    <h2 id="middleware.error-handling">エラー処理ミドルウェア</h2>
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        エラー処理ミドルウェアは常に
+        <em>4つ</em>
+        の引数を使用します。エラー処理ミドルウェア関数として識別されるように 4
+        つの引数を指定する必要があります。<code>next</code>
+        オブジェクトは、使用する必要がない場合でも、シグニチャーを維持するために指定する必要があります。指定しないと、<code
+          >next</code
+        >
+        オブジェクトは通常のミドルウェアとして解釈され、エラーを処理できなくなります。
+      </p>
+    </div>
+    <p>
+      エラー処理ミドルウェア関数は、その他のミドルウェア関数と同じ方法で定義しますが、例外として、シグニチャーで3つではなく4つの引数
+      <code>(err、req、res、next)</code>) を明示的に指定します。
+    </p>
+    <div class="sourceCode" id="cb10">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb10-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="kw">function</span> (err<span class="op">,</span> req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb10-2" title="2">  <span class="va">console</span>.<span class="at">error</span>(<span class="va">err</span>.<span class="at">stack</span>)</a>
 <a class="sourceLine" id="cb10-3" title="3">  <span class="va">res</span>.<span class="at">status</span>(<span class="dv">500</span>).<span class="at">send</span>(<span class="st">&#39;Something broke!&#39;</span>)</a>
-<a class="sourceLine" id="cb10-4" title="4"><span class="op">}</span>)</a></code></pre></div>
-<p>エラー処理ミドルウェアについて詳しくは、<a href="/%7B%7B%20page.lang%20%7D%7D/guide/error-handling.html">エラー処理</a>を参照してください。</p>
-<h2 id="middleware.built-in">
-標準装備のミドルウェア
-</h2>
-<p>バージョン 4.x 以降、Express は <a href="https://github.com/senchalabs/connect">Connect</a> に依存しなくなりました。以前に Express に組み込まれていたすべてのミドルウェア関数は個別のモジュールになりました。<a href="https://github.com/senchalabs/connect#middleware">ミドルウェア関数のリスト</a>を参照してください。</p>
-<p>Expressには、次のミドルウェア機能が組み込まれています。</p>
-<ul>
-<li><a href="/en/4x/api.html#express.static">express.static</a> は、HTMLファイルや画像などの静的リソースを提供します</li>
-<li><a href="/en/4x/api.html#express.json">express.json</a> はJSONペイロードで受信したリクエストを解析します。<strong>注：Express 4.16.0以降で利用可能</strong></li>
-<li><a href="/en/4x/api.html#express.urlencoded">express.urlencoded</a> は、URLエンコードされたペイロードで受信したリクエストを解析します。<strong>注：Express 4.16.0以降で利用可能</strong></li>
-</ul>
-<h2 id="middleware.third-party">
-サード・パーティー・ミドルウェア
-</h2>
-<p>Express アプリケーションに機能を追加するには、サード・パーティー・ミドルウェアを使用します。</p>
-<p>必要な機能を提供する Node.js モジュールをインストールして、アプリケーションにアプリケーション・レベルまたはルーター・レベルでロードします。</p>
-<p>次の例は、Cookie 解析ミドルウェア関数 <code>cookie-parser</code> のインストールおよびロードを示しています。</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" title="1">$ <span class="ex">npm</span> install cookie-parser</a></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">var</span> express <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;express&#39;</span>)</a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="op">}</span>)</a></code></pre>
+    </div>
+    <p>
+      エラー処理ミドルウェアについて詳しくは、<a
+        href="/%7B%7B%20page.lang%20%7D%7D/guide/error-handling.html"
+        >エラー処理</a
+      >を参照してください。
+    </p>
+    <h2 id="middleware.built-in">標準装備のミドルウェア</h2>
+    <p>
+      バージョン 4.x 以降、Express は
+      <a href="https://github.com/senchalabs/connect">Connect</a>
+      に依存しなくなりました。以前に Express
+      に組み込まれていたすべてのミドルウェア関数は個別のモジュールになりました。<a
+        href="https://github.com/senchalabs/connect#middleware"
+        >ミドルウェア関数のリスト</a
+      >を参照してください。
+    </p>
+    <p>Expressには、次のミドルウェア機能が組み込まれています。</p>
+    <ul>
+      <li>
+        <a href="/en/4x/api.html#express.static">express.static</a>
+        は、HTMLファイルや画像などの静的リソースを提供します
+      </li>
+      <li>
+        <a href="/en/4x/api.html#express.json">express.json</a>
+        はJSONペイロードで受信したリクエストを解析します。<strong
+          >注：Express 4.16.0以降で利用可能</strong
+        >
+      </li>
+      <li>
+        <a href="/en/4x/api.html#express.urlencoded">express.urlencoded</a>
+        は、URLエンコードされたペイロードで受信したリクエストを解析します。<strong
+          >注：Express 4.16.0以降で利用可能</strong
+        >
+      </li>
+    </ul>
+    <h2 id="middleware.third-party">サード・パーティー・ミドルウェア</h2>
+    <p>
+      Express
+      アプリケーションに機能を追加するには、サード・パーティー・ミドルウェアを使用します。
+    </p>
+    <p>
+      必要な機能を提供する Node.js
+      モジュールをインストールして、アプリケーションにアプリケーション・レベルまたはルーター・レベルでロードします。
+    </p>
+    <p>
+      次の例は、Cookie 解析ミドルウェア関数
+      <code>cookie-parser</code> のインストールおよびロードを示しています。
+    </p>
+    <div class="sourceCode" id="cb11">
+      <pre
+        class="sourceCode sh"
+      ><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" title="1">$ <span class="ex">npm</span> install cookie-parser</a></code></pre>
+    </div>
+    <div class="sourceCode" id="cb12">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">var</span> express <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;express&#39;</span>)</a>
 <a class="sourceLine" id="cb12-2" title="2"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
 <a class="sourceLine" id="cb12-3" title="3"><span class="kw">var</span> cookieParser <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;cookie-parser&#39;</span>)</a>
 <a class="sourceLine" id="cb12-4" title="4"></a>
 <a class="sourceLine" id="cb12-5" title="5"><span class="co">// load the cookie-parsing middleware</span></a>
-<a class="sourceLine" id="cb12-6" title="6"><span class="va">app</span>.<span class="at">use</span>(<span class="at">cookieParser</span>())</a></code></pre></div>
-<p>Express で一般的に使用されているサード・パーティー・ミドルウェア関数の一部のリストについては、<a href="../resources/middleware.html">サード・パーティー・ミドルウェア</a>を参照してください。</p>
-</body>
+<a class="sourceLine" id="cb12-6" title="6"><span class="va">app</span>.<span class="at">use</span>(<span class="at">cookieParser</span>())</a></code></pre>
+    </div>
+    <p>
+      Express
+      で一般的に使用されているサード・パーティー・ミドルウェア関数の一部のリストについては、<a
+        href="../resources/middleware.html"
+        >サード・パーティー・ミドルウェア</a
+      >を参照してください。
+    </p>
+  </body>
 </html>

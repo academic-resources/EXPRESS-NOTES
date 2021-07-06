@@ -21,7 +21,7 @@ $ npm install serve-static
 <!-- eslint-disable no-unused-vars -->
 
 ```js
-var serveStatic = require('serve-static')
+var serveStatic = require("serve-static");
 ```
 
 ### serveStatic(root, options)
@@ -47,16 +47,16 @@ true. Disabling this will ignore the `immutable` and `maxAge` options.
 
 ##### dotfiles
 
- Set how "dotfiles" are treated when encountered. A dotfile is a file
+Set how "dotfiles" are treated when encountered. A dotfile is a file
 or directory that begins with a dot ("."). Note this check is done on
 the path itself without checking if the path actually exists on the
 disk. If `root` is specified, only the dotfiles above the root are
 checked (i.e. the root itself can be within a dotfile when set
 to "deny").
 
-  - `'allow'` No special treatment for dotfiles.
-  - `'deny'` Deny a request for a dotfile and 403/`next()`.
-  - `'ignore'` Pretend like the dotfile does not exist and 404/`next()`.
+- `'allow'` No special treatment for dotfiles.
+- `'deny'` Deny a request for a dotfile and 403/`next()`.
+- `'ignore'` Pretend like the dotfile does not exist and 404/`next()`.
 
 The default value is similar to `'ignore'`, with the exception that this
 default will not ignore the files within a directory that begins with a dot.
@@ -127,57 +127,57 @@ Function to set custom headers on response. Alterations to the headers need to
 occur synchronously. The function is called as `fn(res, path, stat)`, where
 the arguments are:
 
-  - `res` the response object
-  - `path` the file path that is being sent
-  - `stat` the stat object of the file that is being sent
+- `res` the response object
+- `path` the file path that is being sent
+- `stat` the stat object of the file that is being sent
 
 ## Examples
 
 ### Serve files with vanilla node.js http server
 
 ```js
-var finalhandler = require('finalhandler')
-var http = require('http')
-var serveStatic = require('serve-static')
+var finalhandler = require("finalhandler");
+var http = require("http");
+var serveStatic = require("serve-static");
 
 // Serve up public/ftp folder
-var serve = serveStatic('public/ftp', { 'index': ['index.html', 'index.htm'] })
+var serve = serveStatic("public/ftp", { index: ["index.html", "index.htm"] });
 
 // Create server
-var server = http.createServer(function onRequest (req, res) {
-  serve(req, res, finalhandler(req, res))
-})
+var server = http.createServer(function onRequest(req, res) {
+  serve(req, res, finalhandler(req, res));
+});
 
 // Listen
-server.listen(3000)
+server.listen(3000);
 ```
 
 ### Serve all files as downloads
 
 ```js
-var contentDisposition = require('content-disposition')
-var finalhandler = require('finalhandler')
-var http = require('http')
-var serveStatic = require('serve-static')
+var contentDisposition = require("content-disposition");
+var finalhandler = require("finalhandler");
+var http = require("http");
+var serveStatic = require("serve-static");
 
 // Serve up public/ftp folder
-var serve = serveStatic('public/ftp', {
-  'index': false,
-  'setHeaders': setHeaders
-})
+var serve = serveStatic("public/ftp", {
+  index: false,
+  setHeaders: setHeaders,
+});
 
 // Set header to force download
-function setHeaders (res, path) {
-  res.setHeader('Content-Disposition', contentDisposition(path))
+function setHeaders(res, path) {
+  res.setHeader("Content-Disposition", contentDisposition(path));
 }
 
 // Create server
-var server = http.createServer(function onRequest (req, res) {
-  serve(req, res, finalhandler(req, res))
-})
+var server = http.createServer(function onRequest(req, res) {
+  serve(req, res, finalhandler(req, res));
+});
 
 // Listen
-server.listen(3000)
+server.listen(3000);
 ```
 
 ### Serving using express
@@ -187,13 +187,13 @@ server.listen(3000)
 This is a simple example of using Express.
 
 ```js
-var express = require('express')
-var serveStatic = require('serve-static')
+var express = require("express");
+var serveStatic = require("serve-static");
 
-var app = express()
+var app = express();
 
-app.use(serveStatic('public/ftp', { 'index': ['default.html', 'default.htm'] }))
-app.listen(3000)
+app.use(serveStatic("public/ftp", { index: ["default.html", "default.htm"] }));
+app.listen(3000);
 ```
 
 #### Multiple roots
@@ -203,15 +203,15 @@ Files are look for in `public-optimized/` first, then `public/` second as
 a fallback.
 
 ```js
-var express = require('express')
-var path = require('path')
-var serveStatic = require('serve-static')
+var express = require("express");
+var path = require("path");
+var serveStatic = require("serve-static");
 
-var app = express()
+var app = express();
 
-app.use(serveStatic(path.join(__dirname, 'public-optimized')))
-app.use(serveStatic(path.join(__dirname, 'public')))
-app.listen(3000)
+app.use(serveStatic(path.join(__dirname, "public-optimized")));
+app.use(serveStatic(path.join(__dirname, "public")));
+app.listen(3000);
 ```
 
 #### Different settings for paths
@@ -221,23 +221,25 @@ file type. In this example, HTML files are not cached, while everything else
 is for 1 day.
 
 ```js
-var express = require('express')
-var path = require('path')
-var serveStatic = require('serve-static')
+var express = require("express");
+var path = require("path");
+var serveStatic = require("serve-static");
 
-var app = express()
+var app = express();
 
-app.use(serveStatic(path.join(__dirname, 'public'), {
-  maxAge: '1d',
-  setHeaders: setCustomCacheControl
-}))
+app.use(
+  serveStatic(path.join(__dirname, "public"), {
+    maxAge: "1d",
+    setHeaders: setCustomCacheControl,
+  })
+);
 
-app.listen(3000)
+app.listen(3000);
 
-function setCustomCacheControl (res, path) {
-  if (serveStatic.mime.lookup(path) === 'text/html') {
+function setCustomCacheControl(res, path) {
+  if (serveStatic.mime.lookup(path) === "text/html") {
     // Custom Cache-Control for HTML files
-    res.setHeader('Cache-Control', 'public, max-age=0')
+    res.setHeader("Cache-Control", "public, max-age=0");
   }
 }
 ```

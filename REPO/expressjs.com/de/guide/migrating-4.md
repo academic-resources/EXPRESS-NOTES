@@ -31,8 +31,8 @@ In Express 4 wurden einige signifikante Änderungen vorgenommen:
 
 Siehe hierzu auch:
 
-* [Neue Features/Funktionen in 4.x.](https://github.com/expressjs/express/wiki/New-features-in-4.x)
-* [Migration von 3.x auf 4.x.](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
+- [Neue Features/Funktionen in 4.x.](https://github.com/expressjs/express/wiki/New-features-in-4.x)
+- [Migration von 3.x auf 4.x.](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
 
 <h3 id="core-changes">
 Änderungen am Express-Core- und Middlewaresystem</h3>
@@ -107,8 +107,9 @@ Anwendungen laden nun implizit Routing-Middleware. Sie müssen sich also keine G
 Die Art und Weise, wie Weiterleitungen (Routen) definiert werden, bleibt unverändert. Das Routingsystem verfügt jedoch über zwei neue Funktionen, die beim Organisieren Ihrer Weiterleitungen helfen:
 
 {: .doclist }
-* Die neue Methode `app.route()` zum Erstellen verkettbarer Routenhandler für einen Weiterleitungspfad
-* Die neue Klasse `express.Router` zum Erstellen modular einbindbarer Routenhandler
+
+- Die neue Methode `app.route()` zum Erstellen verkettbarer Routenhandler für einen Weiterleitungspfad
+- Die neue Klasse `express.Router` zum Erstellen modular einbindbarer Routenhandler
 
 <h4 id="app-route">Die Methode <code>app.route()</code></h4>
 
@@ -372,9 +373,9 @@ $ npm install serve-favicon morgan method-override express-session body-parser m
 Nehmen Sie an `app.js` die folgenden Änderungen vor:
 
 1. Die integrierten Express-Middlewarefunktionen `express.favicon`,
-    `express.logger`, `express.methodOverride`,
-    `express.session`, `express.bodyParser` und
-    `express.errorHandler` sind im Objekt `express` nicht mehr verfügbar. Sie müssen deren Alternativen manuell installieren und in die Anwendung laden.
+   `express.logger`, `express.methodOverride`,
+   `express.session`, `express.bodyParser` und
+   `express.errorHandler` sind im Objekt `express` nicht mehr verfügbar. Sie müssen deren Alternativen manuell installieren und in die Anwendung laden.
 
 2. Sie müssen die Funktion `app.router` nicht mehr laden. Sie ist kein gültiges Express 4-Anwendungsobjekt. Entfernen Sie also den Code `app.use(app.router);`.
 
@@ -497,6 +498,7 @@ Wenn der Express 3 App Generator bereits auf Ihrem System installiert ist, müss
 $ npm uninstall -g express
 </code>
 </pre>
+
 Abhängig davon, wie Ihre Datei- und Verzeichnissberechtigungen konfiguriert sind, müssen Sie diesen Befehl möglicherweise mit `sudo` ausführen.
 Installieren Sie nun den neuen Generator:
 
@@ -508,7 +510,6 @@ $ npm install -g express-generator
 
 Abhängig davon, wie Ihre Datei- und Verzeichnissberechtigungen konfiguriert sind, müssen Sie diesen Befehl möglicherweise mit `sudo` ausführen.
 
-
 Nun wird der Befehl `express` auf Ihrem System auf den Express 4 App Generator aktualisiert.
 
 <h3 id="">Änderungen am App Generator </h3>
@@ -516,9 +517,10 @@ Nun wird der Befehl `express` auf Ihrem System auf den Express 4 App Generator a
 Befehlsoptionen und -nutzung bleiben größtenteils unverändert. Es gelten jedoch folgende Ausnahmen:
 
 {: .doclist }
-* Option `--sessions` wurde entfernt.
-* Option `--jshtml` wurde entfernt.
-* Option `--hogan` wurde hinzugefügt, um [Hogan.js](http://twitter.github.io/hogan.js/) zu unterstützen.
+
+- Option `--sessions` wurde entfernt.
+- Option `--jshtml` wurde entfernt.
+- Option `--hogan` wurde hinzugefügt, um [Hogan.js](http://twitter.github.io/hogan.js/) zu unterstützen.
 
 <h3 id="">Beispiel</h3>
 
@@ -530,7 +532,7 @@ $ express app4
 </code>
 </pre>
 
-Wenn Sie sich den Inhalt der Datei `app4/app.js` ansehen, werden Sie feststellen, dass alle Middlewarefunktionen (außer `express.static`), die für die Anwendung  erforderlich sind, als unabhängige Module geladen werden und die Middleware `router` nicht mehr explizit in die Anwendung geladen wird.
+Wenn Sie sich den Inhalt der Datei `app4/app.js` ansehen, werden Sie feststellen, dass alle Middlewarefunktionen (außer `express.static`), die für die Anwendung erforderlich sind, als unabhängige Module geladen werden und die Middleware `router` nicht mehr explizit in die Anwendung geladen wird.
 
 Sie werden auch feststellen, dass die Datei `app.js` nun ein Node.js-Modul ist – im Gegensatz zur eigenständigen Anwendung, die vom bisherigen Generator generiert wurde.
 

@@ -14,7 +14,7 @@ está uma prévia das mudanças que estarão na liberação e como migrar
 seu aplicativo do Express 4 app para o Express 5.
 
 O Express 5 não é muito diferente do Express 4: As mudanças na
-API não são tão significantes quanto as do 3.0 para o 4.0.  Apesar de
+API não são tão significantes quanto as do 3.0 para o 4.0. Apesar de
 a API básica permanecer a mesma, ainda existem mudanças disruptivas;
 em outras palavras um programa do Express 4 existente pode não
 funcionar se você atualizá-lo para usar o Express 5.
@@ -101,7 +101,7 @@ foi descontinuada desde a v4.11.0, e o Express 5 não a suporta mais de nenhuma 
 
 Os seguintes nomes de métodos podem ser pluralizados. No
 Express 4, o uso dos métodos antigos resultava em um aviso de
-descontinuação.  O Express 5 não os suporta mais de forma nenhuma:
+descontinuação. O Express 5 não os suporta mais de forma nenhuma:
 
 `req.acceptsCharset()` é substituído por `req.acceptsCharsets()`.
 
@@ -145,10 +145,10 @@ O Express 5 não suporta mais a assinatura `res.send(obj, status)`. Ao invés di
 
 <h4 id="res.send.status">res.send(status)</h4>
 
-O Express 5 não suporta mais a assinatura <code>res.send(<em>status</em>)</code>, onde *`status`*
+O Express 5 não suporta mais a assinatura <code>res.send(<em>status</em>)</code>, onde _`status`_
 é um número. Ao invés disso, use a função
 `res.sendStatus(statusCode)`, que configura o código
-do status do cabeçalho de resposta HTTP  e envia a versão de texto do
+do status do cabeçalho de resposta HTTP e envia a versão de texto do
 código: "Não Encontrado", "Erro Interno de Servidor", e assim por
 diante.
 Se precisar enviar um número usando a função
@@ -182,7 +182,7 @@ Express 5 o número da porta é mantido.
 
 No Express 4.7 e do Express 5 para frente, o analisador
 sintático de consulta pode aceitar `false` para
-desativar  a análise sintática de sequência de consulta quando desejar
+desativar a análise sintática de sequência de consulta quando desejar
 usar sua própria função para a lógica de análise sintática de
 sequência de consultas.
 
@@ -190,7 +190,7 @@ sequência de consultas.
 
 <h4 id="res.render">res.render()</h4>
 
-Este método agora impinge comportamento assíncrono  para todos
+Este método agora impinge comportamento assíncrono para todos
 os mecanismos de visualização, evitando erros causados pelos
 mecanismos de visualização que tinham uma implementação síncrona e
 que violavam a interface recomendada.

@@ -29,7 +29,7 @@ http://localhost:3000/hello.html
 Express looks up the files relative to the static directory, so the name of the static directory is not part of the URL.
 </div>
 
-Щоб використовувати декілька директорій для статичних файлів, викличіть функцію `express.static`  декілька разів:
+Щоб використовувати декілька директорій для статичних файлів, викличіть функцію `express.static` декілька разів:
 
 <pre><code class="language-javascript" translate="no">
 app.use(express.static('public'));

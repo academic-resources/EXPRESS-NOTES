@@ -22,7 +22,6 @@ lang: zh-cn
 - [PM2](#pm2)
 - [Forever](#forever)
 
-
 这三种工具都非常有用，但 StrongLoop Process Manager 是提供全面的运行时和部署解决方案的唯一工具，能够满足整个 Node.js 应用程序生命周期的需求，并在统一的界面中为生产前后的每一个步骤提供工具。
 
 以下是对每种工具的简介。
@@ -50,6 +49,7 @@ StrongLoop Process Manager (StrongLoop PM) 是 Node.js 应用程序的生产进�
 - [Using StrongLoop Process Manager](http://docs.strongloop.com/display/SLC/Using+Process+Manager).
 
 ### 安装
+
 <pre>
 <code class="language-sh" translate="no">
 $ [sudo] npm install -g strongloop
@@ -57,6 +57,7 @@ $ [sudo] npm install -g strongloop
 </pre>
 
 ### 基本使用
+
 <pre>
 <code class="language-sh" translate="no">
 $ cd my-app
@@ -204,7 +205,6 @@ $ pm2 show 0
 $ pm2 delete 0
 </code>
 </pre>
-
 
 ## <a id="forever">Forever</a>
 

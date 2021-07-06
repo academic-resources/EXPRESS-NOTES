@@ -3,8 +3,8 @@ layout: home
 title: Express - Infrastructure d'application Web Node.js
 menu: home
 lang: fr
-
 ---
+
 <section id="home-content">
   {% include header/header-{{ page.lang }}.html %}
   <div id="overlay"></div>
@@ -42,6 +42,7 @@ lang: fr
       <div id="sponsorship">
           <a href="http://loopback.io/"><h3>LoopBack</h3> Développez des applications pilotées par des modèles à l'aide d'une infrastructure basée sur Express.<br/>Pour en savoir plus, allez sur loopback.io.</a>
       </div>
+
   </div>
 
 </section>

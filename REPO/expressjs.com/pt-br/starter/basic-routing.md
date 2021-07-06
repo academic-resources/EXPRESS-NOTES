@@ -7,7 +7,7 @@ lang: pt-br
 
 # Roteamento Básico
 
-O *Roteamento* refere-se à determinação de como um
+O _Roteamento_ refere-se à determinação de como um
 aplicativo responde a uma solicitação do cliente por um endpoint
 específico, que é uma URI (ou caminho) e um método de solicitação HTTP
 específico (GET, POST, e assim por diante).
@@ -16,6 +16,7 @@ Cada rota pode ter uma ou mais funções de manipulação, que são
 executadas quando a rota é correspondida.
 
 A definição de rotas aceita a seguinte estrutura:
+
 <pre>
 <code class="language-javascript" translate="no">
 app.METHOD(PATH, HANDLER)
@@ -78,4 +79,4 @@ app.delete('/user', function (req, res) {
 </code>
 </pre>
 
-Para obter mais detalhes  sobre roteamento, consulte o [guia de roteamento](/{{ page.lang }}/guide/routing.html).
+Para obter mais detalhes sobre roteamento, consulte o [guia de roteamento](/{{ page.lang }}/guide/routing.html).

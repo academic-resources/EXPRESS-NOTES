@@ -4,6 +4,7 @@ title: Express základný routing
 menu: starter
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -16,6 +17,7 @@ _Routing_ rozhoduje o tom, ako aplikácia odpovedá na požiadavky (requesty) kl
 Každý definovaný route môže mať jednu, alebo viacero handler funkcií, ktoré sa vykonajú v prípade, ak je route spárovaný s požiadavkou klienta.
 
 Route definícia má nasledovnú štruktúru:
+
 <pre>
 <code class="language-javascript" translate="no">
 app.METHOD(PATH, HANDLER)

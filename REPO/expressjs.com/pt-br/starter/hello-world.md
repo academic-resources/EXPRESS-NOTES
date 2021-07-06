@@ -38,7 +38,7 @@ app.listen(port, () => {
 
 O aplicativo inicia um servidor e escuta a porta 3000 por
 conexões. O aplicativo responde com "Hello World!" à solicitações
-para a URL raiz (`/`) ou *rota*. Para
+para a URL raiz (`/`) ou _rota_. Para
 todos os outros caminhos, ele irá responder com um **404 Não Encontrado**.
 
 <div class="doc-box doc-notice" markdown="1">
@@ -59,4 +59,3 @@ $ node app.js
 
 Em seguida, carregue [http://localhost:3000/](http://localhost:3000/) em
 um navegador para visualizar a saída
-

@@ -47,4 +47,3 @@ $ node app.js
 </pre>
 
 이후 브라우저에서 [http://localhost:3000/](http://localhost:3000/)을 로드하여 결과물을 확인하십시오.
-

@@ -1,31 +1,59 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Gestione dei file statici in Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Gestione dei file statici in Express</h1>
-</header>
-<h1 id="gestione-dei-file-statici-in-express">Gestione dei file statici in Express</h1>
-<p>Per gestire i file statici, quali immagini, file CSS e file JavaScript, utilizzare la funzione middleware integrata <code>express.static</code> in Express.</p>
-<p>Fornire il nome della directory che contiene gli asset statici alla funzione middleware <code>express.static</code> per iniziare a gestire i file direttamente. Ad esempio, utilizzare il seguente codice per gestire le immagini, i file CSS e i file JavaScript nella directory denominata <code>public</code>:</p>
-<pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Gestione dei file statici in Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Gestione dei file statici in Express</h1>
+    </header>
+    <h1 id="gestione-dei-file-statici-in-express">
+      Gestione dei file statici in Express
+    </h1>
+    <p>
+      Per gestire i file statici, quali immagini, file CSS e file JavaScript,
+      utilizzare la funzione middleware integrata <code>express.static</code> in
+      Express.
+    </p>
+    <p>
+      Fornire il nome della directory che contiene gli asset statici alla
+      funzione middleware <code>express.static</code> per iniziare a gestire i
+      file direttamente. Ad esempio, utilizzare il seguente codice per gestire
+      le immagini, i file CSS e i file JavaScript nella directory denominata
+      <code>public</code>:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.use(express.static('public'));
 </code>
 </pre>
-<p>Ora, è possibile caricare i file che si trovano nella directory <code>public</code>:</p>
-<pre>
+    <p>
+      Ora, è possibile caricare i file che si trovano nella directory
+      <code>public</code>:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 http://localhost:3000/images/kitten.jpg
 http://localhost:3000/css/style.css
@@ -34,25 +62,45 @@ http://localhost:3000/images/bg.png
 http://localhost:3000/hello.html
 </code>
 </pre>
-<div class="doc-box doc-info">
-<p>Express ricerca i file relativi alla directory statica, pertanto il nome della directory statica non è parte dell’URL.</p>
-</div>
-<p>Per utilizzare più directory di asset statiche, richiamare la funzione middleware <code>express.static</code> più volte:</p>
-<pre>
+    <div class="doc-box doc-info">
+      <p>
+        Express ricerca i file relativi alla directory statica, pertanto il nome
+        della directory statica non è parte dell’URL.
+      </p>
+    </div>
+    <p>
+      Per utilizzare più directory di asset statiche, richiamare la funzione
+      middleware <code>express.static</code> più volte:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.use(express.static('public'));
 app.use(express.static('files'));
 </code>
 </pre>
-<p>Express ricerca i file nell’ordine in cui sono state impostate le directory statiche con la funzione middleware <code>express.static</code>.</p>
-<p>Per creare un prefisso per il percorso virtuale (in cui il percorso non esiste effettivamente nel file system) per i file gestiti dalla funzione <code>express.static</code>, <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.use">specificare un percorso di caricamento</a> per la directory statica, come mostrato di seguito:</p>
-<pre>
+    <p>
+      Express ricerca i file nell’ordine in cui sono state impostate le
+      directory statiche con la funzione middleware <code>express.static</code>.
+    </p>
+    <p>
+      Per creare un prefisso per il percorso virtuale (in cui il percorso non
+      esiste effettivamente nel file system) per i file gestiti dalla funzione
+      <code>express.static</code>,
+      <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.use"
+        >specificare un percorso di caricamento</a
+      >
+      per la directory statica, come mostrato di seguito:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.use('/static', express.static('public'));
 </code>
 </pre>
-<p>Ora, è possibile caricare i file che si trovano nella directory <code>public</code> dal prefisso del percorso <code>/static</code>.</p>
-<pre>
+    <p>
+      Ora, è possibile caricare i file che si trovano nella directory
+      <code>public</code> dal prefisso del percorso <code>/static</code>.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 http://localhost:3000/static/images/kitten.jpg
 http://localhost:3000/static/css/style.css
@@ -61,11 +109,17 @@ http://localhost:3000/static/images/bg.png
 http://localhost:3000/static/hello.html
 </code>
 </pre>
-<p>Tuttavia, il percorso fornito per la funzione <code>express.static</code> è relativo alla directory dalla quale è possibile avviare il processo <code>node</code>. Se si esegue l’applicazione express da un’altra directory, è preferibile utilizzare il percorso assoluto della directory che si desidera gestire:</p>
-<pre>
+    <p>
+      Tuttavia, il percorso fornito per la funzione
+      <code>express.static</code> è relativo alla directory dalla quale è
+      possibile avviare il processo <code>node</code>. Se si esegue
+      l’applicazione express da un’altra directory, è preferibile utilizzare il
+      percorso assoluto della directory che si desidera gestire:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.use('/static', express.static(__dirname + '/public'));
 </code>
 </pre>
-</body>
+  </body>
 </html>

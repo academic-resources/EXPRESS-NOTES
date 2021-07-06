@@ -1,210 +1,268 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Prechod na Express 4</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Prechod na Express 4</h1>
-</header>
-<!---
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Prechod na Express 4</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Prechod na Express 4</h1>
+    </header>
+    <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
 -->
-<h1 id="prechod-na-express-4">Prechod na Express 4</h1>
-<h2 id="overview">
-Overview
-</h2>
-<p>Express 4 prináša zlomové zmeny oproti Express 3. To znamená, že existujúce Express 3 aplikácie nebudú fungovať po update verzie Express a jej dependencií.</p>
-<p>Tento článok pokrýva:</p>
-<ul class="doclist">
-<li>
-<a href="#changes">Zmeny v Express 4.</a>
-</li>
-<li>
-<a href="#example-migration">Príklad</a> migrácie Express 3 aplikácie na Express 4.
-</li>
-<li>
-<a href="#app-gen">Prechod na Express 4 app generátor.</a>
-</li>
-</ul>
-<h2 id="changes">
-Zmeny v Express 4
-</h2>
-<p>Express 4 prináša niekoĺko podstatných zmien:</p>
-<ul class="doclist">
-<li>
-<a href="#core-changes">Zmeny Express jadra a middleware systému.</a> Boli odstránené závislosti na Connect module a vstavaných middleware-och, takže ich budete musieť pridať sami.
-</li>
-<li>
-<a href="#routing">Zmeny v routing systéme.</a>
-</li>
-<li>
-<a href="#other-changes">Ďalšie rôzne zmeny.</a>
-</li>
-</ul>
-<p>Pozrite sa taktiež na:</p>
-<ul>
-<li><a href="https://github.com/expressjs/express/wiki/New-features-in-4.x">New features in 4.x.</a></li>
-<li><a href="https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x">Migrating from 3.x to 4.x.</a></li>
-</ul>
-<h3 id="core-changes">
-Zmeny Express jadra a middleware systému
-</h3>
-<p>Express 4 už nie je závislý na Connect a z jeho jadra boli odstránené všetky vstavané middleware funkcie, okrem <code>express.static</code> funkcie. To znamená, že Express je teraz nezávislým routing a middleware webovým frameworkom a taktiež verzionovanie Express a jeho releasy nie sú ovplyvnené updatami middlewarov.</p>
-<p>Terazm bez vstavaných middlewarov, musíte explicitne pridať všetky middleware funkcie, ktoré vaša aplikácia potrebuje k svojmu fungovaniu. Jednoducho pokračujte podľa nasledujúcich krokov:</p>
-<ol type="1">
-<li>Nainštalujte požadovaný modul: <code>npm install --save &lt;module-name&gt;</code></li>
-<li>Pridajte vo vašej aplikácii require na daný modul: <code>require('module-name')</code></li>
-<li>Použite modul podľa jeho dokumentácie: <code>app.use( ... )</code></li>
-</ol>
-<p>Nasledujúca tabuľka obsahuje zoznam Express 3 middlewarov a ich varianty v Express 4.</p>
-<table class="doctable" border="1">
-<tr>
-<th>
-Express 3
-</th>
-<th>
-Express 4
-</th>
-</tr>
-<tr>
-<td>
-<code>express.bodyParser</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/body-parser">body-parser</a> + <a href="https://github.com/expressjs/multer">multer</a>
-</td>
-</tr>
-<tr>
-<td>
-<code>express.compress</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/compression">compression</a>
-</td>
-</tr>
-<tr>
-<td>
-<code>express.cookieSession</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/cookie-session">cookie-session</a>
-</td>
-</tr>
-<tr>
-<td>
-<code>express.cookieParser</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/cookie-parser">cookie-parser</a>
-</td>
-</tr>
-<tr>
-<td>
-<code>express.logger</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/morgan">morgan</a>
-</td>
-</tr>
-<tr>
-<td>
-<code>express.session</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/session">express-session</a>
-</td>
-</tr>
-<tr>
-<td>
-<code>express.favicon</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/serve-favicon">serve-favicon</a>
-</td>
-</tr>
-<tr>
-<td>
-<code>express.responseTime</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/response-time">response-time</a>
-</td>
-</tr>
-<tr>
-<td>
-<code>express.errorHandler</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/errorhandler">errorhandler</a>
-</td>
-</tr>
-<tr>
-<td>
-<code>express.methodOverride</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/method-override">method-override</a>
-</td>
-</tr>
-<tr>
-<td>
-<code>express.timeout</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/timeout">connect-timeout</a>
-</td>
-</tr>
-<tr>
-<td>
-<code>express.vhost</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/vhost">vhost</a>
-</td>
-</tr>
-<tr>
-<td>
-<code>express.csrf</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/csurf">csurf</a>
-</td>
-</tr>
-<tr>
-<td>
-<code>express.directory</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/serve-index">serve-index</a>
-</td>
-</tr>
-<tr>
-<td>
-<code>express.static</code>
-</td>
-<td>
-<a href="https://github.com/expressjs/serve-static">serve-static</a>
-</td>
-</tr>
-</table>
-<p>Tu je <a href="https://github.com/senchalabs/connect#middleware">kompletný zoznam</a> Express 4 middlewarov.</p>
-<p>Vo väčšine prípadov môžete jednoducho nahradiť starý Express 3 middleware jeho Express 4 variantou. Pre viac informácií si pozrite dokumentáciu daného modulu na Github-e.</p>
-<h4 id="app-use">
-<code>app.use</code> príjma parameter
-</h4>
-<p>Vo verzii 4 môžete použiť voliteľný parameter k definovaniu path-u, kedy sa má middleware funkcia načítať a následne prečítať hodnotu parametra z route handlera. Napr.:</p>
-<pre>
+    <h1 id="prechod-na-express-4">Prechod na Express 4</h1>
+    <h2 id="overview">Overview</h2>
+    <p>
+      Express 4 prináša zlomové zmeny oproti Express 3. To znamená, že
+      existujúce Express 3 aplikácie nebudú fungovať po update verzie Express a
+      jej dependencií.
+    </p>
+    <p>Tento článok pokrýva:</p>
+    <ul class="doclist">
+      <li>
+        <a href="#changes">Zmeny v Express 4.</a>
+      </li>
+      <li>
+        <a href="#example-migration">Príklad</a> migrácie Express 3 aplikácie na
+        Express 4.
+      </li>
+      <li>
+        <a href="#app-gen">Prechod na Express 4 app generátor.</a>
+      </li>
+    </ul>
+    <h2 id="changes">Zmeny v Express 4</h2>
+    <p>Express 4 prináša niekoĺko podstatných zmien:</p>
+    <ul class="doclist">
+      <li>
+        <a href="#core-changes">Zmeny Express jadra a middleware systému.</a>
+        Boli odstránené závislosti na Connect module a vstavaných
+        middleware-och, takže ich budete musieť pridať sami.
+      </li>
+      <li>
+        <a href="#routing">Zmeny v routing systéme.</a>
+      </li>
+      <li>
+        <a href="#other-changes">Ďalšie rôzne zmeny.</a>
+      </li>
+    </ul>
+    <p>Pozrite sa taktiež na:</p>
+    <ul>
+      <li>
+        <a href="https://github.com/expressjs/express/wiki/New-features-in-4.x"
+          >New features in 4.x.</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x"
+          >Migrating from 3.x to 4.x.</a
+        >
+      </li>
+    </ul>
+    <h3 id="core-changes">Zmeny Express jadra a middleware systému</h3>
+    <p>
+      Express 4 už nie je závislý na Connect a z jeho jadra boli odstránené
+      všetky vstavané middleware funkcie, okrem
+      <code>express.static</code> funkcie. To znamená, že Express je teraz
+      nezávislým routing a middleware webovým frameworkom a taktiež
+      verzionovanie Express a jeho releasy nie sú ovplyvnené updatami
+      middlewarov.
+    </p>
+    <p>
+      Terazm bez vstavaných middlewarov, musíte explicitne pridať všetky
+      middleware funkcie, ktoré vaša aplikácia potrebuje k svojmu fungovaniu.
+      Jednoducho pokračujte podľa nasledujúcich krokov:
+    </p>
+    <ol type="1">
+      <li>
+        Nainštalujte požadovaný modul:
+        <code>npm install --save &lt;module-name&gt;</code>
+      </li>
+      <li>
+        Pridajte vo vašej aplikácii require na daný modul:
+        <code>require('module-name')</code>
+      </li>
+      <li>
+        Použite modul podľa jeho dokumentácie: <code>app.use( ... )</code>
+      </li>
+    </ol>
+    <p>
+      Nasledujúca tabuľka obsahuje zoznam Express 3 middlewarov a ich varianty v
+      Express 4.
+    </p>
+    <table class="doctable" border="1">
+      <tr>
+        <th>Express 3</th>
+        <th>Express 4</th>
+      </tr>
+      <tr>
+        <td>
+          <code>express.bodyParser</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/body-parser">body-parser</a> +
+          <a href="https://github.com/expressjs/multer">multer</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>express.compress</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/compression">compression</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>express.cookieSession</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/cookie-session"
+            >cookie-session</a
+          >
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>express.cookieParser</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/cookie-parser">cookie-parser</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>express.logger</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/morgan">morgan</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>express.session</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/session">express-session</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>express.favicon</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/serve-favicon">serve-favicon</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>express.responseTime</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/response-time">response-time</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>express.errorHandler</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/errorhandler">errorhandler</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>express.methodOverride</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/method-override"
+            >method-override</a
+          >
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>express.timeout</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/timeout">connect-timeout</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>express.vhost</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/vhost">vhost</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>express.csrf</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/csurf">csurf</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>express.directory</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/serve-index">serve-index</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>express.static</code>
+        </td>
+        <td>
+          <a href="https://github.com/expressjs/serve-static">serve-static</a>
+        </td>
+      </tr>
+    </table>
+    <p>
+      Tu je
+      <a href="https://github.com/senchalabs/connect#middleware"
+        >kompletný zoznam</a
+      >
+      Express 4 middlewarov.
+    </p>
+    <p>
+      Vo väčšine prípadov môžete jednoducho nahradiť starý Express 3 middleware
+      jeho Express 4 variantou. Pre viac informácií si pozrite dokumentáciu
+      daného modulu na Github-e.
+    </p>
+    <h4 id="app-use"><code>app.use</code> príjma parameter</h4>
+    <p>
+      Vo verzii 4 môžete použiť voliteľný parameter k definovaniu path-u, kedy
+      sa má middleware funkcia načítať a následne prečítať hodnotu parametra z
+      route handlera. Napr.:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.use('/book/:id', function(req, res, next) {
   console.log('ID:', req.params.id);
@@ -212,18 +270,38 @@ app.use('/book/:id', function(req, res, next) {
 });
 </code>
 </pre>
-<h3 id="routing">
-Routing systém
-</h3>
-<p>Aplikácia odteraz explicitne načíta routing middleware, takže už sa viac nemusíte starať o to, v akom poradí bude ktorý middleware načítaný s ohľadom na <code>router</code> middleware.</p>
-<p>Spôsob, akým definujete route sa nezmenil, ale samotný routing systém má dve nové features k jeho lepšej organizácii:</p>
-<p>{: .doclist } * Nová metóda, <code>app.route()</code> slúži na vytvorenie zreťaziteľných route handlerov pre daný route path (cestu). * Nová trieda, <code>express.Router</code>, slúži na vytvorenie modulárnych, pripojiteľných route handlerov.</p>
-<h4 id="app-route">
-<code>app.route()</code> metóda
-</h4>
-<p>Nová metóda <code>app.route()</code> vám umožňuje vytvárať zreťaziteľné route handlery pre daný route path (cestu). Pretože je path (cesta) špecifikovaný na jednom mieste, tvorba takýchto modulárnych routes je užitočná, kedže znižuje redundanciu a možné preklepy. Pre viac informácií ohľadom route sa pozrite na <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router"><code>Router()</code> dokumentáciu</a>.</p>
-<p>Tu je príklad zreťazených route handlerov definovaných pomocou <code>app.route()</code> funkcie.</p>
-<pre>
+    <h3 id="routing">Routing systém</h3>
+    <p>
+      Aplikácia odteraz explicitne načíta routing middleware, takže už sa viac
+      nemusíte starať o to, v akom poradí bude ktorý middleware načítaný s
+      ohľadom na <code>router</code> middleware.
+    </p>
+    <p>
+      Spôsob, akým definujete route sa nezmenil, ale samotný routing systém má
+      dve nové features k jeho lepšej organizácii:
+    </p>
+    <p>
+      {: .doclist } * Nová metóda, <code>app.route()</code> slúži na vytvorenie
+      zreťaziteľných route handlerov pre daný route path (cestu). * Nová trieda,
+      <code>express.Router</code>, slúži na vytvorenie modulárnych,
+      pripojiteľných route handlerov.
+    </p>
+    <h4 id="app-route"><code>app.route()</code> metóda</h4>
+    <p>
+      Nová metóda <code>app.route()</code> vám umožňuje vytvárať zreťaziteľné
+      route handlery pre daný route path (cestu). Pretože je path (cesta)
+      špecifikovaný na jednom mieste, tvorba takýchto modulárnych routes je
+      užitočná, kedže znižuje redundanciu a možné preklepy. Pre viac informácií
+      ohľadom route sa pozrite na
+      <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router"
+        ><code>Router()</code> dokumentáciu</a
+      >.
+    </p>
+    <p>
+      Tu je príklad zreťazených route handlerov definovaných pomocou
+      <code>app.route()</code> funkcie.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.route('/book')
   .get(function(req, res) {
@@ -237,13 +315,24 @@ app.route('/book')
   });
 </code>
 </pre>
-<h4 id="express-router">
-<code>express.Router</code> trieda
-</h4>
-<p>Ďalšou novou feature, ktorá napomáha k lepšej organizácii routes, je nová trieda <code>express.Router</code>, ktorú môžete použiť k tvorbe modulárnych, pripojiteľných route handlerov. <code>Router</code> inštancia je kompletný middleware routing systém; z tohto dôvodu je často označovaná aj ako “mini-app”.</p>
-<p>Nasledujúci príklad vytvára router ako modul, načítava v ňom middleware, definuje niekoľko routes a pripája tento router na path v hlavnej aplikácii.</p>
-<p>Napr., vytvorte v priečinku vašej aplikácie router súbor s názvom <code>birds.js</code> s takýmto obsahom:</p>
-<pre>
+    <h4 id="express-router"><code>express.Router</code> trieda</h4>
+    <p>
+      Ďalšou novou feature, ktorá napomáha k lepšej organizácii routes, je nová
+      trieda <code>express.Router</code>, ktorú môžete použiť k tvorbe
+      modulárnych, pripojiteľných route handlerov. <code>Router</code> inštancia
+      je kompletný middleware routing systém; z tohto dôvodu je často označovaná
+      aj ako “mini-app”.
+    </p>
+    <p>
+      Nasledujúci príklad vytvára router ako modul, načítava v ňom middleware,
+      definuje niekoľko routes a pripája tento router na path v hlavnej
+      aplikácii.
+    </p>
+    <p>
+      Napr., vytvorte v priečinku vašej aplikácie router súbor s názvom
+      <code>birds.js</code> s takýmto obsahom:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var express = require('express');
 var router = express.Router();
@@ -265,145 +354,143 @@ router.get('/about', function(req, res) {
 module.exports = router;
 </code>
 </pre>
-<p>Potom tento router načítajte vo vašej aplikácii:</p>
-<pre>
+    <p>Potom tento router načítajte vo vašej aplikácii:</p>
+    <pre>
 <code class="language-javascript" translate="no">
 var birds = require('./birds');
 ...
 app.use('/birds', birds);
 </code>
 </pre>
-<p>Aplikácia bude odteraz schopná obslúžiť requesty na path-och <code>/birds</code> a <code>/birds/about</code> a zavolá <code>timeLog</code> middleware, ktorý je špecifický pre tento route.</p>
-<h3 id="other-changes">
-Ostatné zmeny
-</h3>
-<p>Nasledujúca tabuľka obsahuje zoznam drobných, ale dôležitých zmien v Express 4:</p>
-<table class="doctable" border="1">
-<tr>
-<th>
-Objekt
-</th>
-<th>
-Popis
-</th>
-</tr>
-<tr>
-<td>
-Node.js
-</td>
-<td>
-Express 4 si vyžaduje Node.js 0.10.x a vyšší a už nepodporuje Node.js 0.8.x.
-</td>
-</tr>
-<tr>
-<td>
-<code>http.createServer()</code>
-</td>
-<td>
-<code>http</code> modul už nie je potrebný, pokiaľ s ním nepotrebujete priamo pracovať (socket.io/SPDY/HTTPS). Aplikáciu dokážete naštartovať pomocou <code>app.listen()</code> funkcie.
-</td>
-</tr>
-<tr>
-<td>
-<code>app.configure()</code>
-</td>
-<td>
-Funkcia <code>app.configure()</code> bola odstránená. Pre detekciu environment nastavení a nastavenia aplikácie použite <code>process.env.NODE_ENV</code> alebo funkciu <code>app.get('env')</code>.
-</td>
-</tr>
-<tr>
-<td>
-<code>json spaces</code>
-</td>
-<td>
-Aplikačná property <code>json spaces</code> je defaultne v Express 4 vypnutá.
-</td>
-</tr>
-<tr>
-<td>
-<code>req.accepted()</code>
-</td>
-<td>
-Používajte <code>req.accepts()</code>, <code>req.acceptsEncodings()</code>, <code>req.acceptsCharsets()</code> a <code>req.acceptsLanguages()</code>.
-</td>
-</tr>
-<tr>
-<td>
-<code>res.location()</code>
-</td>
-<td>
-Už viac nevyhodnocuje relatívne URLky.
-</td>
-</tr>
-<tr>
-<td>
-<code>req.params</code>
-</td>
-<td>
-Bolo pôvodne pole, teraz je objektom.
-</td>
-</tr>
-<tr>
-<td>
-<code>res.locals</code>
-</td>
-<td>
-Bola pôvodne funkcia, teraz je objekt.
-</td>
-</tr>
-<tr>
-<td>
-<code>res.headerSent</code>
-</td>
-<td>
-Zmenená na <code>res.headersSent</code>.
-</td>
-</tr>
-<tr>
-<td>
-<code>app.route</code>
-</td>
-<td>
-Teraz dostupná ako <code>app.mountpath</code>.
-</td>
-</tr>
-<tr>
-<td>
-<code>res.on('header')</code>
-</td>
-<td>
-Zmazané.
-</td>
-</tr>
-<tr>
-<td>
-<code>res.charset</code>
-</td>
-<td>
-Zmazané.
-</td>
-</tr>
-<tr>
-<td>
-<code>res.setHeader('Set-Cookie', val)</code>
-</td>
-<td>
-Funkcionalita je odteraz obmedzená na nastavenie základnej hodnoty cookie. Pre pridanú funkcionalitu používajte <code>res.cookie()</code>.
-</td>
-</tr>
-</table>
-<h2 id="example-migration">
-Príklad migrácie aplikácie
-</h2>
-<p>Tu je príklad migrácie Express 3 aplikácie na Express 4. Súbory, ktoré vás môžu zaujímať sú <code>app.js</code> a <code>package.json</code>.</p>
-<h3 id>
-Applikácia vo verzii 3
-</h3>
-<h4 id>
-<code>app.js</code>
-</h4>
-<p>Majme takúto Express v.3 aplikáciu s takýmto <code>app.js</code> súborom:</p>
-<pre>
+    <p>
+      Aplikácia bude odteraz schopná obslúžiť requesty na path-och
+      <code>/birds</code> a <code>/birds/about</code> a zavolá
+      <code>timeLog</code> middleware, ktorý je špecifický pre tento route.
+    </p>
+    <h3 id="other-changes">Ostatné zmeny</h3>
+    <p>
+      Nasledujúca tabuľka obsahuje zoznam drobných, ale dôležitých zmien v
+      Express 4:
+    </p>
+    <table class="doctable" border="1">
+      <tr>
+        <th>Objekt</th>
+        <th>Popis</th>
+      </tr>
+      <tr>
+        <td>Node.js</td>
+        <td>
+          Express 4 si vyžaduje Node.js 0.10.x a vyšší a už nepodporuje Node.js
+          0.8.x.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>http.createServer()</code>
+        </td>
+        <td>
+          <code>http</code> modul už nie je potrebný, pokiaľ s ním nepotrebujete
+          priamo pracovať (socket.io/SPDY/HTTPS). Aplikáciu dokážete naštartovať
+          pomocou <code>app.listen()</code> funkcie.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>app.configure()</code>
+        </td>
+        <td>
+          Funkcia <code>app.configure()</code> bola odstránená. Pre detekciu
+          environment nastavení a nastavenia aplikácie použite
+          <code>process.env.NODE_ENV</code> alebo funkciu
+          <code>app.get('env')</code>.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>json spaces</code>
+        </td>
+        <td>
+          Aplikačná property <code>json spaces</code> je defaultne v Express 4
+          vypnutá.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>req.accepted()</code>
+        </td>
+        <td>
+          Používajte <code>req.accepts()</code>,
+          <code>req.acceptsEncodings()</code>,
+          <code>req.acceptsCharsets()</code> a
+          <code>req.acceptsLanguages()</code>.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>res.location()</code>
+        </td>
+        <td>Už viac nevyhodnocuje relatívne URLky.</td>
+      </tr>
+      <tr>
+        <td>
+          <code>req.params</code>
+        </td>
+        <td>Bolo pôvodne pole, teraz je objektom.</td>
+      </tr>
+      <tr>
+        <td>
+          <code>res.locals</code>
+        </td>
+        <td>Bola pôvodne funkcia, teraz je objekt.</td>
+      </tr>
+      <tr>
+        <td>
+          <code>res.headerSent</code>
+        </td>
+        <td>Zmenená na <code>res.headersSent</code>.</td>
+      </tr>
+      <tr>
+        <td>
+          <code>app.route</code>
+        </td>
+        <td>Teraz dostupná ako <code>app.mountpath</code>.</td>
+      </tr>
+      <tr>
+        <td>
+          <code>res.on('header')</code>
+        </td>
+        <td>Zmazané.</td>
+      </tr>
+      <tr>
+        <td>
+          <code>res.charset</code>
+        </td>
+        <td>Zmazané.</td>
+      </tr>
+      <tr>
+        <td>
+          <code>res.setHeader('Set-Cookie', val)</code>
+        </td>
+        <td>
+          Funkcionalita je odteraz obmedzená na nastavenie základnej hodnoty
+          cookie. Pre pridanú funkcionalitu používajte
+          <code>res.cookie()</code>.
+        </td>
+      </tr>
+    </table>
+    <h2 id="example-migration">Príklad migrácie aplikácie</h2>
+    <p>
+      Tu je príklad migrácie Express 3 aplikácie na Express 4. Súbory, ktoré vás
+      môžu zaujímať sú <code>app.js</code> a <code>package.json</code>.
+    </p>
+    <h3 id>Applikácia vo verzii 3</h3>
+    <h4 id>
+      <code>app.js</code>
+    </h4>
+    <p>
+      Majme takúto Express v.3 aplikáciu s takýmto <code>app.js</code> súborom:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var express = require('express');
 var routes = require('./routes');
@@ -438,11 +525,13 @@ http.createServer(app).listen(app.get('port'), function(){
 });
 </code>
 </pre>
-<h4 id>
-<code>package.json</code>
-</h4>
-<p>Sprievodný <code>package.json</code> pre verziu 3 by vyzeral nejak takto:</p>
-<pre>
+    <h4 id>
+      <code>package.json</code>
+    </h4>
+    <p>
+      Sprievodný <code>package.json</code> pre verziu 3 by vyzeral nejak takto:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 {
   "name": "application-name",
@@ -458,29 +547,52 @@ http.createServer(app).listen(app.get('port'), function(){
 }
 </code>
 </pre>
-<h3 id>
-Proces
-</h3>
-<p>Proces migrácie začnite nainštalovaním všetkých potrebných middlewarov pre vašu Express 4 aplikáciu a updatom Express a Pug na ich prislúchajúce najnovšie verzie nasledujúcim príkazom:</p>
-<pre>
+    <h3 id>Proces</h3>
+    <p>
+      Proces migrácie začnite nainštalovaním všetkých potrebných middlewarov pre
+      vašu Express 4 aplikáciu a updatom Express a Pug na ich prislúchajúce
+      najnovšie verzie nasledujúcim príkazom:
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install serve-favicon morgan method-override express-session body-parser multer errorhandler express@latest pug@latest --save
 </code>
 </pre>
-<p>V <code>app.js</code> vykonajte tieto zmeny:</p>
-<ol type="1">
-<li><p>Vstavané Express middleware funkcie <code>express.favicon</code>, <code>express.logger</code>, <code>express.methodOverride</code>, <code>express.session</code>, <code>express.bodyParser</code> a <code>express.errorHandler</code> už nie sú dostupné na <code>express</code> objekte. Musíte nainštalovať a načítať ich prislúchajúce alternatívy v aplikácii manuálne.</p></li>
-<li><p>Už viac nepotrebujete načítať <code>app.router</code> funkciu. Nieje validným Express 4 app objektom, preto zmažte nasledujúci kód <code>app.use(app.router);</code>.</p></li>
-<li><p>Uistite sa, že middleware funkcie sú načítané v správnom poradí - načítajte <code>errorHandler</code> až po načítaní app routes.</p></li>
-</ol>
-<h3 id>
-Aplikácia vo verzii 4
-</h3>
-<h4 id>
-<code>package.json</code>
-</h4>
-<p>Spustením kódu vyššie, <code>npm</code> príkaz updatne <code>package.json</code> nasledovne:</p>
-<pre>
+    <p>V <code>app.js</code> vykonajte tieto zmeny:</p>
+    <ol type="1">
+      <li>
+        <p>
+          Vstavané Express middleware funkcie <code>express.favicon</code>,
+          <code>express.logger</code>, <code>express.methodOverride</code>,
+          <code>express.session</code>, <code>express.bodyParser</code> a
+          <code>express.errorHandler</code> už nie sú dostupné na
+          <code>express</code> objekte. Musíte nainštalovať a načítať ich
+          prislúchajúce alternatívy v aplikácii manuálne.
+        </p>
+      </li>
+      <li>
+        <p>
+          Už viac nepotrebujete načítať <code>app.router</code> funkciu. Nieje
+          validným Express 4 app objektom, preto zmažte nasledujúci kód
+          <code>app.use(app.router);</code>.
+        </p>
+      </li>
+      <li>
+        <p>
+          Uistite sa, že middleware funkcie sú načítané v správnom poradí -
+          načítajte <code>errorHandler</code> až po načítaní app routes.
+        </p>
+      </li>
+    </ol>
+    <h3 id>Aplikácia vo verzii 4</h3>
+    <h4 id>
+      <code>package.json</code>
+    </h4>
+    <p>
+      Spustením kódu vyššie, <code>npm</code> príkaz updatne
+      <code>package.json</code> nasledovne:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 {
   "name": "application-name",
@@ -503,11 +615,14 @@ Aplikácia vo verzii 4
 }
 </code>
 </pre>
-<h4 id>
-<code>app.js</code>
-</h4>
-<p>Potom zmažte nesprávny kód, načítajte potrebné middlewary a vykonajte ďalšie potrebné zmeny. Súbor <code>app.js</code> bude potom vyzerať takto:</p>
-<pre>
+    <h4 id>
+      <code>app.js</code>
+    </h4>
+    <p>
+      Potom zmažte nesprávny kód, načítajte potrebné middlewary a vykonajte
+      ďalšie potrebné zmeny. Súbor <code>app.js</code> bude potom vyzerať takto:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var http = require('http');
 var express = require('express');
@@ -554,73 +669,130 @@ server.listen(app.get('port'), function(){
 });
 </code>
 </pre>
-<div class="doc-box doc-info" data-markdown="1">
-Pokiaľ nepotrebujete priamo pracovať s <code>http</code> modulom (socket.io/SPDY/HTTPS), nie je nutné ho načítať a aplikáciu môžete jednoducho naštartovať týmto spôsobom:
-<pre>
+    <div class="doc-box doc-info" data-markdown="1">
+      Pokiaľ nepotrebujete priamo pracovať s <code>http</code> modulom
+      (socket.io/SPDY/HTTPS), nie je nutné ho načítať a aplikáciu môžete
+      jednoducho naštartovať týmto spôsobom:
+      <pre>
 <code class="language-js">app.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });</code>
 </pre>
-</div>
-<h3 id>
-Spustite aplikáciu
-</h3>
-<p>Proces migrácie je kompletný a aplikácia je teraz Express 4 aplikáciou. Pre overenie spustite aplikáciu pomocou nasledujúceho príkazu:</p>
-<pre>
+    </div>
+    <h3 id>Spustite aplikáciu</h3>
+    <p>
+      Proces migrácie je kompletný a aplikácia je teraz Express 4 aplikáciou.
+      Pre overenie spustite aplikáciu pomocou nasledujúceho príkazu:
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ node .
 </code>
 </pre>
-<p>Načítajte v prehliadači <a href="http://localhost:3000">http://localhost:3000</a> a pozrite si domovskú stránku aplikácie vyrendrovanú pomocou Express 4.</p>
-<h2 id="app-gen">
-Prechod na Express 4 app generátor
-</h2>
-<p>Tento command-line tool slúžiaci na generovanie Express aplikácie je stále <code>express</code>, ale k tomu, aby ste vykonali upgrade na novú verziu musíte najprv pôvodný Express 3 app generátor odinštalovať a potom nainštalovať nový <code>express-generator</code>.</p>
-<h3 id>
-Inštalácia
-</h3>
-<p>Ak už máte Express 3 app generátor na vašom systéme nainštalovaný, musíte ho najskôr odinštalovať:</p>
-<pre>
+    <p>
+      Načítajte v prehliadači
+      <a href="http://localhost:3000">http://localhost:3000</a> a pozrite si
+      domovskú stránku aplikácie vyrendrovanú pomocou Express 4.
+    </p>
+    <h2 id="app-gen">Prechod na Express 4 app generátor</h2>
+    <p>
+      Tento command-line tool slúžiaci na generovanie Express aplikácie je stále
+      <code>express</code>, ale k tomu, aby ste vykonali upgrade na novú verziu
+      musíte najprv pôvodný Express 3 app generátor odinštalovať a potom
+      nainštalovať nový <code>express-generator</code>.
+    </p>
+    <h3 id>Inštalácia</h3>
+    <p>
+      Ak už máte Express 3 app generátor na vašom systéme nainštalovaný, musíte
+      ho najskôr odinštalovať:
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm uninstall -g express
 </code>
 </pre>
-<p>V závislosti od toho, ako sú nakonfigurované vaše oprávnenia k súborom a priečinkom, môže byť potrebné spustiť tento príkaz pomocou <code>sudo</code>.</p>
-<p>Teraz nainštalujte nový generátor:</p>
-<pre>
+    <p>
+      V závislosti od toho, ako sú nakonfigurované vaše oprávnenia k súborom a
+      priečinkom, môže byť potrebné spustiť tento príkaz pomocou
+      <code>sudo</code>.
+    </p>
+    <p>Teraz nainštalujte nový generátor:</p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install -g express-generator
 </code>
 </pre>
-<p>V závislosti od toho, ako sú nakonfigurované vaše oprávnenia k súborom a priečinkom, môže byť potrebné spustiť tento príkaz pomocou <code>sudo</code>.</p>
-<p>Teraz je príkaz <code>express</code> aktualizovaný na vašom systéme na Express 4 generátor.</p>
-<h3 id>
-Zmeny app generátora
-</h3>
-<p>Prepínače a použitia príkazu zostali prevažne rovnaké, okrem nasledujúcich výnimiek:</p>
-<p>{: .doclist } * Odstránený prepínač <code>--sessions</code>. * Odstránený prepínač <code>--jshtml</code>. * Pridaný prepínač <code>--hogan</code> pre podporu <a href="http://twitter.github.io/hogan.js/">Hogan.js</a>.</p>
-<h3 id>
-Príklad
-</h3>
-<p>K vytvoreniu Express 4 aplikácie spustite nasledujúci príkaz:</p>
-<pre>
+    <p>
+      V závislosti od toho, ako sú nakonfigurované vaše oprávnenia k súborom a
+      priečinkom, môže byť potrebné spustiť tento príkaz pomocou
+      <code>sudo</code>.
+    </p>
+    <p>
+      Teraz je príkaz <code>express</code> aktualizovaný na vašom systéme na
+      Express 4 generátor.
+    </p>
+    <h3 id>Zmeny app generátora</h3>
+    <p>
+      Prepínače a použitia príkazu zostali prevažne rovnaké, okrem nasledujúcich
+      výnimiek:
+    </p>
+    <p>
+      {: .doclist } * Odstránený prepínač <code>--sessions</code>. * Odstránený
+      prepínač <code>--jshtml</code>. * Pridaný prepínač
+      <code>--hogan</code> pre podporu
+      <a href="http://twitter.github.io/hogan.js/">Hogan.js</a>.
+    </p>
+    <h3 id>Príklad</h3>
+    <p>K vytvoreniu Express 4 aplikácie spustite nasledujúci príkaz:</p>
+    <pre>
 <code class="language-sh" translate="no">
 $ express app4
 </code>
 </pre>
-<p>Ak sa pozriete na obsah <code>app4/app.js</code> súboru, všimnete si, že všetky middleware funkcie (okrem <code>express.static</code>), ktoré sú potrebné pre aplikáciu, sú načítané ako samostatné, nezávislé moduly a <code>router</code> middleware už nie je v aplikácii explicitne načítaný.</p>
-<p>Taktiež si všimnite, že súbor <code>app.js</code> je odteraz Node.js modulom, v porovnaní so standalone aplikáciou vygenerovanou starým generátorom.</p>
-<p>Po nainštalovaní závislostí spustite aplikáciu pomocou nasledujúceho príkazu:</p>
-<pre>
+    <p>
+      Ak sa pozriete na obsah <code>app4/app.js</code> súboru, všimnete si, že
+      všetky middleware funkcie (okrem <code>express.static</code>), ktoré sú
+      potrebné pre aplikáciu, sú načítané ako samostatné, nezávislé moduly a
+      <code>router</code> middleware už nie je v aplikácii explicitne načítaný.
+    </p>
+    <p>
+      Taktiež si všimnite, že súbor <code>app.js</code> je odteraz Node.js
+      modulom, v porovnaní so standalone aplikáciou vygenerovanou starým
+      generátorom.
+    </p>
+    <p>
+      Po nainštalovaní závislostí spustite aplikáciu pomocou nasledujúceho
+      príkazu:
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm start
 </code>
 </pre>
-<p>Ak sa pozriete na npm start skript v <code>package.json</code> súbore, všimnete si, že aktuálny príkaz pre spustenie aplikácie je <code>node ./bin/www</code>, ktorý bol v Express 3 pôvodne <code>node app.js</code>.</p>
-<p>Pretože súbor <code>app.js</code>, ktorý bol vygenerovaný Express 4 generátorom je odteraz Node.js modul, už nemôže byť viacej spustený nezávisle ako aplikácia (pokiaľ nezmeníte kód). Modul musí byť načítaný a spustený ako Node.js súbor. Node.js súbor je v tomto prípade<code>./bin/www</code>.</p>
-<p>Priečinok <code>bin</code> ani bezpríponový súbor <code>www</code> nie sú povinné k vytvoreniu ani spusteniu aplikácie. Sú len návrhom vyrobeným generátorom, takže ich môzete zmeniť podľa vašich potrieb.</p>
-<p>Ak sa chcete zbaviť <code>www</code> priečinka a ponechať to v starom “Express 3 formáte”, zmažte riadok <code>module.exports = app;</code> na konci <code>app.js</code> súboru a namiesto neho vložte nasledujúci kód:</p>
-<pre>
+    <p>
+      Ak sa pozriete na npm start skript v <code>package.json</code> súbore,
+      všimnete si, že aktuálny príkaz pre spustenie aplikácie je
+      <code>node ./bin/www</code>, ktorý bol v Express 3 pôvodne
+      <code>node app.js</code>.
+    </p>
+    <p>
+      Pretože súbor <code>app.js</code>, ktorý bol vygenerovaný Express 4
+      generátorom je odteraz Node.js modul, už nemôže byť viacej spustený
+      nezávisle ako aplikácia (pokiaľ nezmeníte kód). Modul musí byť načítaný a
+      spustený ako Node.js súbor. Node.js súbor je v tomto
+      prípade<code>./bin/www</code>.
+    </p>
+    <p>
+      Priečinok <code>bin</code> ani bezpríponový súbor <code>www</code> nie sú
+      povinné k vytvoreniu ani spusteniu aplikácie. Sú len návrhom vyrobeným
+      generátorom, takže ich môzete zmeniť podľa vašich potrieb.
+    </p>
+    <p>
+      Ak sa chcete zbaviť <code>www</code> priečinka a ponechať to v starom
+      “Express 3 formáte”, zmažte riadok <code>module.exports = app;</code> na
+      konci <code>app.js</code> súboru a namiesto neho vložte nasledujúci kód:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.set('port', process.env.PORT || 3000);
 
@@ -629,13 +801,25 @@ var server = app.listen(app.get('port'), function() {
 });
 </code>
 </pre>
-<p>Uistite sa, že ste načítali <code>debug</code> modul, v hornej časti vášho <code>app.js</code> súboru, použitím nasledujúceho kódu:</p>
-<pre>
+    <p>
+      Uistite sa, že ste načítali <code>debug</code> modul, v hornej časti vášho
+      <code>app.js</code> súboru, použitím nasledujúceho kódu:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var debug = require('debug')('app4');
 </code>
 </pre>
-<p>Ďalej zmeňte v súbore <code>package.json</code> riadok <code>"start": "node ./bin/www"</code> na <code>"start": "node app.js"</code>.</p>
-<p>Týmto ste presunuli funkcionalitu <code>./bin/www</code> späť do <code>app.js</code>. Táto zmena sa neodporúča, ale toto cvičenie vám pomôže porozumieť ako <code>./bin/www</code> súbor pracuje a prečo <code>app.js</code> už viac nie je možné samostatne spustiť.</p>
-</body>
+    <p>
+      Ďalej zmeňte v súbore <code>package.json</code> riadok
+      <code>"start": "node ./bin/www"</code> na
+      <code>"start": "node app.js"</code>.
+    </p>
+    <p>
+      Týmto ste presunuli funkcionalitu <code>./bin/www</code> späť do
+      <code>app.js</code>. Táto zmena sa neodporúča, ale toto cvičenie vám
+      pomôže porozumieť ako <code>./bin/www</code> súbor pracuje a prečo
+      <code>app.js</code> už viac nie je možné samostatne spustiť.
+    </p>
+  </body>
 </html>

@@ -31,8 +31,8 @@ Express 4 では、いくつかの大きな変更が行われています。
 
 以下も参照してください。
 
-* [4.x の新機能](https://github.com/expressjs/express/wiki/New-features-in-4.x)
-* [3.x から 4.x への移行](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
+- [4.x の新機能](https://github.com/expressjs/express/wiki/New-features-in-4.x)
+- [3.x から 4.x への移行](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
 
 <h3 id="core-changes">
 Express コアおよびミドルウェア・システムの変更
@@ -93,11 +93,12 @@ Express 4 のミドルウェアの完全なリストは、[ここ](https://githu
 次に例を示します。
 
 ```js
-app.use('/book/:id', function (req, res, next) {
-  console.log('ID:', req.params.id)
-  next()
-})
+app.use("/book/:id", function (req, res, next) {
+  console.log("ID:", req.params.id);
+  next();
+});
 ```
+
 <h3 id="routing">
 ルーティング・システム
 </h3>
@@ -107,8 +108,9 @@ app.use('/book/:id', function (req, res, next) {
 ルートの定義方法は変わりませんが、ルーティング・システムには、ルートの編成に役立つ 2 つの新機能があります。
 
 {: .doclist }
-* 新しいメソッド `app.route()` は、ルート・パスのチェーン可能なルート・ハンドラーを作成します。
-* 新しいクラス `express.Router` は、モジュール式のマウント可能なルート・ハンドラーを作成します。
+
+- 新しいメソッド `app.route()` は、ルート・パスのチェーン可能なルート・ハンドラーを作成します。
+- 新しいクラス `express.Router` は、モジュール式のマウント可能なルート・ハンドラーを作成します。
 
 <h4 id="app-route"><code>app.route()</code> メソッド</h4>
 
@@ -117,16 +119,17 @@ app.use('/book/:id', function (req, res, next) {
 次に、`app.route()` 関数を使用して定義された、チェーニングされたルート・ハンドラーの例を示します。
 
 ```js
-app.route('/book')
+app
+  .route("/book")
   .get(function (req, res) {
-    res.send('Get a random book')
+    res.send("Get a random book");
   })
   .post(function (req, res) {
-    res.send('Add a book')
+    res.send("Add a book");
   })
   .put(function (req, res) {
-    res.send('Update the book')
-  })
+    res.send("Update the book");
+  });
 ```
 
 <h4 id="express-router"><code>express.Router</code> クラス</h4>
@@ -138,34 +141,34 @@ app.route('/book')
 例えば、アプリケーション・ディレクトリーに次の内容で `birds.js` というルーター・ファイルを作成します。
 
 ```js
-var express = require('express')
-var router = express.Router()
+var express = require("express");
+var router = express.Router();
 
 // middleware specific to this router
-router.use(function timeLog (req, res, next) {
-  console.log('Time: ', Date.now())
-  next()
-})
+router.use(function timeLog(req, res, next) {
+  console.log("Time: ", Date.now());
+  next();
+});
 // define the home page route
-router.get('/', function (req, res) {
-  res.send('Birds home page')
-})
+router.get("/", function (req, res) {
+  res.send("Birds home page");
+});
 // define the about route
-router.get('/about', function (req, res) {
-  res.send('About birds')
-})
+router.get("/about", function (req, res) {
+  res.send("About birds");
+});
 
-module.exports = router
+module.exports = router;
 ```
 
 次に、ルーター・モジュールをアプリケーションにロードします。
 
 ```js
-var birds = require('./birds')
+var birds = require("./birds");
 
 // ...
 
-app.use('/birds', birds)
+app.use("/birds", birds);
 ```
 
 これで、アプリケーションは、`/birds` および `/birds/about` のパスに対する要求を処理できるようになり、ルートに固有の `timeLog` ミドルウェアを呼び出します。
@@ -297,37 +300,37 @@ app.use('/birds', birds)
 次の `app.js` ファイルを使用する Express v.3 アプリケーションがあるとします。
 
 ```js
-var express = require('express')
-var routes = require('./routes')
-var user = require('./routes/user')
-var http = require('http')
-var path = require('path')
+var express = require("express");
+var routes = require("./routes");
+var user = require("./routes/user");
+var http = require("http");
+var path = require("path");
 
-var app = express()
+var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000)
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'pug')
-app.use(express.favicon())
-app.use(express.logger('dev'))
-app.use(express.methodOverride())
-app.use(express.session({ secret: 'your secret here' }))
-app.use(express.bodyParser())
-app.use(app.router)
-app.use(express.static(path.join(__dirname, 'public')))
+app.set("port", process.env.PORT || 3000);
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
+app.use(express.favicon());
+app.use(express.logger("dev"));
+app.use(express.methodOverride());
+app.use(express.session({ secret: "your secret here" }));
+app.use(express.bodyParser());
+app.use(app.router);
+app.use(express.static(path.join(__dirname, "public")));
 
 // development only
-if (app.get('env') === 'development') {
-  app.use(express.errorHandler())
+if (app.get("env") === "development") {
+  app.use(express.errorHandler());
 }
 
-app.get('/', routes.index)
-app.get('/users', user.list)
+app.get("/", routes.index);
+app.get("/users", user.list);
 
-http.createServer(app).listen(app.get('port'), function () {
-  console.log('Express server listening on port ' + app.get('port'))
-})
+http.createServer(app).listen(app.get("port"), function () {
+  console.log("Express server listening on port " + app.get("port"));
+});
 ```
 
 <h4 id=""><code>package.json</code></h4>
@@ -400,51 +403,53 @@ $ npm install serve-favicon morgan method-override express-session body-parser m
 次に、無効なコードを削除して、必要なミドルウェアをロードし、必要に応じてその他の変更を行います。`app.js` ファイルの内容は次のようになります。
 
 ```js
-var http = require('http')
-var express = require('express')
-var routes = require('./routes')
-var user = require('./routes/user')
-var path = require('path')
+var http = require("http");
+var express = require("express");
+var routes = require("./routes");
+var user = require("./routes/user");
+var path = require("path");
 
-var favicon = require('serve-favicon')
-var logger = require('morgan')
-var methodOverride = require('method-override')
-var session = require('express-session')
-var bodyParser = require('body-parser')
-var multer = require('multer')
-var errorHandler = require('errorhandler')
+var favicon = require("serve-favicon");
+var logger = require("morgan");
+var methodOverride = require("method-override");
+var session = require("express-session");
+var bodyParser = require("body-parser");
+var multer = require("multer");
+var errorHandler = require("errorhandler");
 
-var app = express()
+var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000)
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'pug')
-app.use(favicon(path.join(__dirname, '/public/favicon.ico')))
-app.use(logger('dev'))
-app.use(methodOverride())
-app.use(session({
-  resave: true,
-  saveUninitialized: true,
-  secret: 'uwotm8'
-}))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(multer())
-app.use(express.static(path.join(__dirname, 'public')))
+app.set("port", process.env.PORT || 3000);
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
+app.use(favicon(path.join(__dirname, "/public/favicon.ico")));
+app.use(logger("dev"));
+app.use(methodOverride());
+app.use(
+  session({
+    resave: true,
+    saveUninitialized: true,
+    secret: "uwotm8",
+  })
+);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(multer());
+app.use(express.static(path.join(__dirname, "public")));
 
-app.get('/', routes.index)
-app.get('/users', user.list)
+app.get("/", routes.index);
+app.get("/users", user.list);
 
 // error handling middleware should be loaded after the loading the routes
-if (app.get('env') === 'development') {
-  app.use(errorHandler())
+if (app.get("env") === "development") {
+  app.use(errorHandler());
 }
 
-var server = http.createServer(app)
-server.listen(app.get('port'), function () {
-  console.log('Express server listening on port ' + app.get('port'))
-})
+var server = http.createServer(app);
+server.listen(app.get("port"), function () {
+  console.log("Express server listening on port " + app.get("port"));
+});
 ```
 
 <div class="doc-box doc-info" markdown="1">
@@ -452,9 +457,9 @@ server.listen(app.get('port'), function () {
 `http` モジュール (socket.io/SPDY/HTTPS) を直接処理する必要がある場合を除き、このモジュールをロードする必要はありません。次のようにして、アプリケーションを簡単に開始できます。
 
 ```js
-app.listen(app.get('port'), function () {
-  console.log('Express server listening on port ' + app.get('port'))
-})
+app.listen(app.get("port"), function () {
+  console.log("Express server listening on port " + app.get("port"));
+});
 ```
 
 <h3 id="">アプリケーションの実行</h3>
@@ -496,9 +501,10 @@ $ npm install -g express-generator
 コマンドのオプションと使用法の大部分は以前と同じですが、以下の例外があります。
 
 {: .doclist }
-* `--sessions` オプションを削除しました。
-* `--jshtml` オプションを削除しました。
-* [Hogan.js](http://twitter.github.io/hogan.js/) をサポートするために `--hogan` オプションを追加しました。
+
+- `--sessions` オプションを削除しました。
+- `--jshtml` オプションを削除しました。
+- [Hogan.js](http://twitter.github.io/hogan.js/) をサポートするために `--hogan` オプションを追加しました。
 
 <h3 id="">例</h3>
 
@@ -527,17 +533,17 @@ Express アプリケーションの作成またはアプリケーションの開
 `www` ディレクトリーを削除して、処理を「Express 3 の方法」で実行するには、`app.js` ファイルの最後にある `module.exports = app;` という行を削除して、その場所に以下のコードを貼り付けます。
 
 ```js
-app.set('port', process.env.PORT || 3000)
+app.set("port", process.env.PORT || 3000);
 
-var server = app.listen(app.get('port'), function () {
-  debug('Express server listening on port ' + server.address().port)
-})
+var server = app.listen(app.get("port"), function () {
+  debug("Express server listening on port " + server.address().port);
+});
 ```
 
 次のコードを使用して `debug` モジュールを `app.js` ファイルの先頭にロードしたことを確認します。
 
 ```js
-var debug = require('debug')('app4')
+var debug = require("debug")("app4");
 ```
 
 次に、`package.json` ファイル内の `"start": "node ./bin/www"` を `"start": "node app.js"` に変更します。

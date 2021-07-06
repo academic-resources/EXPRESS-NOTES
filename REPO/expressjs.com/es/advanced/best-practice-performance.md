@@ -13,19 +13,19 @@ En este artículo se describen las mejores prácticas de rendimiento y fiabilida
 
 Este tema entra claramente dentro del área de "DevOps", que abarca operaciones y desarrollos tradicionales. Por lo tanto, la información se divide en dos partes:
 
--   Cosas que hacer en el código (la parte de desarrollo):
-    -   [Utilizar la compresión de gzip](#utilizar-la-compresión-de-gzip)
-    -   [No utilizar funciones síncronas](#no-utilizar-funciones-síncronas)
-    -   [Realizar un registro correcto](#realizar-un-registro-correcto)
-    -   [Manejar las excepciones correctamente](#manejar-las-excepciones-correctamente)
--   Cosas que hacer en el entorno / configuración (la parte de operaciones):
+- Cosas que hacer en el código (la parte de desarrollo):
+  - [Utilizar la compresión de gzip](#utilizar-la-compresión-de-gzip)
+  - [No utilizar funciones síncronas](#no-utilizar-funciones-síncronas)
+  - [Realizar un registro correcto](#realizar-un-registro-correcto)
+  - [Manejar las excepciones correctamente](#manejar-las-excepciones-correctamente)
+- Cosas que hacer en el entorno / configuración (la parte de operaciones):
 
-    -   [Establecer NODE_ENV en "production"](#establecer-node_env-en-production)
-    -   [Asegurarse de que la aplicación se reinicia automáticamente](#asegurarse-de-que-la-aplicación-se-reinicia-automáticamente)
-    -   [Ejecutar la aplicación en un clúster](#ejecutar-la-aplicación-en-un-clúster)
-    -   [Almacenar en la caché los resultados de la solicitud](#almacenar-en-la-caché-los-resultados-de-la-solicitud)
-    -   [Utilizar un equilibrador de carga](#utilizar-un-equilibrador-de-carga)
-    -   [Utilizar un proxy inverso](#utilizar-un-proxy-inverso)
+  - [Establecer NODE_ENV en "production"](#establecer-node_env-en-production)
+  - [Asegurarse de que la aplicación se reinicia automáticamente](#asegurarse-de-que-la-aplicación-se-reinicia-automáticamente)
+  - [Ejecutar la aplicación en un clúster](#ejecutar-la-aplicación-en-un-clúster)
+  - [Almacenar en la caché los resultados de la solicitud](#almacenar-en-la-caché-los-resultados-de-la-solicitud)
+  - [Utilizar un equilibrador de carga](#utilizar-un-equilibrador-de-carga)
+  - [Utilizar un proxy inverso](#utilizar-un-proxy-inverso)
 
 <a name="code"></a>
 
@@ -33,10 +33,10 @@ Este tema entra claramente dentro del área de "DevOps", que abarca operaciones 
 
 Estas son algunas de las cosas que puede hacer en el código para mejorar el rendimiento de la aplicación:
 
--   [Utilizar la compresión de gzip](#utilizar-la-compresión-de-gzip)
--   [No utilizar funciones síncronas](#no-utilizar-funciones-síncronas)
--   [Realizar un registro correcto](#realizar-un-registro-correcto)
--   [Manejar las excepciones correctamente](#manejar-las-excepciones-correctamente)
+- [Utilizar la compresión de gzip](#utilizar-la-compresión-de-gzip)
+- [No utilizar funciones síncronas](#no-utilizar-funciones-síncronas)
+- [Realizar un registro correcto](#realizar-un-registro-correcto)
+- [Manejar las excepciones correctamente](#manejar-las-excepciones-correctamente)
 
 ### Utilizar la compresión de gzip
 
@@ -81,15 +81,15 @@ Las aplicaciones Node se bloquean cuando encuentran una excepción no capturada.
 
 Para asegurarse de manejar todas las excepciones, siga estas técnicas:
 
--   [Utilizar try-catch](#try-catch)
--   [Utilizar promesas](#utilizar-promesas)
+- [Utilizar try-catch](#try-catch)
+- [Utilizar promesas](#utilizar-promesas)
 
 Antes de profundizar en estos temas, deberá tener unos conocimientos básicos del manejo de errores de Node/Express: el uso de devoluciones de llamada error-first y la propagación de errores en el middleware. Node utiliza un convenio de "devolución de llamada error-first" para devolver los errores de las funciones asíncronas, donde el primer parámetro en la función de devolución de llamada es el objeto de error, seguido de los datos de resultados en los parámetros posteriores. Para indicar que no hay ningún error, pase null como el primer parámetro. La función de devolución de llamada debe seguir por lo tanto el convenio de devolución de llamada error-first para manejar correctamente el error. En Express, la práctica recomendada es utilizar la función next() para propagar los errores a través de la cadena de middleware.
 
 Para obtener más información sobre los aspectos básicos del manejo de errores, consulte:
 
--   [Error Handling in Node.js](https://www.joyent.com/developers/node/design/errors)
--   [Building Robust Node Applications: Error Handling](https://strongloop.com/strongblog/robust-node-applications-error-handling/) (blog StrongLoop)
+- [Error Handling in Node.js](https://www.joyent.com/developers/node/design/errors)
+- [Building Robust Node Applications: Error Handling](https://strongloop.com/strongblog/robust-node-applications-error-handling/) (blog StrongLoop)
 
 #### Qué no debe hacer
 
@@ -181,12 +181,12 @@ Para más información acerca del manejo de errores utilizando promesas, vea [Pr
 
 Estas son algunas de las cosas que puede hacer en el entorno del sistema para mejorar el rendimiento de la aplicación:
 
--   [Establecer NODE_ENV en "production"](#establecer-node_env-en-production)
--   [Asegurarse de que la aplicación se reinicia automáticamente](#asegurarse-de-que-la-aplicación-se-reinicia-automáticamente)
--   [Ejecutar la aplicación en un clúster](#ejecutar-la-aplicación-en-un-clúster)
--   [Almacenar en la caché los resultados de la solicitud](#almacenar-en-la-caché-los-resultados-de-la-solicitud)
--   [Utilizar un equilibrador de carga](#utilizar-un-equilibrador-de-carga)
--   [Utilizar un proxy inverso](#utilizar-un-proxy-inverso)
+- [Establecer NODE_ENV en "production"](#establecer-node_env-en-production)
+- [Asegurarse de que la aplicación se reinicia automáticamente](#asegurarse-de-que-la-aplicación-se-reinicia-automáticamente)
+- [Ejecutar la aplicación en un clúster](#ejecutar-la-aplicación-en-un-clúster)
+- [Almacenar en la caché los resultados de la solicitud](#almacenar-en-la-caché-los-resultados-de-la-solicitud)
+- [Utilizar un equilibrador de carga](#utilizar-un-equilibrador-de-carga)
+- [Utilizar un proxy inverso](#utilizar-un-proxy-inverso)
 
 ### Establecer NODE_ENV en "production"
 
@@ -194,9 +194,9 @@ La variable de entorno NODE_ENV especifica el entorno en el que se ejecuta una a
 
 Si establece NODE_ENV en "production", Express:
 
--   Almacena en la caché las plantillas de vistas.
--   Almacena en la caché los archivos CSS generados en las extensiones CSS.
--   Genera menos mensajes de error detallados.
+- Almacena en la caché las plantillas de vistas.
+- Almacena en la caché los archivos CSS generados en las extensiones CSS.
+- Genera menos mensajes de error detallados.
 
 Las [pruebas indican](http://apmblog.dynatrace.com/2015/07/22/the-drastic-effects-of-omitting-node_env-in-your-express-js-applications/) que sólo esta acción puede mejorar hasta tres veces el rendimiento de la aplicación.
 
@@ -232,8 +232,8 @@ Si está utilizando StrongLoop Process Manager, también puede [establecer la va
 
 En la producción, no desea que la aplicación esté nunca fuera de línea. Esto significa que debe asegurarse de que se reinicia si la aplicación o el servidor se bloquean. Aunque espera que no se produzca ninguno de estos sucesos, si somos realistas, debe tener en cuenta ambas eventualidades de la siguiente manera:
 
--   Utilizando un gestor de procesos para reiniciar la aplicación (y Node) cuando se bloquea.
--   Utilizando el sistema init que proporciona su sistema operativo para reiniciar el gestor de procesos cuando se bloquea el sistema operativo. También puede utilizar el sistema init sin un gestor de procesos.
+- Utilizando un gestor de procesos para reiniciar la aplicación (y Node) cuando se bloquea.
+- Utilizando el sistema init que proporciona su sistema operativo para reiniciar el gestor de procesos cuando se bloquea el sistema operativo. También puede utilizar el sistema init sin un gestor de procesos.
 
 Las aplicaciones Node se bloquean si encuentran una excepción no capturada. Lo primero que debe hacer es asegurarse de que se realizan las pruebas correctas en la aplicación y que se manejan todas las excepciones (consulte [Manejar correctamente las excepciones](#exceptions) para obtener detalles). No obstante, para estar libre de errores, aplique un mecanismo para garantizar que cuando se bloquee la aplicación, se reinicie automáticamente.
 
@@ -243,15 +243,15 @@ En el desarrollo, la aplicación se inicia simplemente desde la línea de mandat
 
 Además de reiniciar la aplicación cuando se bloquea, un gestor de procesos permite:
 
--   Obtener información útil sobre el rendimiento en tiempo de ejecución y el consumo de recursos.
--   Modificar dinámicamente los valores para mejorar el rendimiento.
--   Controlar la agrupación en clúster (StrongLoop PM y pm2).
+- Obtener información útil sobre el rendimiento en tiempo de ejecución y el consumo de recursos.
+- Modificar dinámicamente los valores para mejorar el rendimiento.
+- Controlar la agrupación en clúster (StrongLoop PM y pm2).
 
 Los gestores de procesos más conocidos para Node son los siguientes:
 
--   [StrongLoop Process Manager](http://strong-pm.io/)
--   [PM2](https://github.com/Unitech/pm2)
--   [Forever](https://www.npmjs.com/package/forever)
+- [StrongLoop Process Manager](http://strong-pm.io/)
+- [PM2](https://github.com/Unitech/pm2)
+- [Forever](https://www.npmjs.com/package/forever)
 
 Para ver una comparación característica a característica de los tres gestores de procesos, consulte [http://strong-pm.io/compare/](http://strong-pm.io/compare/). Para ver una introducción más detallada de los tres, consulte [Gestores de procesos para las aplicaciones Express](/{{ page.lang }}/advanced/pm.html).
 
@@ -259,12 +259,12 @@ El uso de cualquiera de estos gestores de procesos bastará para mantener activa
 
 No obstante, StrongLoop PM tiene muchas características especialmente indicadas para el despliegue de producción. Puede utilizarlo y las herramientas relacionadas de StrongLoop para:
 
--   Crear y empaquetar la aplicación localmente y, a continuación, desplegarla de forma segura en el sistema de producción.
--   Reiniciar automáticamente la aplicación si se bloque por cualquier motivo.
--   Gestionar los clústeres de forma remota.
--   Ver perfiles de CPU e instantáneas de almacenamiento dinámico para optimizar el rendimiento y diagnosticar fugas de memoria.
--   Ver medidas de rendimiento para la aplicación.
--   Escalar fácilmente a varios hosts con control integrado para el equilibrador de carga Nginx.
+- Crear y empaquetar la aplicación localmente y, a continuación, desplegarla de forma segura en el sistema de producción.
+- Reiniciar automáticamente la aplicación si se bloque por cualquier motivo.
+- Gestionar los clústeres de forma remota.
+- Ver perfiles de CPU e instantáneas de almacenamiento dinámico para optimizar el rendimiento y diagnosticar fugas de memoria.
+- Ver medidas de rendimiento para la aplicación.
+- Escalar fácilmente a varios hosts con control integrado para el equilibrador de carga Nginx.
 
 Como se explica a continuación, cuando instala StrongLoop PM como un servicio de sistema operativo utilizando el sistema init, se reinicia automáticamente cuando se reinicia el sistema. De esta forma, mantiene activos siempre los clústeres y los procesos de aplicaciones.
 
@@ -274,8 +274,8 @@ La siguiente capa de fiabilidad es garantizar que la aplicación se reinicie cua
 
 Hay dos formas de utilizar los sistemas init con la aplicación Express:
 
--   Ejecutar la aplicación en un gestor de procesos e instalar el gestor de procesos como un servicio con el sistema init. El gestor de procesos reiniciará la aplicación cuando esta se bloquee y el sistema init reiniciará el gestor de procesos cuando se reinicie el sistema operativo. Este es el enfoque recomendado.
--   Ejecutar la aplicación (y Node) directamente con el sistema init. Esta opción parece más simple, pero no tiene las ventajas adicionales de utilizar el gestor de procesos.
+- Ejecutar la aplicación en un gestor de procesos e instalar el gestor de procesos como un servicio con el sistema init. El gestor de procesos reiniciará la aplicación cuando esta se bloquee y el sistema init reiniciará el gestor de procesos cuando se reinicie el sistema operativo. Este es el enfoque recomendado.
+- Ejecutar la aplicación (y Node) directamente con el sistema init. Esta opción parece más simple, pero no tiene las ventajas adicionales de utilizar el gestor de procesos.
 
 ##### Systemd
 
@@ -385,9 +385,9 @@ Como el trabajo se configura para ejecutarse cuando se inicia el sistema, la apl
 
 Aparte reiniciar automáticamente la aplicación, Upstart permite utilizar estos mandatos:
 
--   `start myapp` – Iniciar la aplicación
--   `restart myapp` – Reiniciar la aplicación
--   `stop myapp` – Detener la aplicación
+- `start myapp` – Iniciar la aplicación
+- `restart myapp` – Reiniciar la aplicación
+- `stop myapp` – Detener la aplicación
 
 Para obtener más información sobre Upstart, consulte [Upstart Intro, Cookbook and Best Practises](http://upstart.ubuntu.com/cookbook).
 

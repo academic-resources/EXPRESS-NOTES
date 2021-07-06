@@ -1,25 +1,44 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-tw" xml:lang="zh-tw">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express 路由</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express 路由</h1>
-</header>
-<h1 id="路由">路由</h1>
-<p><em>路由</em>是指應用程式端點 (URI) 的定義，以及應用程式如何回應用戶端要求。如需路由簡介，請參閱<a href="/%7B%7B%20page.lang%20%7D%7D/starter/basic-routing.html">基本路由</a>。</p>
-<p>下列程式碼範例說明相當基本的路由。</p>
-<pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express 路由</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express 路由</h1>
+    </header>
+    <h1 id="路由">路由</h1>
+    <p>
+      <em>路由</em>是指應用程式端點 (URI)
+      的定義，以及應用程式如何回應用戶端要求。如需路由簡介，請參閱<a
+        href="/%7B%7B%20page.lang%20%7D%7D/starter/basic-routing.html"
+        >基本路由</a
+      >。
+    </p>
+    <p>下列程式碼範例說明相當基本的路由。</p>
+    <pre>
 <code class="language-javascript" translate="no">
 var express = require('express');
 var app = express();
@@ -30,12 +49,15 @@ app.get('/', function(req, res) {
 });
 </code>
 </pre>
-<h2 id="route-methods">
-路由方法
-</h2>
-<p>路由方法衍生自其中一個 HTTP 方法，並且會附加到 <code>express</code> 類別的實例中。</p>
-<p>下列程式碼範例說明對應用程式根目錄提出 GET 和 POST 方法時所定義的路由。</p>
-<pre>
+    <h2 id="route-methods">路由方法</h2>
+    <p>
+      路由方法衍生自其中一個 HTTP 方法，並且會附加到
+      <code>express</code> 類別的實例中。
+    </p>
+    <p>
+      下列程式碼範例說明對應用程式根目錄提出 GET 和 POST 方法時所定義的路由。
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 // GET method route
 app.get('/', function (req, res) {
@@ -48,13 +70,33 @@ app.post('/', function (req, res) {
 });
 </code>
 </pre>
-<p>Express 支援下列的路由方法，這些方法對應至 HTTP 方法：<code>get</code>、 <code>post</code>、<code>put</code>、<code>head</code>、<code>delete</code>、<code>options</code>、 <code>trace</code>、<code>copy</code>、<code>lock</code>、<code>mkcol</code>、<code>move</code>、<code>purge</code>、<code>propfind</code>、<code>proppatch</code>、<code>unlock</code>、<code>report</code>、<code>mkactivity</code>、<code>checkout</code>、<code>merge</code>、<code>m-search</code>、<code>notify</code>、<code>subscribe</code>、<code>unsubscribe</code>、<code>patch</code>、<code>search</code>，以及 <code>connect</code>。</p>
-<div class="doc-box doc-info" data-markdown="1">
-<p>如果要遞送的方法會轉換成無效的 JavaScript 變數名稱，請使用括弧表示法。例如，<code>app['m-search']('/', function ...</code></p>
-</div>
-<p><code>app.all()</code> 是一個特殊的路由方法，它不是衍生自任何 HTTP 方法。此方法用來在所有要求方法的路徑中載入中介軟體函數。</p>
-<p>在下列範例中，不論您使用的是 GET、POST、PUT、DELETE 或 <a href="https://nodejs.org/api/http.html#http_http_methods">http 模組</a>中支援的其他任何 HTTP 要求方法，都會針對傳給 “/secret” 的要求執行處理程式。</p>
-<pre>
+    <p>
+      Express 支援下列的路由方法，這些方法對應至 HTTP 方法：<code>get</code>、
+      <code>post</code
+      >、<code>put</code>、<code>head</code>、<code>delete</code>、<code>options</code>、
+      <code>trace</code
+      >、<code>copy</code>、<code>lock</code>、<code>mkcol</code>、<code>move</code>、<code>purge</code>、<code>propfind</code>、<code>proppatch</code>、<code>unlock</code>、<code>report</code>、<code>mkactivity</code>、<code>checkout</code>、<code>merge</code>、<code>m-search</code>、<code>notify</code>、<code>subscribe</code>、<code>unsubscribe</code>、<code>patch</code>、<code>search</code>，以及
+      <code>connect</code>。
+    </p>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        如果要遞送的方法會轉換成無效的 JavaScript
+        變數名稱，請使用括弧表示法。例如，<code
+          >app['m-search']('/', function ...</code
+        >
+      </p>
+    </div>
+    <p>
+      <code>app.all()</code> 是一個特殊的路由方法，它不是衍生自任何 HTTP
+      方法。此方法用來在所有要求方法的路徑中載入中介軟體函數。
+    </p>
+    <p>
+      在下列範例中，不論您使用的是 GET、POST、PUT、DELETE 或
+      <a href="https://nodejs.org/api/http.html#http_http_methods">http 模組</a
+      >中支援的其他任何 HTTP 要求方法，都會針對傳給 “/secret”
+      的要求執行處理程式。
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.all('/secret', function (req, res, next) {
   console.log('Accessing the secret section ...');
@@ -62,109 +104,150 @@ app.all('/secret', function (req, res, next) {
 });
 </code>
 </pre>
-<h2 id="route-paths">
-路由路徑
-</h2>
-<p>當路由路徑配上要求方法時，即定義了發出要求時的目標端點。路由路徑可以是字串、字串型樣或正規表示式。</p>
-<div class="doc-box doc-info" data-markdown="1">
-<p>Express 使用 <a href="https://www.npmjs.com/package/path-to-regexp">path-to-regexp</a> 來找出相符的路由路徑；請參閱 path-to-regexp 說明文件，取得可用來定義路由路徑的所有可行方法。<a href="http://forbeslindesay.github.io/express-route-tester/">Express Route Tester</a> 是一個用來測試 Express 基本路由的方便工具，只不過它不支援型樣相符。</p>
-</div>
-<div class="doc-box doc-warn" data-markdown="1">
-<p>查詢字串不是路由路徑的一部分。</p>
-</div>
-<p>以下是以字串為基礎的部分路由路徑範例。</p>
-<p>此路由路徑將符合傳送給根路由 <code>/</code> 的要求。</p>
-<pre>
+    <h2 id="route-paths">路由路徑</h2>
+    <p>
+      當路由路徑配上要求方法時，即定義了發出要求時的目標端點。路由路徑可以是字串、字串型樣或正規表示式。
+    </p>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        Express 使用
+        <a href="https://www.npmjs.com/package/path-to-regexp"
+          >path-to-regexp</a
+        >
+        來找出相符的路由路徑；請參閱 path-to-regexp
+        說明文件，取得可用來定義路由路徑的所有可行方法。<a
+          href="http://forbeslindesay.github.io/express-route-tester/"
+          >Express Route Tester</a
+        >
+        是一個用來測試 Express 基本路由的方便工具，只不過它不支援型樣相符。
+      </p>
+    </div>
+    <div class="doc-box doc-warn" data-markdown="1">
+      <p>查詢字串不是路由路徑的一部分。</p>
+    </div>
+    <p>以下是以字串為基礎的部分路由路徑範例。</p>
+    <p>此路由路徑將符合傳送給根路由 <code>/</code> 的要求。</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/', function (req, res) {
   res.send('root');
 });
 </code>
 </pre>
-<p>此路由路徑將符合傳送給 <code>/about</code> 的要求。</p>
-<pre>
+    <p>此路由路徑將符合傳送給 <code>/about</code> 的要求。</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/about', function (req, res) {
   res.send('about');
 });
 </code>
 </pre>
-<p>此路由路徑將符合傳送給 <code>/random.text</code> 的要求。</p>
-<pre>
+    <p>此路由路徑將符合傳送給 <code>/random.text</code> 的要求。</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/random.text', function (req, res) {
   res.send('random.text');
 });
 </code>
 </pre>
-<p>以下是以字串型樣為基礎的部分路由路徑範例。</p>
-<p>此路由路徑將符合 <code>acd</code> 和 <code>abcd</code>。</p>
-<pre>
+    <p>以下是以字串型樣為基礎的部分路由路徑範例。</p>
+    <p>此路由路徑將符合 <code>acd</code> 和 <code>abcd</code>。</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/ab?cd', function(req, res) {
   res.send('ab?cd');
 });
 </code>
 </pre>
-<p>此路由路徑將符合 <code>abcd</code>、<code>abbcd</code>、<code>abbbcd</code> 等。</p>
-<pre>
+    <p>
+      此路由路徑將符合 <code>abcd</code>、<code>abbcd</code>、<code
+        >abbbcd</code
+      >
+      等。
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/ab+cd', function(req, res) {
   res.send('ab+cd');
 });
 </code>
 </pre>
-<p>此路由路徑將符合 <code>abcd</code>、<code>abxcd</code>、<code>abRABDOMcd</code>、<code>ab123cd</code> 等。</p>
-<pre>
+    <p>
+      此路由路徑將符合
+      <code>abcd</code>、<code>abxcd</code>、<code>abRABDOMcd</code>、<code
+        >ab123cd</code
+      >
+      等。
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/ab*cd', function(req, res) {
   res.send('ab*cd');
 });
 </code>
 </pre>
-<p>此路由路徑將符合 <code>/abe</code> 和 <code>/abcde</code>。</p>
-<pre>
+    <p>此路由路徑將符合 <code>/abe</code> 和 <code>/abcde</code>。</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/ab(cd)?e', function(req, res) {
  res.send('ab(cd)?e');
 });
 </code>
 </pre>
-<div class="doc-box doc-info" data-markdown="1">
-<p>?、+、* 和 () 字元是其正規表示式對應項目的一部分。以字串為基礎的路徑會照字面來解譯連字符號 (-) 和句點 (.)。</p>
-</div>
-<p>以正規表示式為基礎的路由路徑範例：</p>
-<p>只要路由名稱中有 “a”，都與這個路由路徑相符。</p>
-<pre>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        ?、+、* 和 ()
+        字元是其正規表示式對應項目的一部分。以字串為基礎的路徑會照字面來解譯連字符號
+        (-) 和句點 (.)。
+      </p>
+    </div>
+    <p>以正規表示式為基礎的路由路徑範例：</p>
+    <p>只要路由名稱中有 “a”，都與這個路由路徑相符。</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get(/a/, function(req, res) {
   res.send('/a/');
 });
 </code>
 </pre>
-<p>此路由路徑將符合 <code>butterfly</code> 和 <code>dragonfly</code>，但不符合 <code>butterflyman</code>、<code>dragonfly man</code> 等。</p>
-<pre>
+    <p>
+      此路由路徑將符合 <code>butterfly</code> 和
+      <code>dragonfly</code>，但不符合 <code>butterflyman</code>、<code
+        >dragonfly man</code
+      >
+      等。
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get(/.*fly$/, function(req, res) {
   res.send('/.*fly$/');
 });
 </code>
 </pre>
-<h2 id="route-handlers">
-路由處理程式
-</h2>
-<p>您可以提供其行為類似<a href="/%7B%7B%20page.lang%20%7D%7D/guide/using-middleware.html">中介軟體</a>的多個回呼函數，以處理要求。唯一的例外情況是這些回呼可能會呼叫 <code>next('route')</code>，來略過其餘的路由回呼。如果沒有理由繼續處理現行路由，您可以使用這項機制，在路由中強制施行前置條件，然後將控制權傳遞給後續的路由。</p>
-<p>路由處理程式的形式可以是一個函數、函數陣列，或上述兩種的組合，如下列範例所示。</p>
-<p>單一回呼函數可以處理路由。例如：</p>
-<pre>
+    <h2 id="route-handlers">路由處理程式</h2>
+    <p>
+      您可以提供其行為類似<a
+        href="/%7B%7B%20page.lang%20%7D%7D/guide/using-middleware.html"
+        >中介軟體</a
+      >的多個回呼函數，以處理要求。唯一的例外情況是這些回呼可能會呼叫
+      <code>next('route')</code
+      >，來略過其餘的路由回呼。如果沒有理由繼續處理現行路由，您可以使用這項機制，在路由中強制施行前置條件，然後將控制權傳遞給後續的路由。
+    </p>
+    <p>
+      路由處理程式的形式可以是一個函數、函數陣列，或上述兩種的組合，如下列範例所示。
+    </p>
+    <p>單一回呼函數可以處理路由。例如：</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/example/a', function (req, res) {
   res.send('Hello from A!');
 });
 </code>
 </pre>
-<p>多個回呼函數可以處理路由（請確定您有指定 <code>next</code> 物件）。例如：</p>
-<pre>
+    <p>
+      多個回呼函數可以處理路由（請確定您有指定 <code>next</code> 物件）。例如：
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/example/b', function (req, res, next) {
   console.log('the response will be sent by the next function ...');
@@ -174,8 +257,8 @@ app.get('/example/b', function (req, res, next) {
 });
 </code>
 </pre>
-<p>回呼函數陣列可以處理路由。例如：</p>
-<pre>
+    <p>回呼函數陣列可以處理路由。例如：</p>
+    <pre>
 <code class="language-javascript" translate="no">
 var cb0 = function (req, res, next) {
   console.log('CB0');
@@ -194,8 +277,8 @@ var cb2 = function (req, res) {
 app.get('/example/c', [cb0, cb1, cb2]);
 </code>
 </pre>
-<p>獨立函數與函數陣列的組合可以處理路由。例如：</p>
-<pre>
+    <p>獨立函數與函數陣列的組合可以處理路由。例如：</p>
+    <pre>
 <code class="language-javascript" translate="no">
 var cb0 = function (req, res, next) {
   console.log('CB0');
@@ -215,62 +298,104 @@ app.get('/example/d', [cb0, cb1], function (req, res, next) {
 });
 </code>
 </pre>
-<h2 id="response-methods">
-回應方法
-</h2>
-<p>在下表中，回應物件 (<code>res</code>) 中的方法可以傳送回應給用戶端，並終止要求/回應循環。如果路由處理程式都沒有呼叫這些方法，用戶端要求將會停擺。</p>
-<table>
-<thead>
-<tr class="header">
-<th>方法</th>
-<th>說明</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.download">res.download()</a></td>
-<td>提示您提供要下載的檔案。</td>
-</tr>
-<tr class="even">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.end">res.end()</a></td>
-<td>結束回應程序。</td>
-</tr>
-<tr class="odd">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.json">res.json()</a></td>
-<td>傳送 JSON 回應。</td>
-</tr>
-<tr class="even">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.jsonp">res.jsonp()</a></td>
-<td>傳送 JSON 回應，並支援 JSONP。</td>
-</tr>
-<tr class="odd">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.redirect">res.redirect()</a></td>
-<td>將要求重新導向。</td>
-</tr>
-<tr class="even">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.render">res.render()</a></td>
-<td>呈現視圖範本。</td>
-</tr>
-<tr class="odd">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.send">res.send()</a></td>
-<td>傳送各種類型的回應。</td>
-</tr>
-<tr class="even">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendFile">res.sendFile()</a></td>
-<td>以八位元組串流形式傳送檔案。</td>
-</tr>
-<tr class="odd">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendStatus">res.sendStatus()</a></td>
-<td>設定回應狀態碼，並以回應內文形式傳送其字串表示法。</td>
-</tr>
-</tbody>
-</table>
-<h2 id="app-route">
-app.route()
-</h2>
-<p>您可以使用 <code>app.route()</code>，來為路由路徑建立可鏈接的路由處理程式。 由於是在單一位置指定路徑，建立模組路由很有用，因為它可減少冗餘和打錯字的情況。如需路由的相關資訊，請參閱 <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router">Router() 說明文件</a>。</p>
-<p>下列範例顯示利用 <code>app.route()</code> 所定義的路由處理程式鏈。</p>
-<pre>
+    <h2 id="response-methods">回應方法</h2>
+    <p>
+      在下表中，回應物件 (<code>res</code>)
+      中的方法可以傳送回應給用戶端，並終止要求/回應循環。如果路由處理程式都沒有呼叫這些方法，用戶端要求將會停擺。
+    </p>
+    <table>
+      <thead>
+        <tr class="header">
+          <th>方法</th>
+          <th>說明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="odd">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.download"
+              >res.download()</a
+            >
+          </td>
+          <td>提示您提供要下載的檔案。</td>
+        </tr>
+        <tr class="even">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.end"
+              >res.end()</a
+            >
+          </td>
+          <td>結束回應程序。</td>
+        </tr>
+        <tr class="odd">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.json"
+              >res.json()</a
+            >
+          </td>
+          <td>傳送 JSON 回應。</td>
+        </tr>
+        <tr class="even">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.jsonp"
+              >res.jsonp()</a
+            >
+          </td>
+          <td>傳送 JSON 回應，並支援 JSONP。</td>
+        </tr>
+        <tr class="odd">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.redirect"
+              >res.redirect()</a
+            >
+          </td>
+          <td>將要求重新導向。</td>
+        </tr>
+        <tr class="even">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.render"
+              >res.render()</a
+            >
+          </td>
+          <td>呈現視圖範本。</td>
+        </tr>
+        <tr class="odd">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.send"
+              >res.send()</a
+            >
+          </td>
+          <td>傳送各種類型的回應。</td>
+        </tr>
+        <tr class="even">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendFile"
+              >res.sendFile()</a
+            >
+          </td>
+          <td>以八位元組串流形式傳送檔案。</td>
+        </tr>
+        <tr class="odd">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendStatus"
+              >res.sendStatus()</a
+            >
+          </td>
+          <td>設定回應狀態碼，並以回應內文形式傳送其字串表示法。</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2 id="app-route">app.route()</h2>
+    <p>
+      您可以使用
+      <code>app.route()</code>，來為路由路徑建立可鏈接的路由處理程式。
+      由於是在單一位置指定路徑，建立模組路由很有用，因為它可減少冗餘和打錯字的情況。如需路由的相關資訊，請參閱
+      <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router"
+        >Router() 說明文件</a
+      >。
+    </p>
+    <p>下列範例顯示利用 <code>app.route()</code> 所定義的路由處理程式鏈。</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.route('/book')
   .get(function(req, res) {
@@ -284,13 +409,22 @@ app.route('/book')
   });
 </code>
 </pre>
-<h2 id="express-router">
-express.Router
-</h2>
-<p><code>express.Router</code> 類別用來建立可裝載的模組路由處理程式。<code>Router</code> 實例是一個完整的中介軟體與路由系統； 因此，常被稱為「迷你應用程式」。</p>
-<p>下列範例是將路由器建立成模組、 在其中載入中介軟體函數、定義一些路由，並且將路由器模組裝載在主要應用程式中的路徑。</p>
-<p>在應用程式目錄中建立一個名為 <code>birds.js</code> 的路由器檔案，內含下列內容：</p>
-<pre>
+    <h2 id="express-router">express.Router</h2>
+    <p>
+      <code>express.Router</code> 類別用來建立可裝載的模組路由處理程式。<code
+        >Router</code
+      >
+      實例是一個完整的中介軟體與路由系統； 因此，常被稱為「迷你應用程式」。
+    </p>
+    <p>
+      下列範例是將路由器建立成模組、
+      在其中載入中介軟體函數、定義一些路由，並且將路由器模組裝載在主要應用程式中的路徑。
+    </p>
+    <p>
+      在應用程式目錄中建立一個名為
+      <code>birds.js</code> 的路由器檔案，內含下列內容：
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var express = require('express');
 var router = express.Router();
@@ -312,14 +446,18 @@ router.get('/about', function(req, res) {
 module.exports = router;
 </code>
 </pre>
-<p>然後將路由器模組載入應用程式中：</p>
-<pre>
+    <p>然後將路由器模組載入應用程式中：</p>
+    <pre>
 <code class="language-javascript" translate="no">
 var birds = require('./birds');
 ...
 app.use('/birds', birds);
 </code>
 </pre>
-<p>現在，應用程式就能夠處理發給 <code>/birds</code> 和 <code>/birds/about</code> 的要求，並且呼叫該路由特定的 <code>timeLog</code> 中介軟體函數。</p>
-</body>
+    <p>
+      現在，應用程式就能夠處理發給 <code>/birds</code> 和
+      <code>/birds/about</code> 的要求，並且呼叫該路由特定的
+      <code>timeLog</code> 中介軟體函數。
+    </p>
+  </body>
 </html>

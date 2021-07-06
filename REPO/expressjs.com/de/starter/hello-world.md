@@ -31,7 +31,7 @@ app.listen(port, () => {
 </code>
 </pre>
 
-Die Anwendung startet einen Server und ist an Port 3000 empfangsbereit für Verbindungen. Die Anwendung antwortet mit "Hello World!" auf Anforderungen zur Stamm-URL (`/`) oder zu *route*. Bei jedem anderen Pfad lautet die Antwort **404 Not Found**.
+Die Anwendung startet einen Server und ist an Port 3000 empfangsbereit für Verbindungen. Die Anwendung antwortet mit "Hello World!" auf Anforderungen zur Stamm-URL (`/`) oder zu _route_. Bei jedem anderen Pfad lautet die Antwort **404 Not Found**.
 
 <div class="doc-box doc-notice" markdown="1">
 `req` (Anforderung) und `res` (Antwort) sind genau dieselben Objekte, die Node bereitstellt. Sie können also `req.pipe()`, `req.on('data', callback)` und alle anderen Tasks, die Sie ausführen wollen, ohne Express ausführen.
@@ -46,4 +46,3 @@ $ node app.js
 </pre>
 
 Laden Sie dann [http://localhost:3000/](http://localhost:3000/) in einen Browser, um die Ausgabe zu sehen.
-

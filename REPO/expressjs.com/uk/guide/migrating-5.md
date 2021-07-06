@@ -11,7 +11,7 @@ lang: uk
 
 Express 5.0 is still in the alpha release stage, but here is a preview of the changes that will be in the release and how to migrate your Express 4 app to Express 5.
 
-Express 5 is not very different from Express 4: The changes to the API are not as significant as from 3.0 to 4.0.  Although the basic API remains the same, there are still breaking changes; in other words an existing Express 4 program might not work if you update it to use Express 5.
+Express 5 is not very different from Express 4: The changes to the API are not as significant as from 3.0 to 4.0. Although the basic API remains the same, there are still breaking changes; in other words an existing Express 4 program might not work if you update it to use Express 5.
 
 To install the latest alpha and to preview Express 5, enter the following command in your application root directory:
 
@@ -63,7 +63,7 @@ If you use any of these methods or properties in your app, it will crash. So, yo
 
 Express 5 no longer supports the `app.del()` function. If you use this function an error is thrown. For registering HTTP DELETE routes, use the `app.delete()` function instead.
 
-Initially `del` was used instead of `delete`, because `delete` is a reserved keyword in JavaScript. However, as of ECMAScript 6, `delete` and other reserved keywords can legally be used as property names. 
+Initially `del` was used instead of `delete`, because `delete` is a reserved keyword in JavaScript. However, as of ECMAScript 6, `delete` and other reserved keywords can legally be used as property names.
 
 <h4 id="app.param">app.param(fn)</h4>
 
@@ -71,7 +71,7 @@ The `app.param(fn)` signature was used for modifying the behavior of the `app.pa
 
 <h4 id="plural">Pluralized method names</h4>
 
-The following method names have been pluralized. In Express 4, using the old methods resulted in a deprecation warning.  Express 5 no longer supports them at all:
+The following method names have been pluralized. In Express 4, using the old methods resulted in a deprecation warning. Express 5 no longer supports them at all:
 
 `req.acceptsCharset()` is replaced by `req.acceptsCharsets()`.
 

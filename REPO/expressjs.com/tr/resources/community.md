@@ -4,6 +4,7 @@ title: Express community
 menu: resources
 lang: tr
 ---
+
 <div id="page-doc" markdown="1">
 # Community
 
@@ -56,7 +57,7 @@ in the repository covering everything from API design and authentication to temp
 
 Our vibrant community has created a large variety of extensions,
 [middleware modules](/{{ page.lang }}/resources/middleware.html) and
-[higher-level frameworks](frameworks.html).  
+[higher-level frameworks](frameworks.html).
 
 Additionally, the Express community maintains modules in these two GitHub orgs:
 
@@ -64,4 +65,5 @@ Additionally, the Express community maintains modules in these two GitHub orgs:
 - [pillarjs](https://pillarjs.github.io/): low-level modules that Express uses internally.
 
 See also the [Express wiki](https://github.com/expressjs/express/wiki).
+
 </div>

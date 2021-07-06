@@ -9,7 +9,7 @@ lang: de
 
 ## Überblick
 
-Der Begriff *"Produktion"* bezieht sich auf die Phase im Softwarelebenszyklus, in der eine Anwendung oder API für Endbenutzer oder Verbraucher allgemein verfügbar ist. Im Gegensatz dazu wird in der Phase *"Entwicklung"* noch aktiv Code geschrieben und getestet. Die Anwendung ist in dieser Phase noch nicht für externen Zugriff verfügbar. Die entsprechenden Systemumgebungen werden als *Produktionsumgebungen* und *Entwicklungsumgebungen* bezeichnet.
+Der Begriff _"Produktion"_ bezieht sich auf die Phase im Softwarelebenszyklus, in der eine Anwendung oder API für Endbenutzer oder Verbraucher allgemein verfügbar ist. Im Gegensatz dazu wird in der Phase _"Entwicklung"_ noch aktiv Code geschrieben und getestet. Die Anwendung ist in dieser Phase noch nicht für externen Zugriff verfügbar. Die entsprechenden Systemumgebungen werden als _Produktionsumgebungen_ und _Entwicklungsumgebungen_ bezeichnet.
 
 Entwicklungs- und Produktionsumgebungen werden in der Regel unterschiedlich konfiguriert und weisen deutliche Unterschiede bei den Anforderungen auf. Was in der Entwicklung funktioniert, muss in der Produktion nicht unbedingt akzeptabel sein. Beispiel: In einer Entwicklungsumgebung ist eine ausführliche Protokollierung von Fehlern für Debuggingzwecke sinnvoll. Dieselbe Vorgehensweise kann in einer Produktionsumgebung jedoch zu einem Sicherheitsproblem führen. In einer Entwicklungsumgebung müssen Sie sich keine Gedanken zu Themen wie Skalierbarkeit, Zuverlässigkeit und Leistung machen, während dies in einer Produktionsumgebung kritische Faktoren sind.
 
@@ -25,7 +25,7 @@ Stellen Sie außerdem sicher, dass Sie keine anfälligen Express-Versionen verwe
 
 Wenn über Ihre Anwendung vertrauliche Daten bearbeitet oder übertragen werden, sollten Sie [Transport Layer Security](https://en.wikipedia.org/wiki/Transport_Layer_Security) (TLS) verwenden, um die Verbindung und die Daten zu schützen. Diese Technologie verschlüsselt Daten, bevor sie vom Client zum Server gesendet werden. Dadurch lassen sich einige gängige (und einfache) Hackerattacken vermeiden. Auch wenn Ajax- und POST-Anforderungen nicht sofort offensichtlich und in Browsern "versteckt" zu sein scheinen, ist deren Netzverkehr anfällig für das [Ausspionieren von Paketen](https://en.wikipedia.org/wiki/Packet_analyzer) und [Man-in-the-Middle-Attacken](https://en.wikipedia.org/wiki/Man-in-the-middle_attack).
 
-Möglicherweise sind Sie mit SSL-Verschlüsselung (Secure Socket Layer) bereits vertraut. [TLS ist einfach der nächste Entwicklungsschritt bei SSL](https://msdn.microsoft.com/en-us/library/windows/desktop/aa380515(v=vs.85).aspx). In anderen Worten: Wenn Sie bisher SSL verwendet haben, sollten Sie ein Upgrade auf TLS in Erwägung ziehen. Generell empfehlen wir für TLS den Nginx-Server. Eine gute Referenz zum Konfigurieren von TLS auf Nginx (und anderen Servern) ist [Empfohlene Serverkonfigurationen (Mozilla Wiki)](https://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_Server_Configurations).
+Möglicherweise sind Sie mit SSL-Verschlüsselung (Secure Socket Layer) bereits vertraut. [TLS ist einfach der nächste Entwicklungsschritt bei SSL](<https://msdn.microsoft.com/en-us/library/windows/desktop/aa380515(v=vs.85).aspx>). In anderen Worten: Wenn Sie bisher SSL verwendet haben, sollten Sie ein Upgrade auf TLS in Erwägung ziehen. Generell empfehlen wir für TLS den Nginx-Server. Eine gute Referenz zum Konfigurieren von TLS auf Nginx (und anderen Servern) ist [Empfohlene Serverkonfigurationen (Mozilla Wiki)](https://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_Server_Configurations).
 
 Ein handliches Tool zum Abrufen eines kostenloses TLS-Zertifikats ist außerdem [Let's Encrypt](https://letsencrypt.org/about/), eine kostenlose, automatisierte und offene Zertifizierungsstelle der [Internet Security Research Group (ISRG)](https://letsencrypt.org/isrg/).
 
@@ -35,14 +35,14 @@ Ein handliches Tool zum Abrufen eines kostenloses TLS-Zertifikats ist außerdem 
 
 "Helmet" ist eine Ansammlung von neun kleineren Middlewarefunktionen, über die sicherheitsrelevante HTTP-Header festgelegt werden.
 
-* Über [csp](https://github.com/helmetjs/csp) wird der `Content-Security-Policy`-Header festgelegt, um Cross-Site Scripting-Attacken und anderen standortübergreifenden Injektionen vorzubeugen.
-* Über [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) wird der `X-Powered-By`-Header entfernt.
-* Über [hsts](https://github.com/helmetjs/hsts) werden `Strict-Transport-Security`-Header festgelegt, über die sichere (HTTP over SSL/TLS) Verbindungen zum Server durchgesetzt werden.
-* Über [ieNoOpen](https://github.com/helmetjs/ienoopen) werden `X-Download-Options`-Header für IE8+ festgelegt.
-* Über [noCache](https://github.com/helmetjs/nocache) werden `Cache-Control`- und Pragma-Header festgelegt, um clientseitiges Caching zu deaktivieren.
-* Über [noSniff](https://github.com/helmetjs/dont-sniff-mimetype) werden `X-Content-Type-Options`-Header festgelegt, um bei Browsern MIME-Sniffing von Antworten weg vom deklarierten Inhaltstyp (declared content-type) vorzubeugen.
-* Über [frameguard](https://github.com/helmetjs/frameguard) wird der `X-Frame-Options`-Header festgelegt, um [Clickjacking](https://www.owasp.org/index.php/Clickjacking)-Schutz zu gewährleisten.
-* Über [xssFilter](https://github.com/helmetjs/x-xss-protection) werden `X-XSS-Protection`-Header festgelegt, um XSS-Filter (Cross-site Scripting) in den meisten aktuellen Web-Browsern zu aktivieren.
+- Über [csp](https://github.com/helmetjs/csp) wird der `Content-Security-Policy`-Header festgelegt, um Cross-Site Scripting-Attacken und anderen standortübergreifenden Injektionen vorzubeugen.
+- Über [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) wird der `X-Powered-By`-Header entfernt.
+- Über [hsts](https://github.com/helmetjs/hsts) werden `Strict-Transport-Security`-Header festgelegt, über die sichere (HTTP over SSL/TLS) Verbindungen zum Server durchgesetzt werden.
+- Über [ieNoOpen](https://github.com/helmetjs/ienoopen) werden `X-Download-Options`-Header für IE8+ festgelegt.
+- Über [noCache](https://github.com/helmetjs/nocache) werden `Cache-Control`- und Pragma-Header festgelegt, um clientseitiges Caching zu deaktivieren.
+- Über [noSniff](https://github.com/helmetjs/dont-sniff-mimetype) werden `X-Content-Type-Options`-Header festgelegt, um bei Browsern MIME-Sniffing von Antworten weg vom deklarierten Inhaltstyp (declared content-type) vorzubeugen.
+- Über [frameguard](https://github.com/helmetjs/frameguard) wird der `X-Frame-Options`-Header festgelegt, um [Clickjacking](https://www.owasp.org/index.php/Clickjacking)-Schutz zu gewährleisten.
+- Über [xssFilter](https://github.com/helmetjs/x-xss-protection) werden `X-XSS-Protection`-Header festgelegt, um XSS-Filter (Cross-site Scripting) in den meisten aktuellen Web-Browsern zu aktivieren.
 
 Installieren Sie "Helmet" wie alle anderen Module:
 
@@ -83,8 +83,8 @@ Um sicherzustellen, dass Cookies Ihre Anwendung nicht für Angriffsmöglichkeite
 
 Es gibt zwei wesentliche Middleware-Cookie-Sitzungsmodule:
 
-* [express-session](https://www.npmjs.com/package/express-session), das in Express 3.x integrierte `express.session`-Middleware ersetzt.
-* [cookie-session](https://www.npmjs.com/package/cookie-session), das in Express 3.x integrierte `express.cookieSession`-Middleware ersetzt.
+- [express-session](https://www.npmjs.com/package/express-session), das in Express 3.x integrierte `express.session`-Middleware ersetzt.
+- [cookie-session](https://www.npmjs.com/package/cookie-session), das in Express 3.x integrierte `express.cookieSession`-Middleware ersetzt.
 
 Der Hauptunterschied zwischen diesen beiden Modulen liegt darin, wie die Cookie-Sitzungsdaten gespeichert werden. Die [express-session](https://www.npmjs.com/package/express-session)-Middleware speichert Sitzungsdaten auf dem Server. Sie speichert nur die Sitzungs-ID im Cookie und nicht die Sitzungsdaten. Standardmäßig wird dabei der speicherinterne Speicher verwendet. Eine Verwendung der Middleware in der Produktionsumgebung ist nicht vorgesehen. In der Produktionsumgebung müssen Sie einen skalierbaren "Session-Store" einrichten. Siehe hierzu die Liste der [kompatiblen Session-Stores](https://github.com/expressjs/session#compatible-session-stores).
 
@@ -112,11 +112,11 @@ app.use( session({
 
 Legen Sie die folgenden Cookieoptionen fest, um die Sicherheit zu erhöhen:
 
-* `secure` - Stellt sicher, dass der Browser das Cookie nur über HTTPS sendet.
-* `httpOnly` - Stellt sicher, dass das Cookie nur über HTTP(S) und nicht über das Client-JavaScript gesendet wird und dadurch Schutz gegen Cross-Site Scripting-Attacken besteht.
-* `domain` - Gibt die Domäne des Cookies an, die für den Vergleich mit der Domäne des Servers verwendet wird, in der die URL angefordert wird. Stimmen diese beiden überein, müssen Sie das Pfadattribut überprüfen.
-* `path` - Gibt den Pfad des Cookies an, der für den Vergleich mit dem Anforderungspfad verwendet wird. Wenn dieser Pfad und die Domäne übereinstimmen, können Sie das Cookie in der Anforderung senden.
-* `expires` - Wird verwendet, um das Ablaufdatum für persistente Cookies festzulegen.
+- `secure` - Stellt sicher, dass der Browser das Cookie nur über HTTPS sendet.
+- `httpOnly` - Stellt sicher, dass das Cookie nur über HTTP(S) und nicht über das Client-JavaScript gesendet wird und dadurch Schutz gegen Cross-Site Scripting-Attacken besteht.
+- `domain` - Gibt die Domäne des Cookies an, die für den Vergleich mit der Domäne des Servers verwendet wird, in der die URL angefordert wird. Stimmen diese beiden überein, müssen Sie das Pfadattribut überprüfen.
+- `path` - Gibt den Pfad des Cookies an, der für den Vergleich mit dem Anforderungspfad verwendet wird. Wenn dieser Pfad und die Domäne übereinstimmen, können Sie das Cookie in der Anforderung senden.
+- `expires` - Wird verwendet, um das Ablaufdatum für persistente Cookies festzulegen.
 
 Dies ist ein Beispiel zur Verwendung der [cookie-session](https://www.npmjs.com/package/cookie-session)-Middleware:
 
@@ -143,15 +143,15 @@ app.use(session({
 
 ## Weitere Überlegungen
 
-Dies sind einige weitere Empfehlungen aus der hervorragenden [Node.js Security Checklist](https://blog.risingstack.com/node-js-security-checklist/).  In diesem Blogbeitrag finden Sie alle Details zu diesen Empfehlungen:
+Dies sind einige weitere Empfehlungen aus der hervorragenden [Node.js Security Checklist](https://blog.risingstack.com/node-js-security-checklist/). In diesem Blogbeitrag finden Sie alle Details zu diesen Empfehlungen:
 
-* Implementieren Sie Rate-Limiting, um Brute-Force-Attacken gegen Authentifizierungen zu verhindern. Hierfür können Sie beispielsweise das [StrongLoop API Gateway](https://strongloop.com/node-js/api-gateway/) verwenden, um eine Rate-Limiting-Richtlinie durchzusetzen. Alternativ können Sie eine Middleware wie [express-limiter](https://www.npmjs.com/package/express-limiter) verwenden. Hierzu müssen Sie jedoch Ihren Code etwas modifizieren.
-* Verwenden Sie die [csurf](https://www.npmjs.com/package/csurf)-Middleware, um CSRF-Attacken (Cross-Site Request Forgery) vorzubeugen.
-* Filtern und bereinigen Sie immer Benutzereingaben, um sich gegen XS-Angriffe (Cross-Site Scripting) und Befehlsinjektionsattacken zu schützen.
-* Implementieren Sie Verteidungsmaßnahmen gegen SQL-Injection-Attacken, indem sie parametrisierte Abfragen oder vorbereitete Anweisungen einsetzen.
-* Nutzen Sie das Open-Source-Tool [sqlmap](http://sqlmap.org/), um SQL-Injection-Schwachstellen in Ihrer Anwendung zu erkennen.
-* Verwenden Sie die Tools [nmap](https://nmap.org/) und [sslyze](https://github.com/nabla-c0d3/sslyze), um die Konfiguration Ihrer SSL-Verschlüsselungen, -Schlüssel und Neuvereinbarungen sowie die Gültigkeit Ihres Zertifikats zu testen.
-* Verwenden Sie [safe-regex](https://www.npmjs.com/package/safe-regex), um sicherzustellen, dass Ihre regulären Ausdrücke nicht für [Denial-of-Service-Attacken](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS) anfällig sind.
+- Implementieren Sie Rate-Limiting, um Brute-Force-Attacken gegen Authentifizierungen zu verhindern. Hierfür können Sie beispielsweise das [StrongLoop API Gateway](https://strongloop.com/node-js/api-gateway/) verwenden, um eine Rate-Limiting-Richtlinie durchzusetzen. Alternativ können Sie eine Middleware wie [express-limiter](https://www.npmjs.com/package/express-limiter) verwenden. Hierzu müssen Sie jedoch Ihren Code etwas modifizieren.
+- Verwenden Sie die [csurf](https://www.npmjs.com/package/csurf)-Middleware, um CSRF-Attacken (Cross-Site Request Forgery) vorzubeugen.
+- Filtern und bereinigen Sie immer Benutzereingaben, um sich gegen XS-Angriffe (Cross-Site Scripting) und Befehlsinjektionsattacken zu schützen.
+- Implementieren Sie Verteidungsmaßnahmen gegen SQL-Injection-Attacken, indem sie parametrisierte Abfragen oder vorbereitete Anweisungen einsetzen.
+- Nutzen Sie das Open-Source-Tool [sqlmap](http://sqlmap.org/), um SQL-Injection-Schwachstellen in Ihrer Anwendung zu erkennen.
+- Verwenden Sie die Tools [nmap](https://nmap.org/) und [sslyze](https://github.com/nabla-c0d3/sslyze), um die Konfiguration Ihrer SSL-Verschlüsselungen, -Schlüssel und Neuvereinbarungen sowie die Gültigkeit Ihres Zertifikats zu testen.
+- Verwenden Sie [safe-regex](https://www.npmjs.com/package/safe-regex), um sicherzustellen, dass Ihre regulären Ausdrücke nicht für [Denial-of-Service-Attacken](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS) anfällig sind.
 
 ## Vermeiden Sie andere Schwachstellen
 

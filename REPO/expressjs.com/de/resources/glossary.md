@@ -35,9 +35,9 @@ Eine plattformübergreifende Unterstützungsbibliothek, bei der die asynchrone E
 
 Eine Funktion, die über die Weiterleitungsebene in Express vor dem letzten Anforderungshandler aufgerufen wird. Deshalb befindet sich diese Funktion in der Mitte zwischen einer unformatierten Anforderung und der endgültigen beabsichtigten Weiterleitung. Nachfolgend finden Sie einige Details zur Middlewareterminologie:
 
-  * `var foo = require('middleware')` bedeutet, dass ein Node.js-Modul *benötigt* oder *verwendet* wird. Dann gibt die Anweisung `var mw = foo()` in der Regel die Middleware zurück.
-  * `app.use(mw)` bedeutet, dass die *Middleware dem globalen Verarbeitungsstack hinzugefügt wird*.
-  * `app.get('/foo', mw, function (req, res) { ... })` bedeutet, dass die *Middleware dem "GET /foo"-Verarbeitungsstack hinzugefügt wird*.
+- `var foo = require('middleware')` bedeutet, dass ein Node.js-Modul _benötigt_ oder _verwendet_ wird. Dann gibt die Anweisung `var mw = foo()` in der Regel die Middleware zurück.
+- `app.use(mw)` bedeutet, dass die _Middleware dem globalen Verarbeitungsstack hinzugefügt wird_.
+- `app.get('/foo', mw, function (req, res) { ... })` bedeutet, dass die _Middleware dem "GET /foo"-Verarbeitungsstack hinzugefügt wird_.
 
 ### Node.js
 

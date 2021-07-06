@@ -9,16 +9,16 @@ lang: ko
 
 데이터베이스를 Express 앱에 연결하는 기능을 추가하려면 앱에 포함된 데이터베이스를 위한 적절한 Node.js 드라이버를 로드해야 합니다. 이 문서에서는 Express 앱의 데이터베이스 시스템에 가장 널리 이용되고 있는 Node.js 모듈 중 다음과 같은 몇 개의 모듈을 추가 및 사용하는 방법을 설명합니다.
 
-* [Cassandra](#cassandra)
-* [CouchDB](#couchdb)
-* [LevelDB](#leveldb)
-* [MySQL](#mysql)
-* [MongoDB](#mongo)
-* [Neo4j](#neo4j)
-* [PostgreSQL](#postgres)
-* [Redis](#redis)
-* [SQLite](#sqlite)
-* [ElasticSearch](#elasticsearch)
+- [Cassandra](#cassandra)
+- [CouchDB](#couchdb)
+- [LevelDB](#leveldb)
+- [MySQL](#mysql)
+- [MongoDB](#mongo)
+- [Neo4j](#neo4j)
+- [PostgreSQL](#postgres)
+- [Redis](#redis)
+- [SQLite](#sqlite)
+- [ElasticSearch](#elasticsearch)
 
 <div class="doc-box doc-notice" markdown="1">
 위의 데이터베이스 드라이버는 사용 가능한 여러 데이터베이스 드라이버 중 일부입니다.  다른 옵션을 확인하려면,

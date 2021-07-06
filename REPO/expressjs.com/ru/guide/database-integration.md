@@ -9,16 +9,16 @@ lang: ru
 
 Для того чтобы добавить функциональную возможность подключения базы данных к приложению Express, необходимо всего лишь загрузить в ваше приложение драйвер Node.js для соответствующей базы данных. В настоящем документе кратко описан способ добавления и использования в приложении Express некоторых наиболее популярных моделей Node.js для систем баз данных:
 
-* [Cassandra](#cassandra)
-* [CouchDB](#couchdb)
-* [LevelDB](#leveldb)
-* [MySQL](#mysql)
-* [MongoDB](#mongo)
-* [Neo4j](#neo4j)
-* [PostgreSQL](#postgres)
-* [Redis](#redis)
-* [SQLite](#sqlite)
-* [ElasticSearch](#elasticsearch)
+- [Cassandra](#cassandra)
+- [CouchDB](#couchdb)
+- [LevelDB](#leveldb)
+- [MySQL](#mysql)
+- [MongoDB](#mongo)
+- [Neo4j](#neo4j)
+- [PostgreSQL](#postgres)
+- [Redis](#redis)
+- [SQLite](#sqlite)
+- [ElasticSearch](#elasticsearch)
 
 <div class="doc-box doc-notice" markdown="1">
 Это неполный список доступных драйверов баз данных.  С другими вариантами можно ознакомиться на сайте [npm](https://www.npmjs.com/).

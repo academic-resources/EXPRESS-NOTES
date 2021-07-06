@@ -1,25 +1,45 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Roteamento no Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Roteamento no Express</h1>
-</header>
-<h1 id="roteamento">Roteamento</h1>
-<p>O <em>Roteamento</em> refere-se à definição de terminais do aplicativo (URIs) e como eles respondem às solicitações do cliente. Para obter uma introdução a roteamento, consulte <a href="/%7B%7B%20page.lang%20%7D%7D/starter/basic-routing.html">Roteamento básico</a>.</p>
-<p>O código a seguir é um exemplo de uma rota muito básica.</p>
-<pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Roteamento no Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Roteamento no Express</h1>
+    </header>
+    <h1 id="roteamento">Roteamento</h1>
+    <p>
+      O <em>Roteamento</em> refere-se à definição de terminais do aplicativo
+      (URIs) e como eles respondem às solicitações do cliente. Para obter uma
+      introdução a roteamento, consulte
+      <a href="/%7B%7B%20page.lang%20%7D%7D/starter/basic-routing.html"
+        >Roteamento básico</a
+      >.
+    </p>
+    <p>O código a seguir é um exemplo de uma rota muito básica.</p>
+    <pre>
 <code class="language-javascript" translate="no">
 var express = require('express');
 var app = express();
@@ -30,12 +50,16 @@ app.get('/', function(req, res) {
 });
 </code>
 </pre>
-<h2 id="route-methods">
-Métodos de roteamento
-</h2>
-<p>Um método de roteamento é derivado a partir de um dos métodos HTTP, e é anexado a uma instância da classe <code>express</code>.</p>
-<p>o código a seguir é um exemplo de rotas para a raiz do aplicativo que estão definidas para os métodos GET e POST.</p>
-<pre>
+    <h2 id="route-methods">Métodos de roteamento</h2>
+    <p>
+      Um método de roteamento é derivado a partir de um dos métodos HTTP, e é
+      anexado a uma instância da classe <code>express</code>.
+    </p>
+    <p>
+      o código a seguir é um exemplo de rotas para a raiz do aplicativo que
+      estão definidas para os métodos GET e POST.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 // GET method route
 app.get('/', function (req, res) {
@@ -48,13 +72,39 @@ app.post('/', function (req, res) {
 });
 </code>
 </pre>
-<p>O Express suporta os seguintes métodos de roteamento que correspondem aos métodos HTTP: <code>get</code>, <code>post</code>, <code>put</code>, <code>head</code>, <code>delete</code>, <code>options</code>, <code>trace</code>, <code>copy</code>, <code>lock</code>, <code>mkcol</code>, <code>move</code>, <code>purge</code>, <code>propfind</code>, <code>proppatch</code>, <code>unlock</code>, <code>report</code>, <code>mkactivity</code>, <code>checkout</code>, <code>merge</code>, <code>m-search</code>, <code>notify</code>, <code>subscribe</code>, <code>unsubscribe</code>, <code>patch</code>, <code>search</code>, e <code>connect</code>.</p>
-<div class="doc-box doc-info" data-markdown="1">
-<p>Para métodos de rota que são traduzidos para nomes de variáveis inválidas no Javascript, use a notação de colchetes. Por exemplo, <code>app['m-search']('/', function ...</code></p>
-</div>
-<p>Existe um método de roteamento especial, <code>app.all()</code>, que não é derivado de nenhum método HTTP. Este método é usado para carregar funções de middleware em um caminho para todos os métodos de solicitação.</p>
-<p>No exemplo a seguir, o manipulador irá ser executado para solicitações para “/secret” se você estiver usando GET, POST, PUT, DELETE, ou qualquer outro método de solicitação HTTP que é suportado no <a href="https://nodejs.org/api/http.html#http_http_methods">módulo http</a>.</p>
-<pre>
+    <p>
+      O Express suporta os seguintes métodos de roteamento que correspondem aos
+      métodos HTTP: <code>get</code>, <code>post</code>, <code>put</code>,
+      <code>head</code>, <code>delete</code>, <code>options</code>,
+      <code>trace</code>, <code>copy</code>, <code>lock</code>,
+      <code>mkcol</code>, <code>move</code>, <code>purge</code>,
+      <code>propfind</code>, <code>proppatch</code>, <code>unlock</code>,
+      <code>report</code>, <code>mkactivity</code>, <code>checkout</code>,
+      <code>merge</code>, <code>m-search</code>, <code>notify</code>,
+      <code>subscribe</code>, <code>unsubscribe</code>, <code>patch</code>,
+      <code>search</code>, e <code>connect</code>.
+    </p>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        Para métodos de rota que são traduzidos para nomes de variáveis
+        inválidas no Javascript, use a notação de colchetes. Por exemplo,
+        <code>app['m-search']('/', function ...</code>
+      </p>
+    </div>
+    <p>
+      Existe um método de roteamento especial, <code>app.all()</code>, que não é
+      derivado de nenhum método HTTP. Este método é usado para carregar funções
+      de middleware em um caminho para todos os métodos de solicitação.
+    </p>
+    <p>
+      No exemplo a seguir, o manipulador irá ser executado para solicitações
+      para “/secret” se você estiver usando GET, POST, PUT, DELETE, ou qualquer
+      outro método de solicitação HTTP que é suportado no
+      <a href="https://nodejs.org/api/http.html#http_http_methods"
+        >módulo http</a
+      >.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.all('/secret', function (req, res, next) {
   console.log('Accessing the secret section ...');
@@ -62,109 +112,182 @@ app.all('/secret', function (req, res, next) {
 });
 </code>
 </pre>
-<h2 id="route-paths">
-Caminhos de rota
-</h2>
-<p>Caminhos de rota, em combinação com os métodos de solicitação, definem os terminais em que as solicitações podem ser feitas. Caminhos de rota podem ser sequências de caracteres, padrões de sequência, ou expressões regulares.</p>
-<div class="doc-box doc-info" data-markdown="1">
-<p>O Express usa o <a href="https://www.npmjs.com/package/path-to-regexp">path-to-regexp</a> para verificar a correspondência de caminhos de rota; consulte a documentação do path-to-regexp para obter todas as possibilidades nas definições de caminhos de rota. O <a href="http://forbeslindesay.github.io/express-route-tester/">Express Route Tester</a> é uma ferramenta útil para testar rotas básicas do Express, apesar de não suportar a correspondência de padrões.</p>
-</div>
-<div class="doc-box doc-warn" data-markdown="1">
-<p>Sequências de consulta não fazem parte dos caminhos de rota.</p>
-</div>
-<p>Aqui estão alguns exemplos de caminhos de rota baseados em sequências de caracteres</p>
-<p>Este caminho de rota corresponde a solicitações à rota raiz, <code>/</code>.</p>
-<pre>
+    <h2 id="route-paths">Caminhos de rota</h2>
+    <p>
+      Caminhos de rota, em combinação com os métodos de solicitação, definem os
+      terminais em que as solicitações podem ser feitas. Caminhos de rota podem
+      ser sequências de caracteres, padrões de sequência, ou expressões
+      regulares.
+    </p>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        O Express usa o
+        <a href="https://www.npmjs.com/package/path-to-regexp"
+          >path-to-regexp</a
+        >
+        para verificar a correspondência de caminhos de rota; consulte a
+        documentação do path-to-regexp para obter todas as possibilidades nas
+        definições de caminhos de rota. O
+        <a href="http://forbeslindesay.github.io/express-route-tester/"
+          >Express Route Tester</a
+        >
+        é uma ferramenta útil para testar rotas básicas do Express, apesar de
+        não suportar a correspondência de padrões.
+      </p>
+    </div>
+    <div class="doc-box doc-warn" data-markdown="1">
+      <p>Sequências de consulta não fazem parte dos caminhos de rota.</p>
+    </div>
+    <p>
+      Aqui estão alguns exemplos de caminhos de rota baseados em sequências de
+      caracteres
+    </p>
+    <p>
+      Este caminho de rota corresponde a solicitações à rota raiz,
+      <code>/</code>.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/', function (req, res) {
   res.send('root');
 });
 </code>
 </pre>
-<p>Este caminho de rota irá corresponder a solicitações ao <code>/about</code>.</p>
-<pre>
+    <p>
+      Este caminho de rota irá corresponder a solicitações ao
+      <code>/about</code>.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/about', function (req, res) {
   res.send('about');
 });
 </code>
 </pre>
-<p>Este caminho de rota irá corresponder a solicitações ao <code>/random.text</code>.</p>
-<pre>
+    <p>
+      Este caminho de rota irá corresponder a solicitações ao
+      <code>/random.text</code>.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/random.text', function (req, res) {
   res.send('random.text');
 });
 </code>
 </pre>
-<p>Aqui estão alguns exemplos de caminhos de rota baseados em padrões de sequência</p>
-<p>Este caminho de rota irá corresponder ao <code>acd</code> e <code>abcd</code>.</p>
-<pre>
+    <p>
+      Aqui estão alguns exemplos de caminhos de rota baseados em padrões de
+      sequência
+    </p>
+    <p>
+      Este caminho de rota irá corresponder ao <code>acd</code> e
+      <code>abcd</code>.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/ab?cd', function(req, res) {
   res.send('ab?cd');
 });
 </code>
 </pre>
-<p>Este caminho de rota irá corresponder ao <code>abcd</code>, <code>abbcd</code>, <code>abbbcd</code>, e assim por diante.</p>
-<pre>
+    <p>
+      Este caminho de rota irá corresponder ao <code>abcd</code>,
+      <code>abbcd</code>, <code>abbbcd</code>, e assim por diante.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/ab+cd', function(req, res) {
   res.send('ab+cd');
 });
 </code>
 </pre>
-<p>Este caminho de rota irá corresponder ao <code>abcd</code>, <code>abxcd</code>, <code>abRABDOMcd</code>, <code>ab123cd</code>, e assim por diante.</p>
-<pre>
+    <p>
+      Este caminho de rota irá corresponder ao <code>abcd</code>,
+      <code>abxcd</code>, <code>abRABDOMcd</code>, <code>ab123cd</code>, e assim
+      por diante.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/ab*cd', function(req, res) {
   res.send('ab*cd');
 });
 </code>
 </pre>
-<p>Este caminho de rota irá corresponder ao <code>/abe</code> e <code>/abcde</code>.</p>
-<pre>
+    <p>
+      Este caminho de rota irá corresponder ao <code>/abe</code> e
+      <code>/abcde</code>.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/ab(cd)?e', function(req, res) {
  res.send('ab(cd)?e');
 });
 </code>
 </pre>
-<div class="doc-box doc-info" data-markdown="1">
-<p>Os caracteres ?, +, *, e () são subconjuntos de suas contrapartes em expressões regulares. O hífen (-) e o ponto (.) são interpretados literalmente por caminhos baseados em sequências de caracteres.</p>
-</div>
-<p>Exemplos de caminhos de rota baseados em expressões regulares:</p>
-<p>Este caminho de rota irá corresponder a qualquer coisa com um “a” no nome.</p>
-<pre>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        Os caracteres ?, +, *, e () são subconjuntos de suas contrapartes em
+        expressões regulares. O hífen (-) e o ponto (.) são interpretados
+        literalmente por caminhos baseados em sequências de caracteres.
+      </p>
+    </div>
+    <p>Exemplos de caminhos de rota baseados em expressões regulares:</p>
+    <p>
+      Este caminho de rota irá corresponder a qualquer coisa com um “a” no nome.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get(/a/, function(req, res) {
   res.send('/a/');
 });
 </code>
 </pre>
-<p>Este caminho de rota irá corresponder a <code>butterfly</code> e <code>dragonfly</code>, mas não a <code>butterflyman</code>, <code>dragonfly man</code>, e assim por diante.</p>
-<pre>
+    <p>
+      Este caminho de rota irá corresponder a <code>butterfly</code> e
+      <code>dragonfly</code>, mas não a <code>butterflyman</code>,
+      <code>dragonfly man</code>, e assim por diante.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get(/.*fly$/, function(req, res) {
   res.send('/.*fly$/');
 });
 </code>
 </pre>
-<h2 id="route-handlers">
-Manipuladores de rota
-</h2>
-<p>É possível fornecer várias funções de retorno de chamada que se comportam como <a href="/%7B%7B%20page.lang%20%7D%7D/guide/using-middleware.html">middleware</a> para manipular uma solicitação. A única exceção é que estes retornos de chamada podem chamar <code>next('route')</code> para efetuar um bypass nos retornos de chamada da rota restantes. É possível usar este mecanismo para impor pré-condições em uma rota, e em seguida passar o controle para rotas subsequentes se não houveram razões para continuar com a rota atual.</p>
-<p>Manipuladores de rota podem estar na forma de uma função, uma matriz de funções, ou combinações de ambas, como mostrado nos seguintes exemplos.</p>
-<p>Uma única função de retorno de chamada pode manipular uma rota. Por exemplo:</p>
-<pre>
+    <h2 id="route-handlers">Manipuladores de rota</h2>
+    <p>
+      É possível fornecer várias funções de retorno de chamada que se comportam
+      como
+      <a href="/%7B%7B%20page.lang%20%7D%7D/guide/using-middleware.html"
+        >middleware</a
+      >
+      para manipular uma solicitação. A única exceção é que estes retornos de
+      chamada podem chamar <code>next('route')</code> para efetuar um bypass nos
+      retornos de chamada da rota restantes. É possível usar este mecanismo para
+      impor pré-condições em uma rota, e em seguida passar o controle para rotas
+      subsequentes se não houveram razões para continuar com a rota atual.
+    </p>
+    <p>
+      Manipuladores de rota podem estar na forma de uma função, uma matriz de
+      funções, ou combinações de ambas, como mostrado nos seguintes exemplos.
+    </p>
+    <p>
+      Uma única função de retorno de chamada pode manipular uma rota. Por
+      exemplo:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/example/a', function (req, res) {
   res.send('Hello from A!');
 });
 </code>
 </pre>
-<p>Mais de uma função de retorno de chamada pode manipular uma rota (certifique-se de especificar o objeto <code>next</code> object). Por exemplo:</p>
-<pre>
+    <p>
+      Mais de uma função de retorno de chamada pode manipular uma rota
+      (certifique-se de especificar o objeto <code>next</code> object). Por
+      exemplo:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/example/b', function (req, res, next) {
   console.log('the response will be sent by the next function ...');
@@ -174,8 +297,11 @@ app.get('/example/b', function (req, res, next) {
 });
 </code>
 </pre>
-<p>Uma matriz de funções de retorno de chamada podem manipular uma rota. Por exemplo:</p>
-<pre>
+    <p>
+      Uma matriz de funções de retorno de chamada podem manipular uma rota. Por
+      exemplo:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var cb0 = function (req, res, next) {
   console.log('CB0');
@@ -194,8 +320,11 @@ var cb2 = function (req, res) {
 app.get('/example/c', [cb0, cb1, cb2]);
 </code>
 </pre>
-<p>Uma combinação de funções independentes e matrizes de funções podem manipular uma rota. Por exemplo:</p>
-<pre>
+    <p>
+      Uma combinação de funções independentes e matrizes de funções podem
+      manipular uma rota. Por exemplo:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var cb0 = function (req, res, next) {
   console.log('CB0');
@@ -215,66 +344,117 @@ app.get('/example/d', [cb0, cb1], function (req, res, next) {
 });
 </code>
 </pre>
-<h2 id="response-methods">
-Métodos de resposta
-</h2>
-<p>Os métodos do objeto de resposta (<code>res</code>) na seguinte tabela podem enviar uma resposta ao cliente, e finalizar o ciclo solicitação-resposta. Se nenhum destes métodos forem chamados a partir de um manipulador de rota, a solicitação do cliente será deixada em suspenso.</p>
-<table>
-<colgroup>
-<col style="width: 36%" />
-<col style="width: 63%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Método</th>
-<th>Descrição</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.download">res.download()</a></td>
-<td>Solicita que seja efetuado o download de um arquivo</td>
-</tr>
-<tr class="even">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.end">res.end()</a></td>
-<td>Termina o processo de resposta.</td>
-</tr>
-<tr class="odd">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.json">res.json()</a></td>
-<td>Envia uma resposta JSON.</td>
-</tr>
-<tr class="even">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.jsonp">res.jsonp()</a></td>
-<td>Envia uma resposta JSON com suporta ao JSONP.</td>
-</tr>
-<tr class="odd">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.redirect">res.redirect()</a></td>
-<td>Redireciona uma solicitação.</td>
-</tr>
-<tr class="even">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.render">res.render()</a></td>
-<td>Renderiza um modelo de visualização.</td>
-</tr>
-<tr class="odd">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.send">res.send()</a></td>
-<td>Envia uma resposta de vários tipos.</td>
-</tr>
-<tr class="even">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendFile">res.sendFile</a></td>
-<td>Envia um arquivo como um fluxo de octeto.</td>
-</tr>
-<tr class="odd">
-<td><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendStatus">res.sendStatus()</a></td>
-<td>Configura o código do status de resposta e envia a sua representação em sequência de caracteres como o corpo de resposta.</td>
-</tr>
-</tbody>
-</table>
-<h2 id="app-route">
-app.route()
-</h2>
-<p>É possível criar manipuladores de rota encadeáveis para um caminho de rota usando o <code>app.route()</code>. Como o caminho é especificado em uma localização única, criar rotas modulares é útil, já que reduz redundâncias e erros tipográficos. Para obter mais informações sobre rotas, consulte: <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router">documentação do Router()</a>.</p>
-<p>Aqui está um exemplo de manipuladores de rotas encadeáveis que são definidos usando <code>app.route()</code>.</p>
-<pre>
+    <h2 id="response-methods">Métodos de resposta</h2>
+    <p>
+      Os métodos do objeto de resposta (<code>res</code>) na seguinte tabela
+      podem enviar uma resposta ao cliente, e finalizar o ciclo
+      solicitação-resposta. Se nenhum destes métodos forem chamados a partir de
+      um manipulador de rota, a solicitação do cliente será deixada em suspenso.
+    </p>
+    <table>
+      <colgroup>
+        <col style="width: 36%" />
+        <col style="width: 63%" />
+      </colgroup>
+      <thead>
+        <tr class="header">
+          <th>Método</th>
+          <th>Descrição</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="odd">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.download"
+              >res.download()</a
+            >
+          </td>
+          <td>Solicita que seja efetuado o download de um arquivo</td>
+        </tr>
+        <tr class="even">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.end"
+              >res.end()</a
+            >
+          </td>
+          <td>Termina o processo de resposta.</td>
+        </tr>
+        <tr class="odd">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.json"
+              >res.json()</a
+            >
+          </td>
+          <td>Envia uma resposta JSON.</td>
+        </tr>
+        <tr class="even">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.jsonp"
+              >res.jsonp()</a
+            >
+          </td>
+          <td>Envia uma resposta JSON com suporta ao JSONP.</td>
+        </tr>
+        <tr class="odd">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.redirect"
+              >res.redirect()</a
+            >
+          </td>
+          <td>Redireciona uma solicitação.</td>
+        </tr>
+        <tr class="even">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.render"
+              >res.render()</a
+            >
+          </td>
+          <td>Renderiza um modelo de visualização.</td>
+        </tr>
+        <tr class="odd">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.send"
+              >res.send()</a
+            >
+          </td>
+          <td>Envia uma resposta de vários tipos.</td>
+        </tr>
+        <tr class="even">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendFile"
+              >res.sendFile</a
+            >
+          </td>
+          <td>Envia um arquivo como um fluxo de octeto.</td>
+        </tr>
+        <tr class="odd">
+          <td>
+            <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res.sendStatus"
+              >res.sendStatus()</a
+            >
+          </td>
+          <td>
+            Configura o código do status de resposta e envia a sua representação
+            em sequência de caracteres como o corpo de resposta.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h2 id="app-route">app.route()</h2>
+    <p>
+      É possível criar manipuladores de rota encadeáveis para um caminho de rota
+      usando o <code>app.route()</code>. Como o caminho é especificado em uma
+      localização única, criar rotas modulares é útil, já que reduz redundâncias
+      e erros tipográficos. Para obter mais informações sobre rotas, consulte:
+      <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router"
+        >documentação do Router()</a
+      >.
+    </p>
+    <p>
+      Aqui está um exemplo de manipuladores de rotas encadeáveis que são
+      definidos usando <code>app.route()</code>.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.route('/book')
   .get(function(req, res) {
@@ -288,13 +468,23 @@ app.route('/book')
   });
 </code>
 </pre>
-<h2 id="express-router">
-express.Router
-</h2>
-<p>Use a classe <code>express.Router</code> para criar manipuladores de rota modulares e montáveis. Uma instância de <code>Router</code> é um middleware e sistema de roteamento completo; por essa razão, ela é frequentemente referida como um “mini-aplicativo”</p>
-<p>O seguinte exemplo cria um roteador como um módulo, carrega uma função de middleware nele, define algumas rotas, e monta o módulo router em um caminho no aplicativo principal.</p>
-<p>Crie um arquivo de roteador com um arquivo chamado <code>birds.js</code> no diretório do aplicativo, com o seguinte conteúdo:</p>
-<pre>
+    <h2 id="express-router">express.Router</h2>
+    <p>
+      Use a classe <code>express.Router</code> para criar manipuladores de rota
+      modulares e montáveis. Uma instância de <code>Router</code> é um
+      middleware e sistema de roteamento completo; por essa razão, ela é
+      frequentemente referida como um “mini-aplicativo”
+    </p>
+    <p>
+      O seguinte exemplo cria um roteador como um módulo, carrega uma função de
+      middleware nele, define algumas rotas, e monta o módulo router em um
+      caminho no aplicativo principal.
+    </p>
+    <p>
+      Crie um arquivo de roteador com um arquivo chamado
+      <code>birds.js</code> no diretório do aplicativo, com o seguinte conteúdo:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var express = require('express');
 var router = express.Router();
@@ -316,14 +506,18 @@ router.get('/about', function(req, res) {
 module.exports = router;
 </code>
 </pre>
-<p>Em seguida, carregue o módulo roteador no aplicativo:</p>
-<pre>
+    <p>Em seguida, carregue o módulo roteador no aplicativo:</p>
+    <pre>
 <code class="language-javascript" translate="no">
 var birds = require('./birds');
 ...
 app.use('/birds', birds);
 </code>
 </pre>
-<p>O aplicativo será agora capaz de manipular solicitações aos caminhos <code>/birds</code> e <code>/birds/about</code>, assim como chamar a função de middleware <code>timeLog</code> que é específica para a rota.</p>
-</body>
+    <p>
+      O aplicativo será agora capaz de manipular solicitações aos caminhos
+      <code>/birds</code> e <code>/birds/about</code>, assim como chamar a
+      função de middleware <code>timeLog</code> que é específica para a rota.
+    </p>
+  </body>
 </html>

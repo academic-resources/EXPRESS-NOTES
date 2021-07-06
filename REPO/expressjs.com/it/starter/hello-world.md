@@ -32,7 +32,7 @@ app.listen(port, () => {
 </pre>
 
 L'applicazione avvia un server e resta in ascolto sulla porta 3000 per le connessioni. L'applicazione risponde con "Hello World!" per le richieste
-all'URL root (`/`) o *route*. Per qualsiasi altro percorso, risponderà con il messaggio **404 Non trovato**.
+all'URL root (`/`) o _route_. Per qualsiasi altro percorso, risponderà con il messaggio **404 Non trovato**.
 
 <div class="doc-box doc-notice" markdown="1">
 I valori `req` (richiesta) e `res` (risposta) sono esattamente gli stessi oggetti forniti da Node, quindi è possibile richiamare
@@ -48,4 +48,3 @@ $ node app.js
 </pre>
 
 Successivamente, caricare [http://localhost:3000/](http://localhost:3000/) su un browser per visualizzare l'output.
-

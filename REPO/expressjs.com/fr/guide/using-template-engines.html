@@ -1,45 +1,88 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Utilisation de moteurs de modèles avec Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Utilisation de moteurs de modèles avec Express</h1>
-</header>
-<h1 id="utilisation-de-moteurs-de-modèles-avec-express">Utilisation de moteurs de modèles avec Express</h1>
-<p>Pour qu’Express puisse afficher le rendu des fichiers modèles, vous devez définir les paramètres d’application suivants :</p>
-<ul>
-<li><code>views</code>, le répertoire dans lequel se trouvent les fichiers modèles. Par exemple : <code>app.set('views', './views')</code></li>
-<li><code>view engine</code>, le moteur de modèle à utiliser. Par exemple : <code>app.set('view engine', 'pug')</code></li>
-</ul>
-<p>Ensuite, installez le package npm du moteur de modèle correspondant :</p>
-<pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Utilisation de moteurs de modèles avec Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Utilisation de moteurs de modèles avec Express</h1>
+    </header>
+    <h1 id="utilisation-de-moteurs-de-modèles-avec-express">
+      Utilisation de moteurs de modèles avec Express
+    </h1>
+    <p>
+      Pour qu’Express puisse afficher le rendu des fichiers modèles, vous devez
+      définir les paramètres d’application suivants :
+    </p>
+    <ul>
+      <li>
+        <code>views</code>, le répertoire dans lequel se trouvent les fichiers
+        modèles. Par exemple : <code>app.set('views', './views')</code>
+      </li>
+      <li>
+        <code>view engine</code>, le moteur de modèle à utiliser. Par exemple :
+        <code>app.set('view engine', 'pug')</code>
+      </li>
+    </ul>
+    <p>Ensuite, installez le package npm du moteur de modèle correspondant :</p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install pug --save
 </code>
 </pre>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>Les moteurs de modèles conformes à Express tels que Pug exportent une fonction nommée <code>__express(filePath, options, callback)</code>, qui est appelée par la fonction <code>res.render()</code> pour générer le code de modèle.</p>
-<p>Certaines moteurs de modèles ne suivent pas cette convention. La bibliothèque <a href="https://www.npmjs.org/package/consolidate">Consolidate.js</a> suit cette convention en mappant tous les moteurs de modèles Node.js répandus, et fonctionne donc parfaitement avec Express.</p>
-</div>
-<p>Une fois le moteur de vue défini, vous n’avez pas à spécifier le moteur ou à charger le module de moteur de modèles dans votre application ; Express charge le module en interne, comme indiqué ci-dessous (pour l’exemple ci-dessus).</p>
-<pre>
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        Les moteurs de modèles conformes à Express tels que Pug exportent une
+        fonction nommée <code>__express(filePath, options, callback)</code>, qui
+        est appelée par la fonction <code>res.render()</code> pour générer le
+        code de modèle.
+      </p>
+      <p>
+        Certaines moteurs de modèles ne suivent pas cette convention. La
+        bibliothèque
+        <a href="https://www.npmjs.org/package/consolidate">Consolidate.js</a>
+        suit cette convention en mappant tous les moteurs de modèles Node.js
+        répandus, et fonctionne donc parfaitement avec Express.
+      </p>
+    </div>
+    <p>
+      Une fois le moteur de vue défini, vous n’avez pas à spécifier le moteur ou
+      à charger le module de moteur de modèles dans votre application ; Express
+      charge le module en interne, comme indiqué ci-dessous (pour l’exemple
+      ci-dessus).
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.set('view engine', 'pug');
 </code>
 </pre>
-<p>Créez un fichier de modèle Pug nommé <code>index.pug</code> dans le répertoire <code>views</code>, avec le contenu suivant :</p>
-<pre>
+    <p>
+      Créez un fichier de modèle Pug nommé <code>index.pug</code> dans le
+      répertoire <code>views</code>, avec le contenu suivant :
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 html
   head
@@ -48,15 +91,30 @@ html
     h1= message
 </code>
 </pre>
-<p>Puis, créez une route pour générer le fichier <code>index.pug</code>. Si la propriété <code>view engine</code> n’est pas définie, vous devez spécifier l’extension du fichier <code>view</code>. Sinon, vous pouvez l’omettre.</p>
-<pre>
+    <p>
+      Puis, créez une route pour générer le fichier <code>index.pug</code>. Si
+      la propriété <code>view engine</code> n’est pas définie, vous devez
+      spécifier l’extension du fichier <code>view</code>. Sinon, vous pouvez
+      l’omettre.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/', function (req, res) {
   res.render('index', { title: 'Hey', message: 'Hello there!'});
 });
 </code>
 </pre>
-<p>Lorsque vous faites une demande vers la page d’accueil, le fichier <code>index.pug</code> est généré en HTML.</p>
-<p>Pour en savoir plus sur le fonctionnement des moteurs de modèle dans Express, voir : <a href="/%7B%7B%20page.lang%20%7D%7D/advanced/developing-template-engines.html">“Développement de moteurs de modèles pour Express”</a>.</p>
-</body>
+    <p>
+      Lorsque vous faites une demande vers la page d’accueil, le fichier
+      <code>index.pug</code> est généré en HTML.
+    </p>
+    <p>
+      Pour en savoir plus sur le fonctionnement des moteurs de modèle dans
+      Express, voir :
+      <a
+        href="/%7B%7B%20page.lang%20%7D%7D/advanced/developing-template-engines.html"
+        >“Développement de moteurs de modèles pour Express”</a
+      >.
+    </p>
+  </body>
 </html>

@@ -13,37 +13,37 @@ lang: ja
 
 このトピックは、従来型の開発と運用の両方にわたる「DevOps」の世界に明確に分類されます。したがって、情報は次の 2 つの部分に分かれています。
 
-* コードで実行する処理 (開発部分)
-  * [gzip 圧縮を使用する](#use-gzip-compression)
-  * [同期関数を使用しない](#dont-use-synchronous-functions)
-  * [ロギングを正確に実行する](#do-logging-correctly)
-  * [例外を適切に処理する](#handle-exceptions-properly)
-* 環境/セットアップで実行する処理 (運用部分)
-  * [Set NODE_ENV to "production"](#set-node_env-to-production)
-  * [Ensure your app automatically restarts](#ensure-your-app-automatically-restarts)
-  * [Run your app in a cluster](#run-your-app-in-a-cluster)
-  * [Cache request results](#cache-request-results)
-  * [Use a load balancer](#use-a-load-balancer)
-  * [Use a reverse proxy](#use-a-reverse-proxy)
+- コードで実行する処理 (開発部分)
+  - [gzip 圧縮を使用する](#use-gzip-compression)
+  - [同期関数を使用しない](#dont-use-synchronous-functions)
+  - [ロギングを正確に実行する](#do-logging-correctly)
+  - [例外を適切に処理する](#handle-exceptions-properly)
+- 環境/セットアップで実行する処理 (運用部分)
+  - [Set NODE_ENV to "production"](#set-node_env-to-production)
+  - [Ensure your app automatically restarts](#ensure-your-app-automatically-restarts)
+  - [Run your app in a cluster](#run-your-app-in-a-cluster)
+  - [Cache request results](#cache-request-results)
+  - [Use a load balancer](#use-a-load-balancer)
+  - [Use a reverse proxy](#use-a-reverse-proxy)
 
 ## コードで実行する処理 {#in-code}
 
 以下に、アプリケーションのパフォーマンスを向上させるためにコードで実行できる処理をいくつか挙げます。
 
-* [gzip 圧縮を使用する](#use-gzip-compression)
-* [同期関数を使用しない](#dont-use-synchronous-functions)
-* [ロギングを正確に実行する](#do-logging-correctly)
-* [例外を適切に処理する](#handle-exceptions-properly)
+- [gzip 圧縮を使用する](#use-gzip-compression)
+- [同期関数を使用しない](#dont-use-synchronous-functions)
+- [ロギングを正確に実行する](#do-logging-correctly)
+- [例外を適切に処理する](#handle-exceptions-properly)
 
 ### gzip 圧縮を使用する
 
 Gzip 圧縮により、応答本体のサイズを大幅に縮小できるため、Web アプリケーションの速度が高くなります。Express アプリケーションで gzip 圧縮として [compression](https://www.npmjs.com/package/compression) ミドルウェアを使用してください。次に例を示します。
 
 ```js
-var compression = require('compression')
-var express = require('express')
-var app = express()
-app.use(compression())
+var compression = require("compression");
+var express = require("express");
+var app = express();
+app.use(compression());
 ```
 
 トラフィックが多い実稼働環境の Web サイトでは、圧縮を適用する最適な方法は、リバース・プロキシー・レベルで実装することです ([リバース・プロキシーの使用](#proxy)を参照)。その場合は、compression ミドルウェアを使用する必要はありません。Nginx で gzip 圧縮を有効にする方法について詳しくは、Nginx 資料の [Module ngx_http_gzip_module](http://nginx.org/en/docs/http/ngx_http_gzip_module.html) を参照してください。
@@ -74,15 +74,15 @@ Node アプリケーションは、キャッチされていない例外が発生
 
 確実にすべての例外を処理するには、以下の技法を使用します。
 
-* [Try-catch の使用](#try-catch)
-* [Promise の使用](#promises)
+- [Try-catch の使用](#try-catch)
+- [Promise の使用](#promises)
 
 上記のトピックを読む前に、error-first コールバックの使用と、ミドルウェアへのエラーの伝搬という Node/Express エラー処理の基礎を理解しておく必要があります。Node は、非同期関数からエラーを返すために「error-first コールバック」という規則を使用します。この場合、コールバック関数への最初のパラメーターがエラー・オブジェクトで、その後に続くパラメーターに結果データがあります。エラーがないことを示すには、最初のパラメーターとして `null` を渡します。コールバック関数は、エラーを有意に処理するには、error-first コールバック規則に対応して従う必要があります。Express におけるベスト・プラクティスは、next() 関数を使用して、ミドルウェア・チェーンを介してエラーを伝搬することです。
 
 エラー処理のその他の基礎については、下記を参照してください。
 
-* [Error Handling in Node.js](https://www.joyent.com/developers/node/design/errors)
-* [Building Robust Node Applications: Error Handling](https://strongloop.com/strongblog/robust-node-applications-error-handling/) (StrongLoop ブログ)
+- [Error Handling in Node.js](https://www.joyent.com/developers/node/design/errors)
+- [Building Robust Node Applications: Error Handling](https://strongloop.com/strongblog/robust-node-applications-error-handling/) (StrongLoop ブログ)
 
 #### 実行してはならないこと
 
@@ -102,18 +102,18 @@ Try-catch は、同期コードで例外をキャッチするために使用で�
 このミドルウェア関数は、JSON オブジェクトである「params」という照会フィールド・パラメーターを受け入れます。
 
 ```js
-app.get('/search', function (req, res) {
+app.get("/search", function (req, res) {
   // Simulating async operation
   setImmediate(function () {
-    var jsonStr = req.query.params
+    var jsonStr = req.query.params;
     try {
-      var jsonObj = JSON.parse(jsonStr)
-      res.send('Success')
+      var jsonObj = JSON.parse(jsonStr);
+      res.send("Success");
     } catch (e) {
-      res.status(400).send('Invalid JSON string')
+      res.status(400).send("Invalid JSON string");
     }
-  })
-})
+  });
+});
 ```
 
 ただし、Try-catch は同期コードでのみ機能します。Node プラットフォームは主に (特に実稼働環境で) 非同期的であるため、Try-catch は多くの例外をキャッチしません。
@@ -123,22 +123,22 @@ app.get('/search', function (req, res) {
 Promise は、`then()` を使用する非同期コード・ブロックのすべての例外 (明示的と暗黙的の両方) を処理します。単に、Promise チェーンの最後に `.catch(next)` を追加してください。次に例を示します。
 
 ```js
-app.get('/', function (req, res, next) {
+app.get("/", function (req, res, next) {
   // do some sync stuff
   queryDb()
     .then(function (data) {
       // handle data
-      return makeCsv(data)
+      return makeCsv(data);
     })
     .then(function (csv) {
       // handle csv
     })
-    .catch(next)
-})
+    .catch(next);
+});
 
 app.use(function (err, req, res, next) {
   // handle error
-})
+});
 ```
 
 これで、非同期と同期のエラーがすべてエラー・ミドルウェアに伝搬されます。
@@ -149,30 +149,36 @@ app.use(function (err, req, res, next) {
 2.  イベント・エミッター (ストリームなど) により、例外がキャッチされないことがあります。そのため、必ずエラー・イベントを適切に処理してください。次に例を示します。
 
 ```js
-const wrap = fn => (...args) => fn(...args).catch(args[2])
+const wrap =
+  (fn) =>
+  (...args) =>
+    fn(...args).catch(args[2]);
 
-app.get('/', wrap(async (req, res, next) => {
-  const company = await getCompanyById(req.query.id)
-  const stream = getLogoStreamById(company.id)
-  stream.on('error', next).pipe(res)
-}))
+app.get(
+  "/",
+  wrap(async (req, res, next) => {
+    const company = await getCompanyById(req.query.id);
+    const stream = getLogoStreamById(company.id);
+    stream.on("error", next).pipe(res);
+  })
+);
 ```
 
 Promise を使用するエラー処理の詳細については、下記を参照してください。
 
-* [Asynchronous Error Handling in Express with Promises, Generators and ES7](https://strongloop.com/strongblog/async-error-handling-expressjs-es7-promises-generators/)
-* [Promises in Node.js with Q – An Alternative to Callbacks](https://strongloop.com/strongblog/promises-in-node-js-with-q-an-alternative-to-callbacks/)
+- [Asynchronous Error Handling in Express with Promises, Generators and ES7](https://strongloop.com/strongblog/async-error-handling-expressjs-es7-promises-generators/)
+- [Promises in Node.js with Q – An Alternative to Callbacks](https://strongloop.com/strongblog/promises-in-node-js-with-q-an-alternative-to-callbacks/)
 
 ## 環境/セットアップで実行する処理
 
 以下に、アプリケーションのパフォーマンスを向上させるためにシステム環境で実行できる処理をいくつか挙げます。
 
-* [NODE_ENV を「production」に設定する](#set-node_env-to-production)
-* [アプリケーションが確実に自動再始動するようにする](#ensure-your-app-automatically-restarts)
-* [アプリケーションをクラスターで実行する](#run-your-app-in-a-cluster)
-* [要求の結果をキャッシュに入れる](#cache-request-results)
-* [ロード・バランサーを使用する](#use-a-load-balancer)
-* [リバース・プロキシーを使用する](#use-a-reverse-proxy)
+- [NODE_ENV を「production」に設定する](#set-node_env-to-production)
+- [アプリケーションが確実に自動再始動するようにする](#ensure-your-app-automatically-restarts)
+- [アプリケーションをクラスターで実行する](#run-your-app-in-a-cluster)
+- [要求の結果をキャッシュに入れる](#cache-request-results)
+- [ロード・バランサーを使用する](#use-a-load-balancer)
+- [リバース・プロキシーを使用する](#use-a-reverse-proxy)
 
 ### NODE_ENV を「production」に設定する
 
@@ -180,9 +186,9 @@ NODE_ENV 環境変数は、アプリケーションが実行される環境 (通
 
 NODE_ENV を「production」に設定すると、Express は次のようになります。
 
-* ビュー・テンプレートをキャッシュに入れる。
-* CSS 拡張から生成された CSS ファイルをキャッシュに入れる。
-* 詳細度の低いエラー・メッセージを生成する。
+- ビュー・テンプレートをキャッシュに入れる。
+- CSS 拡張から生成された CSS ファイルをキャッシュに入れる。
+- 詳細度の低いエラー・メッセージを生成する。
 
 [テスト](http://apmblog.dynatrace.com/2015/07/22/the-drastic-effects-of-omitting-node_env-in-your-express-js-applications/)により、こうすると、アプリケーション・パフォーマンスが 3 倍も高くなることが示されています。
 
@@ -212,8 +218,8 @@ Environment=NODE_ENV=production
 
 実稼働環境では、アプリケーションを絶対にオフラインにしたくありません。つまり、アプリケーションが異常終了した場合も、サーバー自体が異常終了した場合も、アプリケーションが必ず再始動するようにする必要があります。いずれの事態も望ましくないことですが、現実的には以下の対策を通して両方の事態に備えておく必要があります。
 
-* アプリケーション (および Node) が異常終了した場合にプロセス・マネージャーを使用してそれらを再始動する。
-* OS の異常終了時に、OS で提供されている init システムを使用してプロセス・マネージャーを再始動する。プロセス・マネージャーがなくても、init システムを使用することは可能です。
+- アプリケーション (および Node) が異常終了した場合にプロセス・マネージャーを使用してそれらを再始動する。
+- OS の異常終了時に、OS で提供されている init システムを使用してプロセス・マネージャーを再始動する。プロセス・マネージャーがなくても、init システムを使用することは可能です。
 
 Node アプリケーションは、キャッチされていない例外が発生すると、異常終了します。最初に実行する必要があることは、アプリケーションが十分にテストされていて、すべての例外を処理することを確認することです (詳細については、[例外を適切に処理する](#exceptions)を参照)。ただし、フェイルセーフ動作として、アプリケーションが異常終了した場合に確実に自動再始動するためのメカニズムを適用してください。
 
@@ -223,15 +229,15 @@ Node アプリケーションは、キャッチされていない例外が発生
 
 アプリケーションを異常終了時に再始動することに加えて、プロセス・マネージャーでは以下が可能になります。
 
-* ランタイム・パフォーマンスとリソース使用量に関するインサイトを得る。
-* パフォーマンスを向上させるために設定を動的に変更する。
-* クラスタリングを制御する (StrongLoop PM および pm2)。
+- ランタイム・パフォーマンスとリソース使用量に関するインサイトを得る。
+- パフォーマンスを向上させるために設定を動的に変更する。
+- クラスタリングを制御する (StrongLoop PM および pm2)。
 
 Node 向けの最も一般的なプロセス・マネージャーは次のとおりです。
 
-* [StrongLoop Process Manager](http://strong-pm.io/)
-* [PM2](https://github.com/Unitech/pm2)
-* [Forever](https://www.npmjs.com/package/forever)
+- [StrongLoop Process Manager](http://strong-pm.io/)
+- [PM2](https://github.com/Unitech/pm2)
+- [Forever](https://www.npmjs.com/package/forever)
 
 3 つのプロセス・マネージャーの各機能の比較については、[http://strong-pm.io/compare/](http://strong-pm.io/compare/) を参照してください。3 つすべての詳細な紹介については、[Express アプリケーション用のプロセス・マネージャー](/{{ page.lang }}/advanced/pm.html) を参照してください。
 
@@ -239,12 +245,12 @@ Node 向けの最も一般的なプロセス・マネージャーは次のとお
 
 ただし、StrongLoop PM には、明確に実動でのデプロイメントを対象とした機能が数多くあります。このツールを関連する StrongLoop ツールとともに使用して、以下を実行できます。
 
-* アプリケーションをローカル側で作成してパッケージし、実動システムのセキュアにデプロイする。
-* 何らかの理由で異常終了したアプリケーションを自動的に再始動する。
-* クラスターをリモート側で管理する。
-* CPU プロファイルとヒープ・スナップショットを表示して、パフォーマンスを最適化し、メモリー・リークを診断する。
-* アプリケーションのパフォーマンス・メトリックを表示する。
-* Nginx ロード・バランサーの制御が統合された複数のホストに容易に拡張する。
+- アプリケーションをローカル側で作成してパッケージし、実動システムのセキュアにデプロイする。
+- 何らかの理由で異常終了したアプリケーションを自動的に再始動する。
+- クラスターをリモート側で管理する。
+- CPU プロファイルとヒープ・スナップショットを表示して、パフォーマンスを最適化し、メモリー・リークを診断する。
+- アプリケーションのパフォーマンス・メトリックを表示する。
+- Nginx ロード・バランサーの制御が統合された複数のホストに容易に拡張する。
 
 下記で説明するように、init システムを使用して、StrongLoop PM をオペレーティング・システム・サービスとしてインストールすると、システムの再始動時に自動的に再始動します。そのため、アプリケーション・プロセスとクラスターの稼働が永続的に維持されます。
 
@@ -254,14 +260,14 @@ Node 向けの最も一般的なプロセス・マネージャーは次のとお
 
 Express アプリケーションで init システムを使用する方法は 2 つあります。
 
-* プロセス・マネージャーでアプリケーションを実行し、init システムを使用してプロセス・マネージャーをサービスとしてインストールします。アプリケーションが異常終了した場合にプロセス・マネージャーが再始動して、OS の再始動時に init システムがプロセス・マネージャーを再始動します。この方法をお勧めします。
-* init システムで直接、アプリケーション (および Node) を実行します。この方法の方が単純ですが、プロセス・マネージャーを使用する場合に得られる利点は得られません。
+- プロセス・マネージャーでアプリケーションを実行し、init システムを使用してプロセス・マネージャーをサービスとしてインストールします。アプリケーションが異常終了した場合にプロセス・マネージャーが再始動して、OS の再始動時に init システムがプロセス・マネージャーを再始動します。この方法をお勧めします。
+- init システムで直接、アプリケーション (および Node) を実行します。この方法の方が単純ですが、プロセス・マネージャーを使用する場合に得られる利点は得られません。
 
 ##### Systemd
 
 Systemd は、Linux システムとサービス・マネージャーです。大半の主要な Linux ディストリビューションでは、Systemd がデフォルトの init システムとして採用されています。
 
-Systemd サービス構成ファイルは、*unit ファイル* という名前で、ファイル名の末尾は .service です。次に、Node アプリケーションを直接管理するための unit ファイルの例を示します (太字のテキストを、ご使用のシステムとアプリケーションの値に置き換えてください)。
+Systemd サービス構成ファイルは、_unit ファイル_ という名前で、ファイル名の末尾は .service です。次に、Node アプリケーションを直接管理するための unit ファイルの例を示します (太字のテキストを、ご使用のシステムとアプリケーションの値に置き換えてください)。
 
 ```sh
 [Unit]
@@ -357,9 +363,9 @@ respawn limit 10 10
 
 アプリケーションの自動再始動のほか、Upstart では、以下のコマンドを使用できます。
 
-* `start myapp` – アプリケーションの開始
-* `restart myapp` – アプリケーションの再始動
-* `stop myapp` – アプリケーションの停止
+- `start myapp` – アプリケーションの開始
+- `restart myapp` – アプリケーションの再始動
+- `stop myapp` – アプリケーションの停止
 
 Upstart について詳しくは、[Upstart Intro, Cookbook and Best Practises](http://upstart.ubuntu.com/cookbook) を参照してください。
 
@@ -411,7 +417,7 @@ StrongLoop PM を使用したクラスタリングについて詳しくは、Str
 
 #### PM2 の使用
 
-If you deploy your application with PM2, then you can take advantage of clustering _without_ modifying your application code.  You should ensure your [application is stateless](http://pm2.keymetrics.io/docs/usage/specifics/#stateless-apps) first, meaning no local data is stored in the process (such as sessions, websocket connections and the like).
+If you deploy your application with PM2, then you can take advantage of clustering _without_ modifying your application code. You should ensure your [application is stateless](http://pm2.keymetrics.io/docs/usage/specifics/#stateless-apps) first, meaning no local data is stored in the process (such as sessions, websocket connections and the like).
 
 When running an application with PM2, you can enable **cluster mode** to run it in a cluster with a number of instances of your choosing, such as the matching the number of available CPUs on the machine. You can manually change the number of processes in the cluster using the `pm2` command line tool without stopping the app.
 
@@ -449,7 +455,7 @@ For more information on clustering with PM2, see [Cluster Mode](https://pm2.keym
 
 ロード・バランサーは通常、複数のアプリケーション・インスタンスやサーバーとの間のトラフィックを調整するリバース・プロキシーです。[Nginx](http://nginx.org/en/docs/http/load_balancing.html) や [HAProxy](https://www.digitalocean.com/community/tutorials/an-introduction-to-haproxy-and-load-balancing-concepts) を使用して、アプリケーション用にロード・バランサーを簡単にセットアップできます。
 
-ロード・バランシングでは、特定のセッション ID に関連する要求が発信元のプロセスに接続することを確認する必要があります。これは、*セッション・アフィニティー* または*スティッキー・セッション* と呼ばれ、セッション・データに Redis などのデータ・ストアを使用する上記の提案によって対応できます (ご使用のアプリケーションによって異なります)。説明については、[Using multiple nodes](http://socket.io/docs/using-multiple-nodes/) を参照してください。
+ロード・バランシングでは、特定のセッション ID に関連する要求が発信元のプロセスに接続することを確認する必要があります。これは、_セッション・アフィニティー_ または*スティッキー・セッション* と呼ばれ、セッション・データに Redis などのデータ・ストアを使用する上記の提案によって対応できます (ご使用のアプリケーションによって異なります)。説明については、[Using multiple nodes](http://socket.io/docs/using-multiple-nodes/) を参照してください。
 
 ### リバース・プロキシーを使用する
 

@@ -12,6 +12,7 @@ lang: zh-tw
 每一個路由可以有一或多個處理程式函數，當路由相符時，就會執行這些函數。
 
 路由定義的結構如下：
+
 <pre>
 <code class="language-javascript" translate="no">
 app.METHOD(PATH, HANDLER)

@@ -19,11 +19,11 @@ const app = express()
 const port = 3000
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+res.send('Hello World!')
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+console.log(`Example app listening at http://localhost:${port}`)
 })
 </code></pre></div>
 
@@ -56,4 +56,4 @@ $ node app.js
 
 Then, load `http://localhost:3000/` in a browser to see the output.
 
-###  [Previous: Installing ](/{{ page.lang }}/starter/installing.html)&nbsp;&nbsp;&nbsp;&nbsp;[Next: Express Generator ](/{{ page.lang }}/starter/generator.html)
+### [Previous: Installing ](/{{ page.lang }}/starter/installing.html)&nbsp;&nbsp;&nbsp;&nbsp;[Next: Express Generator ](/{{ page.lang }}/starter/generator.html)

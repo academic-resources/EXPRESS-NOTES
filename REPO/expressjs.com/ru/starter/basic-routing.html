@@ -1,73 +1,119 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Основы маршрутизации в Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Основы маршрутизации в Express</h1>
-</header>
-<h1 id="основы-маршрутизации">Основы маршрутизации</h1>
-<p><em>Маршрутизация</em> определяет, как приложение отвечает на клиентский запрос к конкретному адресу (конечной точке), которым является URI (или путь), и определенному методу запроса HTTP (GET, POST и т.д.).</p>
-<p>Каждый маршрут может иметь одну или несколько функций обработки, которые выполняются при сопоставлении маршрута.</p>
-Определение маршрута имеет следующую структуру:
-<pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Основы маршрутизации в Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Основы маршрутизации в Express</h1>
+    </header>
+    <h1 id="основы-маршрутизации">Основы маршрутизации</h1>
+    <p>
+      <em>Маршрутизация</em> определяет, как приложение отвечает на клиентский
+      запрос к конкретному адресу (конечной точке), которым является URI (или
+      путь), и определенному методу запроса HTTP (GET, POST и т.д.).
+    </p>
+    <p>
+      Каждый маршрут может иметь одну или несколько функций обработки, которые
+      выполняются при сопоставлении маршрута.
+    </p>
+    Определение маршрута имеет следующую структуру:
+    <pre>
 <code class="language-javascript" translate="no">
 app.METHOD(PATH, HANDLER)
 </code>
 </pre>
-<p>Где:</p>
-<ul>
-<li><code>app</code> - это экземпляр <code>express</code>.</li>
-<li><code>METHOD</code> - <a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">метод запроса HTTP</a>.</li>
-<li><code>PATH</code> - путь на сервере.</li>
-<li><code>HANDLER</code> - функция, выполняемая при сопоставлении маршрута.</li>
-</ul>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>В этом учебнике мы исходим из предположения о том, что экземпляр <code>express</code> с именем <code>app</code> уже создан, и сервер работает. Если вы не знакомы со способами создания и запуска приложения, обратитесь к разделу <a href="/%7B%7B%20page.lang%20%7D%7D/starter/hello-world.html">Пример “Hello world”</a>.</p>
-</div>
-<p>Приведенные ниже элементарные примеры иллюстрируют способ определения простых маршрутов.</p>
-<p>Ответ <code>Hello World!</code> на домашней странице:</p>
-<pre>
+    <p>Где:</p>
+    <ul>
+      <li><code>app</code> - это экземпляр <code>express</code>.</li>
+      <li>
+        <code>METHOD</code> -
+        <a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol"
+          >метод запроса HTTP</a
+        >.
+      </li>
+      <li><code>PATH</code> - путь на сервере.</li>
+      <li>
+        <code>HANDLER</code> - функция, выполняемая при сопоставлении маршрута.
+      </li>
+    </ul>
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        В этом учебнике мы исходим из предположения о том, что экземпляр
+        <code>express</code> с именем <code>app</code> уже создан, и сервер
+        работает. Если вы не знакомы со способами создания и запуска приложения,
+        обратитесь к разделу
+        <a href="/%7B%7B%20page.lang%20%7D%7D/starter/hello-world.html"
+          >Пример “Hello world”</a
+        >.
+      </p>
+    </div>
+    <p>
+      Приведенные ниже элементарные примеры иллюстрируют способ определения
+      простых маршрутов.
+    </p>
+    <p>Ответ <code>Hello World!</code> на домашней странице:</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/', function (req, res) {
   res.send('Hello World!');
 });
 </code>
 </pre>
-<p>Ответ на запрос POST в корневом маршруте (<code>/</code>), на домашней странице приложения:</p>
-<pre>
+    <p>
+      Ответ на запрос POST в корневом маршруте (<code>/</code>), на домашней
+      странице приложения:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.post('/', function (req, res) {
   res.send('Got a POST request');
 });
 </code>
 </pre>
-<p>Ответ на запрос PUT, адресованный маршруту <code>/user</code>:</p>
-<pre>
+    <p>Ответ на запрос PUT, адресованный маршруту <code>/user</code>:</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.put('/user', function (req, res) {
   res.send('Got a PUT request at /user');
 });
 </code>
 </pre>
-<p>Ответ на запрос DELETE, адресованный маршруту <code>/user</code>:</p>
-<pre>
+    <p>Ответ на запрос DELETE, адресованный маршруту <code>/user</code>:</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.delete('/user', function (req, res) {
   res.send('Got a DELETE request at /user');
 });
 </code>
 </pre>
-<p>Дополнительная информация о маршрутизации приведена в <a href="/%7B%7B%20page.lang%20%7D%7D/guide/routing.html">руководстве по маршрутизации</a>.</p>
-</body>
+    <p>
+      Дополнительная информация о маршрутизации приведена в
+      <a href="/%7B%7B%20page.lang%20%7D%7D/guide/routing.html"
+        >руководстве по маршрутизации</a
+      >.
+    </p>
+  </body>
 </html>

@@ -40,4 +40,3 @@ Se se deparar com o que pensa ser um erro, ou apenas desejar fazer uma solicita�
 Nossa vibrante comunidade criou uma ampla variedade de
 extensões, [módulos middleware](/{{ page.lang }}/resources/middleware.html) e frameworks de
 alto nível. Confira na [wiki](https://github.com/expressjs/express/wiki).
-

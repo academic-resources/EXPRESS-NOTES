@@ -5,6 +5,7 @@ menu: guide
 lang: tr
 redirect_from: "/guide/writing-middleware.html"
 ---
+
 # Express uygulamalarında kullanılacak ara yazılım yazmak
 
 <h2>Genel bakış</h2>
@@ -13,10 +14,10 @@ _Ara yazılım_ fonksiyonları uygulamanın istek-yanıt döngüsünde (`req`) [
 
 Ara yazılım fonksiyonları aşağıdaki görevleri yerine getirebilir:
 
-* Herhangi bir kodu çalıştırma.
-* İstek ve yanıt objelerine değişiklik yapma.
-* İstek-yanıt döngüsünü sonlandırma.
-* Yığındaki bir sonraki ara yazılımı çağırma.
+- Herhangi bir kodu çalıştırma.
+- İstek ve yanıt objelerine değişiklik yapma.
+- İstek-yanıt döngüsünü sonlandırma.
+- Yığındaki bir sonraki ara yazılımı çağırma.
 
 Eğer şimdiki ara yazılım fonksiyonu istek-yanıt döngüsünü sonlandırmazsa, bir sonraki ara yazılım fonksiyonuna kontrolü vermek için `next` fonksiyounu çağrılmalı. Aksi takdirde, istek havada kalır.
 
@@ -48,14 +49,14 @@ Express 5 ile başlayarak, Promise döndüren ara yazılım fonksiyonları redde
 Aşağıdaki basit bir "Merhaba Dünya" Ekspres uygulaması örneği. Bu yazının kalanında uygulamaya üç ara yazılım fonksiyonu tanımlanıp eklenecektir: basit bir log mesajı yazdıran `myLogger`, HTTP isteğinin zaman damgasını (timestamp) gösteren `requestTime`, ve gelen çerezleri doğrulayan `validateCookies`.
 
 ```js
-var express = require('express')
-var app = express()
+var express = require("express");
+var app = express();
 
-app.get('/', function (req, res) {
-  res.send('Merhaba Dünya!')
-})
+app.get("/", function (req, res) {
+  res.send("Merhaba Dünya!");
+});
 
-app.listen(3000)
+app.listen(3000);
 ```
 
 <h3>myLogger ara yazlım fonksiyonu</h3>
@@ -63,9 +64,9 @@ app.listen(3000)
 
 ```js
 var myLogger = function (req, res, next) {
-  console.log('LOGGED')
-  next()
-}
+  console.log("LOGGED");
+  next();
+};
 ```
 
 <div class="doc-box doc-notice" markdown="1">
@@ -76,21 +77,21 @@ Ara yazılım fonksiyonunu yüklemek için, ara yazılım fonksiyonunu belirtere
 Örneğin, aşağıdaki kod (/) kök yoluna yönlendirme yapılmadan önce `myLogger` ara yazılım fonksiyonunu yükler.
 
 ```js
-var express = require('express')
-var app = express()
+var express = require("express");
+var app = express();
 
 var myLogger = function (req, res, next) {
-  console.log('LOGGED')
-  next()
-}
+  console.log("LOGGED");
+  next();
+};
 
-app.use(myLogger)
+app.use(myLogger);
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
+app.get("/", function (req, res) {
+  res.send("Hello World!");
+});
 
-app.listen(3000)
+app.listen(3000);
 ```
 
 Uygulama ne zaman bir istek aldığında, "LOGGED" mesajını terminale yazdırır.
@@ -107,31 +108,31 @@ Bir sonraki örnekte, "requestTime" adında bir ara yazılım fonksiyonu yaratı
 
 ```js
 var requestTime = function (req, res, next) {
-  req.requestTime = Date.now()
-  next()
-}
+  req.requestTime = Date.now();
+  next();
+};
 ```
 
 Uygulama şimdi `requestTime` ara yazılım fonksiyonunu kullanıyor. Ayrıca, kök yol rotasının geri çağırma fonksiyonu, ara yazılımın `req` istek objesine eklediği özelliği kullanıyor.
 
 ```js
-var express = require('express')
-var app = express()
+var express = require("express");
+var app = express();
 
 var requestTime = function (req, res, next) {
-  req.requestTime = Date.now()
-  next()
-}
+  req.requestTime = Date.now();
+  next();
+};
 
-app.use(requestTime)
+app.use(requestTime);
 
-app.get('/', function (req, res) {
-  var responseText = 'Hello World!<br>'
-  responseText += '<small>Requested at: ' + req.requestTime + '</small>'
-  res.send(responseText)
-})
+app.get("/", function (req, res) {
+  var responseText = "Hello World!<br>";
+  responseText += "<small>Requested at: " + req.requestTime + "</small>";
+  res.send(responseText);
+});
 
-app.listen(3000)
+app.listen(3000);
 ```
 
 Uygulamanın kök yoluna bir istek yaptığınızda, uygulama şimdi tarayıcıda isteğinizin zaman damgasını yazdırıyor.
@@ -143,11 +144,11 @@ Son olarak, gelen çerezleri doğrulayan ve çerezler geçersiz olduğunda 400 y
 Harici bir asenkron servisiyle çerezleri doğrulayan bir fonksiyonu örneği.
 
 ```js
-async function cookieValidator (cookies) {
+async function cookieValidator(cookies) {
   try {
-    await externallyValidateCookie(cookies.testCookie)
+    await externallyValidateCookie(cookies.testCookie);
   } catch {
-    throw new Error('Geçersiz çerezler')
+    throw new Error("Geçersiz çerezler");
   }
 }
 ```
@@ -155,27 +156,27 @@ async function cookieValidator (cookies) {
 Burada `req` objesinden gelen çerezleri ayrıştırmak ve onları bizim `cookieValidator` fonksiyonuna geçmek için [`cookie-parser`](/resources/middleware/cookie-parser.html) ara yazılım fonksiyonunu kullanıyoruz. `validateCookies` ara yazılımı, ret durumunda otomatik olarak bizim hata işleyicisini tetikleyen bir Promise döndürür.
 
 ```js
-var express = require('express')
-var cookieParser = require('cookie-parser')
-var cookieValidator = require('./cookieValidator')
+var express = require("express");
+var cookieParser = require("cookie-parser");
+var cookieValidator = require("./cookieValidator");
 
-var app = express()
+var app = express();
 
-async function validateCookies (req, res, next) {
-  await cookieValidator(req.cookies)
-  next()
+async function validateCookies(req, res, next) {
+  await cookieValidator(req.cookies);
+  next();
 }
 
-app.use(cookieParser())
+app.use(cookieParser());
 
-app.use(validateCookies)
+app.use(validateCookies);
 
 // hata işleyicisi
 app.use(function (err, req, res, next) {
-  res.status(400).send(err.message)
-})
+  res.status(400).send(err.message);
+});
 
-app.listen(3000)
+app.listen(3000);
 ```
 
 <div class="doc-box doc-notice" markdown="1">
@@ -196,17 +197,17 @@ Dosya: `my-middleware.js`
 module.exports = function (options) {
   return function (req, res, next) {
     // "options" objesine göre ara yazılım fonksiyonunu yaz
-    next()
-  }
-}
+    next();
+  };
+};
 ```
 
 Bu ara yazılım şimdi aşağıdaki gibi kullanılabilir.
 
 ```js
-var mw = require('./my-middleware.js')
+var mw = require("./my-middleware.js");
 
-app.use(mw({ option1: '1', option2: '2' }))
+app.use(mw({ option1: "1", option2: "2" }));
 ```
 
 Yapılandırılabilir ara yazılım örnekleri için bakınız: [cookie-session](https://github.com/expressjs/cookie-session) ve [compression](https://github.com/expressjs/compression).

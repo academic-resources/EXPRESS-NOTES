@@ -14,13 +14,13 @@ Support `connect` @1.8.x and @2.2.0+ .
 
 ## Test connect version
 
-* 1.8.0+: 1.8.0 1.8.5 1.8.6 1.8.7
-* 1.9.0+
-* 2.2.0+
-* 2.3.0+
-* 2.4.0+
-* 2.7.0+
-* 2.8.0+
+- 1.8.0+: 1.8.0 1.8.5 1.8.6 1.8.7
+- 1.9.0+
+- 2.2.0+
+- 2.3.0+
+- 2.4.0+
+- 2.7.0+
+- 2.8.0+
 
 ```bash
 $ make test-all
@@ -37,23 +37,24 @@ $ npm install urlrouter
 ### Using with `connect`
 
 ```js
-var connect = require('connect');
-var urlrouter = require('urlrouter');
+var connect = require("connect");
+var urlrouter = require("urlrouter");
 
-connect(urlrouter(function (app) {
-  app.get('/', function (req, res, next) {
-    res.end('hello urlrouter');
-  });
-  app.get('/user/:id([0-9]+)', function (req, res, next) {
-    res.end('hello user ' + req.params.id);
-  });
-})).listen(3000);
+connect(
+  urlrouter(function (app) {
+    app.get("/", function (req, res, next) {
+      res.end("hello urlrouter");
+    });
+    app.get("/user/:id([0-9]+)", function (req, res, next) {
+      res.end("hello user " + req.params.id);
+    });
+  })
+).listen(3000);
 ```
 
 Several callbacks may also be passed.
 
 ```js
-
 function loadUser(req, res, next) {
   // You would fetch user from the db
   var user = users[req.params.id];
@@ -61,11 +62,11 @@ function loadUser(req, res, next) {
     req.user = user;
     next();
   } else {
-    next(new Error('Failed to load user ' + req.params.id));
+    next(new Error("Failed to load user " + req.params.id));
   }
 }
 
-app.get('/user/:id', loadUser, function () {
+app.get("/user/:id", loadUser, function () {
   // ...
 });
 ```
@@ -74,26 +75,26 @@ These callbacks can be passed within arrays as well.
 
 ```js
 var middleware = [loadUser, loadForum, loadThread];
-app.post('/forum/:fid/thread/:tid', middleware, function () {
- // ...
+app.post("/forum/:fid/thread/:tid", middleware, function () {
+  // ...
 });
 ```
 
 ### Using with `http.createServer()`
 
 ```js
-var http = require('http');
-var urlrouter = require('urlrouter');
+var http = require("http");
+var urlrouter = require("urlrouter");
 
 var options = {
   pageNotFound: function (req, res) {
     res.statusCode = 404;
-    res.end('er... some page miss...');
+    res.end("er... some page miss...");
   },
   errorHandler: function (req, res) {
     res.statusCode = 500;
-    res.end('oops..error occurred');
-  }
+    res.end("oops..error occurred");
+  },
 };
 
 function loadUser(req, res, next) {
@@ -103,56 +104,64 @@ function loadUser(req, res, next) {
     req.user = user;
     next();
   } else {
-    next(new Error('Failed to load user ' + req.params.id));
+    next(new Error("Failed to load user " + req.params.id));
   }
 }
 
 var routerMiddleware = urlrouter(function (app) {
-  app.get('/', function (req, res) {
-    res.end('GET home page' + req.url + ' , headers: ' + JSON.stringify(req.headers));
+  app.get("/", function (req, res) {
+    res.end(
+      "GET home page" + req.url + " , headers: " + JSON.stringify(req.headers)
+    );
   });
   // with route middleware
-  app.get('/user/:id', loadUser, function (req, res) {
-    res.end('user: ' + req.params.id);
+  app.get("/user/:id", loadUser, function (req, res) {
+    res.end("user: " + req.params.id);
   });
 
   // GET /admin 301 redirect to /admin/
-  app.redirect('/admin', '/admin/');
+  app.redirect("/admin", "/admin/");
 
   app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, loadUser, function (req, res) {
-    res.end(req.url + ' : ' + req.params);
+    res.end(req.url + " : " + req.params);
   });
 
-  app.get('/foo', function (req, res) {
-    res.end('GET ' + req.url + ' , headers: ' + JSON.stringify(req.headers));
+  app.get("/foo", function (req, res) {
+    res.end("GET " + req.url + " , headers: " + JSON.stringify(req.headers));
   });
 
-  app.post('/new', function (req, res) {
-    res.write('POST ' + req.url + ' start...\n\n');
+  app.post("/new", function (req, res) {
+    res.write("POST " + req.url + " start...\n\n");
     var counter = 0;
-    req.on('data', function (data) {
+    req.on("data", function (data) {
       counter++;
-      res.write('data' + counter + ': ' + data.toString() + '\n\n');
+      res.write("data" + counter + ": " + data.toString() + "\n\n");
     });
-    req.on('end', function () {
-      res.end('POST ' + req.url + ' end.\n');
+    req.on("end", function () {
+      res.end("POST " + req.url + " end.\n");
     });
   });
 
-  app.put('/update', function (req, res) {
-    res.end('PUT ' + req.url + ' , headers: ' + JSON.stringify(req.headers));
+  app.put("/update", function (req, res) {
+    res.end("PUT " + req.url + " , headers: " + JSON.stringify(req.headers));
   });
 
-  app.delete('/remove', function (req, res) {
-    res.end('DELETE ' + req.url + ' , headers: ' + JSON.stringify(req.headers));
+  app.delete("/remove", function (req, res) {
+    res.end("DELETE " + req.url + " , headers: " + JSON.stringify(req.headers));
   });
 
-  app.options('/check', function (req, res) {
-    res.end('OPTIONS ' + req.url + ' , headers: ' + JSON.stringify(req.headers));
+  app.options("/check", function (req, res) {
+    res.end(
+      "OPTIONS " + req.url + " , headers: " + JSON.stringify(req.headers)
+    );
   });
 
-  app.all('/all', function (req, res) {
-    res.end('ALL methods request /all should be handled' + ' , headers: ' + JSON.stringify(req.headers));
+  app.all("/all", function (req, res) {
+    res.end(
+      "ALL methods request /all should be handled" +
+        " , headers: " +
+        JSON.stringify(req.headers)
+    );
   });
 }, options);
 

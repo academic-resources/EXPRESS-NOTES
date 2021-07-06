@@ -3,6 +3,7 @@
 A Boolean property that is true if a TLS connection is established. Equivalent to the following:
 
 <!-- eslint-disable no-unused-expressions -->
+
 ```js
-req.protocol === 'https'
+req.protocol === "https";
 ```

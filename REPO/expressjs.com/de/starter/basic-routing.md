@@ -7,11 +7,12 @@ lang: de
 
 # Basisrouting
 
-Per *Routing* wird bestimmt, wie eine Antwort auf eine Clientanforderung an einem bestimmten Endpunkt antwortet. Dies ist eine URI (oder ein Pfad) und eine bestimmte HTTP-Anforderungsmethode (GET, POST usw.).
+Per _Routing_ wird bestimmt, wie eine Antwort auf eine Clientanforderung an einem bestimmten Endpunkt antwortet. Dies ist eine URI (oder ein Pfad) und eine bestimmte HTTP-Anforderungsmethode (GET, POST usw.).
 
 Jede Weiterleitung (Route) kann eine oder mehrere Handlerfunktionen haben, die ausgeführt werden, wenn die Weiterleitung abgeglichen wird.
 
 Weiterleitungsdefinitionen haben die folgende Struktur:
+
 <pre>
 <code class="language-javascript" translate="no">
 app.METHOD(PATH, HANDLER)

@@ -36,6 +36,7 @@ L'applicazione sarà ora in grado di effettuare il rendering dei file `.ntl`. Cr
 #message#
 </code>
 </pre>
+
 Successivamente, creare il seguente percorso nell'applicazione.
 
 <pre>
@@ -45,4 +46,5 @@ app.get('/', function (req, res) {
 });
 </code>
 </pre>
+
 Quando si effettua una richiesta per la home page, `index.ntl` verrà visualizzato come HTML.

@@ -4,6 +4,7 @@ title: Express za proxy
 menu: guide
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -26,6 +27,7 @@ Aplikácia bude bežať i v prípade, ak aplikačná premenná `trust proxy` nie
 Ak je `true`, IP addresa klienta bude chápaná ako left-most entry v `X-Forwarded-*` hlavičke.
 
 Ak je `false`, aplikácia sa chápe, ako priamo vystavená na Internet a klientská IP adresa je odvodená z `req.connection.remoteAddress`. Toto je defaultné nastavenie.
+
 </td>
     </tr>
     <tr>
@@ -33,9 +35,9 @@ Ak je `false`, aplikácia sa chápe, ako priamo vystavená na Internet a klients
 <td markdown="1">
 IP adresa, subnet, alebo pole IP adries a subnet-ov (podsietí), ktorým má aplikácia dôverovať. Nasledujúci zoznam zobrazuje predkonfigurované názvy subnet-ov:
 
-* loopback - `127.0.0.1/8`, `::1/128`
-* linklocal - `169.254.0.0/16`, `fe80::/10`
-* uniquelocal - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
+- loopback - `127.0.0.1/8`, `::1/128`
+- linklocal - `169.254.0.0/16`, `fe80::/10`
+- uniquelocal - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
 
 IP adresy môžete nastaviť ktorýmkoľvek z nasledujúcich spôsobov:
 
@@ -47,6 +49,7 @@ app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']); // specify mul
 </pre>
 
 Pri zadaní IP adresy alebo subnet-ov, sú tieto vylúčené z procesu vyhodnocovania a nedôveryhodná IP adresa najbližsie k aplikačnému serveru je vyhodnotená ako IP adresa klienta.
+
 </td>
     </tr>
     <tr>

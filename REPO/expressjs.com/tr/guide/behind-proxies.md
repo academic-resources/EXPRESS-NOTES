@@ -5,6 +5,7 @@ menu: guide
 lang: tr
 redirect_from: "/guide/behind-proxies.html"
 ---
+
 # Proxy arkasında Express
 
 Bir proxy'nin arkasında bir Express uygulaması koşulduğunda, ([app.set()](/{{ page.lang }}/4x/api.html#app.set) kullanarak) `trust proxy` uygulama değişkenine aşağıdaki tabloda listelenen değerlerden birini verin.
@@ -22,6 +23,7 @@ Bir proxy'nin arkasında bir Express uygulaması koşulduğunda, ([app.set()](/{
 `true` olduğunda, istemci IP adresi `X-Forwarded-*` başlığında en soldaki giriş olarak değerlendirilir.
 
 `false` olduğunda, uygulama direkt olarak Internete dönük olacak ve istemci IP adresi ise `req.connection.remoteAddress` alanından alınmış olacak. Bu varsayılan ayardır.
+
 </td>
     </tr>
     <tr>
@@ -29,17 +31,17 @@ Bir proxy'nin arkasında bir Express uygulaması koşulduğunda, ([app.set()](/{
 <td markdown="1">
 Güvenilecek bir IP adresi, alt ağ, veya bir IP adresleri ve alt ağlar dizisi. Aşağıdaki liste önceden yapılandırılmış alt ağlar isimlerini gösteriyor:
 
-* loopback - `127.0.0.1/8`, `::1/128`
-* linklocal - `169.254.0.0/16`, `fe80::/10`
-* uniquelocal - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
+- loopback - `127.0.0.1/8`, `::1/128`
+- linklocal - `169.254.0.0/16`, `fe80::/10`
+- uniquelocal - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
 
 IP adreslerini aşağıdaki yöntemlerden herhangi biriyle ayarlayabilirsiniz:
 
 ```js
-app.set('trust proxy', 'loopback') // tek bir alt ağ tanımla
-app.set('trust proxy', 'loopback, 123.123.123.123') // bir adres ve bir alt ağ tanımla
-app.set('trust proxy', 'loopback, linklocal, uniquelocal') // birden çok alt ağları CVS olarak tanımla
-app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']) // bir dizi olarak birden çok alt ağ tanımla
+app.set("trust proxy", "loopback"); // tek bir alt ağ tanımla
+app.set("trust proxy", "loopback, 123.123.123.123"); // bir adres ve bir alt ağ tanımla
+app.set("trust proxy", "loopback, linklocal, uniquelocal"); // birden çok alt ağları CVS olarak tanımla
+app.set("trust proxy", ["loopback", "linklocal", "uniquelocal"]); // bir dizi olarak birden çok alt ağ tanımla
 ```
 
 Belirtildiğinde, IP adresleri veya alt ağlar adres belirleme işleminin dışında bırakılır ve uygulama sunucusuna en yakın güvenilmeyen IP adresi, istemcinin IP adresi olarak belirlenir.
@@ -57,13 +59,14 @@ Belirtildiğinde, IP adresleri veya alt ağlar adres belirleme işleminin dış�
 <td markdown="1">
 Özel güven implementasyonu. Bunu sadece ne yaptığınızı biliyorsanız kullanın.
 
-
 ```js
-app.set('trust proxy', function (ip) {
-  if (ip === '127.0.0.1' || ip === '123.123.123.123') return true // güvenilen IP'ler
-  else return false
-})
+app.set("trust proxy", function (ip) {
+  if (ip === "127.0.0.1" || ip === "123.123.123.123") return true;
+  // güvenilen IP'ler
+  else return false;
+});
 ```
+
 </td>
     </tr>
   </tbody>

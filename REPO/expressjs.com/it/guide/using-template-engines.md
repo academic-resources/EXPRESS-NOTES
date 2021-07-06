@@ -9,8 +9,8 @@ lang: it
 
 Prima che Express possa eseguire il rendering di file template, è necessario specificare le seguenti impostazioni dell'applicazione:
 
-* `views`, la directory dove sono ubicati i file di template. Ad esempio: `app.set('views', './views')`
-* `view engine`, il motore di template da utilizzare. Ad esempio: `app.set('view engine', 'pug')`
+- `views`, la directory dove sono ubicati i file di template. Ad esempio: `app.set('views', './views')`
+- `view engine`, il motore di template da utilizzare. Ad esempio: `app.set('view engine', 'pug')`
 
 Quindi, installare il pacchetto npm del motore di template corrispondente:
 
@@ -24,6 +24,7 @@ $ npm install pug --save
 I motori di template compatibili con Express, ad esempio Pug esportano una funzione denominata `__express(filePath, options, callback)`, che viene richiamata dalla funzione `res.render()`, per il rendering del codice di template.
 
 Alcuni motori di template non seguono questa convenzione. La libreria [Consolidate.js](https://www.npmjs.org/package/consolidate) segue questa convenzione, associando tutti i motori di template Node.js popolari e, perciò, funziona ininterrottamente in Express.
+
 </div>
 
 Una volta specificata l'impostazione view engine, non è necessario specificare il motore o caricare il modulo del motore di template nella propria app; Express carica il modulo internamente, come mostrato di seguito (per l'esempio precedente).

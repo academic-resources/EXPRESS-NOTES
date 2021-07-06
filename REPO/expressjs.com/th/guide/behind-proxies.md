@@ -4,6 +4,7 @@ title: Express behind proxies
 menu: guide
 lang: th
 ---
+
 # Express behind proxies
 
 When running an Express app behind a proxy, set (by using [app.set()](/{{ page.lang }}/4x/api.html#app.set)) the application variable `trust proxy` to one of the values listed in the following table.
@@ -21,6 +22,7 @@ Although the app will not fail to run if the application variable `trust proxy` 
 If `true`, the client's IP address is understood as the left-most entry in the `X-Forwarded-*` header.
 
 If `false`, the app is understood as directly facing the Internet and the client's IP address is derived from `req.connection.remoteAddress`. This is the default setting.
+
 </td>
     </tr>
     <tr>
@@ -28,20 +30,21 @@ If `false`, the app is understood as directly facing the Internet and the client
 <td markdown="1">
 An IP address, subnet, or an array of IP addresses and subnets to trust. The following list shows the pre-configured subnet names:
 
-* loopback - `127.0.0.1/8`, `::1/128`
-* linklocal - `169.254.0.0/16`, `fe80::/10`
-* uniquelocal - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
+- loopback - `127.0.0.1/8`, `::1/128`
+- linklocal - `169.254.0.0/16`, `fe80::/10`
+- uniquelocal - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
 
 You can set IP addresses in any of the following ways:
 
 ```js
-app.set('trust proxy', 'loopback') // specify a single subnet
-app.set('trust proxy', 'loopback, 123.123.123.123') // specify a subnet and an address
-app.set('trust proxy', 'loopback, linklocal, uniquelocal') // specify multiple subnets as CSV
-app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']) // specify multiple subnets as an array
+app.set("trust proxy", "loopback"); // specify a single subnet
+app.set("trust proxy", "loopback, 123.123.123.123"); // specify a subnet and an address
+app.set("trust proxy", "loopback, linklocal, uniquelocal"); // specify multiple subnets as CSV
+app.set("trust proxy", ["loopback", "linklocal", "uniquelocal"]); // specify multiple subnets as an array
 ```
 
 When specified, the IP addresses or the subnets are excluded from the address determination process, and the untrusted IP address nearest to the application server is determined as the client's IP address.
+
 </td>
     </tr>
     <tr>
@@ -56,11 +59,13 @@ Trust the `n`th hop from the front-facing proxy server as the client.
 Custom trust implementation. Use this only if you know what you are doing.
 
 ```js
-app.set('trust proxy', function (ip) {
-  if (ip === '127.0.0.1' || ip === '123.123.123.123') return true // trusted IPs
-  else return false
-})
+app.set("trust proxy", function (ip) {
+  if (ip === "127.0.0.1" || ip === "123.123.123.123") return true;
+  // trusted IPs
+  else return false;
+});
 ```
+
 </td>
     </tr>
   </tbody>

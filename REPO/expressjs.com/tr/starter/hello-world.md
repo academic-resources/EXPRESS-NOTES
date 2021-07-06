@@ -18,18 +18,17 @@ const app = express()
 const port = 3000
 
 app.get('/', (req, res) => {
-  res.send('Merhaba Dünya!')
+res.send('Merhaba Dünya!')
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+console.log(`Example app listening at http://localhost:${port}`)
 })
 </code></pre></div>
 
 Bu uygulama bir sunucu çalıştırır ve gelen bağlantılar için 3000 portunu dinler. (`/`) kök dizinine gelen isteklere "Hello World!" ile yanıt verir. Bunun haricindeki tüm adreslere, **404 Not Found** hatası verecektir.
 
 Yukarıdaki örnek gerçekten de çalışmakta olan bir sunucudur: Yukarıda verilen adrese tıklayın. Gerçek zamanlı günlüklerle sunucunun bir cevap verdiğini göreceksiniz, ve yukarıda yapacağınız her değişiklik eş zamanlı olarak çalıştırılacaktır. Bu özellik arkada bir Node sistemine bağlı olup, tarayıcınızda bu sisteme bir arayüz sağlayan [RunKit](https://runkit.com) sayesinde bulunmaktadır.
-
 
 <div class="doc-box doc-info" markdown="1">
 RunKit bir üçüncü parti uygulamasıdır ve Express projesi ile bir bağı yoktur.
@@ -54,5 +53,4 @@ $ node app.js
 
 Sonucu görmek için sunucunuzda `http://localhost:3000/` adresini ziyaret edin.
 
-###  [Önceki: Kurulum ](/{{ page.lang }}/starter/installing.html)&nbsp;&nbsp;&nbsp;&nbsp;[Sonraki: Express Oluşturucu ](/{{ page.lang }}/starter/generator.html)
-
+### [Önceki: Kurulum ](/{{ page.lang }}/starter/installing.html)&nbsp;&nbsp;&nbsp;&nbsp;[Sonraki: Express Oluşturucu ](/{{ page.lang }}/starter/generator.html)

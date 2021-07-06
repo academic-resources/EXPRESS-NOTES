@@ -31,4 +31,3 @@ lang: zh-cn
 ## 第三方
 
 我们充满活力的社区已创建了大量各种各样的扩展、[中间件模块](/{{ page.lang }}/resources/middleware.html)和更高层次的框架。请在 [wiki](https://github.com/expressjs/express/wiki) 中了解详细信息。
-

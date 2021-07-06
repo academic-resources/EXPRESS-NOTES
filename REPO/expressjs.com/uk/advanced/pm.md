@@ -23,7 +23,6 @@ The most popular process managers for Express and other Node.js applications are
 - [PM2](#pm2)
 - [Forever](#forever)
 
-
 Using any of these three tools can be very helpful, however StrongLoop Process Manager is the only tool that provides a comprehensive runtime and deployment solution that addresses the entire Node.js application life cycle, with tooling for every step before and after production, in a unified interface.
 
 Here's a brief look at each of these tools.
@@ -51,11 +50,13 @@ Full documentation:
 - [Using StrongLoop Process Manager](http://docs.strongloop.com/display/SLC/Using+Process+Manager).
 
 ### Installation
+
 <pre><code class="language-sh" translate="no">
 $ [sudo] npm install -g strongloop
 </code></pre>
 
 ### Basic use
+
 <pre><code class="language-sh" translate="no">
 $ cd my-app
 $ slc start
@@ -115,7 +116,7 @@ $ slc ctl remove my-app
 
 ## <a id="pm2">PM2</a>
 
-PM2 is a production process manager for Node.js applications, that has a built-in load balancer. PM2 allows you to keep applications alive forever and reload them without downtime, and will facilitate common system admin tasks.  PM2 also enables you to manage application logging, monitoring, and clustering.
+PM2 is a production process manager for Node.js applications, that has a built-in load balancer. PM2 allows you to keep applications alive forever and reload them without downtime, and will facilitate common system admin tasks. PM2 also enables you to manage application logging, monitoring, and clustering.
 
 For more information, see [https://github.com/Unitech/pm2](https://github.com/Unitech/pm2).
 
@@ -175,7 +176,6 @@ To remove an app from PM2's registry:
 <pre><code class="language-sh" translate="no">
 $ pm2 delete 0
 </code></pre>
-
 
 ## <a id="forever">Forever</a>
 

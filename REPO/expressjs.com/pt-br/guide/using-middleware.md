@@ -11,7 +11,7 @@ O Express é uma estrutura web de roteamento e middlewares que
 tem uma funcionalidade mínima por si só: Um aplicativo do Express é
 essencialmente uma série de chamadas de funções de middleware.
 
-Funções de *Middleware* são funções que tem acesso
+Funções de _Middleware_ são funções que tem acesso
 ao [objeto de solicitação](/{{ page.lang }}/4x/api.html#req)
 (`req`), o [objeto de resposta](/{{ page.lang }}/4x/api.html#res)
 (`res`), e a próxima função de middleware no ciclo
@@ -20,10 +20,10 @@ comumente denotada por uma variável chamada `next`.
 
 Funções de middleware podem executar as seguintes tarefas:
 
-* Executar qualquer código.
-* Fazer mudanças nos objetos de solicitação e resposta.
-* Encerrar o ciclo de solicitação-resposta.
-* Chamar a próxima função de middleware na pilha.
+- Executar qualquer código.
+- Fazer mudanças nos objetos de solicitação e resposta.
+- Encerrar o ciclo de solicitação-resposta.
+- Chamar a próxima função de middleware na pilha.
 
 Se a atual função de middleware não terminar o ciclo de
 solicitação-resposta, ela precisa chamar `next()`
@@ -32,11 +32,11 @@ contrário, a solicitação ficará suspensa.
 
 Um aplicativo Express pode usar os seguintes tipos de middleware:
 
- - [Middleware de nível do aplicativo](#middleware.application)
- - [Middleware de nível de roteador](#middleware.router)
- - [Middleware de manipulação de erros](#middleware.error-handling)
- - [Middleware integrado](#middleware.built-in)
- - [Middleware de Terceiros](#middleware.third-party)
+- [Middleware de nível do aplicativo](#middleware.application)
+- [Middleware de nível de roteador](#middleware.router)
+- [Middleware de manipulação de erros](#middleware.error-handling)
+- [Middleware integrado](#middleware.built-in)
+- [Middleware de Terceiros](#middleware.third-party)
 
 É possível carregar middlewares de nível de roteador e de nível do aplicativo com um caminho de montagem opcional.
 É possível também carregar uma série de funções de middleware juntas, o que cria uma sub-pilha do sistema de middleware em um ponto de montagem.
@@ -172,6 +172,7 @@ instância do `express.Router()`.
 var router = express.Router();
 </code>
 </pre>
+
 Carregue os middlewares de nível de roteador usando as funções `router.use()` e `router.METHOD()`.
 
 O seguinte código de exemplo replica o sistema de middleware
@@ -253,7 +254,7 @@ consulte [Manipulação de erros](/{{ page.lang }}/guide/error-handling.html).
 Desde a versão 4.x, o Express não depende mais do [Connect](https://github.com/senchalabs/connect). Com
 exceção da `express.static`, todas as funções de
 middleware que eram previamente incluídas com o Express estão agora
-em módulos separados. Visualize  [a lista
+em módulos separados. Visualize [a lista
 de funções de middleware](https://github.com/senchalabs/connect#middleware).
 
 <h4 id='express.static'>express.static(root, [options])</h4>
@@ -270,16 +271,16 @@ a partir do qual entregar os ativos estáticos.
 O objeto opcional `options` pode ter as
 seguintes propriedades:
 
-| Propriedade      | Descrição                                                           |   Tipo      | Padrão         |
-|---------------|-----------------------------------------------------------------------|-------------|-----------------|
-| `dotfiles`    | Opção para entregar dotfiles. Os valores possíveis são  "allow", "deny", e "ignore" | Sequência de caracteres | "ignore" |
-| `etag`        | Ativa ou desativa a geração de etag  | Booleano | `true` |
-| `extensions`  | Configura os fallbacks de extensão de arquivo | Matriz | `[]` |
-| `index`       | Envia o arquivo de índice do diretório. Configure `false` para desativar a indexação de diretórios. | Variado | "index.html" |
- `lastModified` | Configura o cabeçalho `Last-Modified` para a última data de modificação do arquivo no sistema operacional. Os valores possíveis são `true` ou `false`. | Booleano | `true` |
-| `maxAge`      | Configura a propriedade max-age do cabeçalho Cache-Control, em milissegundos ou uma sequência de caracteres no [formato ms](https://www.npmjs.org/package/ms) | Número | 0 |
-| `redirect`    | Redireciona para o "/" final quando o caminho do arquivo é um diretório. | Booleano | `true` |
-| `setHeaders`  | Função para configurar cabeçalhos HTTP para entregar com o arquivo. | Função |  |
+| Propriedade    | Descrição                                                                                                                                                     | Tipo                    | Padrão       |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | ------------ |
+| `dotfiles`     | Opção para entregar dotfiles. Os valores possíveis são "allow", "deny", e "ignore"                                                                            | Sequência de caracteres | "ignore"     |
+| `etag`         | Ativa ou desativa a geração de etag                                                                                                                           | Booleano                | `true`       |
+| `extensions`   | Configura os fallbacks de extensão de arquivo                                                                                                                 | Matriz                  | `[]`         |
+| `index`        | Envia o arquivo de índice do diretório. Configure `false` para desativar a indexação de diretórios.                                                           | Variado                 | "index.html" |
+| `lastModified` | Configura o cabeçalho `Last-Modified` para a última data de modificação do arquivo no sistema operacional. Os valores possíveis são `true` ou `false`.        | Booleano                | `true`       |
+| `maxAge`       | Configura a propriedade max-age do cabeçalho Cache-Control, em milissegundos ou uma sequência de caracteres no [formato ms](https://www.npmjs.org/package/ms) | Número                  | 0            |
+| `redirect`     | Redireciona para o "/" final quando o caminho do arquivo é um diretório.                                                                                      | Booleano                | `true`       |
+| `setHeaders`   | Função para configurar cabeçalhos HTTP para entregar com o arquivo.                                                                                           | Função                  |              |
 
 Aqui está um exemplo de uso da função de middleware `express.static` com um objeto options elaborado:
 

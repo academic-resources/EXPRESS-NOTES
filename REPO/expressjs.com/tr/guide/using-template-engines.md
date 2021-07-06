@@ -5,6 +5,7 @@ menu: guide
 lang: tr
 redirect_from: "/guide/using-template-engines.html"
 ---
+
 # Express ile şablon motorları kullanmak
 
 _Şablon motoru_, uygulamanızda statik şablon dosyaları kullanmanızı sağlar. Çalışma zamanında, şablon motoru bir şablon dosyasındaki değişkenleri alıp gerçek değerleyler değiştirir, ve şablonu bir HTML dosyasına dönüştürüp istemciye gönderir. Bu yaklaşım bir HTML sayfasını tasarlamayı kolaylaştırır.
@@ -20,10 +21,10 @@ Ayrıca bakınız: [JavaScript Şablonlama Motorlarını Karşılaştırma:: Jad
 
 Şablon dosyalarını işlemek için, aşağıdaki [uygulama ayarları özelliklerini](/{{ page.lang }}/4x/api.html#app.set) ayarlayın, üretici (generator) tarafından yaratılan varsayılan uygulamada `app.js` dosyasında ayarlayın:
 
-* `views`, şablon dosyalarının bulunduğu dizindir. Örnek: `app.set('views', './views')`.
-Bu varsayılan olarak uygulamanın kök dizindeki `views` dizinine denk gelir.
+- `views`, şablon dosyalarının bulunduğu dizindir. Örnek: `app.set('views', './views')`.
+  Bu varsayılan olarak uygulamanın kök dizindeki `views` dizinine denk gelir.
 
-* `view engine`, kullanılacak şablon motorudur. Örnek olarak, Pug şablon motorunu kullanmak için: `app.set('view engine', 'pug')`.
+- `view engine`, kullanılacak şablon motorudur. Örnek olarak, Pug şablon motorunu kullanmak için: `app.set('view engine', 'pug')`.
 
 Daha sonra ise, ilgili şablon motorunun npm paketini yükleyin; örneğin Pug yüklemek için:
 
@@ -35,12 +36,13 @@ $ npm install pug --save
 Jade ve Pug gibi Express-uyumlu şablon motorları, şablon kodunu işlemek için `res.render()` tarafından çağrılan `__express(filePath, options, callback)` isimli bir fonksiyon dışa aktarır.
 
 Bazı şablon motorları bu anlayışı takip etmez. [Consolidate.js](https://www.npmjs.org/package/consolidate) kütüphanesi bu anlayışı bütün popüler Node.js şablon motorlarını eşleyerek (mapping) takip eder, ve dolayısıyla Express içinde sorunsuz çalışır.
+
 </div>
 
 Görünüm motoru ayarlandıktan sonra, uygulamanızda motoru tanımlamanıza veya şablon motoru modülünü yüklemenize gerek yok; Aşağıda gösterildiği gibi (yukarıdaki örnek için) Express, modülü kendi içinde yükler.
 
 ```js
-app.set('view engine', 'pug')
+app.set("view engine", "pug");
 ```
 
 Aşağıdaki içerikle, `views` dizininde `index.pug` adlı bir Pug şablon dosyası yarat:
@@ -56,9 +58,9 @@ html
 Ardından, `index.pug` dosyasını işlemek için bir rota yaratın. `view engine` özelliği ayarlanmadıysa, `view` dosyasının uzantısını belirtmelisiniz. Aksi takdirde belirtmenize gerek yok.
 
 ```js
-app.get('/', function (req, res) {
-  res.render('index', { title: 'Hey', message: 'Hello there!' })
-})
+app.get("/", function (req, res) {
+  res.render("index", { title: "Hey", message: "Hello there!" });
+});
 ```
 
 Ana sayfaya bir istek yaptığınızda, `index.pug` dosyası HTML olarak gösterilecek.

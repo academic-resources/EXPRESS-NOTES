@@ -9,14 +9,14 @@ lang: es
 
 <h2>Visión general</h2>
 
-Las funciones de *middleware* son funciones que tienen acceso al [objeto de solicitud](/{{ page.lang }}/4x/api.html#req) (`req`), al [objeto de respuesta](/{{ page.lang }}/4x/api.html#res) (`res`) y a la siguiente función de middleware en el ciclo de solicitud/respuestas de la aplicación. La siguiente función de middleware se denota normalmente con una variable denominada `next`.
+Las funciones de _middleware_ son funciones que tienen acceso al [objeto de solicitud](/{{ page.lang }}/4x/api.html#req) (`req`), al [objeto de respuesta](/{{ page.lang }}/4x/api.html#res) (`res`) y a la siguiente función de middleware en el ciclo de solicitud/respuestas de la aplicación. La siguiente función de middleware se denota normalmente con una variable denominada `next`.
 
 Las funciones de middleware pueden realizar las siguientes tareas:
 
-* Ejecutar cualquier código.
-* Realizar cambios en la solicitud y los objetos de respuesta.
-* Finalizar el ciclo de solicitud/respuestas.
-* Invocar el siguiente middleware en la pila.
+- Ejecutar cualquier código.
+- Realizar cambios en la solicitud y los objetos de respuesta.
+- Finalizar el ciclo de solicitud/respuestas.
+- Invocar el siguiente middleware en la pila.
 
 Si la función de middleware actual no finaliza el ciclo de solicitud/respuestas, debe invocar `next()` para pasar el control a la siguiente función de middleware. De lo contrario, la solicitud quedará colgada.
 
@@ -39,7 +39,7 @@ El siguiente ejemplo muestra los elementos de una llamada a función de middlewa
 
 <div class="callout" id="callout6">Argumento de <a href="../4x/api.html#req">solicitud</a> HTTP a la función de middleware, denominado "req" por convención.</div>
 </td></tr>
-</table> 
+</table>
 
 A continuación, se muestra un ejemplo de una aplicación Express simple, "Hello World", para la que definirá dos funciones de middleware:
 

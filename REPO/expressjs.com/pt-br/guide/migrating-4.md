@@ -34,8 +34,8 @@ dependências no Connect e middlewares integrados foram removidos, de forma que 
 
 Consulte também:
 
-* [Novos recursos no 4.x.](https://github.com/expressjs/express/wiki/New-features-in-4.x)
-* [Migrando do 3.x para o 4.x.](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
+- [Novos recursos no 4.x.](https://github.com/expressjs/express/wiki/New-features-in-4.x)
+- [Migrando do 3.x para o 4.x.](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
 
 <h3 id="core-changes">
 Mudanças no núcleo e sistemas middleware do Express
@@ -119,15 +119,16 @@ roteamento, para que não seja mais necessário se preocupar com a
 ordem em que os middlewares são carregados no que diz respeito ao
 middleware `router`.
 
-A forma como as rotas são definidas são as mesmas, mas  o
+A forma como as rotas são definidas são as mesmas, mas o
 sistema de roteamento possui dois novos recursos para ajudá-lo a
 organizar suas rotas:
 
 {: .doclist }
-* Um novo método, `app.route()`, para criar
-manipuladores de rotas encadeáveis para um caminho de rota.
-* Uma nova classe, `express.Router`, para
-criar manipuladores de rotas modulares montáveis
+
+- Um novo método, `app.route()`, para criar
+  manipuladores de rotas encadeáveis para um caminho de rota.
+- Uma nova classe, `express.Router`, para
+  criar manipuladores de rotas modulares montáveis
 
 <h4 id="app-route">O método <code>app.route()</code></h4>
 
@@ -420,17 +421,17 @@ $ npm install serve-favicon morgan method-override express-session body-parser m
 Faça as seguintes alterações no `app.js`:
 
 1. As funções de middleware integradas do Express `express.favicon`,
-    `express.logger`, `express.methodOverride`,
-    `express.session`, `express.bodyParser` e
-    `express.errorHandler` não estão mais disponíveis no objeto `express`.  É
-preciso instalar manualmente as alternativas e carregá-las no aplicativo.
+   `express.logger`, `express.methodOverride`,
+   `express.session`, `express.bodyParser` e
+   `express.errorHandler` não estão mais disponíveis no objeto `express`. É
+   preciso instalar manualmente as alternativas e carregá-las no aplicativo.
 
 2. Não é mais necessário carregar a função `app.router`.
-    Ela não é um objeto válido para aplicativos Express 4, portanto
-remova o código do `app.use(app.router);`.
+   Ela não é um objeto válido para aplicativos Express 4, portanto
+   remova o código do `app.use(app.router);`.
 
 3. Certifique-se deque as funções de middleware sejam carregadas na ordem correta - carregar a
-`errorHandler` após carregar as rotas de aplicativo.
+   `errorHandler` após carregar as rotas de aplicativo.
 
 <h3 id="">Aplicativo da Versão 4</h3>
 
@@ -541,7 +542,7 @@ $ node .
 </pre>
 
 Carregue [http://localhost:3000](http://localhost:3000)
-  e veja a página inicial sendo renderizada pelo Express 4.
+e veja a página inicial sendo renderizada pelo Express 4.
 
 <h2 id="app-gen">Fazendo o upgrade para o gerador de aplicativos do
 Express 4</h2>
@@ -561,6 +562,7 @@ seu sistema, é preciso desinstalá-lo:
 $ npm uninstall -g express
 </code>
 </pre>
+
 Dependendo de como os seus privilégios de arquivos e diretórios estão
 configurados, pode ser necessário executar este comando com `sudo`.
 
@@ -585,10 +587,11 @@ As opções e o uso do comando permanecem em grande parte as
 mesmas, com as seguintes exceções:
 
 {: .doclist }
-* Foi removida a opção `--sessions`.
-* Foi removida a opção `--jshtml`.
-* Foi incluída a opção `--hogan` para
-suportar o [Hogan.js](http://twitter.github.io/hogan.js/).
+
+- Foi removida a opção `--sessions`.
+- Foi removida a opção `--jshtml`.
+- Foi incluída a opção `--hogan` para
+  suportar o [Hogan.js](http://twitter.github.io/hogan.js/).
 
 <h3 id="">Exemplo</h3>
 
@@ -665,12 +668,11 @@ var debug = require('debug')('app4');
 </pre>
 
 Em seguida, mude o `"start": "node ./bin/www"`
-no arquivo `package.json` para `"start": "node
-app.js"`.
+no arquivo `package.json` para `"start": "node app.js"`.
 
 Você agora moveu a funcionalidade do
 `./bin/www` de volta para o
-`app.js`.  Esta mudança não é recomendada, mas o
+`app.js`. Esta mudança não é recomendada, mas o
 exercício ajuda você a entender como o arquivo
 `./bin/www` funciona, e porque o arquivo
 `app.js` não é mais iniciado por conta própria.

@@ -36,7 +36,6 @@ entry point: (index.js)
 
 現在，將 Express 安裝在 `myapp` 目錄中，並儲存在相依關係清單中。例如：
 
-
 <pre>
 <code class="language-sh" translate="no">
 $ npm install express --save

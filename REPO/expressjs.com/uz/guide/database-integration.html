@@ -1,45 +1,70 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="uz" xml:lang="uz">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express database integration</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express database integration</h1>
-</header>
-<h1 id="database-integration">Database integration</h1>
-<p>Adding database connectivity capability to Express apps is just a matter of loading an appropriate Node.js driver for the database in your app. This document briefly explains how to add and use some of the most popular Node modules for database systems in your Express app:</p>
-<ul>
-<li><a href="#cassandra">Cassandra</a></li>
-<li><a href="#couchdb">CouchDB</a></li>
-<li><a href="#leveldb">LevelDB</a></li>
-<li><a href="#mysql">MySQL</a></li>
-<li><a href="#mongo">MongoDB</a></li>
-<li><a href="#neo4j">Neo4j</a></li>
-<li><a href="#postgres">PostgreSQL</a></li>
-<li><a href="#redis">Redis</a></li>
-<li><a href="#sqlite">SQLite</a></li>
-</ul>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>These database drivers are among many that are available. For other options, search on the <a href="https://www.npmjs.com/">npm</a> site.</p>
-</div>
-<p><a name="cassandra"></a></p>
-<h2 id="cassandra">Cassandra</h2>
-<p><strong>Module</strong>: <a href="https://github.com/datastax/nodejs-driver">cassandra-driver</a> <strong>Installation</strong></p>
-<pre><code class="language-sh" translate="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express database integration</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express database integration</h1>
+    </header>
+    <h1 id="database-integration">Database integration</h1>
+    <p>
+      Adding database connectivity capability to Express apps is just a matter
+      of loading an appropriate Node.js driver for the database in your app.
+      This document briefly explains how to add and use some of the most popular
+      Node modules for database systems in your Express app:
+    </p>
+    <ul>
+      <li><a href="#cassandra">Cassandra</a></li>
+      <li><a href="#couchdb">CouchDB</a></li>
+      <li><a href="#leveldb">LevelDB</a></li>
+      <li><a href="#mysql">MySQL</a></li>
+      <li><a href="#mongo">MongoDB</a></li>
+      <li><a href="#neo4j">Neo4j</a></li>
+      <li><a href="#postgres">PostgreSQL</a></li>
+      <li><a href="#redis">Redis</a></li>
+      <li><a href="#sqlite">SQLite</a></li>
+    </ul>
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        These database drivers are among many that are available. For other
+        options, search on the <a href="https://www.npmjs.com/">npm</a> site.
+      </p>
+    </div>
+    <p><a name="cassandra"></a></p>
+    <h2 id="cassandra">Cassandra</h2>
+    <p>
+      <strong>Module</strong>:
+      <a href="https://github.com/datastax/nodejs-driver">cassandra-driver</a>
+      <strong>Installation</strong>
+    </p>
+    <pre><code class="language-sh" translate="no">
 $ npm install cassandra-driver
 </code></pre>
-<p><strong>Example</strong></p>
-<pre><code class="language-javascript" translate="no">
+    <p><strong>Example</strong></p>
+    <pre><code class="language-javascript" translate="no">
 var cassandra = require('cassandra-driver');
 var client = new cassandra.Client({ contactPoints: ['localhost']});
 
@@ -48,14 +73,18 @@ client.execute('select key from system.local', function(err, result) {
   console.log(result.rows[0]);
 });
 </code></pre>
-<p><a name="couchdb"></a></p>
-<h2 id="couchdb">CouchDB</h2>
-<p><strong>Module</strong>: <a href="https://github.com/dscape/nano">nano</a> <strong>Installation</strong></p>
-<pre><code class="language-sh" translate="no">
+    <p><a name="couchdb"></a></p>
+    <h2 id="couchdb">CouchDB</h2>
+    <p>
+      <strong>Module</strong>:
+      <a href="https://github.com/dscape/nano">nano</a>
+      <strong>Installation</strong>
+    </p>
+    <pre><code class="language-sh" translate="no">
 $ npm install nano
 </code></pre>
-<p><strong>Example</strong></p>
-<pre><code class="language-javascript" translate="no">
+    <p><strong>Example</strong></p>
+    <pre><code class="language-javascript" translate="no">
 var nano = require('nano')('http://localhost:5984');
 nano.db.create('books');
 var books = nano.db.use('books');
@@ -72,14 +101,18 @@ books.list(function(err, body){
   console.log(body.rows);
 });
 </code></pre>
-<p><a name="leveldb"></a></p>
-<h2 id="leveldb">LevelDB</h2>
-<p><strong>Module</strong>: <a href="https://github.com/rvagg/node-levelup">levelup</a> <strong>Installation</strong></p>
-<pre><code class="language-sh" translate="no">
+    <p><a name="leveldb"></a></p>
+    <h2 id="leveldb">LevelDB</h2>
+    <p>
+      <strong>Module</strong>:
+      <a href="https://github.com/rvagg/node-levelup">levelup</a>
+      <strong>Installation</strong>
+    </p>
+    <pre><code class="language-sh" translate="no">
 $ npm install level
 </code></pre>
-<p><strong>Example</strong></p>
-<pre><code class="language-javascript" translate="no">
+    <p><strong>Example</strong></p>
+    <pre><code class="language-javascript" translate="no">
 var levelup = require('levelup');
 var db = levelup('./mydb');
 
@@ -93,14 +126,18 @@ db.put('name', 'LevelUP', function (err) {
 
 });
 </code></pre>
-<p><a name="mysql"></a></p>
-<h2 id="mysql">MySQL</h2>
-<p><strong>Module</strong>: <a href="https://github.com/felixge/node-mysql/">mysql</a> <strong>Installation</strong></p>
-<pre><code class="language-sh" translate="no">
+    <p><a name="mysql"></a></p>
+    <h2 id="mysql">MySQL</h2>
+    <p>
+      <strong>Module</strong>:
+      <a href="https://github.com/felixge/node-mysql/">mysql</a>
+      <strong>Installation</strong>
+    </p>
+    <pre><code class="language-sh" translate="no">
 $ npm install mysql
 </code></pre>
-<p><strong>Example</strong></p>
-<pre><code class="language-javascript" translate="no">
+    <p><strong>Example</strong></p>
+    <pre><code class="language-javascript" translate="no">
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
@@ -117,14 +154,18 @@ connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
 
 connection.end();
 </code></pre>
-<p><a name="mongo"></a></p>
-<h2 id="mongodb">MongoDB</h2>
-<p><strong>Module</strong>: <a href="https://github.com/kissjs/node-mongoskin">mongoskin</a> <strong>Installation</strong></p>
-<pre><code class="language-sh" translate="no">
+    <p><a name="mongo"></a></p>
+    <h2 id="mongodb">MongoDB</h2>
+    <p>
+      <strong>Module</strong>:
+      <a href="https://github.com/kissjs/node-mongoskin">mongoskin</a>
+      <strong>Installation</strong>
+    </p>
+    <pre><code class="language-sh" translate="no">
 $ npm install mongoskin
 </code></pre>
-<p><strong>Example</strong></p>
-<pre><code class="language-javascript" translate="no">
+    <p><strong>Example</strong></p>
+    <pre><code class="language-javascript" translate="no">
 var db = require('mongoskin').db('localhost:27017/animals');
 
 db.collection('mamals').find().toArray(function(err, result) {
@@ -132,15 +173,22 @@ db.collection('mamals').find().toArray(function(err, result) {
   console.log(result);
 });
 </code></pre>
-<p>If you want a object model driver for MongoDB, checkout <a href="https://github.com/LearnBoost/mongoose">Mongoose</a>.</p>
-<p><a name="neo4j"></a></p>
-<h2 id="neo4j">Neo4j</h2>
-<p><strong>Module</strong>: <a href="https://github.com/hacksparrow/apoc">apoc</a> <strong>Installation</strong></p>
-<pre><code class="language-sh" translate="no">
+    <p>
+      If you want a object model driver for MongoDB, checkout
+      <a href="https://github.com/LearnBoost/mongoose">Mongoose</a>.
+    </p>
+    <p><a name="neo4j"></a></p>
+    <h2 id="neo4j">Neo4j</h2>
+    <p>
+      <strong>Module</strong>:
+      <a href="https://github.com/hacksparrow/apoc">apoc</a>
+      <strong>Installation</strong>
+    </p>
+    <pre><code class="language-sh" translate="no">
 $ npm install apoc
 </code></pre>
-<p><strong>Example</strong></p>
-<pre><code class="language-javascript" translate="no">
+    <p><strong>Example</strong></p>
+    <pre><code class="language-javascript" translate="no">
 var apoc = require('apoc');
 
 apoc.query('match (n) return n').exec().then(
@@ -152,14 +200,18 @@ apoc.query('match (n) return n').exec().then(
   }
 );
 </code></pre>
-<p><a name="postgres"></a></p>
-<h2 id="postgresql">PostgreSQL</h2>
-<p><strong>Module</strong>: <a href="https://github.com/brianc/node-postgres">pg</a> <strong>Installation</strong></p>
-<pre><code class="language-sh" translate="no">
+    <p><a name="postgres"></a></p>
+    <h2 id="postgresql">PostgreSQL</h2>
+    <p>
+      <strong>Module</strong>:
+      <a href="https://github.com/brianc/node-postgres">pg</a>
+      <strong>Installation</strong>
+    </p>
+    <pre><code class="language-sh" translate="no">
 $ npm install pg
 </code></pre>
-<p><strong>Example</strong></p>
-<pre><code class="language-javascript" translate="no">
+    <p><strong>Example</strong></p>
+    <pre><code class="language-javascript" translate="no">
 var pg = require('pg');
 var conString = "postgres://username:password@localhost/database";
 
@@ -178,14 +230,18 @@ pg.connect(conString, function(err, client, done) {
 
 });
 </code></pre>
-<p><a name="redis"></a></p>
-<h2 id="redis">Redis</h2>
-<p><strong>Module</strong>: <a href="https://github.com/mranney/node_redis">redis</a> <strong>Installation</strong></p>
-<pre><code class="language-sh" translate="no">
+    <p><a name="redis"></a></p>
+    <h2 id="redis">Redis</h2>
+    <p>
+      <strong>Module</strong>:
+      <a href="https://github.com/mranney/node_redis">redis</a>
+      <strong>Installation</strong>
+    </p>
+    <pre><code class="language-sh" translate="no">
 $ npm install redis
 </code></pre>
-<p><strong>Example</strong></p>
-<pre><code class="language-javascript" translate="no">
+    <p><strong>Example</strong></p>
+    <pre><code class="language-javascript" translate="no">
 var client = require('redis').createClient();
 
 client.on('error', function (err) {
@@ -207,14 +263,18 @@ client.hkeys('hash key', function (err, replies) {
 
 });
 </code></pre>
-<p><a name="sqlite"></a></p>
-<h2 id="sqlite">SQLite</h2>
-<p><strong>Module</strong>: <a href="https://github.com/mapbox/node-sqlite3">sqlite3</a> <strong>Installation</strong></p>
-<pre><code class="language-sh" translate="no">
+    <p><a name="sqlite"></a></p>
+    <h2 id="sqlite">SQLite</h2>
+    <p>
+      <strong>Module</strong>:
+      <a href="https://github.com/mapbox/node-sqlite3">sqlite3</a>
+      <strong>Installation</strong>
+    </p>
+    <pre><code class="language-sh" translate="no">
 $ npm install sqlite3
 </code></pre>
-<p><strong>Example</strong></p>
-<pre><code class="language-javascript" translate="no">
+    <p><strong>Example</strong></p>
+    <pre><code class="language-javascript" translate="no">
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database(':memory:');
 
@@ -236,5 +296,5 @@ db.serialize(function() {
 
 db.close();
 </code></pre>
-</body>
+  </body>
 </html>

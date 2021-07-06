@@ -1,59 +1,192 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Osvedčené postupy pre Express v produkcii - Security</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Osvedčené postupy pre Express v produkcii - Security</h1>
-</header>
-<!---
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Osvedčené postupy pre Express v produkcii - Security</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">
+        Osvedčené postupy pre Express v produkcii - Security
+      </h1>
+    </header>
+    <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
 -->
-<h1 id="osvedčené-postupy-pre-express-v-produkcii---security">Osvedčené postupy pre Express v produkcii - Security</h1>
-<h2 id="prehľad">Prehľad</h2>
-<p>Termín <em>“production”</em> znamená stav životného cyklu softvéru, kedy je aplikácia, alebo jej API, všeobecne prístupná koncovým používateľom. Naopak, termín <em>“development”</em> znamená, že sa kód aktívne vyvíja, testuje a aplikácia nie je verejne prístupná. K tomu korešpondujúce systémové prostredia sa nazývajú <em>production</em> resp. <em>development</em> prostredie.</p>
-<p>Development a production prostredia sú zvyčajne nakonfigurované odlišne a majú často diametrálne odlišné požiadavky. Čo je povolené v developmente nemusí byť akceptovateľné v produkcii. Napr., v development prostredí môžete chcieť logovať maximum errorov pre debugovanie, ale takéto správanie sa systému môže byť považované za security problém v prípade production prostredia. V prípade developmentu sa často nemusíte starať o veci ako sú škálovateľnosť, spoľahlivosť a výkonnosť, kým v produkcii sa tieto veci považujú za kritické.</p>
-<p>Tento článok popisuje niektoré osvedčené postupy z pohľadu bezpečnosti Express aplikácií v produkcii.</p>
-<p><strong>POZN.</strong>: Ak si myslíte, že ste objavili security vulnerabilitu Express-u, prosím pozrite si <a href="https://github.com/expressjs/express/blob/master/Security.md">Security Policies and Procedures</a>.</p>
-<h2 id="nepoužívajte-deprecated-a-vulnerable-verzie-express-u">Nepoužívajte deprecated a vulnerable verzie Express-u</h2>
-<p>Express 2.x a 3.x už nie sú viacej udržované. Security a performance problémy v týchto verziách už nik neopravuje. Preto ich nepoužívajte! Ak ste vaše Express aplikácie ešte nezmigrovali na verziu 4, postupujte podľa príručky <a href="/%7B%7B%20page.lang%20%7D%7D/guide/migrating-4.html">Prechod na Express 4</a>.</p>
-<p>Taktiež sa uistite, že nepoužívate žiadnu z vulnerable Express verzií nachádzajúcu sa na stránke <a href="/%7B%7B%20page.lang%20%7D%7D/advanced/security-updates.html">Security - aktualizácie</a>. Ak áno, updatnite vašu aplikáciu na niektorú zo stabilných verzií, ideálne na najnovšiu.</p>
-<h2 id="používajte-tls">Používajte TLS</h2>
-<p>Ak vaša aplikácia pracuje, alebo prenáša citlivé dáta, použivajte <a href="https://en.wikipedia.org/wiki/Transport_Layer_Security">Transport Layer Security</a> (TLS) pre zabepečenie spojenia a dát. Táto technológia šifruje dáta pred ich odoslaním z klienta na server, čím predchádza niektorým bežným (a jednoduchým) útokom. Hoci Ajax a POST requesty nemusia byť viditeľné a zdajú sa skryté v prehliadači, ich network traffic je zraniteľný na <a href="https://en.wikipedia.org/wiki/Packet_analyzer">packet sniffing</a> a <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack">man-in-the-middle útoky</a>.</p>
-<p>Možno ste sa už stretli so Secure Socket Layer (SSL) šifrovaním. <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa380515(v=vs.85).aspx">TLS je ďalšou modifikáciou SSL</a>. Inými slovami, ak ste predtým používali SSL, zvážte upgrade na TLS. Vo všeobecnosti odporúčame pre handlovanie TLS používať Nginx. Ako dobrú referenciu ako nakonfigurovať TLS na Ngix-e (a ďalších serveroch) uvádzame <a href="https://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_Server_Configurations">Recommended Server Configurations (Mozilla Wiki)</a>.</p>
-<p>Taktiež sa vám môže hodiť nástroj <a href="https://letsencrypt.org/about/">Let’s Encrypt</a>, pomocou ktorého môžete získať TLS certifikát zdarma. Je voľnou, automatizovanou a otvorenou certifikačnou autoritou (CA) prevádzkovanou <a href="https://letsencrypt.org/isrg/">Internet Security Research Group (ISRG)</a>.</p>
-<h2 id="používajte-helmet">Používajte Helmet</h2>
-<p><a href="https://www.npmjs.com/package/helmet">Helmet</a> môže pomôcť ochrániť vašu aplikáciu voči niektorým, všeobecne známym zraniteľnostiam, pomocou správneho nastavenia HTTP hlavičiek.</p>
-<p>Helmet je v skutočnosti len kolekcia deviatich menších middleware funkcií nastavujúcich HTTP hlavičky týkajúce sa bezpečnosti:</p>
-<ul>
-<li><a href="https://github.com/helmetjs/csp">csp</a> nastavuje <code>Content-Security-Policy</code> hlavičku, čím pomáha predchádzať cross-site scripting útokom a ďalším cross-site zraniteľnostiam.</li>
-<li><a href="https://github.com/helmetjs/hide-powered-by">hidePoweredBy</a> odstraňuje <code>X-Powered-By</code> hlavičku.</li>
-<li><a href="https://github.com/helmetjs/hsts">hsts</a> nastavuje <code>Strict-Transport-Security</code> hlavičku čím si vynúti zabezpečené (HTTP over SSL/TLS) spojenie so serverom.</li>
-<li><a href="https://github.com/helmetjs/ienoopen">ieNoOpen</a> nastavuje hlavičku <code>X-Download-Options</code> pre IE8+.</li>
-<li><a href="https://github.com/helmetjs/nocache">noCache</a> nastavuje hlavičky <code>Cache-Control</code> a Pragma pre zakázanie client-side caching-u.</li>
-<li><a href="https://github.com/helmetjs/dont-sniff-mimetype">noSniff</a> nastavuje <code>X-Content-Type-Options</code> hlavičku, čím zabraňuje prehliadačom MIME-sniffing odpovede od deklaroveného content-type-u.</li>
-<li><a href="https://github.com/helmetjs/frameguard">frameguard</a> nastavuje <code>X-Frame-Options</code> hlavičku čim poskytuje ochranu pred <a href="https://www.owasp.org/index.php/Clickjacking">clickjacking</a>.</li>
-<li><a href="https://github.com/helmetjs/x-xss-protection">xssFilter</a> nastavuje <code>X-XSS-Protection</code> hlavičku, čim povolí Cross-site scripting (XSS) filter vo väčšine najnovších prehliadačov.</li>
-</ul>
-<p>Helmet nainštalujete rovnako, ako akýkoľvek iný modul:</p>
-<pre>
+    <h1 id="osvedčené-postupy-pre-express-v-produkcii---security">
+      Osvedčené postupy pre Express v produkcii - Security
+    </h1>
+    <h2 id="prehľad">Prehľad</h2>
+    <p>
+      Termín <em>“production”</em> znamená stav životného cyklu softvéru, kedy
+      je aplikácia, alebo jej API, všeobecne prístupná koncovým používateľom.
+      Naopak, termín <em>“development”</em> znamená, že sa kód aktívne vyvíja,
+      testuje a aplikácia nie je verejne prístupná. K tomu korešpondujúce
+      systémové prostredia sa nazývajú <em>production</em> resp.
+      <em>development</em> prostredie.
+    </p>
+    <p>
+      Development a production prostredia sú zvyčajne nakonfigurované odlišne a
+      majú často diametrálne odlišné požiadavky. Čo je povolené v developmente
+      nemusí byť akceptovateľné v produkcii. Napr., v development prostredí
+      môžete chcieť logovať maximum errorov pre debugovanie, ale takéto
+      správanie sa systému môže byť považované za security problém v prípade
+      production prostredia. V prípade developmentu sa často nemusíte starať o
+      veci ako sú škálovateľnosť, spoľahlivosť a výkonnosť, kým v produkcii sa
+      tieto veci považujú za kritické.
+    </p>
+    <p>
+      Tento článok popisuje niektoré osvedčené postupy z pohľadu bezpečnosti
+      Express aplikácií v produkcii.
+    </p>
+    <p>
+      <strong>POZN.</strong>: Ak si myslíte, že ste objavili security
+      vulnerabilitu Express-u, prosím pozrite si
+      <a href="https://github.com/expressjs/express/blob/master/Security.md"
+        >Security Policies and Procedures</a
+      >.
+    </p>
+    <h2 id="nepoužívajte-deprecated-a-vulnerable-verzie-express-u">
+      Nepoužívajte deprecated a vulnerable verzie Express-u
+    </h2>
+    <p>
+      Express 2.x a 3.x už nie sú viacej udržované. Security a performance
+      problémy v týchto verziách už nik neopravuje. Preto ich nepoužívajte! Ak
+      ste vaše Express aplikácie ešte nezmigrovali na verziu 4, postupujte podľa
+      príručky
+      <a href="/%7B%7B%20page.lang%20%7D%7D/guide/migrating-4.html"
+        >Prechod na Express 4</a
+      >.
+    </p>
+    <p>
+      Taktiež sa uistite, že nepoužívate žiadnu z vulnerable Express verzií
+      nachádzajúcu sa na stránke
+      <a href="/%7B%7B%20page.lang%20%7D%7D/advanced/security-updates.html"
+        >Security - aktualizácie</a
+      >. Ak áno, updatnite vašu aplikáciu na niektorú zo stabilných verzií,
+      ideálne na najnovšiu.
+    </p>
+    <h2 id="používajte-tls">Používajte TLS</h2>
+    <p>
+      Ak vaša aplikácia pracuje, alebo prenáša citlivé dáta, použivajte
+      <a href="https://en.wikipedia.org/wiki/Transport_Layer_Security"
+        >Transport Layer Security</a
+      >
+      (TLS) pre zabepečenie spojenia a dát. Táto technológia šifruje dáta pred
+      ich odoslaním z klienta na server, čím predchádza niektorým bežným (a
+      jednoduchým) útokom. Hoci Ajax a POST requesty nemusia byť viditeľné a
+      zdajú sa skryté v prehliadači, ich network traffic je zraniteľný na
+      <a href="https://en.wikipedia.org/wiki/Packet_analyzer"
+        >packet sniffing</a
+      >
+      a
+      <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack"
+        >man-in-the-middle útoky</a
+      >.
+    </p>
+    <p>
+      Možno ste sa už stretli so Secure Socket Layer (SSL) šifrovaním.
+      <a
+        href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa380515(v=vs.85).aspx"
+        >TLS je ďalšou modifikáciou SSL</a
+      >. Inými slovami, ak ste predtým používali SSL, zvážte upgrade na TLS. Vo
+      všeobecnosti odporúčame pre handlovanie TLS používať Nginx. Ako dobrú
+      referenciu ako nakonfigurovať TLS na Ngix-e (a ďalších serveroch) uvádzame
+      <a
+        href="https://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_Server_Configurations"
+        >Recommended Server Configurations (Mozilla Wiki)</a
+      >.
+    </p>
+    <p>
+      Taktiež sa vám môže hodiť nástroj
+      <a href="https://letsencrypt.org/about/">Let’s Encrypt</a>, pomocou
+      ktorého môžete získať TLS certifikát zdarma. Je voľnou, automatizovanou a
+      otvorenou certifikačnou autoritou (CA) prevádzkovanou
+      <a href="https://letsencrypt.org/isrg/"
+        >Internet Security Research Group (ISRG)</a
+      >.
+    </p>
+    <h2 id="používajte-helmet">Používajte Helmet</h2>
+    <p>
+      <a href="https://www.npmjs.com/package/helmet">Helmet</a> môže pomôcť
+      ochrániť vašu aplikáciu voči niektorým, všeobecne známym zraniteľnostiam,
+      pomocou správneho nastavenia HTTP hlavičiek.
+    </p>
+    <p>
+      Helmet je v skutočnosti len kolekcia deviatich menších middleware funkcií
+      nastavujúcich HTTP hlavičky týkajúce sa bezpečnosti:
+    </p>
+    <ul>
+      <li>
+        <a href="https://github.com/helmetjs/csp">csp</a> nastavuje
+        <code>Content-Security-Policy</code> hlavičku, čím pomáha predchádzať
+        cross-site scripting útokom a ďalším cross-site zraniteľnostiam.
+      </li>
+      <li>
+        <a href="https://github.com/helmetjs/hide-powered-by">hidePoweredBy</a>
+        odstraňuje <code>X-Powered-By</code> hlavičku.
+      </li>
+      <li>
+        <a href="https://github.com/helmetjs/hsts">hsts</a> nastavuje
+        <code>Strict-Transport-Security</code> hlavičku čím si vynúti
+        zabezpečené (HTTP over SSL/TLS) spojenie so serverom.
+      </li>
+      <li>
+        <a href="https://github.com/helmetjs/ienoopen">ieNoOpen</a> nastavuje
+        hlavičku <code>X-Download-Options</code> pre IE8+.
+      </li>
+      <li>
+        <a href="https://github.com/helmetjs/nocache">noCache</a> nastavuje
+        hlavičky <code>Cache-Control</code> a Pragma pre zakázanie client-side
+        caching-u.
+      </li>
+      <li>
+        <a href="https://github.com/helmetjs/dont-sniff-mimetype">noSniff</a>
+        nastavuje <code>X-Content-Type-Options</code> hlavičku, čím zabraňuje
+        prehliadačom MIME-sniffing odpovede od deklaroveného content-type-u.
+      </li>
+      <li>
+        <a href="https://github.com/helmetjs/frameguard">frameguard</a>
+        nastavuje <code>X-Frame-Options</code> hlavičku čim poskytuje ochranu
+        pred
+        <a href="https://www.owasp.org/index.php/Clickjacking">clickjacking</a>.
+      </li>
+      <li>
+        <a href="https://github.com/helmetjs/x-xss-protection">xssFilter</a>
+        nastavuje <code>X-XSS-Protection</code> hlavičku, čim povolí Cross-site
+        scripting (XSS) filter vo väčšine najnovších prehliadačov.
+      </li>
+    </ul>
+    <p>Helmet nainštalujete rovnako, ako akýkoľvek iný modul:</p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install --save helmet
 </code>
 </pre>
-<p>Potom ho môžete použiť vo vašom kóde takto:</p>
-<pre>
+    <p>Potom ho môžete použiť vo vašom kóde takto:</p>
+    <pre>
 <code class="language-javascript" translate="no">
 ...
 var helmet = require('helmet');
@@ -61,28 +194,93 @@ app.use(helmet());
 ...
 </code>
 </pre>
-<h3 id="určite-aspoň-zakážte-x-powered-by-hlavičku">Určite aspoň zakážte X-Powered-By hlavičku</h3>
-<p>Ak nechcete použiť Helmet, potom určite aspoň zakážte <code>X-Powered-By</code> hlavičku. Útočník dokáže zneužiť túto hlavičku (ktorá je defaultne povolená) k detekcii Express aplikácií a následne vykonať špecifické typy útokov.</p>
-<p>Preto sa odporúča, vypnúť túto hlavičku pomocou <code>app.disable()</code> metódy:</p>
-<pre>
+    <h3 id="určite-aspoň-zakážte-x-powered-by-hlavičku">
+      Určite aspoň zakážte X-Powered-By hlavičku
+    </h3>
+    <p>
+      Ak nechcete použiť Helmet, potom určite aspoň zakážte
+      <code>X-Powered-By</code> hlavičku. Útočník dokáže zneužiť túto hlavičku
+      (ktorá je defaultne povolená) k detekcii Express aplikácií a následne
+      vykonať špecifické typy útokov.
+    </p>
+    <p>
+      Preto sa odporúča, vypnúť túto hlavičku pomocou
+      <code>app.disable()</code> metódy:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.disable('x-powered-by');
 </code>
 </pre>
-<p>V prípade, že použijete modul <code>helmet.js</code>, ten sa o to postará.</p>
-<h2 id="používajte-cookies-bezpečným-spôsobom">Používajte cookies bezpečným spôsobom</h2>
-<p>Aby ste sa uistili, že cookies nepredstavujú zraniteľnosť vašej aplikácie, nepoužívajte pre session cookie defaultný názov a nastavte správne security parametre.</p>
-<p>Pre prácu s cookie existujú dva hlavné middleware moduly:</p>
-<ul>
-<li><a href="https://www.npmjs.com/package/express-session">express-session</a>, ktorý nahrádza <code>express.session</code> middleware vstavaný v Express 3.x.</li>
-<li><a href="https://www.npmjs.com/package/cookie-session">cookie-session</a>, ktorý nahrádza <code>express.cookieSession</code> middleware vstavaný v Express 3.x.</li>
-</ul>
-<p>Hlavným rozdielom medzi týmito modulmi je spôsob ukladania cookie session dát. <a href="https://www.npmjs.com/package/express-session">express-session</a> middleware ukladá session dáta na servery; v samotnej cookie sa ukladá len session ID, nie session dáta. Defaultne je použité ako úložisko pamäť, čo je nevhodné pre použitie v production prostredí. Tam budete musieť nastaviť škálovateľné session úložisko; pozrite sa na <a href="https://github.com/expressjs/session#compatible-session-stores">compatible session stores</a>.</p>
-<p><a href="https://www.npmjs.com/package/cookie-session">cookie-session</a> middleware implementuje vlastné cookie-backed úložisko: serializuje celú session do cookie a nie len jej session ID. Použitie tejto implementácie sa odporúča v prípade, že sú session dáta relatívne malé a ľahko šifrovateĺné, ako primitívne hodnoty (skôr než objekty). Hoci by prehliadače mali podporovať veľkosť cookie aspoň 4096 bytes, aby ste sa uistili, že nepresiahnete limit, neprekračujte veľkosť 4093 bytes pre doménu. Taktiež si musíte uvedomiť, že cookie dáta budú na klientovi viditeľné, takže ak existuje dôvod, prečo by ste ich chceli uchovávať radšej zabezpečené a utajené, potom je lepšie použiť express-session modul.</p>
-<h3 id="nepoužívajte-defaultný-session-cookie-názov">Nepoužívajte defaultný session cookie názov</h3>
-<p>Používaním defaultného názvu session cookie vystavujete aplikáciu možným útokom. Táto zraniteľnosť je podobná tej <code>X-Powered-By</code>: útočník dokáže zneužiť túto informáciu a vykonať cielené útoky.</p>
-<p>Aby ste sa vyhli tomuto problému, použite generické názvy cookie; napr použitím <a href="https://www.npmjs.com/package/express-session">express-session</a> middlewaru:</p>
-<pre>
+    <p>
+      V prípade, že použijete modul <code>helmet.js</code>, ten sa o to postará.
+    </p>
+    <h2 id="používajte-cookies-bezpečným-spôsobom">
+      Používajte cookies bezpečným spôsobom
+    </h2>
+    <p>
+      Aby ste sa uistili, že cookies nepredstavujú zraniteľnosť vašej aplikácie,
+      nepoužívajte pre session cookie defaultný názov a nastavte správne
+      security parametre.
+    </p>
+    <p>Pre prácu s cookie existujú dva hlavné middleware moduly:</p>
+    <ul>
+      <li>
+        <a href="https://www.npmjs.com/package/express-session"
+          >express-session</a
+        >, ktorý nahrádza <code>express.session</code> middleware vstavaný v
+        Express 3.x.
+      </li>
+      <li>
+        <a href="https://www.npmjs.com/package/cookie-session">cookie-session</a
+        >, ktorý nahrádza <code>express.cookieSession</code> middleware vstavaný
+        v Express 3.x.
+      </li>
+    </ul>
+    <p>
+      Hlavným rozdielom medzi týmito modulmi je spôsob ukladania cookie session
+      dát.
+      <a href="https://www.npmjs.com/package/express-session"
+        >express-session</a
+      >
+      middleware ukladá session dáta na servery; v samotnej cookie sa ukladá len
+      session ID, nie session dáta. Defaultne je použité ako úložisko pamäť, čo
+      je nevhodné pre použitie v production prostredí. Tam budete musieť
+      nastaviť škálovateľné session úložisko; pozrite sa na
+      <a href="https://github.com/expressjs/session#compatible-session-stores"
+        >compatible session stores</a
+      >.
+    </p>
+    <p>
+      <a href="https://www.npmjs.com/package/cookie-session">cookie-session</a>
+      middleware implementuje vlastné cookie-backed úložisko: serializuje celú
+      session do cookie a nie len jej session ID. Použitie tejto implementácie
+      sa odporúča v prípade, že sú session dáta relatívne malé a ľahko
+      šifrovateĺné, ako primitívne hodnoty (skôr než objekty). Hoci by
+      prehliadače mali podporovať veľkosť cookie aspoň 4096 bytes, aby ste sa
+      uistili, že nepresiahnete limit, neprekračujte veľkosť 4093 bytes pre
+      doménu. Taktiež si musíte uvedomiť, že cookie dáta budú na klientovi
+      viditeľné, takže ak existuje dôvod, prečo by ste ich chceli uchovávať
+      radšej zabezpečené a utajené, potom je lepšie použiť express-session
+      modul.
+    </p>
+    <h3 id="nepoužívajte-defaultný-session-cookie-názov">
+      Nepoužívajte defaultný session cookie názov
+    </h3>
+    <p>
+      Používaním defaultného názvu session cookie vystavujete aplikáciu možným
+      útokom. Táto zraniteľnosť je podobná tej <code>X-Powered-By</code>:
+      útočník dokáže zneužiť túto informáciu a vykonať cielené útoky.
+    </p>
+    <p>
+      Aby ste sa vyhli tomuto problému, použite generické názvy cookie; napr
+      použitím
+      <a href="https://www.npmjs.com/package/express-session"
+        >express-session</a
+      >
+      middlewaru:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var session = require('express-session');
 app.set('trust proxy', 1); // trust first proxy
@@ -93,17 +291,41 @@ app.use( session({
 );
 </code>
 </pre>
-<h3 id="nastavte-cookie-security-parametre">Nastavte cookie security parametre</h3>
-<p>Pre zlepšenie bezpečnosti nastavte nasledujúce cookie parametre:</p>
-<ul>
-<li><code>secure</code> - zabezpečí, že prehliadač zašle cookie iba cez HTTPS.</li>
-<li><code>httpOnly</code> - zabezpečí, že cookie bude poslaná iba cez HTTP(S), nie prostredníctvom JavaScript-u na klientovi, čím pomáha chrániť voči cross-site scripting útokom.</li>
-<li><code>domain</code> - udáva doménu cookie; použite to k porovnaniu domény servera, na ktorom bola URL zavolaná. Ak sú zhodné, potom porovnajte ešte path atribút.</li>
-<li><code>path</code> - udáva path pre cookie; použite to k porovnaniu path-u request-u. Ak sa spolu s domain parametrom zhodujú, tak cookie v requeste pošlite.</li>
-<li><code>expires</code> - sa používa na nastavenie dátumu expirácie trvalých cookies.</li>
-</ul>
-<p>Tu je príklad použitia <a href="https://www.npmjs.com/package/cookie-session">cookie-session</a> middleware modulu:</p>
-<pre>
+    <h3 id="nastavte-cookie-security-parametre">
+      Nastavte cookie security parametre
+    </h3>
+    <p>Pre zlepšenie bezpečnosti nastavte nasledujúce cookie parametre:</p>
+    <ul>
+      <li>
+        <code>secure</code> - zabezpečí, že prehliadač zašle cookie iba cez
+        HTTPS.
+      </li>
+      <li>
+        <code>httpOnly</code> - zabezpečí, že cookie bude poslaná iba cez
+        HTTP(S), nie prostredníctvom JavaScript-u na klientovi, čím pomáha
+        chrániť voči cross-site scripting útokom.
+      </li>
+      <li>
+        <code>domain</code> - udáva doménu cookie; použite to k porovnaniu
+        domény servera, na ktorom bola URL zavolaná. Ak sú zhodné, potom
+        porovnajte ešte path atribút.
+      </li>
+      <li>
+        <code>path</code> - udáva path pre cookie; použite to k porovnaniu
+        path-u request-u. Ak sa spolu s domain parametrom zhodujú, tak cookie v
+        requeste pošlite.
+      </li>
+      <li>
+        <code>expires</code> - sa používa na nastavenie dátumu expirácie
+        trvalých cookies.
+      </li>
+    </ul>
+    <p>
+      Tu je príklad použitia
+      <a href="https://www.npmjs.com/package/cookie-session">cookie-session</a>
+      middleware modulu:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var session = require('cookie-session');
 var express = require('express');
@@ -123,19 +345,81 @@ app.use(session({
 );
 </code>
 </pre>
-<h2 id="ďalšie-odporúčania">Ďalšie odporúčania</h2>
-<p>Tu sú ďalšie odporúčania zo skvelého <a href="https://blog.risingstack.com/node-js-security-checklist/">Node.js Security Checklist</a> zoznamu. Pre viac detailov ohľadom jednotlivých odporúčaní si prečítajte samotný blog post:</p>
-<ul>
-<li>Implementujte tzv. rate-limiting pre vyhnutie sa brute-force útokom voči autentifikácii. Jednou z možností ako to dosiahnuť je použitie <a href="https://strongloop.com/node-js/api-gateway/">StrongLoop API Gateway</a> k vynúteniu rate-limiting policy. Ako alternatívu môžete použiť middleware, ako napr. <a href="https://www.npmjs.com/package/express-limiter">express-limiter</a>, avšak to si už vyžaduje mierny zásah do kódu vašej aplikácie.</li>
-<li>Používajte <a href="https://www.npmjs.com/package/csurf">csurf</a> middleware k ochrane voči útokom typu cross-site request forgery (CSRF).</li>
-<li>Vždy filtrujte a overte vstup od používateľa, aby ste vašu aplikáciu ochránili voči útokom typu cross-site scripting (XSS) a command injection.</li>
-<li>Bránte sa voči útokom typu SQL injection použitím parametrizovaych queries, príp. prepared statements.</li>
-<li>Používajte open source tool <a href="http://sqlmap.org/">sqlmap</a> k detekcii SQL injection vulnerabilities vo vašej aplikácii.</li>
-<li>Používajte tooly <a href="https://nmap.org/">nmap</a> a <a href="https://github.com/nabla-c0d3/sslyze">sslyze</a> k otestovaniu konfigurácie vašich SSL šifier, kľúčov, renegotiation ako aj platnosti vašich certifikátov.</li>
-<li>Používajte <a href="https://www.npmjs.com/package/safe-regex">safe-regex</a> k uisteniu sa, že vaše regulárne výrazy nie sú náchylné na <a href="https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS">regular expression denial of service</a> útoky.</li>
-</ul>
-<h2 id="vyhnite-sa-ďalším-známym-zraniteľnostiam">Vyhnite sa ďalším známym zraniteľnostiam</h2>
-<p>Sledujte <a href="https://npmjs.com/advisories">Node Security Project</a> odporučania, ktoré môžu ovplyvňovať Express, príp. ostatné moduly vašej aplikácie. Vo všeobecnosti je Node Security Project skvelým zdrojom znalostí a toolov ohľadom bezpečnosti Node.js.</p>
-<p>Na záver dodajme, že Express aplikácie - ako akékoľvek iné webové aplikácie - môžu byť náchylné na mnohé typy útokov. Zoznámte sa so zoznamom známych <a href="https://www.owasp.org/index.php/Top_10_2013-Top_10">web vulnerabilities</a> a prijmite opatrenia, aby ste sa im vyhli.</p>
-</body>
+    <h2 id="ďalšie-odporúčania">Ďalšie odporúčania</h2>
+    <p>
+      Tu sú ďalšie odporúčania zo skvelého
+      <a href="https://blog.risingstack.com/node-js-security-checklist/"
+        >Node.js Security Checklist</a
+      >
+      zoznamu. Pre viac detailov ohľadom jednotlivých odporúčaní si prečítajte
+      samotný blog post:
+    </p>
+    <ul>
+      <li>
+        Implementujte tzv. rate-limiting pre vyhnutie sa brute-force útokom voči
+        autentifikácii. Jednou z možností ako to dosiahnuť je použitie
+        <a href="https://strongloop.com/node-js/api-gateway/"
+          >StrongLoop API Gateway</a
+        >
+        k vynúteniu rate-limiting policy. Ako alternatívu môžete použiť
+        middleware, ako napr.
+        <a href="https://www.npmjs.com/package/express-limiter"
+          >express-limiter</a
+        >, avšak to si už vyžaduje mierny zásah do kódu vašej aplikácie.
+      </li>
+      <li>
+        Používajte
+        <a href="https://www.npmjs.com/package/csurf">csurf</a> middleware k
+        ochrane voči útokom typu cross-site request forgery (CSRF).
+      </li>
+      <li>
+        Vždy filtrujte a overte vstup od používateľa, aby ste vašu aplikáciu
+        ochránili voči útokom typu cross-site scripting (XSS) a command
+        injection.
+      </li>
+      <li>
+        Bránte sa voči útokom typu SQL injection použitím parametrizovaych
+        queries, príp. prepared statements.
+      </li>
+      <li>
+        Používajte open source tool <a href="http://sqlmap.org/">sqlmap</a> k
+        detekcii SQL injection vulnerabilities vo vašej aplikácii.
+      </li>
+      <li>
+        Používajte tooly <a href="https://nmap.org/">nmap</a> a
+        <a href="https://github.com/nabla-c0d3/sslyze">sslyze</a> k otestovaniu
+        konfigurácie vašich SSL šifier, kľúčov, renegotiation ako aj platnosti
+        vašich certifikátov.
+      </li>
+      <li>
+        Používajte
+        <a href="https://www.npmjs.com/package/safe-regex">safe-regex</a> k
+        uisteniu sa, že vaše regulárne výrazy nie sú náchylné na
+        <a
+          href="https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS"
+          >regular expression denial of service</a
+        >
+        útoky.
+      </li>
+    </ul>
+    <h2 id="vyhnite-sa-ďalším-známym-zraniteľnostiam">
+      Vyhnite sa ďalším známym zraniteľnostiam
+    </h2>
+    <p>
+      Sledujte
+      <a href="https://npmjs.com/advisories">Node Security Project</a>
+      odporučania, ktoré môžu ovplyvňovať Express, príp. ostatné moduly vašej
+      aplikácie. Vo všeobecnosti je Node Security Project skvelým zdrojom
+      znalostí a toolov ohľadom bezpečnosti Node.js.
+    </p>
+    <p>
+      Na záver dodajme, že Express aplikácie - ako akékoľvek iné webové
+      aplikácie - môžu byť náchylné na mnohé typy útokov. Zoznámte sa so
+      zoznamom známych
+      <a href="https://www.owasp.org/index.php/Top_10_2013-Top_10"
+        >web vulnerabilities</a
+      >
+      a prijmite opatrenia, aby ste sa im vyhli.
+    </p>
+  </body>
 </html>

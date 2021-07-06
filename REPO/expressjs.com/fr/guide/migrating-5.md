@@ -38,8 +38,7 @@ méthodes ou des propriétés.
 
 <h2 id="changes">Modifications dans Express 5</h2>
 
-Voici la liste des modifications (par rapport à l'édition alpha
-2) qui vous concerneront en tant qu'utilisateur d'Express.
+Voici la liste des modifications (par rapport à l'édition alpha 2) qui vous concerneront en tant qu'utilisateur d'Express.
 Consultez la
 [demande d'extraction](https://github.com/expressjs/express/pull/2237)
 pour une liste de toutes les fonctions planifiées.
@@ -161,7 +160,7 @@ comme suit : `res.status(status).send(obj)`.
 <h4 id="res.send.status">res.send(status)</h4>
 
 Express 5 ne prend plus en charge la signature
-<code>res.send(<em>statut</em>)</code>, où *`statut`*
+<code>res.send(<em>statut</em>)</code>, où _`statut`_
 est un nombre. A la place, utilisez la fonction
 `res.sendStatus(statusCode)`
 qui définit le code de statut de l'en-tête de réponse HTTP et envoie

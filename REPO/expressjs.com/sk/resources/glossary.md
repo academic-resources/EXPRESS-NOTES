@@ -4,6 +4,7 @@ title: Express slovník
 menu: resources
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -31,15 +32,15 @@ Multi-platformová knižnica zameriavajúca sa na asynchrónne I/O, primárne na
 
 ### middleware
 
-Je funkcia vyvolaná Express routing layer-om ešte pred zavolaním finálneho request handlera a preto "sedí" v strede medzi samotným requestom a routom.  Zopár ďalších bodov terminológie týkajúcej sa middleware:
+Je funkcia vyvolaná Express routing layer-om ešte pred zavolaním finálneho request handlera a preto "sedí" v strede medzi samotným requestom a routom. Zopár ďalších bodov terminológie týkajúcej sa middleware:
 
-  * `var foo = require('middleware')` je zavolaný _requirnutím_ alebo _použitím_ Node.js modulu. Potom, výraz `var mw = foo()` typicky vracia middleware.
-  * `app.use(mw)` je zavolaný _pridaním middlewaru do globálneho stacku spracovania_.
-  * `app.get('/foo', mw, function (req, res) { ... })` je zavolaný pridaním middlewaru do stacku spracovania "GET /foo"_.
+- `var foo = require('middleware')` je zavolaný _requirnutím_ alebo _použitím_ Node.js modulu. Potom, výraz `var mw = foo()` typicky vracia middleware.
+- `app.use(mw)` je zavolaný _pridaním middlewaru do globálneho stacku spracovania_.
+- `app.get('/foo', mw, function (req, res) { ... })` je zavolaný pridaním middlewaru do stacku spracovania "GET /foo"\_.
 
 ### Node.js
 
-Sofvérová platforma používaná na budovanie škálovateľných aplikácií. Node.js používa JavaScript ako svoj skriptovací jazyk a dosahuje vysokú priepustnosť pomocou neblokujúcich I/O operácií a single-thread event loop-u.  Pozrite sa na [nodejs.org](https://nodejs.org/en/). **Pozn. používania**: Pôvodne, "Node.js," neskor už len "Node".
+Sofvérová platforma používaná na budovanie škálovateľných aplikácií. Node.js používa JavaScript ako svoj skriptovací jazyk a dosahuje vysokú priepustnosť pomocou neblokujúcich I/O operácií a single-thread event loop-u. Pozrite sa na [nodejs.org](https://nodejs.org/en/). **Pozn. používania**: Pôvodne, "Node.js," neskor už len "Node".
 
 ### open-source, open source
 

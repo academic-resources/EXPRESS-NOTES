@@ -33,6 +33,7 @@ Se `false`, o aplicativo é compreendido como
 exposto diretamente à Internet e o endereço de IP do cliente é
 derivado a partir do `req.connection.remoteAddress`. Esta
 é a configuração padrão.
+
 </td>
     </tr>
     <tr>
@@ -42,9 +43,9 @@ Um endereço de IP, sub-rede, ou uma matriz de endereços de IP e
 sub-redes confiáveis. A lista a seguir mostra os nomes de sub-rede
 pré-configurados:
 
-* loopback - `127.0.0.1/8`, `::1/128`
-* linklocal - `169.254.0.0/16`, `fe80::/10`
-* uniquelocal - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
+- loopback - `127.0.0.1/8`, `::1/128`
+- linklocal - `169.254.0.0/16`, `fe80::/10`
+- uniquelocal - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
 
 É possível configurar endereços de IP de qualquer uma das
 formas a seguir:
@@ -60,6 +61,7 @@ Quando especificados, os endereços de IP ou sub-redes são
 excluídos do processo de determinação de endereço, e o endereço de
 IP não confiável mais próximos do servidor de aplicativos é
 determinado como o endereço de IP do cliente.
+
 </td>
     </tr>
     <tr>
@@ -85,8 +87,7 @@ Implementação de confiança customizada. Use apenas se souber o que está faze
 </table>
 
 Configurando um valor não-`false` para o
-`trust
-proxy` resulta em três mudanças importantes:
+`trust proxy` resulta em três mudanças importantes:
 
 <ul>
   <li markdown="1">O valor de [req.hostname](/{{ page.lang }}/api.html#req.hostname) é

@@ -9,7 +9,7 @@ lang: pt-br
 
 Use o método `app.engine(ext, callback)`
 para criar seu próprio mecanismo de modelo. `ext`
-refere-se à extensão do arquivo, e  `callback` é a
+refere-se à extensão do arquivo, e `callback` é a
 função de mecanismo de modelo, que aceita os seguintes itens como
 parâmetros: a localização do arquivo, o objeto de opções, e a função
 de retorno de chamada.
@@ -44,6 +44,7 @@ um arquivo chamado `index.ntl` no diretório
 #message#
 </code>
 </pre>
+
 Em seguida, crie a seguinte rota no seu aplicativo.
 
 <pre>
@@ -53,4 +54,5 @@ app.get('/', function (req, res) {
 });
 </code>
 </pre>
+
 Ao fazer uma solicitação à página inicial, o `index.ntl` será renderizado como HTML.

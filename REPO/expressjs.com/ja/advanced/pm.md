@@ -23,7 +23,6 @@ Express およびその他の Node.js アプリケーション用の最も一般
 - [StrongLoop Process Manager](#strongloop-process-manager)
 - [SystemD](#systemd)
 
-
 上記の 4 つのツールのいずれを使用しても非常に役立ちますが、StrongLoop Process Manager は、Node.js アプリケーションのライフサイクル全体に対応した包括的な実行時とデプロイメントのソリューションを提供する唯一のツールであり、実動前と実動後のすべてのステップに関するツールを統合インターフェースで提供します。
 
 以下に、これらの各ツールについて簡単に説明します。
@@ -118,7 +117,7 @@ $ pm2 start npm --name my-app -- start
 
 `pm2` コマンドを使用してアプリケーションを開始する場合、アプリケーションは即時にバックグラウンドに送信されます。さまざまな `pm2` コマンドを使用して、コマンド・ラインからバックグラウンド・アプリケーションを制御できます。
 
-`pm2` コマンドを使用してアプリケーションが開始された後、アプリケーションはID を使用して PM2 のプロセス・リストに登録されます。そのため、システム上の別のディレクトリーからID を使用して同じ名前を持つアプリケーションを管理できます。
+`pm2` コマンドを使用してアプリケーションが開始された後、アプリケーションは ID を使用して PM2 のプロセス・リストに登録されます。そのため、システム上の別のディレクトリーから ID を使用して同じ名前を持つアプリケーションを管理できます。
 
 同じ名前を持つ複数のアプリケーションが実行されている場合、`pm2` コマンドがすべてのアプリケーションに影響を与えることに注意してください。そのため、個々のアプリケーションを管理するには、名前ではなく ID を使用してください。
 
@@ -174,11 +173,13 @@ StrongLoop PM で作業するには、`slc` という強力なコマンド・ラ
 - [Using StrongLoop Process Manager](http://docs.strongloop.com/display/SLC/Using+Process+Manager).
 
 ### インストール
+
 ```sh
 $ [sudo] npm install -g strongloop
 ```
 
 ### 基本的な使用法
+
 ```sh
 $ cd my-app
 $ slc start
@@ -235,13 +236,14 @@ $ slc ctl soft-restart my-app
 ```sh
 $ slc ctl remove my-app
 ```
+
 ## SystemD
 
 ### イントロダクション
 
-SystemDは現代のLinuxディストリビューションにおける、デフォルトのプロセスマネージャです。SystemDに基づいたノードサービスの実行は非常に簡単です。注：このセクションは、[Ralph Slooten(@axllent) のブログ記事](https://www.axllent.org/docs/view/nodejs-service-with-systemd/)に基づいています。
+SystemD は現代の Linux ディストリビューションにおける、デフォルトのプロセスマネージャです。SystemD に基づいたノードサービスの実行は非常に簡単です。注：このセクションは、[Ralph Slooten(@axllent) のブログ記事](https://www.axllent.org/docs/view/nodejs-service-with-systemd/)に基づいています。
 
-### serviceのセットアップ
+### service のセットアップ
 
 Create a file in `/etc/systemd/system/express.service`:
 
@@ -273,19 +275,19 @@ Environment=NODE_ENV=production PORT=8080
 WantedBy=multi-user.target
 ```
 
-### serviceの有効化
+### service の有効化
 
 ```sh
 $ systemctl enable express.service
 ```
 
-### serviceの起動
+### service の起動
 
 ```sh
 $ systemctl start express.service
 ```
 
-### serviceのステータスのチェック
+### service のステータスのチェック
 
 ```sh
 $ systemctl status express.service

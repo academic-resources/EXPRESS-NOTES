@@ -36,6 +36,7 @@ app.set('view engine', 'ntl'); // register the template engine
 #message#
 </code>
 </pre>
+
 Затем создайте следующий маршрут в своем приложении.
 
 <pre>
@@ -45,4 +46,5 @@ app.get('/', function (req, res) {
 });
 </code>
 </pre>
+
 При выполнении запроса к домашней странице файл `index.ntl` будет отображаться как HTML.

@@ -1,41 +1,72 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="uz" xml:lang="uz">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Expressni o’rnatish</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Expressni o’rnatish</h1>
-</header>
-<h1 id="ornatish">O’rnatish</h1>
-<p>Avval, agar ish direktoryasini yaratmagan bo’lsangiz, uni yarating va ish direktoriyasiga aylantiring.</p>
-<pre><code class="language-sh" translate="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Expressni o’rnatish</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Expressni o’rnatish</h1>
+    </header>
+    <h1 id="ornatish">O’rnatish</h1>
+    <p>
+      Avval, agar ish direktoryasini yaratmagan bo’lsangiz, uni yarating va ish
+      direktoriyasiga aylantiring.
+    </p>
+    <pre><code class="language-sh" translate="no">
 $ mkdir myapp
 $ cd myapp
 </code></pre>
-<p>Agar sizning direktoriyangizda <code>package.json</code> fayli mavjud bo’lmasa, uni <code>npm init</code> buyrug’i orqali yarating.</p>
-<pre><code class="language-sh" translate="no">
+    <p>
+      Agar sizning direktoriyangizda <code>package.json</code> fayli mavjud
+      bo’lmasa, uni <code>npm init</code> buyrug’i orqali yarating.
+    </p>
+    <pre><code class="language-sh" translate="no">
 $ npm init
 </code></pre>
-<p>Expressni dastur direktoriyangizga o’rnating va uning kerakli modullarini saqlab qo’ying:</p>
-<pre><code class="language-sh" translate="no">
+    <p>
+      Expressni dastur direktoriyangizga o’rnating va uning kerakli modullarini
+      saqlab qo’ying:
+    </p>
+    <pre><code class="language-sh" translate="no">
 $ npm install express --save
 </code></pre>
-<p>Expressni vaqtinchalik o’rnatish uchun va uning kerakli modullarni saqlab qo’ymaslik uchun <code>--save</code> qo’shimchasini olib tashlang::</p>
-<pre><code class="language-sh" translate="no">
+    <p>
+      Expressni vaqtinchalik o’rnatish uchun va uning kerakli modullarni saqlab
+      qo’ymaslik uchun <code>--save</code> qo’shimchasini olib tashlang::
+    </p>
+    <pre><code class="language-sh" translate="no">
 $ npm install express
 </code></pre>
-<div class="doc-box doc-info" data-markdown="1">
-<p>Agar <code>--save</code> orqali modullarni o’rnatsangiz u <code>package.json</code> faylidagi <code>dependencies</code> ro’yxatidagi qo’shiladi. Dastur direktoriyasida <code>npm install</code> buyurug’ini bajarsangiz, dasturning barcha kerakli modullarni avtomatik tarzda o’rnatib beradi.</p>
-</div>
-</body>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        Agar <code>--save</code> orqali modullarni o’rnatsangiz u
+        <code>package.json</code> faylidagi
+        <code>dependencies</code> ro’yxatidagi qo’shiladi. Dastur
+        direktoriyasida <code>npm install</code> buyurug’ini bajarsangiz,
+        dasturning barcha kerakli modullarni avtomatik tarzda o’rnatib beradi.
+      </p>
+    </div>
+  </body>
 </html>

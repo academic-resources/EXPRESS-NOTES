@@ -32,8 +32,8 @@ De nombreuses modifications importantes ont été faites dans Express 4 :
 
 Voir aussi :
 
-* [Nouvelles fonctions dans la version 4.x.](https://github.com/expressjs/express/wiki/New-features-in-4.x)
-* [Migration de la version 3.x vers 4.x.](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
+- [Nouvelles fonctions dans la version 4.x.](https://github.com/expressjs/express/wiki/New-features-in-4.x)
+- [Migration de la version 3.x vers 4.x.](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
 
 <h3 id="core-changes">
 Modification du système principal et middleware d'Express
@@ -117,8 +117,9 @@ La façon de définir des routes n'a pas changé mais le système de routage pos
 pour vous aider à organiser vos routes :
 
 {: .doclist }
-* Une nouvelle méthode, `app.route()`, permettant de créer des gestionnaires de routage sous forme de chaîne pour un chemin de routage.
-* Une nouvelle classe, `express.Router`, permettant de créer des gestionnaires de routage modulaires pouvant être montés.
+
+- Une nouvelle méthode, `app.route()`, permettant de créer des gestionnaires de routage sous forme de chaîne pour un chemin de routage.
+- Une nouvelle classe, `express.Router`, permettant de créer des gestionnaires de routage modulaires pouvant être montés.
 
 <h4 id="app-route">méthode <code>app.route()</code></h4>
 
@@ -392,15 +393,15 @@ $ npm install serve-favicon morgan method-override express-session body-parser m
 Apportez les modifications suivantes à `app.js` :
 
 1. Les fonctions Express Middleware intégrées `express.favicon`,
-    `express.logger`, `express.methodOverride`,
-    `express.session`, `express.bodyParser` et
-    `express.errorHandler` ne sont plus disponibles sur l'objet
-    `express`.  Vous devez installer leurs fonctions alternatives
-    manuellement et les charger dans l'application.
+   `express.logger`, `express.methodOverride`,
+   `express.session`, `express.bodyParser` et
+   `express.errorHandler` ne sont plus disponibles sur l'objet
+   `express`. Vous devez installer leurs fonctions alternatives
+   manuellement et les charger dans l'application.
 
 2. Vous ne devez plus charger la fonction `app.router`.
-    Il ne s'agit pas d'un objet d'application Express 4 valide. Supprimez le code
-    `app.use(app.router);`.
+   Il ne s'agit pas d'un objet d'application Express 4 valide. Supprimez le code
+   `app.use(app.router);`.
 
 3. Assurez-vous que les fonctions middleware sont chargées dans l'ordre correct - chargez `errorHandler` après avoir chargé les routes d'application.
 
@@ -508,13 +509,13 @@ $ node .
 </pre>
 
 Chargez [http://localhost:3000](http://localhost:3000)
-  et voyez comment la page d'accueil est générée par Express 4.
+et voyez comment la page d'accueil est générée par Express 4.
 
 <h2 id="app-gen">Mise à niveau vers le générateur d'applications Express 4</h2>
 
 L'outil de ligne de commande qui permet de générer une application Express est toujours
-  `express`, mais pour effectuer la mise à niveau vers la nouvelle version, vous devez désinstaller
-  le générateur d'applications Express 3 puis installer la nouvelle version d'`express-generator`.
+`express`, mais pour effectuer la mise à niveau vers la nouvelle version, vous devez désinstaller
+le générateur d'applications Express 3 puis installer la nouvelle version d'`express-generator`.
 
 <h3 id="">Installation </h3>
 
@@ -525,6 +526,7 @@ Si le générateur d'applications Express 3 est installé sur votre système, vo
 $ npm uninstall -g express
 </code>
 </pre>
+
 En fonction de la configuration de vos privilèges de fichier et de répertoire,
 vous devrez exécuter cette commande avec `sudo`.A présent, installez le nouveau générateur :
 
@@ -544,9 +546,10 @@ Désormais, la commande `express` sur votre système est mise à jour vers le g�
 Les options et les syntaxe de commande restent généralement identiques, avec les exceptions suivantes :
 
 {: .doclist }
-* L'option `--sessions` a été supprimée.
-* L'option `--jshtml` a été supprimée.
-* L'option `--hogan` a été ajoutée à la prise en charge de [Hogan.js](http://twitter.github.io/hogan.js/).
+
+- L'option `--sessions` a été supprimée.
+- L'option `--jshtml` a été supprimée.
+- L'option `--hogan` a été ajoutée à la prise en charge de [Hogan.js](http://twitter.github.io/hogan.js/).
 
 <h3 id="">Exemple</h3>
 
@@ -611,5 +614,5 @@ var debug = require('debug')('app4');
 Ensuite, modifiez `"start": "node ./bin/www"` dans le fichier `package.json` en `"start": "node app.js"`.
 
 Vous avez à présent déplacé la fonctionnalité depuis `./bin/www` de nouveau
-dans `app.js`.  Cette modification n'est pas recommandée, mais l'exercice vous aide à comprendre le mode de fonctionnement
+dans `app.js`. Cette modification n'est pas recommandée, mais l'exercice vous aide à comprendre le mode de fonctionnement
 du fichier `./bin/www` et la raison pour laquelle le fichier `app.js` ne se lance plus seul.

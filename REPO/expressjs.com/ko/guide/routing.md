@@ -183,7 +183,7 @@ app.get(/.*fly$/, function(req, res) {
 
 다음 예에 나타난 것과 같이, 라우트 핸들러는 함수나 함수 배열의 형태 또는 둘을 조합한 형태일 수 있습니다.
 
-하나의 콜백 함수는 하나의 라우트를 처리할 수 있습니다.  예를 들면 다음과 같습니다.
+하나의 콜백 함수는 하나의 라우트를 처리할 수 있습니다. 예를 들면 다음과 같습니다.
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -206,7 +206,7 @@ app.get('/example/b', function (req, res, next) {
 </code>
 </pre>
 
-하나의 콜백 함수 배열은 하나의 라우트를 처리할 수 있습니다.  예를 들면 다음과 같습니다.
+하나의 콜백 함수 배열은 하나의 라우트를 처리할 수 있습니다. 예를 들면 다음과 같습니다.
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -228,7 +228,7 @@ app.get('/example/c', [cb0, cb1, cb2]);
 </code>
 </pre>
 
-독립적인 함수와 함수 배열의 조합은 하나의 라우트를 처리할 수 있습니다.  예를 들면 다음과 같습니다.
+독립적인 함수와 함수 배열의 조합은 하나의 라우트를 처리할 수 있습니다. 예를 들면 다음과 같습니다.
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -255,17 +255,17 @@ app.get('/example/d', [cb0, cb1], function (req, res, next) {
 
 다음 표에 표시된 응답 오브젝트에 대한 메소드(`res`)는 응답을 클라이언트로 전송하고 요청-응답 주기를 종료할 수 있습니다. 라우트 핸들러로부터 다음 메소드 중 어느 하나도 호출되지 않는 경우, 클라이언트 요청은 정지된 채로 방치됩니다.
 
-| 메소드               | 설명
-|----------------------|--------------------------------------
-| [res.download()](/{{ page.lang }}/4x/api.html#res.download)   | 파일이 다운로드되도록 프롬프트합니다.
-| [res.end()](/{{ page.lang }}/4x/api.html#res.end)        | 응답 프로세스를 종료합니다.
-| [res.json()](/{{ page.lang }}/4x/api.html#res.json)       | JSON 응답을 전송합니다.
-| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)      | JSONP 지원을 통해 JSON 응답을 전송합니다.
-| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)   | 요청의 경로를 재지정합니다.
-| [res.render()](/{{ page.lang }}/4x/api.html#res.render)     | 보기 템플리트를 렌더링합니다.
-| [res.send()](/{{ page.lang }}/4x/api.html#res.send)       | 다양한 유형의 응답을 전송합니다.
-| [res.sendFile](/{{ page.lang }}/4x/api.html#res.sendFile)     | 파일을 옥텟 스트림의 형태로 전송합니다.
-| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | 응답 상태 코드를 설정한 후 해당 코드를 문자열로 표현한 내용을 응답 본문으로서 전송합니다.
+| 메소드                                                          | 설명                                                                                      |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| [res.download()](/{{ page.lang }}/4x/api.html#res.download)     | 파일이 다운로드되도록 프롬프트합니다.                                                     |
+| [res.end()](/{{ page.lang }}/4x/api.html#res.end)               | 응답 프로세스를 종료합니다.                                                               |
+| [res.json()](/{{ page.lang }}/4x/api.html#res.json)             | JSON 응답을 전송합니다.                                                                   |
+| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)           | JSONP 지원을 통해 JSON 응답을 전송합니다.                                                 |
+| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)     | 요청의 경로를 재지정합니다.                                                               |
+| [res.render()](/{{ page.lang }}/4x/api.html#res.render)         | 보기 템플리트를 렌더링합니다.                                                             |
+| [res.send()](/{{ page.lang }}/4x/api.html#res.send)             | 다양한 유형의 응답을 전송합니다.                                                          |
+| [res.sendFile](/{{ page.lang }}/4x/api.html#res.sendFile)       | 파일을 옥텟 스트림의 형태로 전송합니다.                                                   |
+| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | 응답 상태 코드를 설정한 후 해당 코드를 문자열로 표현한 내용을 응답 본문으로서 전송합니다. |
 
 <h2 id="app-route">app.route()</h2>
 

@@ -4,6 +4,7 @@ title: Express "Hello World" príklad
 menu: starter
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -50,4 +51,3 @@ $ node app.js
 </pre>
 
 Potom v prehliadači zadajte [http://localhost:3000/](http://localhost:3000/) a pozrite si výstup.
-

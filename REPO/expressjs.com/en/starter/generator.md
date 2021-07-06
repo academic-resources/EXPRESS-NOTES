@@ -94,7 +94,6 @@ On Windows PowerShell, use this command:
 PS> $env:DEBUG='myapp:*'; npm start
 ```
 
-
 Then load `http://localhost:3000/` in your browser to access the app.
 
 The generated app has the following directory structure:
@@ -125,4 +124,4 @@ The generated app has the following directory structure:
 The app structure created by the generator is just one of many ways to structure Express apps. Feel free to use this structure or modify it to best suit your needs.
 </div>
 
-###  [Previous: Hello World ](/{{ page.lang }}/starter/hello-world.html)&nbsp;&nbsp;&nbsp;&nbsp;[Next: Basic routing](/{{ page.lang }}/starter/basic-routing.html)
+### [Previous: Hello World ](/{{ page.lang }}/starter/hello-world.html)&nbsp;&nbsp;&nbsp;&nbsp;[Next: Basic routing](/{{ page.lang }}/starter/basic-routing.html)

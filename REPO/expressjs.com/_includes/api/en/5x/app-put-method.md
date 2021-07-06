@@ -7,7 +7,7 @@ Routes HTTP PUT requests to the specified path with the specified callback funct
 #### Example
 
 ```js
-app.put('/', function (req, res) {
-  res.send('PUT request to homepage')
-})
+app.put("/", function (req, res) {
+  res.send("PUT request to homepage");
+});
 ```

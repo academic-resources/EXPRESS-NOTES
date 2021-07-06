@@ -7,7 +7,7 @@ lang: de
 
 # Prozessmanager für Express-Anwendungen
 
-Wenn Sie Express-Anwendungen für Produktionsumgebungen ausführen, ist der Einsatz eines *Prozessmanagers* hilfreich, um folgende Aufgaben (Tasks) auszuführen:
+Wenn Sie Express-Anwendungen für Produktionsumgebungen ausführen, ist der Einsatz eines _Prozessmanagers_ hilfreich, um folgende Aufgaben (Tasks) auszuführen:
 
 - Automatischer Neustart der Anwendung nach einem Absturz
 - Einblicke in die Laufzeitleistung und die Ressourcennutzung
@@ -22,8 +22,7 @@ Die gängigsten Prozessmanager für Express- und andere Node.js-Anwendungen sind
 - [PM2](#pm2)
 - [Forever](#forever)
 
-
-Der Einsatz eines dieser drei Tools kann sehr hilfreich sein. StrongLoop Process Manager ist jedoch das einzige Tool, dass eine umfassende Laufzeit- und Bereitstellungslösung bietet, die den gesamten  Node.js-Anwendungslebenszyklus abdeckt. Für jeden Schritt vor und nach der Produktion steht über eine einheitliche Schnittstelle ein Tool zur Verfügung.
+Der Einsatz eines dieser drei Tools kann sehr hilfreich sein. StrongLoop Process Manager ist jedoch das einzige Tool, dass eine umfassende Laufzeit- und Bereitstellungslösung bietet, die den gesamten Node.js-Anwendungslebenszyklus abdeckt. Für jeden Schritt vor und nach der Produktion steht über eine einheitliche Schnittstelle ein Tool zur Verfügung.
 
 Nachfolgend finden Sie einen Kurzbeschreibung zu jedem dieser Tools.
 Einen ausführlichen Vergleich der Tools finden Sie unter [http://strong-pm.io/compare/](http://strong-pm.io/compare/).
@@ -39,7 +38,7 @@ StrongLoop Process Manager (StrongLoop PM) ist ein Prozessmanager für Node.js-A
 - Einfache Verwaltung von Bereitstellungen auf mehreren Hosts inkl. Nginx-Integration
 - Vereinheitlichung mehrerer StrongLoop PMs auf einer über Arc verwalteten verteilten Microservices-Laufzeitumgebung
 
-StrongLoop PM kann über ein leistungsfähiges Befehlszeilen-Schnittstellentool namens `slc` oder das grafisch orientierte Tool Arc genutzt werden. Arc ist ein Open-Source-Tool, das  von StrongLoop kompetent unterstützt wird.
+StrongLoop PM kann über ein leistungsfähiges Befehlszeilen-Schnittstellentool namens `slc` oder das grafisch orientierte Tool Arc genutzt werden. Arc ist ein Open-Source-Tool, das von StrongLoop kompetent unterstützt wird.
 
 Weitere Informationen siehe [http://strong-pm.io/](http://strong-pm.io/).
 
@@ -49,6 +48,7 @@ Vollständige Dokumentation
 - [StrongLoop Process Manager verwenden](http://docs.strongloop.com/display/SLC/Using+Process+Manager)
 
 ### Installation
+
 <pre>
 <code class="language-sh" translate="no">
 $ [sudo] npm install -g strongloop
@@ -56,6 +56,7 @@ $ [sudo] npm install -g strongloop
 </pre>
 
 ### Grundlegende Verwendung
+
 <pre>
 <code class="language-sh" translate="no">
 $ cd my-app
@@ -203,7 +204,6 @@ Entfernen einer Anwendung aus dem PM2-Register:
 $ pm2 delete 0
 </code>
 </pre>
-
 
 ## <a id="forever">Forever</a>
 

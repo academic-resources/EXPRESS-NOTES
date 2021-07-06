@@ -9,11 +9,12 @@ lang: th
 
 ใช้เครื่องมือสร้าง โดยพินพ์คำสั่ง `express-generator` เพื่อสร้างโครงสร้างหลักของแอปพลิเคชันอย่างรวดเร็ว
 
-`express-generator` ติดตั้งแพ็กเกจไปยังชุดคำสั่ง `express`  ใช้คำสั่งด้านล่างนี้เพื่อติดตั้ง:
+`express-generator` ติดตั้งแพ็กเกจไปยังชุดคำสั่ง `express` ใช้คำสั่งด้านล่างนี้เพื่อติดตั้ง:
 
 ```sh
 $ npm install express-generator -g
 ```
+
 แสดงตัวเลือกคำสั่งทั้งหมดด้วย `h`:
 
 ```sh
@@ -35,6 +36,7 @@ $ express -h
         --git           add .gitignore
     -f, --force         force on non-empty directory
 ```
+
 สำหรับตัวอย่าง คำสั่งข้างล่างนี้เพื่อสร้าง Express app ที่ชื่อว่า _myapp_ โดยจะสร้างโฟล์เดอร์ชื่อ _myapp_ ในไดเรกเทอรีที่ใช้งานอยู่ และตั้ง view engine เป็น <a href="https://pugjs.org/" target="_blank" title="Pug documentation">Pug</a>:
 
 ```sh
@@ -58,6 +60,7 @@ $ express --view=pug myapp
    create : myapp/bin
    create : myapp/bin/www
 ```
+
 แล้วติดตั้งโมดูลเกี่ยวโยง (dependencies):
 
 ```sh

@@ -9,17 +9,17 @@ lang: it
 
 L'aggiunta della funzionalità che consente di connettere i database alle applicazioni Express è solo un modo per caricare un driver Node.js appropriato per il database nell'applicazione. Questo documento spiega brevemente come aggiungere e utilizzare alcuni dei moduli Node.js più noti per i sistemi database nell'applicazione Express:
 
-* [Cassandra](#cassandra)
-* [CouchDB](#couchdb)
-* [LevelDB](#leveldb)
-* [MySQL](#mysql)
-* [MongoDB](#mongo)
-* [Neo4j](#neo4j)
-* [Oracle](#oracle)
-* [PostgreSQL](#postgres)
-* [Redis](#redis)
-* [SQLite](#sqlite)
-* [ElasticSearch](#elasticsearch)
+- [Cassandra](#cassandra)
+- [CouchDB](#couchdb)
+- [LevelDB](#leveldb)
+- [MySQL](#mysql)
+- [MongoDB](#mongo)
+- [Neo4j](#neo4j)
+- [Oracle](#oracle)
+- [PostgreSQL](#postgres)
+- [Redis](#redis)
+- [SQLite](#sqlite)
+- [ElasticSearch](#elasticsearch)
 
 <div class="doc-box doc-notice" markdown="1">
 Questi driver di database sono tra quelli più disponibili.  Per altre opzioni,
@@ -32,7 +32,6 @@ effettuare una ricerca nel sito [npm](https://www.npmjs.com/).
 
 **Modulo**: **Installazione**
 [cassandra-driver](https://github.com/datastax/nodejs-driver)
-
 
 <pre>
 <code class="language-sh" translate="no">
@@ -60,7 +59,6 @@ client.execute('select key from system.local', function(err, result) {
 
 **Modulo**: **Installazione**
 [nano](https://github.com/dscape/nano)
-
 
 <pre>
 <code class="language-sh" translate="no">
@@ -97,7 +95,6 @@ books.list(function(err, body){
 **Modulo**: **Installazione**
 [levelup](https://github.com/rvagg/node-levelup)
 
-
 <pre>
 <code class="language-sh" translate="no">
 $ npm install level levelup leveldown
@@ -129,7 +126,6 @@ db.put('name', 'LevelUP', function (err) {
 
 **Modulo**: **Installazione**
 [mysql](https://github.com/felixge/node-mysql/)
-
 
 <pre>
 <code class="language-sh" translate="no">
@@ -166,7 +162,6 @@ connection.end();
 **Modulo**: **Installazione**
 [mongodb](https://github.com/mongodb/node-mongodb-native)
 
-
 <pre>
 <code class="language-sh" translate="no">
 $ npm install mongodb
@@ -202,7 +197,6 @@ Se si desidera un driver del modello oggetto per MongoDB, consultare [Mongoose](
 **Modulo**: **Installazione**
 [apoc](https://github.com/hacksparrow/apoc)
 
-
 <pre>
 <code class="language-sh" translate="no">
 $ npm install apoc
@@ -234,7 +228,7 @@ apoc.query('match (n) return n').exec().then(
 
 ### Installazione
 
- NOTA: [Vedi i prerequisiti di installazione](https://github.com/oracle/node-oracledb#-installation).
+NOTA: [Vedi i prerequisiti di installazione](https://github.com/oracle/node-oracledb#-installation).
 
 ```sh
 $ npm install oracledb
@@ -243,35 +237,36 @@ $ npm install oracledb
 ### Esempio
 
 ```js
-const oracledb = require('oracledb')
+const oracledb = require("oracledb");
 const config = {
-  user: '<your db user>',
-  password: '<your db password>',
-  connectString: 'localhost:1521/orcl'
-}
+  user: "<your db user>",
+  password: "<your db password>",
+  connectString: "localhost:1521/orcl",
+};
 
-async function getEmployee (empId) {
-  let conn
+async function getEmployee(empId) {
+  let conn;
 
   try {
-    conn = await oracledb.getConnection(config)
+    conn = await oracledb.getConnection(config);
 
     const result = await conn.execute(
-      'select * from employees where employee_id = :id',
+      "select * from employees where employee_id = :id",
       [empId]
-    )
+    );
 
-    console.log(result.rows[0])
+    console.log(result.rows[0]);
   } catch (err) {
-    console.log('Ouch!', err)
+    console.log("Ouch!", err);
   } finally {
-    if (conn) { // conn assignment worked, need to close
-      await conn.close()
+    if (conn) {
+      // conn assignment worked, need to close
+      await conn.close();
     }
   }
 }
 
-getEmployee(101)
+getEmployee(101);
 ```
 
 <a name="postgres"></a>
@@ -280,7 +275,6 @@ getEmployee(101)
 
 **Modulo**: **Installazione**
 [pg](https://github.com/brianc/node-postgres)
-
 
 <pre>
 <code class="language-sh" translate="no">
@@ -318,7 +312,6 @@ pg.connect(conString, function(err, client, done) {
 
 **Modulo**: **Installazione**
 [redis](https://github.com/mranney/node_redis)
-
 
 <pre>
 <code class="language-sh" translate="no">
@@ -360,7 +353,6 @@ client.hkeys('hash key', function (err, replies) {
 **Modulo**: **Installazione**
 [sqlite3](https://github.com/mapbox/node-sqlite3)
 
-
 <pre>
 <code class="language-sh" translate="no">
 $ npm install sqlite3
@@ -400,7 +392,6 @@ db.close();
 
 **Modulo**: **Installazione**
 [elasticsearch](https://github.com/elastic/elasticsearch-js)
-
 
 <pre>
 <code class="language-sh" translate="no">

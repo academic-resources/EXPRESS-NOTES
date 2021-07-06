@@ -1,73 +1,116 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Routage de base Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Routage de base Express</h1>
-</header>
-<h1 id="routage-de-base">Routage de base</h1>
-<p><em>Routage</em> fait référence à la détermination de la façon dont une application répond à un nœud final spécifique, c’est-à-dire un URI (ou chemin) et une méthode de requête HTTP (GET, POST, etc.).</p>
-<p>Chaque route peut avoir une ou plusieurs fonctions de gestionnaire, qui sont exécutées lorsque la route est mise en correspondance.</p>
-La définition de la route utilise la structure suivante :
-<pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Routage de base Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Routage de base Express</h1>
+    </header>
+    <h1 id="routage-de-base">Routage de base</h1>
+    <p>
+      <em>Routage</em> fait référence à la détermination de la façon dont une
+      application répond à un nœud final spécifique, c’est-à-dire un URI (ou
+      chemin) et une méthode de requête HTTP (GET, POST, etc.).
+    </p>
+    <p>
+      Chaque route peut avoir une ou plusieurs fonctions de gestionnaire, qui
+      sont exécutées lorsque la route est mise en correspondance.
+    </p>
+    La définition de la route utilise la structure suivante :
+    <pre>
 <code class="language-javascript" translate="no">
 app.METHOD(PATH, HANDLER)
 </code>
 </pre>
-<p>Où :</p>
-<ul>
-<li><code>app</code> est une instance d’<code>express</code>.</li>
-<li><code>METHOD</code> est une <a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">méthode de demande HTTP</a>.</li>
-<li><code>PATH</code> est un chemin sur le serveur.</li>
-<li><code>HANDLER</code> est la fonction exécutée lorsque la route est mise en correspondance.</li>
-</ul>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>Ce tutoriel suppose qu’une instance d’<code>express</code> appelée <code>app</code> soit créée et que le serveur soit en cours d’exécution. Si vous ne savez pas créer et démarrer une application, reportez-vous à l’<a href="/%7B%7B%20page.lang%20%7D%7D/starter/hello-world.html">exemple Hello world</a>.</p>
-</div>
-<p>Les exemples suivants illustrent la définition de routes simples.</p>
-<p>Réponse <code>Hello World!</code> sur la page d’accueil :</p>
-<pre>
+    <p>Où :</p>
+    <ul>
+      <li><code>app</code> est une instance d’<code>express</code>.</li>
+      <li>
+        <code>METHOD</code> est une
+        <a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol"
+          >méthode de demande HTTP</a
+        >.
+      </li>
+      <li><code>PATH</code> est un chemin sur le serveur.</li>
+      <li>
+        <code>HANDLER</code> est la fonction exécutée lorsque la route est mise
+        en correspondance.
+      </li>
+    </ul>
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        Ce tutoriel suppose qu’une instance d’<code>express</code> appelée
+        <code>app</code> soit créée et que le serveur soit en cours d’exécution.
+        Si vous ne savez pas créer et démarrer une application, reportez-vous à
+        l’<a href="/%7B%7B%20page.lang%20%7D%7D/starter/hello-world.html"
+          >exemple Hello world</a
+        >.
+      </p>
+    </div>
+    <p>Les exemples suivants illustrent la définition de routes simples.</p>
+    <p>Réponse <code>Hello World!</code> sur la page d’accueil :</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/', function (req, res) {
   res.send('Hello World!');
 });
 </code>
 </pre>
-<p>Réponse à une demande POST sur la route racine (<code>/</code>), sur la page d’accueil de l’application :</p>
-<pre>
+    <p>
+      Réponse à une demande POST sur la route racine (<code>/</code>), sur la
+      page d’accueil de l’application :
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.post('/', function (req, res) {
   res.send('Got a POST request');
 });
 </code>
 </pre>
-<p>Réponse à une demande PUT sur la route <code>/user</code> :</p>
-<pre>
+    <p>Réponse à une demande PUT sur la route <code>/user</code> :</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.put('/user', function (req, res) {
   res.send('Got a PUT request at /user');
 });
 </code>
 </pre>
-<p>Réponse à une demande DELETE sur la route <code>/user</code> :</p>
-<pre>
+    <p>Réponse à une demande DELETE sur la route <code>/user</code> :</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.delete('/user', function (req, res) {
   res.send('Got a DELETE request at /user');
 });
 </code>
 </pre>
-<p>Pour plus de détails sur le routage, reportez-vous au <a href="/%7B%7B%20page.lang%20%7D%7D/guide/routing.html">guide de routage</a>.</p>
-</body>
+    <p>
+      Pour plus de détails sur le routage, reportez-vous au
+      <a href="/%7B%7B%20page.lang%20%7D%7D/guide/routing.html"
+        >guide de routage</a
+      >.
+    </p>
+  </body>
 </html>

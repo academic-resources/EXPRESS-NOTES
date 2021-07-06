@@ -41,6 +41,7 @@ app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']) // specify mult
 </pre>
 
 S'ils sont spécifiés, les sous-réseaux ou les adresses IP sont exclus du processus d'identification d'adresse, et l'adresse IP sans confiance la plus proche du serveur d'applications est identifiée comme étant l'adresse IP du client.
+
 </td>
     </tr>
     <tr>

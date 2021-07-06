@@ -46,4 +46,3 @@ $ node app.js
 </pre>
 
 次に、ブラウザーに [http://localhost:3000/](http://localhost:3000/) をロードして、出力を確認します。
-

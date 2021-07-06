@@ -56,7 +56,7 @@ in the repository covering everything from API design and authentication to temp
 
 Our vibrant community has created a large variety of extensions,
 [middleware modules](/{{ page.lang }}/resources/middleware.html) and
-[higher-level frameworks](frameworks.html).  
+[higher-level frameworks](frameworks.html).
 
 Additionally, the Express community maintains modules in these two GitHub orgs:
 

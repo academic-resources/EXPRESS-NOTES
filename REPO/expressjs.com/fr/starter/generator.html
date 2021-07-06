@@ -1,31 +1,51 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Générateur d’applications Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Générateur d’applications Express</h1>
-</header>
-<h1 id="générateur-dapplications-express">Générateur d’applications Express</h1>
-<p>Utilisez l’outil de générateur d’applications, <code>express</code>, pour créer rapidement un squelette d’application.</p>
-<p>Installez <code>express</code> à l’aide de la commande suivante :</p>
-<pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Générateur d’applications Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Générateur d’applications Express</h1>
+    </header>
+    <h1 id="générateur-dapplications-express">
+      Générateur d’applications Express
+    </h1>
+    <p>
+      Utilisez l’outil de générateur d’applications, <code>express</code>, pour
+      créer rapidement un squelette d’application.
+    </p>
+    <p>Installez <code>express</code> à l’aide de la commande suivante :</p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install express-generator -g
 </code>
 </pre>
-<p>Affichez les options de commande à l’aide de l’option <code>-h</code> :</p>
-<pre>
+    <p>
+      Affichez les options de commande à l’aide de l’option <code>-h</code> :
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ express -h
 
@@ -46,8 +66,13 @@ $ express -h
     -f, --force         force on non-empty directory
 </code>
 </pre>
-<p>Par exemple, ce code crée une application Express nomée <em>myapp</em>. L’application sera crée dans le dossier <em>myapp</em>, lui meme placé dans le repertoir de travail courant. Le moteur de vue sera configuré avec <a href="pugjs.org" target="_blank" title="Documentation Pug">Pug</a>:</p>
-<pre>
+    <p>
+      Par exemple, ce code crée une application Express nomée <em>myapp</em>.
+      L’application sera crée dans le dossier <em>myapp</em>, lui meme placé
+      dans le repertoir de travail courant. Le moteur de vue sera configuré avec
+      <a href="pugjs.org" target="_blank" title="Documentation Pug">Pug</a>:
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ express --view=pug myapp
 
@@ -70,28 +95,34 @@ $ express --view=pug myapp
    create : myapp/bin/www
 </code>
 </pre>
-<p>Ensuite, installez les dépendances :</p>
-<pre>
+    <p>Ensuite, installez les dépendances :</p>
+    <pre>
 <code class="language-sh" translate="no">
 $ cd myapp
 $ npm install
 </code>
 </pre>
-<p>Sous MacOS ou Linux, exécutez l’application à l’aide de la commande suivante :</p>
-<pre>
+    <p>
+      Sous MacOS ou Linux, exécutez l’application à l’aide de la commande
+      suivante :
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ DEBUG=myapp:* npm start
 </code>
 </pre>
-<p>Sous Windows, utilisez la commande suivante :</p>
-<pre>
+    <p>Sous Windows, utilisez la commande suivante :</p>
+    <pre>
 <code class="language-sh" translate="no">
 > set DEBUG=myapp:* & npm start
 </code>
 </pre>
-<p>Ensuite, chargez ‘http://hôte_local:3000/’ dans votre navigateur pour accéder à l’application.</p>
-<p>L’application générée possède la structure de répertoire suivante :</p>
-<pre>
+    <p>
+      Ensuite, chargez ‘http://hôte_local:3000/’ dans votre navigateur pour
+      accéder à l’application.
+    </p>
+    <p>L’application générée possède la structure de répertoire suivante :</p>
+    <pre>
 <code class="language-sh" translate="no">
 .
 ├── app.js
@@ -114,8 +145,13 @@ $ DEBUG=myapp:* npm start
 7 directories, 9 files
 </code>
 </pre>
-<div class="doc-box doc-info" data-markdown="1">
-<p>La structure d’application créée par le générateur est l’une des nombreuses manières possibles de structurer les applications Express. Vous avez toute latitude pour l’utiliser ou la modifier en fonction de vos besoins.</p>
-</div>
-</body>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        La structure d’application créée par le générateur est l’une des
+        nombreuses manières possibles de structurer les applications Express.
+        Vous avez toute latitude pour l’utiliser ou la modifier en fonction de
+        vos besoins.
+      </p>
+    </div>
+  </body>
 </html>

@@ -9,14 +9,14 @@ lang: uk
 
 <h2>Overview</h2>
 
-_Middleware_ functions are functions that have access to the [request object](/4x/api.html#req)  (`req`), the [response object](/4x/api.html#res) (`res`), and the next middleware function in the application's request-response cycle. The next middleware function is commonly denoted by a variable named `next`.
+_Middleware_ functions are functions that have access to the [request object](/4x/api.html#req) (`req`), the [response object](/4x/api.html#res) (`res`), and the next middleware function in the application's request-response cycle. The next middleware function is commonly denoted by a variable named `next`.
 
 Middleware functions can perform the following tasks:
 
-* Execute any code.
-* Make changes to the request and the response objects.
-* End the request-response cycle.
-* Call the next middleware in the stack.
+- Execute any code.
+- Make changes to the request and the response objects.
+- End the request-response cycle.
+- Call the next middleware in the stack.
 
 If the current middleware function does not end the request-response cycle, it must call `next()` to pass control to the next middleware function. Otherwise, the request will be left hanging.
 
@@ -43,7 +43,7 @@ The following figure shows the elements of a middleware function call:
 
 <h2>Example</h2>
 
-Here is an example of a simple "Hello World" Express application. 
+Here is an example of a simple "Hello World" Express application.
 The remainder of this article will define and add two middleware functions to the application:
 one called `myLogger` that prints a simple log message and another called `requestTime` that
 displays the timestamp of the HTTP request.
@@ -106,8 +106,8 @@ The middleware function `myLogger` simply prints a message, then passes on the r
 
 <h3>Middleware function requestTime</h3>
 
-Next, we'll create a middleware function called "requestTime" and add it as a property called `requestTime` 
-to the request object. 
+Next, we'll create a middleware function called "requestTime" and add it as a property called `requestTime`
+to the request object.
 
 <pre><code class="language-javascript" translate="no">
 var requestTime = function (req, res, next) {

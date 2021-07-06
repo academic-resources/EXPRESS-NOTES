@@ -16,7 +16,7 @@ $ cd myapp
 ```
 
 Uygulamanız için `package.json` dosyasını oluşturmak için `npm init` komutunu
-çalıştırın. 
+çalıştırın.
 `package.json` dosyasının nasıl çalıştığı hakkında daha fazla bilgi edinmek için [Specifics of npm's package.json handling](https://docs.npmjs.com/files/package.json) adresini kullanın.
 
 ```sh
@@ -26,7 +26,6 @@ $ npm init
 Bu komut size uygulamanızın adı ve versiyonu gibi bir kaç soru yöneltecektir.
 Şimdilik, çoğu soru için ENTER tuşuna basıp varsayılan ayarları uygulayabilirsiniz, aşağıdaki hariç:
 
-
 ```sh
 entry point: (index.js)
 ```
@@ -34,7 +33,6 @@ entry point: (index.js)
 `app.js` ya da ana dosyanıza vermek istediğiniz ismi girin. Eğer ana dosyanızın `index.js` olmasını istiyorsanız, ENTER tuşu ile varsayılanı uygulayabilirsiniz.
 
 Şimdi Express'i `myapp` dizinine kurun ve bağımlı uygulamalar listesine ekleyin. Örneğin:
-
 
 ```sh
 $ npm install express --save
@@ -50,4 +48,4 @@ $ npm install express --no-save
 npm 5.0+ versiyonları için npm install komutu, kurulacak modülü varsayılan olarak `package.json` içindeki bağımlılıklar listesine ekler; daha eski npm versiyonları için `--save` ayrıca belirtilmelidir. Daha sonrasında, uygulama dizininde `npm install` komutunu çalıştırmak, bağımlılık listesindeki uygulamaları otomatik olarak yükler.
 </div>
 
-###  [Sonraki: Merhaba Dünya ](/{{ page.lang }}/starter/hello-world.html)
+### [Sonraki: Merhaba Dünya ](/{{ page.lang }}/starter/hello-world.html)

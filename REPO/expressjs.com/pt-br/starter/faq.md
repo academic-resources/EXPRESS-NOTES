@@ -18,14 +18,14 @@ Rotas e outras lógicas específicas do aplicativo podem ficar em
 quantos arquivos quiser, em qualquer estrutura de diretórios que
 preferir. Visualize os seguintes exemplos para obter inspiração:
 
-* [Listagens de rota](https://github.com/expressjs/express/blob/4.13.1/examples/route-separation/index.js#L32-47)
-* [Mapa de rota](https://github.com/expressjs/express/blob/4.13.1/examples/route-map/index.js#L52-L66)
-* [Controladores com estilo MVC](https://github.com/expressjs/express/tree/master/examples/mvc)
+- [Listagens de rota](https://github.com/expressjs/express/blob/4.13.1/examples/route-separation/index.js#L32-47)
+- [Mapa de rota](https://github.com/expressjs/express/blob/4.13.1/examples/route-map/index.js#L52-L66)
+- [Controladores com estilo MVC](https://github.com/expressjs/express/tree/master/examples/mvc)
 
 Além disso, existem extensões de terceiros para o Express, que
 simplificam alguns desses padrões:
 
-* [Roteamento engenhoso](https://github.com/expressjs/express-resource)
+- [Roteamento engenhoso](https://github.com/expressjs/express-resource)
 
 ## Como eu defino modelos?
 
@@ -39,17 +39,15 @@ uma estrutura baseada no Express que é centrada em modelos.
 ## Como posso autenticar usuários?
 
 Autenticação é outra área muito opinada que o Express não
-se arrisca a entrar.  Você pode usar qualquer esquema que desejar.
+se arrisca a entrar. Você pode usar qualquer esquema que desejar.
 Para um esquema simples com nome de usuário / senha, consulte
 [este
 exemplo](https://github.com/expressjs/express/tree/master/examples/auth).
 
-
 ## Quais mecanismos de modelo o Express suporta?
 
 O Express suporta qualquer mecanismo de modelo que esteja em
-conformidade com a assinatura `(path, locals,
-callback)`.
+conformidade com a assinatura `(path, locals, callback)`.
 Para normalizar interfaces e o armazenamento em
 cache de mecanismo de modelo, consulte o projeto
 [consolidate.js](https://github.com/visionmedia/consolidate.js)

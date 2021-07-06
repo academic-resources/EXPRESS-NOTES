@@ -27,7 +27,7 @@ $ npm install response-time
 <!-- eslint-disable no-unused-vars -->
 
 ```js
-var responseTime = require('response-time')
+var responseTime = require("response-time");
 ```
 
 ### responseTime([options])
@@ -66,64 +66,67 @@ invoked as `fn(req, res, time)`, where `time` is a number in milliseconds.
 ### express/connect
 
 ```js
-var express = require('express')
-var responseTime = require('response-time')
+var express = require("express");
+var responseTime = require("response-time");
 
-var app = express()
+var app = express();
 
-app.use(responseTime())
+app.use(responseTime());
 
-app.get('/', function (req, res) {
-  res.send('hello, world!')
-})
+app.get("/", function (req, res) {
+  res.send("hello, world!");
+});
 ```
 
 ### vanilla http server
 
 ```js
-var finalhandler = require('finalhandler')
-var http = require('http')
-var responseTime = require('response-time')
+var finalhandler = require("finalhandler");
+var http = require("http");
+var responseTime = require("response-time");
 
 // create "middleware"
-var _responseTime = responseTime()
+var _responseTime = responseTime();
 
 http.createServer(function (req, res) {
-  var done = finalhandler(req, res)
+  var done = finalhandler(req, res);
   _responseTime(req, res, function (err) {
-    if (err) return done(err)
+    if (err) return done(err);
 
     // respond to request
-    res.setHeader('content-type', 'text/plain')
-    res.end('hello, world!')
-  })
-})
+    res.setHeader("content-type", "text/plain");
+    res.end("hello, world!");
+  });
+});
 ```
 
 ### response time metrics
 
 ```js
-var express = require('express')
-var responseTime = require('response-time')
-var StatsD = require('node-statsd')
+var express = require("express");
+var responseTime = require("response-time");
+var StatsD = require("node-statsd");
 
-var app = express()
-var stats = new StatsD()
+var app = express();
+var stats = new StatsD();
 
-stats.socket.on('error', function (error) {
-  console.error(error.stack)
-})
+stats.socket.on("error", function (error) {
+  console.error(error.stack);
+});
 
-app.use(responseTime(function (req, res, time) {
-  var stat = (req.method + req.url).toLowerCase()
-    .replace(/[:.]/g, '')
-    .replace(/\//g, '_')
-  stats.timing(stat, time)
-}))
+app.use(
+  responseTime(function (req, res, time) {
+    var stat = (req.method + req.url)
+      .toLowerCase()
+      .replace(/[:.]/g, "")
+      .replace(/\//g, "_");
+    stats.timing(stat, time);
+  })
+);
 
-app.get('/', function (req, res) {
-  res.send('hello, world!')
-})
+app.get("/", function (req, res) {
+  res.send("hello, world!");
+});
 ```
 
 ## License

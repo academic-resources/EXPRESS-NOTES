@@ -185,7 +185,6 @@ app.get(/.*fly$/, function(req, res) {
 
 單一回呼函數可以處理路由。例如：
 
-
 <pre>
 <code class="language-javascript" translate="no">
 app.get('/example/a', function (req, res) {
@@ -195,7 +194,6 @@ app.get('/example/a', function (req, res) {
 </pre>
 
 多個回呼函數可以處理路由（請確定您有指定 `next` 物件）。例如：
-
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -209,7 +207,6 @@ app.get('/example/b', function (req, res, next) {
 </pre>
 
 回呼函數陣列可以處理路由。例如：
-
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -232,7 +229,6 @@ app.get('/example/c', [cb0, cb1, cb2]);
 </pre>
 
 獨立函數與函數陣列的組合可以處理路由。例如：
-
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -259,17 +255,17 @@ app.get('/example/d', [cb0, cb1], function (req, res, next) {
 
 在下表中，回應物件 (`res`) 中的方法可以傳送回應給用戶端，並終止要求/回應循環。如果路由處理程式都沒有呼叫這些方法，用戶端要求將會停擺。
 
-| 方法               | 說明
-|----------------------|--------------------------------------
-| [res.download()](/{{ page.lang }}/4x/api.html#res.download)   | 提示您提供要下載的檔案。
-| [res.end()](/{{ page.lang }}/4x/api.html#res.end)        | 結束回應程序。
-| [res.json()](/{{ page.lang }}/4x/api.html#res.json)       | 傳送 JSON 回應。
-| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)      | 傳送 JSON 回應，並支援 JSONP。
-| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)   | 將要求重新導向。
-| [res.render()](/{{ page.lang }}/4x/api.html#res.render)     | 呈現視圖範本。
-| [res.send()](/{{ page.lang }}/4x/api.html#res.send)       | 傳送各種類型的回應。
-| [res.sendFile()](/{{ page.lang }}/4x/api.html#res.sendFile)     | 以八位元組串流形式傳送檔案。
-| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | 設定回應狀態碼，並以回應內文形式傳送其字串表示法。
+| 方法                                                            | 說明                                               |
+| --------------------------------------------------------------- | -------------------------------------------------- |
+| [res.download()](/{{ page.lang }}/4x/api.html#res.download)     | 提示您提供要下載的檔案。                           |
+| [res.end()](/{{ page.lang }}/4x/api.html#res.end)               | 結束回應程序。                                     |
+| [res.json()](/{{ page.lang }}/4x/api.html#res.json)             | 傳送 JSON 回應。                                   |
+| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)           | 傳送 JSON 回應，並支援 JSONP。                     |
+| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)     | 將要求重新導向。                                   |
+| [res.render()](/{{ page.lang }}/4x/api.html#res.render)         | 呈現視圖範本。                                     |
+| [res.send()](/{{ page.lang }}/4x/api.html#res.send)             | 傳送各種類型的回應。                               |
+| [res.sendFile()](/{{ page.lang }}/4x/api.html#res.sendFile)     | 以八位元組串流形式傳送檔案。                       |
+| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | 設定回應狀態碼，並以回應內文形式傳送其字串表示法。 |
 
 <h2 id="app-route">app.route()</h2>
 

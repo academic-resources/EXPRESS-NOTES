@@ -1,30 +1,63 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="uz" xml:lang="uz">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express asosiy marshrutizatsiya</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express asosiy marshrutizatsiya</h1>
-</header>
-<h1 id="asosiy-marshrutizatsiya">Asosiy marshrutizatsiya</h1>
-<p>Ushbu material Expressda asosiy marshrutizatsiyalar bilan ishlash haqidadir. Marshrutizatsiya dasturda HTTP so’rovlarga (GET, POST va b.sh) murojat qilinganda, ma’lum bir manzilga(endpoint) qanday javob berishini aniqlaydi.</p>
-<p>Har bir marshrut(route) bir yoki ko’plar qayta ishlovchi funksiyalarga ega.</p>
-Marshrutni aniqlash quyidagi ko’rinishga ega <code>app.METHOD(PATH, HANDLER)</code>, bu yerda <code>app</code> <code>express</code>ning ekzamplyari, <code>METHOD</code> esa <a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP request method</a>, <code>PATH</code> esa saytdagi manzili va <code>HANDLER</code> esa marshrut chaqirilganda bajariladinga funksiya.
-<div class="doc-box doc-notice" data-markdown="1">
-<p>Ushbu qo’llanmani foydalanishdan oldin <code>express</code> obyektidan ekzamplyar olib, uni <code>app</code> deb atang va serverni ishga tushuring. Agar siz bu bilan tanish bo’lmasangiz, unda <a href="/starter/hello-world.html">Hello world misol</a> qo’llanmanisini o’qib chiqing.</p>
-</div>
-<p>Quyidagi kodlar marshrutizatsiyaga bir necha misollar keltirilgan.</p>
-<pre><code class="language-javascript" translate="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express asosiy marshrutizatsiya</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express asosiy marshrutizatsiya</h1>
+    </header>
+    <h1 id="asosiy-marshrutizatsiya">Asosiy marshrutizatsiya</h1>
+    <p>
+      Ushbu material Expressda asosiy marshrutizatsiyalar bilan ishlash
+      haqidadir. Marshrutizatsiya dasturda HTTP so’rovlarga (GET, POST va b.sh)
+      murojat qilinganda, ma’lum bir manzilga(endpoint) qanday javob berishini
+      aniqlaydi.
+    </p>
+    <p>
+      Har bir marshrut(route) bir yoki ko’plar qayta ishlovchi funksiyalarga
+      ega.
+    </p>
+    Marshrutni aniqlash quyidagi ko’rinishga ega
+    <code>app.METHOD(PATH, HANDLER)</code>, bu yerda <code>app</code>
+    <code>express</code>ning ekzamplyari, <code>METHOD</code> esa
+    <a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol"
+      >HTTP request method</a
+    >, <code>PATH</code> esa saytdagi manzili va <code>HANDLER</code> esa
+    marshrut chaqirilganda bajariladinga funksiya.
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        Ushbu qo’llanmani foydalanishdan oldin <code>express</code> obyektidan
+        ekzamplyar olib, uni <code>app</code> deb atang va serverni ishga
+        tushuring. Agar siz bu bilan tanish bo’lmasangiz, unda
+        <a href="/starter/hello-world.html">Hello world misol</a>
+        qo’llanmanisini o’qib chiqing.
+      </p>
+    </div>
+    <p>Quyidagi kodlar marshrutizatsiyaga bir necha misollar keltirilgan.</p>
+    <pre><code class="language-javascript" translate="no">
 // Bosh sahifada "Hello World!" javobini qaytaradi.
 app.get('/', function (req, res) {
   res.send('Hello World!');
@@ -45,6 +78,10 @@ app.delete('/user', function (req, res) {
   res.send('Got a DELETE request at /user');
 })
 </code></pre>
-<p>Marshrutizatsiya haqida to’liq ma’lumot olish uchun, ma’lumotnoma orqali <a href="/guide/routing.html">Marshrutizatsiya</a> bo’limini o’qib chiqing.</p>
-</body>
+    <p>
+      Marshrutizatsiya haqida to’liq ma’lumot olish uchun, ma’lumotnoma orqali
+      <a href="/guide/routing.html">Marshrutizatsiya</a> bo’limini o’qib
+      chiqing.
+    </p>
+  </body>
 </html>

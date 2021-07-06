@@ -1,32 +1,64 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express “Hello World” príklad</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express “Hello World” príklad</h1>
-</header>
-<!---
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express “Hello World” príklad</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express “Hello World” príklad</h1>
+    </header>
+    <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
 -->
-<h1 id="hello-world-príklad">Hello world príklad</h1>
-<div class="doc-box doc-info" data-markdown="1">
-<p>Toto bude v podstate najjednoduchšia Express aplikácia akú možete vytvoriť. Aplikácia s jedným súborom — <em>nie</em> taká, ako keby ste použili <a href="/%7B%7B%20page.lang%20%7D%7D/starter/generator.html">Express generátor</a>, ktorý vytvorí základnú štruktúru pre plnohodnotnú aplikáciu s niekoľkými JavaScript súbormi, Jade templatami a pod-adresármi pre rôzne účely.</p>
-</div>
-<p>Najskôr si vytvorte priečinok s názvom <code>myapp</code>, presuňte sa tam a spustite príkaz <code>npm init</code>. Potom nainštalujte <code>express</code> ako dependenciu podľa <a href="/%7B%7B%20page.lang%20%7D%7D/starter/installing.html">inštalačnej príručky</a>.</p>
-<p>V priečinku <code>myapp</code> vytvorte súbor s názvom <code>app.js</code> a vložte do neho nasledovný kód:</p>
-<pre>
+    <h1 id="hello-world-príklad">Hello world príklad</h1>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        Toto bude v podstate najjednoduchšia Express aplikácia akú možete
+        vytvoriť. Aplikácia s jedným súborom — <em>nie</em> taká, ako keby ste
+        použili
+        <a href="/%7B%7B%20page.lang%20%7D%7D/starter/generator.html"
+          >Express generátor</a
+        >, ktorý vytvorí základnú štruktúru pre plnohodnotnú aplikáciu s
+        niekoľkými JavaScript súbormi, Jade templatami a pod-adresármi pre rôzne
+        účely.
+      </p>
+    </div>
+    <p>
+      Najskôr si vytvorte priečinok s názvom <code>myapp</code>, presuňte sa tam
+      a spustite príkaz <code>npm init</code>. Potom nainštalujte
+      <code>express</code> ako dependenciu podľa
+      <a href="/%7B%7B%20page.lang%20%7D%7D/starter/installing.html"
+        >inštalačnej príručky</a
+      >.
+    </p>
+    <p>
+      V priečinku <code>myapp</code> vytvorte súbor s názvom
+      <code>app.js</code> a vložte do neho nasledovný kód:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 const express = require('express')
 const app = express()
@@ -41,16 +73,31 @@ app.listen(port, () => {
 })
 </code>
 </pre>
-<p>Aplikácia naštartuje server a na porte 3000 začne počúvať na pripojenia. Aplikácia odpovie “Hello World!” na request na hlavnú URL (<code>/</code>) alebo <em>route</em>. Pre každú inú URL odpovie prostredníctvom <strong>404 Not Found</strong>.</p>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>Request (požiadavka) <code>req</code> a response (odpoveď) <code>res</code> sú presne rovnaké objekty, ktoré Node štandardne poskytuje, takže môžete spraviť <code>req.pipe()</code>, <code>req.on('data', callback)</code> a hocičo iné, čo by ste spravili v prípade, ak by ste nepoužili Express.</p>
-</div>
-<p>Spustite aplikáciu pomocou nasledujúceho príkazu:</p>
-<pre>
+    <p>
+      Aplikácia naštartuje server a na porte 3000 začne počúvať na pripojenia.
+      Aplikácia odpovie “Hello World!” na request na hlavnú URL (<code>/</code>)
+      alebo <em>route</em>. Pre každú inú URL odpovie prostredníctvom
+      <strong>404 Not Found</strong>.
+    </p>
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        Request (požiadavka) <code>req</code> a response (odpoveď)
+        <code>res</code> sú presne rovnaké objekty, ktoré Node štandardne
+        poskytuje, takže môžete spraviť <code>req.pipe()</code>,
+        <code>req.on('data', callback)</code> a hocičo iné, čo by ste spravili v
+        prípade, ak by ste nepoužili Express.
+      </p>
+    </div>
+    <p>Spustite aplikáciu pomocou nasledujúceho príkazu:</p>
+    <pre>
 <code class="language-sh" translate="no">
 $ node app.js
 </code>
 </pre>
-<p>Potom v prehliadači zadajte <a href="http://localhost:3000/">http://localhost:3000/</a> a pozrite si výstup.</p>
-</body>
+    <p>
+      Potom v prehliadači zadajte
+      <a href="http://localhost:3000/">http://localhost:3000/</a> a pozrite si
+      výstup.
+    </p>
+  </body>
 </html>

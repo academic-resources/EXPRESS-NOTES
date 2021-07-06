@@ -7,17 +7,20 @@
 body {
   padding: 80px 100px;
   font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
-  background: #ECE9E9 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
-  background: #ECE9E9 -moz-linear-gradient(top, #fff, #ECE9E9);
+  background: #ece9e9 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ece9e9));
+  background: #ece9e9 -moz-linear-gradient(top, #fff, #ece9e9);
   background-repeat: no-repeat;
   color: #555;
   -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-size: 22px;
   color: #343434;
 }
-h1 em, h2 em {
+h1 em,
+h2 em {
   padding: 0 5px;
   font-weight: normal;
 }
@@ -91,13 +94,13 @@ ul#files li a {
 }
 ul#files li a:focus,
 ul#files li a:hover {
-  background: rgba(255,255,255,0.65);
+  background: rgba(255, 255, 255, 0.65);
   border: 1px solid #ececec;
 }
 ul#files li a.highlight {
-  -webkit-transition: background .4s ease-in-out;
+  -webkit-transition: background 0.4s ease-in-out;
   background: #ffff4f;
-  border-color: #E9DC51;
+  border-color: #e9dc51;
 }
 #search {
   display: block;
@@ -109,8 +112,10 @@ ul#files li a.highlight {
   -moz-transition: width ease 0.2s, opacity ease 0.4s;
   -webkit-border-radius: 32px;
   -moz-border-radius: 32px;
-  -webkit-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.25), inset 0px 1px 3px rgba(0, 0, 0, 0.7), 0px 1px 0px rgba(255, 255, 255, 0.03);
-  -moz-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.25), inset 0px 1px 3px rgba(0, 0, 0, 0.7), 0px 1px 0px rgba(255, 255, 255, 0.03);
+  -webkit-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.25),
+    inset 0px 1px 3px rgba(0, 0, 0, 0.7), 0px 1px 0px rgba(255, 255, 255, 0.03);
+  -moz-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.25),
+    inset 0px 1px 3px rgba(0, 0, 0, 0.7), 0px 1px 0px rgba(255, 255, 255, 0.03);
   -webkit-font-smoothing: antialiased;
   text-align: left;
   font: 13px "Helvetica Neue", Arial, sans-serif;
@@ -124,7 +129,7 @@ ul#files li a.highlight {
 }
 #search:focus {
   width: 120px;
-  opacity: 1.0; 
+  opacity: 1;
 }
 
 /*views*/

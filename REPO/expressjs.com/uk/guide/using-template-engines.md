@@ -7,7 +7,7 @@ lang: uk
 
 # Використання шаблонізаторів в Express
 
-A _template engine_ enables you to use static template files in your application.   At runtime, the template engine replaces
+A _template engine_ enables you to use static template files in your application. At runtime, the template engine replaces
 variables in a template file with actual values, and transforms the template into an HTML file sent to the client.
 This approach makes it easier to design an HTML page.
 
@@ -21,9 +21,9 @@ See also [Comparing JavaScript Templating Engines: Jade, Mustache, Dust and More
 
 To render template files, set the following [application setting properties](/{{ page.lang }}/4x/api.html#app.set):
 
-* `views`, the directory where the template files are located. Eg: `app.set('views', './views')`.
-This defaults to the `views` directory in the application root directory.
-* `view engine`, the template engine to use. For example, to use the Pug template engine: `app.set('view engine', 'pug')`.
+- `views`, the directory where the template files are located. Eg: `app.set('views', './views')`.
+  This defaults to the `views` directory in the application root directory.
+- `view engine`, the template engine to use. For example, to use the Pug template engine: `app.set('view engine', 'pug')`.
 
 Then install the corresponding template engine npm package; for example to install Pug:
 
@@ -37,6 +37,7 @@ which is called by the `res.render()` function to render the template code.
 
 Some template engines do not follow this convention. The [Consolidate.js](https://www.npmjs.org/package/consolidate)
 library follows this convention by mapping all of the popular Node.js template engines, and therefore works seamlessly within Express.
+
 </div>
 
 After the view engine is set, you don't have to specify the engine or load the template engine module in your app;

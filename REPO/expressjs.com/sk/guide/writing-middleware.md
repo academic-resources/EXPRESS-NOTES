@@ -4,6 +4,7 @@ title: Tvorba middleware pre použitie v Express applikáciách
 menu: guide
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -13,14 +14,14 @@ lang: sk
 
 <h2>Prehľad</h2>
 
-_Middleware_ funkcie sú funkcie, ktoré majú prístup k [request objektu](/4x/api.html#req)  (`req`), [response objektu](/4x/api.html#res) (`res`) a nasledujúcej middleware funkcii v request-response cykle aplikácie. Nasledujúca middleware funkcia v poradí je bežne označovaná premennou `next`.
+_Middleware_ funkcie sú funkcie, ktoré majú prístup k [request objektu](/4x/api.html#req) (`req`), [response objektu](/4x/api.html#res) (`res`) a nasledujúcej middleware funkcii v request-response cykle aplikácie. Nasledujúca middleware funkcia v poradí je bežne označovaná premennou `next`.
 
 Middleware funkcie dokážu vykonávať nasledujúce úlohy:
 
-* Vykonať akýkoľvek kód.
-* Vykonať zmeny na request a response objektoch.
-* Ukončiť request-response cyklus.
-* Zavolať nasledujúcu middleware funkciu v poradí.
+- Vykonať akýkoľvek kód.
+- Vykonať zmeny na request a response objektoch.
+- Ukončiť request-response cyklus.
+- Zavolať nasledujúcu middleware funkciu v poradí.
 
 Ak aktuálna middleware funkcia neukončuje request-response cyklus, musí posunúť obsluhu nasledujúcej middleware funkcii vyvolaním `next()`. V opačnom prípade zostane request 'visieť'.
 

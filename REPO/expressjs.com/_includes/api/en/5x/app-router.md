@@ -3,15 +3,15 @@
 The application's in-built instance of router. This is created lazily, on first access.
 
 ```js
-var express = require('express')
-var app = express()
-var router = app.router
+var express = require("express");
+var app = express();
+var router = app.router;
 
-router.get('/', function (req, res) {
-  res.send('hello world')
-})
+router.get("/", function (req, res) {
+  res.send("hello world");
+});
 
-app.listen(3000)
+app.listen(3000);
 ```
 
 You can add middleware and HTTP method routes to the `router` just like an application.

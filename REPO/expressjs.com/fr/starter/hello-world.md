@@ -2,7 +2,7 @@
 layout: page
 title: Exemple "Hello world" Express
 menu: starter
-lang : fr
+lang: fr
 ---
 
 # Exemple Hello world
@@ -34,7 +34,7 @@ app.listen(port, () => {
 </pre>
 
 L'application démarre un serveur et écoute le port 3000 à la recherche de connexions. L'application répond "Hello World!" aux demandes adressées
-à l'URL racine (`/`) ou à la *route* racine. Pour tous les autres chemins d'accès, elle répondra par **404 Not Found**.
+à l'URL racine (`/`) ou à la _route_ racine. Pour tous les autres chemins d'accès, elle répondra par **404 Not Found**.
 
 <div class="doc-box doc-notice" markdown="1">
 Les objets `req` (demande) et `res` (réponse) sont exactement les mêmes que ceux que Node fournit, vous pouvez donc appeler
@@ -50,4 +50,3 @@ $ node app.js
 </pre>
 
 Puis chargez [http://localhost:3000/](http://localhost:3000/) dans un navigateur pour consulter le résultat.
-

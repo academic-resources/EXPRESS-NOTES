@@ -9,7 +9,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 body {
@@ -25,11 +25,14 @@ h1 {
   line-height: 36px;
 }
 
-#intro h3, #api-doc h1 {
+#intro h3,
+#api-doc h1 {
   font-weight: normal;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   margin: 5px 0;
   color: #353535;
   -webkit-font-smoothing: antialiased;
@@ -49,7 +52,8 @@ p {
   line-height: 1.35em;
 }
 
-strong, th {
+strong,
+th {
   color: #353535;
 }
 
@@ -203,10 +207,11 @@ a {
   padding-top: 40px;
 }
 
-#api-doc *:target, #page-doc *:target {
- margin-top: -120px;
- padding-top: 120px;
- z-index: -1;
+#api-doc *:target,
+#page-doc *:target {
+  margin-top: -120px;
+  padding-top: 120px;
+  z-index: -1;
 }
 
 .outlined-img {
@@ -242,7 +247,7 @@ a {
   display: block;
   font: 4.5em "Helvetica Neue", "Open Sans", sans-serif;
   font-weight: 100;
-  margin-bottom: .25em;
+  margin-bottom: 0.25em;
 }
 
 #description .express a {
@@ -266,7 +271,7 @@ a {
   top: -5px;
   font: 100 4.1em "Helvetica Neue", "Open Sans", sans-serif;
   color: #aeaeae;
-  line-height: .87;
+  line-height: 0.87;
 }
 
 #description em {
@@ -322,7 +327,8 @@ img.memberlogo {
 
 /* code */
 
-p code, td code {
+p code,
+td code {
   color: #333;
 }
 
@@ -344,7 +350,7 @@ pre code {
 /* top button */
 
 .scroll #top {
-  opacity: .2;
+  opacity: 0.2;
 }
 
 #top {
@@ -415,7 +421,6 @@ html[xmlns] .clearfix {
   margin-right: 0;
 }
 
-
 #boxes h3 {
   background: none;
   margin-top: 0;
@@ -464,10 +469,10 @@ html[xmlns] .clearfix {
   margin-left: 4px;
 }
 
-
 /* doc specific */
 
-.doctable, section table {
+.doctable,
+section table {
   margin: 1em 1em 1em 0;
   border: 1px solid #c6c6c6;
   border-collapse: collapse;
@@ -475,14 +480,18 @@ html[xmlns] .clearfix {
   width: 100%;
 }
 
-.doctable td, .doctable th, section table td, section table th {
+.doctable td,
+.doctable th,
+section table td,
+section table th {
   padding: 7px;
   line-height: 120%;
   vertical-align: top;
   border: 1px solid #c6c6c6;
 }
 
-.doctable tr th, section table tr th {
+.doctable tr th,
+section table tr th {
   background-color: #dadada;
   font-size: 110%;
 }
@@ -491,12 +500,13 @@ html[xmlns] .clearfix {
   margin-top: 0;
 }
 
-.doctable td p, li p {
+.doctable td p,
+li p {
   width: 100% !important;
 }
 
 .doctable ul {
-  margin: 20px 0
+  margin: 20px 0;
 }
 
 /* doc boxes */
@@ -539,12 +549,11 @@ html[xmlns] .clearfix {
   padding-bottom: 0 !important;
 }
 
-
-.page pre.plain-text, .page code.plain-text {
+.page pre.plain-text,
+.page code.plain-text {
   padding-top: 0 !important;
   color: #000;
 }
-
 
 .doc-notice {
   background: #faf6e8;
@@ -601,7 +610,8 @@ html[xmlns] .clearfix {
   left: 16px;
 }
 
-pre, code {
+pre,
+code {
   white-space: pre-wrap !important;
 }
 
@@ -613,7 +623,7 @@ pre, code {
   top: 11px;
   width: 150px;
   border-radius: 3px;
-  color: #08592B;
+  color: #08592b;
   padding: 3px;
 }
 
@@ -657,8 +667,11 @@ footer {
   padding-left: 15px;
 }
 
-@media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
-
+@media only screen and (-moz-min-device-pixel-ratio: 1.5),
+  only screen and (-o-min-device-pixel-ratio: 3/2),
+  only screen and (-webkit-min-device-pixel-ratio: 1.5),
+  only screen and (min-devicepixel-ratio: 1.5),
+  only screen and (min-resolution: 1.5dppx) {
   #fork {
     background-image: url(/images/fork-icon@2x.png);
   }
@@ -666,7 +679,6 @@ footer {
   #announcements p:first-child {
     background-image: url(/images/announcement-icon@2x.png);
   }
-
 }
 
 /* navigation */
@@ -692,7 +704,6 @@ footer {
   font-weight: bold;
   color: #353535;
 }
-
 
 /* dropdown menu */
 
@@ -724,7 +735,7 @@ footer {
   padding: 6px 0;
   margin: 0 0 0 1px;
   border-radius: 3px;
-  box-shadow: 0px 1px 3px rgba(0,0,0,0.15);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .menu ul.dropit-submenu a {
@@ -806,13 +817,12 @@ h2 a {
 }
 
 .algolia-autocomplete #q {
-  display: initial
+  display: initial;
 }
 
 /* responsive */
 
 @media all and (max-width: 899px) {
-
   #conference a img {
     width: 150px;
     margin-right: 10px;
@@ -906,7 +916,7 @@ h2 a {
 
   #description .description {
     font-size: 3em;
-    line-height: .9em;
+    line-height: 0.9em;
     font-weight: 200;
   }
 
@@ -1080,14 +1090,11 @@ h2 a {
   .algolia-autocomplete {
     display: none !important;
   }
-
 }
 
-
 @media all and (max-width: 420px) {
-
   #conference {
-    display:none;
+    display: none;
   }
 
   #app-settings-property {
@@ -1125,35 +1132,55 @@ h2 a {
     margin-bottom: 30px;
     padding-left: 18px;
   }
-
 }
 
 @media all and (max-width: 320px) {
-
   #install-command {
     font-size: 12px;
   }
 }
 
 @media print {
-
   header {
     position: absolute;
   }
 
   #mobile-menu {
-    display:none;
+    display: none;
   }
 }
 
 /* For image callouts in writing-middleware.md  */
 
-.callout {position: relative;}
+.callout {
+  position: relative;
+}
 
-#mw-fig { border-collapse: separate; padding: 0; border: 0; width: 960px; margin-bottom: 20px;}
-#mw-fig-imgcell {margin: 0; padding: 0px; border: 0; width: 410px;}
-#mw-fig-img {margin: 0px; padding: 0px; width: 410px; height: 308px;}
-.mw-fig-callouts {margin: 0; padding: 0 0 0 5px; border: 0; width: 550px;}
+#mw-fig {
+  border-collapse: separate;
+  padding: 0;
+  border: 0;
+  width: 960px;
+  margin-bottom: 20px;
+}
+#mw-fig-imgcell {
+  margin: 0;
+  padding: 0px;
+  border: 0;
+  width: 410px;
+}
+#mw-fig-img {
+  margin: 0px;
+  padding: 0px;
+  width: 410px;
+  height: 308px;
+}
+.mw-fig-callouts {
+  margin: 0;
+  padding: 0 0 0 5px;
+  border: 0;
+  width: 550px;
+}
 
 /* For middleware pages */
 
@@ -1183,7 +1210,7 @@ h2 a {
   padding: 0 10px 0 10px;
   font-size: 13px;
   overflow-y: auto;
- }
+}
 
 #middleware-content {
   /* flex: 0.85; */
@@ -1191,12 +1218,12 @@ h2 a {
 }
 
 #mw-list ul li {
- margin-left: -20px;
+  margin-left: -20px;
 }
 
 #blm-banner {
   text-align: center;
-  background: #010101; 
+  background: #010101;
   color: #f1f1f1;
   padding: 5px;
   font-size: 16px;
@@ -1204,6 +1231,6 @@ h2 a {
 }
 
 #blm-donate {
-  color: #5E80F7;
+  color: #5e80f7;
   text-decoration: none;
 }

@@ -32,6 +32,7 @@ Your app will now be able to render `.ntl` files. Create a file named `index.ntl
 #title#
 #message#
 </code></pre>
+
 Then, create the following route in your app.
 
 <pre><code class="language-javascript" translate="no">
@@ -39,4 +40,5 @@ app.get('/', function (req, res) {
   res.render('index', { title: 'Hey', message: 'Hello there!'});
 });
 </code></pre>
+
 When you make a request to the home page, `index.ntl` will be rendered as HTML.

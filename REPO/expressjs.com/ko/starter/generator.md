@@ -41,7 +41,7 @@ $ express -h
 </code>
 </pre>
 
-예를 들면, 다음의 예에서는 _myapp_라는 이름의 Express 앱을 현재 작업 디렉토리에 작성합니다.
+예를 들면, 다음의 예에서는 *myapp*라는 이름의 Express 앱을 현재 작업 디렉토리에 작성합니다.
 
 <pre>
 <code class="language-sh" translate="no">

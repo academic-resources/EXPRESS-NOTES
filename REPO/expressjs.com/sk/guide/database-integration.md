@@ -4,6 +4,7 @@ title: Integrácia Express s databázou
 menu: guide
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -13,16 +14,16 @@ lang: sk
 
 Pridanie schopnosti pripojenia Express aplikácie na databázu je len otázkou načítania správneho Node.js drivera. Tento dokument v stručnosti popisuje možnosti pridania a použitia niektorých z obľúbených Node.js modulov pre pripojenie sa vašej Express aplikácie na databázu:
 
-* [Cassandra](#cassandra)
-* [CouchDB](#couchdb)
-* [LevelDB](#leveldb)
-* [MySQL](#mysql)
-* [MongoDB](#mongo)
-* [Neo4j](#neo4j)
-* [PostgreSQL](#postgres)
-* [Redis](#redis)
-* [SQLite](#sqlite)
-* [ElasticSearch](#elasticsearch)
+- [Cassandra](#cassandra)
+- [CouchDB](#couchdb)
+- [LevelDB](#leveldb)
+- [MySQL](#mysql)
+- [MongoDB](#mongo)
+- [Neo4j](#neo4j)
+- [PostgreSQL](#postgres)
+- [Redis](#redis)
+- [SQLite](#sqlite)
+- [ElasticSearch](#elasticsearch)
 
 <div class="doc-box doc-notice" markdown="1">
 Tieto databázové drivery predstavujú len časť z mnoha ďalších, ktoré sú dostupné. Nájdete ich na [npm](https://www.npmjs.com/) stránke.

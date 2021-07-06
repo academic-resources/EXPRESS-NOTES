@@ -12,6 +12,7 @@ lang: ko
 각 라우트는 하나 이상의 핸들러 함수를 가질 수 있으며, 이러한 함수는 라우트가 일치할 때 실행됩니다.
 
 라우트 정의에는 다음과 같은 구조가 필요합니다.
+
 <pre>
 <code class="language-javascript" translate="no">
 app.METHOD(PATH, HANDLER)

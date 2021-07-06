@@ -9,24 +9,24 @@ lang: fr
 
 Express est une infrastructure web middleware et de routage, qui a des fonctions propres minimes : une application Express n'est ni plus ni moins qu'une succession d'appels de fonctions middleware.
 
-Les fonctions de *middleware* sont des fonctions qui peuvent accéder à l'[objet Request](/{{ page.lang }}/4x/api.html#req)  (`req`), l'[objet response](/{{ page.lang }}/4x/api.html#res) (`res`) et à la fonction middleware suivant dans le cycle demande-réponse de l'application. La fonction middleware suivant est couramment désignée par une variable nommée `next`.
+Les fonctions de _middleware_ sont des fonctions qui peuvent accéder à l'[objet Request](/{{ page.lang }}/4x/api.html#req) (`req`), l'[objet response](/{{ page.lang }}/4x/api.html#res) (`res`) et à la fonction middleware suivant dans le cycle demande-réponse de l'application. La fonction middleware suivant est couramment désignée par une variable nommée `next`.
 
 Les fonctions middleware effectuent les tâches suivantes :
 
-* Exécuter tout type de code.
-* Apporter des modifications aux objets de demande et de réponse.
-* Terminer le cycle de demande-réponse.
-* Appeler la fonction middleware suivant dans la pile.
+- Exécuter tout type de code.
+- Apporter des modifications aux objets de demande et de réponse.
+- Terminer le cycle de demande-réponse.
+- Appeler la fonction middleware suivant dans la pile.
 
 Si la fonction middleware en cours ne termine pas le cycle de demande-réponse, elle doit appeler la fonction `next()` pour transmettre le contrôle à la fonction middleware suivant. Sinon, la demande restera bloquée.
 
 Une application Express peut utiliser les types de middleware suivants :
 
- - [Middleware niveau application](#middleware.application)
- - [Middleware niveau routeur](#middleware.router)
- - [Middleware de traitement d'erreurs](#middleware.error-handling)
- - [Middleware intégré](#middleware.built-in)
- - [Middleware tiers](#middleware.third-party)
+- [Middleware niveau application](#middleware.application)
+- [Middleware niveau routeur](#middleware.router)
+- [Middleware de traitement d'erreurs](#middleware.error-handling)
+- [Middleware intégré](#middleware.built-in)
+- [Middleware tiers](#middleware.third-party)
 
 Vous pouvez charger le middleware niveau application et niveau routeur à l'aide d'un chemin de montage facultatif.
 Vous pouvez également charger une série de fonctions middleware ensemble, ce qui crée une sous-pile du système de middleware à un point de montage.
@@ -138,6 +138,7 @@ Le middleware niveau routeur fonctionne de la même manière que le middleware n
 var router = express.Router();
 </code>
 </pre>
+
 Chargez le middleware niveau routeur par le biais des fonctions `router.use()` et `router.METHOD()`.
 
 Le code d'exemple suivant réplique le système de middleware illustré ci-dessus pour le middleware niveau application, en utilisant un middleware niveau routeur :
@@ -216,16 +217,16 @@ L'argument `root` spécifie le répertoire racine à partir duquel servir les ac
 
 L'objet `options` facultatif peut avoir les propriétés suivantes :
 
-| Propriété      | Description                                                           |   Type      | Valeur par défaut          |
-|---------------|-----------------------------------------------------------------------|-------------|-----------------|
-| `dotfiles`    | Option pour servir les fichiers dotfiles. Les valeurs possibles sont "allow", "deny" et "ignore" | Chaîne | "ignore" |
-| `etag`        | Activer ou désactiver la génération etag  | Booléen | `true` |
-| `extensions`  | Définit l'extension de fichier de rechange. | Tableau | `[]` |
-| `index`       | Envoie le fichier d'index du répertoire. Utilisez `false` pour désactiver l'indexation de répertoire. | Mix | "index.html" |
- `lastModified` | Définit l'en-tête `Last-Modified` sur la date de dernière modification du fichier dans le système d'exploitation. Les valeurs possibles sont `true` ou `false`. | Booléen | `true` |
-| `maxAge`      | Définit la propriété max-age de l'en-tête Cache-Control, en millisecondes ou par une chaîne au format [ms format](https://www.npmjs.org/package/ms) | Numérique | 0 |
-| `redirect`    | Réapplique les barres obliques "/" lorsque le chemin d'accès est un répertoire. | Booléen | `true` |
-| `setHeaders`  | Fonction pour définir les en-têtes HTTP à servir avec le fichier. | Fonction |  |
+| Propriété      | Description                                                                                                                                                     | Type      | Valeur par défaut |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------------- |
+| `dotfiles`     | Option pour servir les fichiers dotfiles. Les valeurs possibles sont "allow", "deny" et "ignore"                                                                | Chaîne    | "ignore"          |
+| `etag`         | Activer ou désactiver la génération etag                                                                                                                        | Booléen   | `true`            |
+| `extensions`   | Définit l'extension de fichier de rechange.                                                                                                                     | Tableau   | `[]`              |
+| `index`        | Envoie le fichier d'index du répertoire. Utilisez `false` pour désactiver l'indexation de répertoire.                                                           | Mix       | "index.html"      |
+| `lastModified` | Définit l'en-tête `Last-Modified` sur la date de dernière modification du fichier dans le système d'exploitation. Les valeurs possibles sont `true` ou `false`. | Booléen   | `true`            |
+| `maxAge`       | Définit la propriété max-age de l'en-tête Cache-Control, en millisecondes ou par une chaîne au format [ms format](https://www.npmjs.org/package/ms)             | Numérique | 0                 |
+| `redirect`     | Réapplique les barres obliques "/" lorsque le chemin d'accès est un répertoire.                                                                                 | Booléen   | `true`            |
+| `setHeaders`   | Fonction pour définir les en-têtes HTTP à servir avec le fichier.                                                                                               | Fonction  |                   |
 
 Voici un exemple d'utilisation de la fonction middleware `express.static` avec un objet options élaboré :
 

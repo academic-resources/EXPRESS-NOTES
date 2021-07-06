@@ -1,136 +1,339 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express ara yazılımı kullanmak</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-  <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express ara yazılımı kullanmak</h1>
-</header>
-<div id="page-doc" data-markdown="1">
-<h1 id="ara-yazılım-kullanmak">Ara yazılım kullanmak</h1>
-<p>Express, kendine özgü minimal bir işlevselliği olan bir yönlendirme ve ara yazılım web çatısıdır: Bir Express uygulaması aslında bir dizi ara yazılım fonksiyon çağrısıdır.</p>
-<p><em>Middleware</em> fonksiyonları, uygulamanın istek-yanıt döngüsündeki <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#req">istek objesi</a> (<code>req</code>), <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res">yanıt objesi</a> (<code>res</code>), ve bir sonraki ara yazılım fonksiyonuna erişebilen fonksiyonlardır. Bir sonraki ara yazılım fonksiyonu çoğunlukla <code>next</code> isimli bir değişken ile tanımlanır.</p>
-<p>Ara yazılım fonksiyonları aşağıdaki görevleri yapabilir:</p>
-<ul>
-<li>Herhangi bir kodu koşma</li>
-<li>İstek ve yanıt objelerine değişiklik yapma</li>
-<li>İstek-yanıt döngüsünü bitirme</li>
-<li>Kümedeki bir sonraki ara yazılım fonksiyonunu çağırma</li>
-</ul>
-<p>Şimdiki ara yazılım fonksiyonu istek-yanıt döngüsünü bitirmezse, bir sonraki ara yazılım fonksiyonuna kontrol vermek için <code>next()</code> metodunu çağırmalı. Aksi takdirde istek boşta asılı kalacaktır.</p>
-<p>Bir Express uygulaması aşağıdaki ara yazılım türlerini kullanabilir:</p>
-<ul>
-<li><a href="#middleware.application">Uygulama-düzeyi ara yazılım</a></li>
-<li><a href="#middleware.router">Rota-düzeyi ara yazılım</a></li>
-<li><a href="#middleware.error-handling">Hata-işleme ara yazılım</a></li>
-<li><a href="#middleware.built-in">Gömülü ara yazılım</a></li>
-<li><a href="#middleware.third-party">Üçüncü-parti ara yazılım</a></li>
-</ul>
-<p>Uygulama-düzeyi ve yönlendirici-düzeyi ara yazılımı bir opsiyonlu hedef yol ile yükleyebilirsiniz. Hedef bir yolda, bir ara katman yazılımı alt kümesi oluşturacak bir ara yazılım fonksiyonlar dizisi de yükleyebilirsiniz.</p>
-<h2 id="middleware.application">
-Uygulama-düzeyi ara yazılımı
-</h2>
-<p>Uygulama-düzeyi ara yazılımı <code>app.use()</code> ve <code>app.METHOD()</code> fonksiyonları kullanarak bir <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app">uygulama objesi</a> örneğine bağlanır; <code>METHOD</code> ise, küçük harflerle, ara yazılım fonksiyonunun işlediği isteğin HTTP metodunun ismidir (örneğin GET, PUT, veya POST).</p>
-<p>Bu örnek, hedef yolu bulunmayan bir ara yazılım fonksiyonunu gösteriyor. Fonksiyon uygulama her istek aldığında çalışır.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express ara yazılımı kullanmak</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+    <style type="text/css">
+      a.sourceLine {
+        display: inline-block;
+        line-height: 1.25;
+      }
+      a.sourceLine {
+        pointer-events: none;
+        color: inherit;
+        text-decoration: inherit;
+      }
+      a.sourceLine:empty {
+        height: 1.2em;
+      }
+      .sourceCode {
+        overflow: visible;
+      }
+      code.sourceCode {
+        white-space: pre;
+        position: relative;
+      }
+      div.sourceCode {
+        margin: 1em 0;
+      }
+      pre.sourceCode {
+        margin: 0;
+      }
+      @media screen {
+        div.sourceCode {
+          overflow: auto;
+        }
+      }
+      @media print {
+        code.sourceCode {
+          white-space: pre-wrap;
+        }
+        a.sourceLine {
+          text-indent: -1em;
+          padding-left: 1em;
+        }
+      }
+      pre.numberSource a.sourceLine {
+        position: relative;
+        left: -4em;
+      }
+      pre.numberSource a.sourceLine::before {
+        content: attr(title);
+        position: relative;
+        left: -1em;
+        text-align: right;
+        vertical-align: baseline;
+        border: none;
+        pointer-events: all;
+        display: inline-block;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        padding: 0 4px;
+        width: 4em;
+        color: #aaaaaa;
+      }
+      pre.numberSource {
+        margin-left: 3em;
+        border-left: 1px solid #aaaaaa;
+        padding-left: 4px;
+      }
+      div.sourceCode {
+      }
+      @media screen {
+        a.sourceLine::before {
+          text-decoration: underline;
+        }
+      }
+      code span.al {
+        color: #ff0000;
+        font-weight: bold;
+      } /* Alert */
+      code span.an {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Annotation */
+      code span.at {
+        color: #7d9029;
+      } /* Attribute */
+      code span.bn {
+        color: #40a070;
+      } /* BaseN */
+      code span.bu {
+      } /* BuiltIn */
+      code span.cf {
+        color: #007020;
+        font-weight: bold;
+      } /* ControlFlow */
+      code span.ch {
+        color: #4070a0;
+      } /* Char */
+      code span.cn {
+        color: #880000;
+      } /* Constant */
+      code span.co {
+        color: #60a0b0;
+        font-style: italic;
+      } /* Comment */
+      code span.cv {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* CommentVar */
+      code span.do {
+        color: #ba2121;
+        font-style: italic;
+      } /* Documentation */
+      code span.dt {
+        color: #902000;
+      } /* DataType */
+      code span.dv {
+        color: #40a070;
+      } /* DecVal */
+      code span.er {
+        color: #ff0000;
+        font-weight: bold;
+      } /* Error */
+      code span.ex {
+      } /* Extension */
+      code span.fl {
+        color: #40a070;
+      } /* Float */
+      code span.fu {
+        color: #06287e;
+      } /* Function */
+      code span.im {
+      } /* Import */
+      code span.in {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Information */
+      code span.kw {
+        color: #007020;
+        font-weight: bold;
+      } /* Keyword */
+      code span.op {
+        color: #666666;
+      } /* Operator */
+      code span.ot {
+        color: #007020;
+      } /* Other */
+      code span.pp {
+        color: #bc7a00;
+      } /* Preprocessor */
+      code span.sc {
+        color: #4070a0;
+      } /* SpecialChar */
+      code span.ss {
+        color: #bb6688;
+      } /* SpecialString */
+      code span.st {
+        color: #4070a0;
+      } /* String */
+      code span.va {
+        color: #19177c;
+      } /* Variable */
+      code span.vs {
+        color: #4070a0;
+      } /* VerbatimString */
+      code span.wa {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Warning */
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express ara yazılımı kullanmak</h1>
+    </header>
+    <div id="page-doc" data-markdown="1">
+      <h1 id="ara-yazılım-kullanmak">Ara yazılım kullanmak</h1>
+      <p>
+        Express, kendine özgü minimal bir işlevselliği olan bir yönlendirme ve
+        ara yazılım web çatısıdır: Bir Express uygulaması aslında bir dizi ara
+        yazılım fonksiyon çağrısıdır.
+      </p>
+      <p>
+        <em>Middleware</em> fonksiyonları, uygulamanın istek-yanıt döngüsündeki
+        <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#req">istek objesi</a>
+        (<code>req</code>),
+        <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res">yanıt objesi</a>
+        (<code>res</code>), ve bir sonraki ara yazılım fonksiyonuna erişebilen
+        fonksiyonlardır. Bir sonraki ara yazılım fonksiyonu çoğunlukla
+        <code>next</code> isimli bir değişken ile tanımlanır.
+      </p>
+      <p>Ara yazılım fonksiyonları aşağıdaki görevleri yapabilir:</p>
+      <ul>
+        <li>Herhangi bir kodu koşma</li>
+        <li>İstek ve yanıt objelerine değişiklik yapma</li>
+        <li>İstek-yanıt döngüsünü bitirme</li>
+        <li>Kümedeki bir sonraki ara yazılım fonksiyonunu çağırma</li>
+      </ul>
+      <p>
+        Şimdiki ara yazılım fonksiyonu istek-yanıt döngüsünü bitirmezse, bir
+        sonraki ara yazılım fonksiyonuna kontrol vermek için
+        <code>next()</code> metodunu çağırmalı. Aksi takdirde istek boşta asılı
+        kalacaktır.
+      </p>
+      <p>
+        Bir Express uygulaması aşağıdaki ara yazılım türlerini kullanabilir:
+      </p>
+      <ul>
+        <li>
+          <a href="#middleware.application">Uygulama-düzeyi ara yazılım</a>
+        </li>
+        <li><a href="#middleware.router">Rota-düzeyi ara yazılım</a></li>
+        <li>
+          <a href="#middleware.error-handling">Hata-işleme ara yazılım</a>
+        </li>
+        <li><a href="#middleware.built-in">Gömülü ara yazılım</a></li>
+        <li><a href="#middleware.third-party">Üçüncü-parti ara yazılım</a></li>
+      </ul>
+      <p>
+        Uygulama-düzeyi ve yönlendirici-düzeyi ara yazılımı bir opsiyonlu hedef
+        yol ile yükleyebilirsiniz. Hedef bir yolda, bir ara katman yazılımı alt
+        kümesi oluşturacak bir ara yazılım fonksiyonlar dizisi de
+        yükleyebilirsiniz.
+      </p>
+      <h2 id="middleware.application">Uygulama-düzeyi ara yazılımı</h2>
+      <p>
+        Uygulama-düzeyi ara yazılımı <code>app.use()</code> ve
+        <code>app.METHOD()</code> fonksiyonları kullanarak bir
+        <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app"
+          >uygulama objesi</a
+        >
+        örneğine bağlanır; <code>METHOD</code> ise, küçük harflerle, ara yazılım
+        fonksiyonunun işlediği isteğin HTTP metodunun ismidir (örneğin GET, PUT,
+        veya POST).
+      </p>
+      <p>
+        Bu örnek, hedef yolu bulunmayan bir ara yazılım fonksiyonunu gösteriyor.
+        Fonksiyon uygulama her istek aldığında çalışır.
+      </p>
+      <div class="sourceCode" id="cb1">
+        <pre
+          class="sourceCode js"
+        ><code class="sourceCode javascript"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
 <a class="sourceLine" id="cb1-2" title="2"></a>
 <a class="sourceLine" id="cb1-3" title="3"><span class="va">app</span>.<span class="at">use</span>(<span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb1-4" title="4">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;Time:&#39;</span><span class="op">,</span> <span class="va">Date</span>.<span class="at">now</span>())</a>
 <a class="sourceLine" id="cb1-5" title="5">  <span class="at">next</span>()</a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="op">}</span>)</a></code></pre></div>
-<p>Bu örnek, <code>/user/:id</code> yoluna yerleştirilmiş bir ara yazılım fonksiyonu gösterir. Bu fonksiyon <code>/user/:id</code> yoluna yapılan herhangi bir HTTP isteğinde çalışır.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb2-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="op">}</span>)</a></code></pre>
+      </div>
+      <p>
+        Bu örnek, <code>/user/:id</code> yoluna yerleştirilmiş bir ara yazılım
+        fonksiyonu gösterir. Bu fonksiyon <code>/user/:id</code> yoluna yapılan
+        herhangi bir HTTP isteğinde çalışır.
+      </p>
+      <div class="sourceCode" id="cb2">
+        <pre
+          class="sourceCode js"
+        ><code class="sourceCode javascript"><a class="sourceLine" id="cb2-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb2-2" title="2">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;Request Type:&#39;</span><span class="op">,</span> <span class="va">req</span>.<span class="at">method</span>)</a>
 <a class="sourceLine" id="cb2-3" title="3">  <span class="at">next</span>()</a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="op">}</span>)</a></code></pre></div>
-<p>Bu örnek bir rotayı ve işleyici fonksiyonunu gösterir (ara yazılım sistemi). Fonksiyon <code>/user/:id</code> yoluna yapılan GET isteklerini karşılıyor.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb3-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="op">}</span>)</a></code></pre>
+      </div>
+      <p>
+        Bu örnek bir rotayı ve işleyici fonksiyonunu gösterir (ara yazılım
+        sistemi). Fonksiyon <code>/user/:id</code> yoluna yapılan GET
+        isteklerini karşılıyor.
+      </p>
+      <div class="sourceCode" id="cb3">
+        <pre
+          class="sourceCode js"
+        ><code class="sourceCode javascript"><a class="sourceLine" id="cb3-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb3-2" title="2">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">&#39;USER&#39;</span>)</a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="op">}</span>)</a></code></pre></div>
-<p>Bu örnek, hedef bir yol ile, yerleştirilmiş bir noktada bir dizi ara yazılım fonksiyonları yükler. <code>/user/:id</code> yoluna yapılan herhangi bir tipte HTTP isteğinin istek bilgilerini yazdıran bir ara yazılım alt kümesini gösterir.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb4-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="op">}</span>)</a></code></pre>
+      </div>
+      <p>
+        Bu örnek, hedef bir yol ile, yerleştirilmiş bir noktada bir dizi ara
+        yazılım fonksiyonları yükler. <code>/user/:id</code> yoluna yapılan
+        herhangi bir tipte HTTP isteğinin istek bilgilerini yazdıran bir ara
+        yazılım alt kümesini gösterir.
+      </p>
+      <div class="sourceCode" id="cb4">
+        <pre
+          class="sourceCode js"
+        ><code class="sourceCode javascript"><a class="sourceLine" id="cb4-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb4-2" title="2">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;Request URL:&#39;</span><span class="op">,</span> <span class="va">req</span>.<span class="at">originalUrl</span>)</a>
 <a class="sourceLine" id="cb4-3" title="3">  <span class="at">next</span>()</a>
 <a class="sourceLine" id="cb4-4" title="4"><span class="op">},</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb4-5" title="5">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;Request Type:&#39;</span><span class="op">,</span> <span class="va">req</span>.<span class="at">method</span>)</a>
 <a class="sourceLine" id="cb4-6" title="6">  <span class="at">next</span>()</a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="op">}</span>)</a></code></pre></div>
-<p>Rota işleyicileri bir yol için birden fazla rota tanımlamaya olanak sağlar. Aşağıdaki örnek <code>/user/:id</code> yoluna yapılan GET istekleri için iki rota tanımlıyor. İkinci rota herhangi bir problem yaratmayacak, ancak ilk rota istek-yanıt döngüsünü bitirdiği için ikinci rota hiç bir zaman çağrılmayacak.</p>
-<p>Bu örnek <code>/user/:id</code> yoluna yapılan GET isteklerini işleyen ara yazılım alt kümesini gösterir.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb5-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="op">}</span>)</a></code></pre>
+      </div>
+      <p>
+        Rota işleyicileri bir yol için birden fazla rota tanımlamaya olanak
+        sağlar. Aşağıdaki örnek <code>/user/:id</code> yoluna yapılan GET
+        istekleri için iki rota tanımlıyor. İkinci rota herhangi bir problem
+        yaratmayacak, ancak ilk rota istek-yanıt döngüsünü bitirdiği için ikinci
+        rota hiç bir zaman çağrılmayacak.
+      </p>
+      <p>
+        Bu örnek <code>/user/:id</code> yoluna yapılan GET isteklerini işleyen
+        ara yazılım alt kümesini gösterir.
+      </p>
+      <div class="sourceCode" id="cb5">
+        <pre
+          class="sourceCode js"
+        ><code class="sourceCode javascript"><a class="sourceLine" id="cb5-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb5-2" title="2">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">&#39;ID:&#39;</span><span class="op">,</span> <span class="va">req</span>.<span class="va">params</span>.<span class="at">id</span>)</a>
 <a class="sourceLine" id="cb5-3" title="3">  <span class="at">next</span>()</a>
 <a class="sourceLine" id="cb5-4" title="4"><span class="op">},</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
@@ -140,10 +343,24 @@ Uygulama-düzeyi ara yazılımı
 <a class="sourceLine" id="cb5-8" title="8"><span class="co">// kullanıcı ID&#39;sini yazdıran, /user/:id yolunun işleyicisi</span></a>
 <a class="sourceLine" id="cb5-9" title="9"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb5-10" title="10">  <span class="va">res</span>.<span class="at">end</span>(<span class="va">req</span>.<span class="va">params</span>.<span class="at">id</span>)</a>
-<a class="sourceLine" id="cb5-11" title="11"><span class="op">}</span>)</a></code></pre></div>
-<p>Geriye kalan ara yazılım fonksiyonlarını yönlendirici ara yazılım kümesinden es geçmek için, <code>next('route')</code> metodunu çağırarak bir sonraki rotaya kontrolu verin. <strong>NOT</strong>: <code>next('route')</code> metodu sadece <code>app.METHOD()</code> veya <code>router.METHOD()</code> fonksiyonlarını kullanarak yüklenen ara yazılım fonksiyonları için geçerlidir.</p>
-<p>Bu örnek <code>/user/:id</code> yolu için yapılan GET isteklerini işleyen bir ara yazılım alt-kümesini gösterir.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb6-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="op">}</span>)</a></code></pre>
+      </div>
+      <p>
+        Geriye kalan ara yazılım fonksiyonlarını yönlendirici ara yazılım
+        kümesinden es geçmek için, <code>next('route')</code> metodunu çağırarak
+        bir sonraki rotaya kontrolu verin. <strong>NOT</strong>:
+        <code>next('route')</code> metodu sadece <code>app.METHOD()</code> veya
+        <code>router.METHOD()</code> fonksiyonlarını kullanarak yüklenen ara
+        yazılım fonksiyonları için geçerlidir.
+      </p>
+      <p>
+        Bu örnek <code>/user/:id</code> yolu için yapılan GET isteklerini
+        işleyen bir ara yazılım alt-kümesini gösterir.
+      </p>
+      <div class="sourceCode" id="cb6">
+        <pre
+          class="sourceCode js"
+        ><code class="sourceCode javascript"><a class="sourceLine" id="cb6-1" title="1"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb6-2" title="2">  <span class="co">// kullanıcı ID&#39;si 0 ise, bir sonraki rotaya geç</span></a>
 <a class="sourceLine" id="cb6-3" title="3">  <span class="cf">if</span> (<span class="va">req</span>.<span class="va">params</span>.<span class="at">id</span> <span class="op">===</span> <span class="st">&#39;0&#39;</span>) <span class="at">next</span>(<span class="st">&#39;route&#39;</span>)</a>
 <a class="sourceLine" id="cb6-4" title="4">  <span class="co">// aksi takdirde kontrolü bu kümedeki bir sonraki ara yazılım fonksiyonuna ver</span></a>
@@ -156,15 +373,33 @@ Uygulama-düzeyi ara yazılımı
 <a class="sourceLine" id="cb6-11" title="11"><span class="co">// özel bir sayfa gösteren, /user/:id yolunun işleyicisi</span></a>
 <a class="sourceLine" id="cb6-12" title="12"><span class="va">app</span>.<span class="at">get</span>(<span class="st">&#39;/user/:id&#39;</span><span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb6-13" title="13">  <span class="va">res</span>.<span class="at">render</span>(<span class="st">&#39;special&#39;</span>)</a>
-<a class="sourceLine" id="cb6-14" title="14"><span class="op">}</span>)</a></code></pre></div>
-<h2 id="middleware.router">
-Yönlendirici-düzeyi ara yazılım
-</h2>
-<p>Yönlendirici-düzeyi ara yazılımı, uygulama-düzeyi ara yazılımı ile aynı şekilde çalışır; ama <code>express.Router()</code> sınıfının bir örneğine bağlıdır.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">var</span> router <span class="op">=</span> <span class="va">express</span>.<span class="at">Router</span>()</a></code></pre></div>
-<p><code>router.use()</code> ve <code>router.METHOD()</code> fonksiyonlarını kullanarak yönlendirici-düzeyi ara yazılımı yükle.</p>
-<p>Aşağıdaki örnek kod, yukarıda uygulama-düzeyi ara yazılım için gösterilen ara yazılım sistemini, yönlendirici-düzeyi ara yazılım kullanarak kopyalar:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
+<a class="sourceLine" id="cb6-14" title="14"><span class="op">}</span>)</a></code></pre>
+      </div>
+      <h2 id="middleware.router">Yönlendirici-düzeyi ara yazılım</h2>
+      <p>
+        Yönlendirici-düzeyi ara yazılımı, uygulama-düzeyi ara yazılımı ile aynı
+        şekilde çalışır; ama <code>express.Router()</code> sınıfının bir
+        örneğine bağlıdır.
+      </p>
+      <div class="sourceCode" id="cb7">
+        <pre
+          class="sourceCode js"
+        ><code class="sourceCode javascript"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">var</span> router <span class="op">=</span> <span class="va">express</span>.<span class="at">Router</span>()</a></code></pre>
+      </div>
+      <p>
+        <code>router.use()</code> ve
+        <code>router.METHOD()</code> fonksiyonlarını kullanarak
+        yönlendirici-düzeyi ara yazılımı yükle.
+      </p>
+      <p>
+        Aşağıdaki örnek kod, yukarıda uygulama-düzeyi ara yazılım için
+        gösterilen ara yazılım sistemini, yönlendirici-düzeyi ara yazılım
+        kullanarak kopyalar:
+      </p>
+      <div class="sourceCode" id="cb8">
+        <pre
+          class="sourceCode js"
+        ><code class="sourceCode javascript"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
 <a class="sourceLine" id="cb8-2" title="2"><span class="kw">var</span> router <span class="op">=</span> <span class="va">express</span>.<span class="at">Router</span>()</a>
 <a class="sourceLine" id="cb8-3" title="3"></a>
 <a class="sourceLine" id="cb8-4" title="4"><span class="co">// hedef yolu olmayan bir ara yazılım fonksiyonu. Bu kod yönlendiriciye yapılan her istekte çalışır</span></a>
@@ -200,10 +435,21 @@ Yönlendirici-düzeyi ara yazılım
 <a class="sourceLine" id="cb8-34" title="34"><span class="op">}</span>)</a>
 <a class="sourceLine" id="cb8-35" title="35"></a>
 <a class="sourceLine" id="cb8-36" title="36"><span class="co">// yönlendiriciyi uygulamaya yerleştir</span></a>
-<a class="sourceLine" id="cb8-37" title="37"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/&#39;</span><span class="op">,</span> router)</a></code></pre></div>
-<p>Yönlendiricinin kalan ara yazılım fonksiyonlarını geçmek için, yönlendirici örneğinden kontrolü almak için <code>next('router')</code> metodunu çağırın.</p>
-<p>Bu örnek, <code>/user/:id</code> yoluna yapılan GET isteklerini işleyen bir ara yazılım alt-kümesini gösterir.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
+<a class="sourceLine" id="cb8-37" title="37"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/&#39;</span><span class="op">,</span> router)</a></code></pre>
+      </div>
+      <p>
+        Yönlendiricinin kalan ara yazılım fonksiyonlarını geçmek için,
+        yönlendirici örneğinden kontrolü almak için
+        <code>next('router')</code> metodunu çağırın.
+      </p>
+      <p>
+        Bu örnek, <code>/user/:id</code> yoluna yapılan GET isteklerini işleyen
+        bir ara yazılım alt-kümesini gösterir.
+      </p>
+      <div class="sourceCode" id="cb9">
+        <pre
+          class="sourceCode js"
+        ><code class="sourceCode javascript"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
 <a class="sourceLine" id="cb9-2" title="2"><span class="kw">var</span> router <span class="op">=</span> <span class="va">express</span>.<span class="at">Router</span>()</a>
 <a class="sourceLine" id="cb9-3" title="3"></a>
 <a class="sourceLine" id="cb9-4" title="4"><span class="co">// yönlendiriciyi bir kontrol ile doğrula ve gerektiğinde bir sonraki yönlendiriciye geçerek kurtul</span></a>
@@ -219,30 +465,80 @@ Yönlendirici-düzeyi ara yazılım
 <a class="sourceLine" id="cb9-14" title="14"><span class="co">// geçen herhangi bir şey için yönlendiriciyı ve 401&#39;i kullan</span></a>
 <a class="sourceLine" id="cb9-15" title="15"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/admin&#39;</span><span class="op">,</span> router<span class="op">,</span> <span class="kw">function</span> (req<span class="op">,</span> res) <span class="op">{</span></a>
 <a class="sourceLine" id="cb9-16" title="16">  <span class="va">res</span>.<span class="at">sendStatus</span>(<span class="dv">401</span>)</a>
-<a class="sourceLine" id="cb9-17" title="17"><span class="op">}</span>)</a></code></pre></div>
-<h2 id="middleware.error-handling">
-Hata-işleyici ara yazılım
-</h2>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>Hata-işleyici ara yazılımı her zaman <em>dört</em> argüman alır. Bir hata-işleyici ara yazılım fonksiyonunu tanımlayabilmek için dört argüman sağlamalısınız. <code>next</code> objesini kullanmaya ihtiyacınız yoksa bile, metod imzasını koruyabilmek için tanımlamalısınız. Aksi takdirde, <code>next</code> objesi normal bir ara yazılım gibi değerlendirilecek ve hataları işlemede başarısız olacaktır.</p>
-</div>
-<p>Hata-işleme ara yazılım fonksiyonlarını diğer ara yazılım fonksiyonları gibi tanımla, ancak istisna olarak üç argüman yerine 4 ile, özellikle <code>(err, req, res, next)</code> imzasıyla:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb10-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="kw">function</span> (err<span class="op">,</span> req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
+<a class="sourceLine" id="cb9-17" title="17"><span class="op">}</span>)</a></code></pre>
+      </div>
+      <h2 id="middleware.error-handling">Hata-işleyici ara yazılım</h2>
+      <div class="doc-box doc-notice" data-markdown="1">
+        <p>
+          Hata-işleyici ara yazılımı her zaman <em>dört</em> argüman alır. Bir
+          hata-işleyici ara yazılım fonksiyonunu tanımlayabilmek için dört
+          argüman sağlamalısınız. <code>next</code> objesini kullanmaya
+          ihtiyacınız yoksa bile, metod imzasını koruyabilmek için
+          tanımlamalısınız. Aksi takdirde, <code>next</code> objesi normal bir
+          ara yazılım gibi değerlendirilecek ve hataları işlemede başarısız
+          olacaktır.
+        </p>
+      </div>
+      <p>
+        Hata-işleme ara yazılım fonksiyonlarını diğer ara yazılım fonksiyonları
+        gibi tanımla, ancak istisna olarak üç argüman yerine 4 ile, özellikle
+        <code>(err, req, res, next)</code> imzasıyla:
+      </p>
+      <div class="sourceCode" id="cb10">
+        <pre
+          class="sourceCode js"
+        ><code class="sourceCode javascript"><a class="sourceLine" id="cb10-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="kw">function</span> (err<span class="op">,</span> req<span class="op">,</span> res<span class="op">,</span> next) <span class="op">{</span></a>
 <a class="sourceLine" id="cb10-2" title="2">  <span class="va">console</span>.<span class="at">error</span>(<span class="va">err</span>.<span class="at">stack</span>)</a>
 <a class="sourceLine" id="cb10-3" title="3">  <span class="va">res</span>.<span class="at">status</span>(<span class="dv">500</span>).<span class="at">send</span>(<span class="st">&#39;Bir şeyler bozuk!&#39;</span>)</a>
-<a class="sourceLine" id="cb10-4" title="4"><span class="op">}</span>)</a></code></pre></div>
-<p>Hata-işleyici ara yazılım hakkında daha fazla detay için bakınız <a href="/%7B%7B%20page.lang%20%7D%7D/guide/error-handling.html">Hata-işleme</a>.</p>
-<h2 id="middleware.built-in">
-Gömülü ara yazılım
-</h2>
-<p>4.x sürümünden başlayarak, Express <a href="https://github.com/senchalabs/connect">Connect</a> ara yazılımına bağımlı değil. <code>express.static</code> hariç, Express ile daha önce dahil edilen tüm ara katman yazılımı fonksiyonları artık ayrı modüllerde. Lütfen bakınız <a href="https://github.com/senchalabs/connect#middleware">ara yazılım fonksiyonları listesi</a>.</p>
-<p>Express’teki tek gömülü ara yazılım fonksiyonu <code>express.static</code> fonksiyonudur. Bu fonksiyon <a href="https://github.com/expressjs/serve-static">serve-static</a>’e dayanır, ve HTML dosyaları, görüntüler vb. gibi statik dosyaları sunmaktan sorumludur.</p>
-<p>Fonksiyon imzası böyledir:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb11-1" title="1"><span class="va">express</span>.<span class="at">static</span>(root<span class="op">,</span> [options])</a></code></pre></div>
-<p><code>root</code> argümanı statik dosyaların sunulacağı kök dizini belirtir.</p>
-<p><code>options</code> argümanı ve bu ara yazılım fonksiyonu hakkında daha detaylı bilgi için, bakınız <a href="/en/4x/api.html#express.static">express.static</a>.</p>
-<p>Bu örnek <code>express.static</code> ara yazılım fonksiyonunu ayrıntılı bir seçenekler objesiyle kullanımını gösterir:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">var</span> options <span class="op">=</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="op">}</span>)</a></code></pre>
+      </div>
+      <p>
+        Hata-işleyici ara yazılım hakkında daha fazla detay için bakınız
+        <a href="/%7B%7B%20page.lang%20%7D%7D/guide/error-handling.html"
+          >Hata-işleme</a
+        >.
+      </p>
+      <h2 id="middleware.built-in">Gömülü ara yazılım</h2>
+      <p>
+        4.x sürümünden başlayarak, Express
+        <a href="https://github.com/senchalabs/connect">Connect</a> ara
+        yazılımına bağımlı değil. <code>express.static</code> hariç, Express ile
+        daha önce dahil edilen tüm ara katman yazılımı fonksiyonları artık ayrı
+        modüllerde. Lütfen bakınız
+        <a href="https://github.com/senchalabs/connect#middleware"
+          >ara yazılım fonksiyonları listesi</a
+        >.
+      </p>
+      <p>
+        Express’teki tek gömülü ara yazılım fonksiyonu
+        <code>express.static</code> fonksiyonudur. Bu fonksiyon
+        <a href="https://github.com/expressjs/serve-static">serve-static</a>’e
+        dayanır, ve HTML dosyaları, görüntüler vb. gibi statik dosyaları
+        sunmaktan sorumludur.
+      </p>
+      <p>Fonksiyon imzası böyledir:</p>
+      <div class="sourceCode" id="cb11">
+        <pre
+          class="sourceCode js"
+        ><code class="sourceCode javascript"><a class="sourceLine" id="cb11-1" title="1"><span class="va">express</span>.<span class="at">static</span>(root<span class="op">,</span> [options])</a></code></pre>
+      </div>
+      <p>
+        <code>root</code> argümanı statik dosyaların sunulacağı kök dizini
+        belirtir.
+      </p>
+      <p>
+        <code>options</code> argümanı ve bu ara yazılım fonksiyonu hakkında daha
+        detaylı bilgi için, bakınız
+        <a href="/en/4x/api.html#express.static">express.static</a>.
+      </p>
+      <p>
+        Bu örnek <code>express.static</code> ara yazılım fonksiyonunu ayrıntılı
+        bir seçenekler objesiyle kullanımını gösterir:
+      </p>
+      <div class="sourceCode" id="cb12">
+        <pre
+          class="sourceCode js"
+        ><code class="sourceCode javascript"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">var</span> options <span class="op">=</span> <span class="op">{</span></a>
 <a class="sourceLine" id="cb12-2" title="2">  <span class="dt">dotfiles</span><span class="op">:</span> <span class="st">&#39;ignore&#39;</span><span class="op">,</span></a>
 <a class="sourceLine" id="cb12-3" title="3">  <span class="dt">etag</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span></a>
 <a class="sourceLine" id="cb12-4" title="4">  <span class="dt">extensions</span><span class="op">:</span> [<span class="st">&#39;htm&#39;</span><span class="op">,</span> <span class="st">&#39;html&#39;</span>]<span class="op">,</span></a>
@@ -254,26 +550,57 @@ Gömülü ara yazılım
 <a class="sourceLine" id="cb12-10" title="10">  <span class="op">}</span></a>
 <a class="sourceLine" id="cb12-11" title="11"><span class="op">}</span></a>
 <a class="sourceLine" id="cb12-12" title="12"></a>
-<a class="sourceLine" id="cb12-13" title="13"><span class="va">app</span>.<span class="at">use</span>(<span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;public&#39;</span><span class="op">,</span> options))</a></code></pre></div>
-<p>Her bir uygulama için birden fazla statik dizine sahip olabilirsiniz:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb13-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;public&#39;</span>))</a>
+<a class="sourceLine" id="cb12-13" title="13"><span class="va">app</span>.<span class="at">use</span>(<span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;public&#39;</span><span class="op">,</span> options))</a></code></pre>
+      </div>
+      <p>
+        Her bir uygulama için birden fazla statik dizine sahip olabilirsiniz:
+      </p>
+      <div class="sourceCode" id="cb13">
+        <pre
+          class="sourceCode js"
+        ><code class="sourceCode javascript"><a class="sourceLine" id="cb13-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;public&#39;</span>))</a>
 <a class="sourceLine" id="cb13-2" title="2"><span class="va">app</span>.<span class="at">use</span>(<span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;uploads&#39;</span>))</a>
-<a class="sourceLine" id="cb13-3" title="3"><span class="va">app</span>.<span class="at">use</span>(<span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;files&#39;</span>))</a></code></pre></div>
-<p><code>serve-static</code> fonksiyonu ve seçenekleri hakkında daha detaylı bilgi için, <a href="https://github.com/expressjs/serve-static">serve-static</a> dökümantasyonuna bakınız.</p>
-<h2 id="middleware.third-party">
-Üçüncü-parti ara yazılım
-</h2>
-<p>Express uygulamalarına işlevsellik katmak için üçüncü-parti ara yazılım kullan.</p>
-<p>Gerekli işlevsellik için Node.js modülünü indir, ve daha sonra uygulamana uygulama-düzeyinde veya yönlendirici-düzeyinde yükle.</p>
-<p>Aşağıdaki örnek <code>cookie-parser</code> çerez-ayrıştırma ara yazılım fonksiyonunu indirme ve yüklemeyi gösterir.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" title="1">$ <span class="ex">npm</span> install cookie-parser</a></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">var</span> express <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;express&#39;</span>)</a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="va">app</span>.<span class="at">use</span>(<span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;files&#39;</span>))</a></code></pre>
+      </div>
+      <p>
+        <code>serve-static</code> fonksiyonu ve seçenekleri hakkında daha
+        detaylı bilgi için,
+        <a href="https://github.com/expressjs/serve-static">serve-static</a>
+        dökümantasyonuna bakınız.
+      </p>
+      <h2 id="middleware.third-party">Üçüncü-parti ara yazılım</h2>
+      <p>
+        Express uygulamalarına işlevsellik katmak için üçüncü-parti ara yazılım
+        kullan.
+      </p>
+      <p>
+        Gerekli işlevsellik için Node.js modülünü indir, ve daha sonra
+        uygulamana uygulama-düzeyinde veya yönlendirici-düzeyinde yükle.
+      </p>
+      <p>
+        Aşağıdaki örnek <code>cookie-parser</code> çerez-ayrıştırma ara yazılım
+        fonksiyonunu indirme ve yüklemeyi gösterir.
+      </p>
+      <div class="sourceCode" id="cb14">
+        <pre
+          class="sourceCode sh"
+        ><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" title="1">$ <span class="ex">npm</span> install cookie-parser</a></code></pre>
+      </div>
+      <div class="sourceCode" id="cb15">
+        <pre
+          class="sourceCode js"
+        ><code class="sourceCode javascript"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">var</span> express <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;express&#39;</span>)</a>
 <a class="sourceLine" id="cb15-2" title="2"><span class="kw">var</span> app <span class="op">=</span> <span class="at">express</span>()</a>
 <a class="sourceLine" id="cb15-3" title="3"><span class="kw">var</span> cookieParser <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;cookie-parser&#39;</span>)</a>
 <a class="sourceLine" id="cb15-4" title="4"></a>
 <a class="sourceLine" id="cb15-5" title="5"><span class="co">// çerez-ayrıştırıcı ara yazılımı yükle</span></a>
-<a class="sourceLine" id="cb15-6" title="6"><span class="va">app</span>.<span class="at">use</span>(<span class="at">cookieParser</span>())</a></code></pre></div>
-<p>Express ile yaygın olarak kullanılan üçüncü-parti ara yazılım fonksiyonlarının kısmi bir listesi için, bakınız: <a href="../resources/middleware.html">Üçüncü-parti ara yazılım</a>.</p>
-</div>
-</body>
+<a class="sourceLine" id="cb15-6" title="6"><span class="va">app</span>.<span class="at">use</span>(<span class="at">cookieParser</span>())</a></code></pre>
+      </div>
+      <p>
+        Express ile yaygın olarak kullanılan üçüncü-parti ara yazılım
+        fonksiyonlarının kısmi bir listesi için, bakınız:
+        <a href="../resources/middleware.html">Üçüncü-parti ara yazılım</a>.
+      </p>
+    </div>
+  </body>
 </html>

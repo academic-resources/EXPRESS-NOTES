@@ -21,15 +21,15 @@ It does not rely on `connect` itself.
 `options` are passed to [path-to-regexp](https://github.com/component/path-to-regexp#pathtoregexppath-keys-options).
 
 ```js
-var routify = require('routification')
-var app = routify()
-var app = routify(connect())
+var routify = require("routification");
+var app = routify();
+var app = routify(connect());
 var app = routify({
-  sensitive: true
-})
+  sensitive: true,
+});
 var app = routify(connect(), {
-  sensitive: true
-})
+  sensitive: true,
+});
 ```
 
 ### app\[VERB](path || regexp, middleware...)

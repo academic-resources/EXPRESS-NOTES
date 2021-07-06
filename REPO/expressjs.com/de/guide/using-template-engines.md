@@ -9,8 +9,8 @@ lang: de
 
 Bevor über Express Vorlagendateien ausgegeben werden können, müssen die folgenden Anwendungseinstellungen festgelegt werden:
 
-* `views`, das Verzeichnis, in dem sich die Vorlagendateien befinden. Beispiel: `app.set('views', './views')`
-* `view engine`, die zu verwendende Template-Engine. Beispiel: `app.set('view engine', 'pug')`
+- `views`, das Verzeichnis, in dem sich die Vorlagendateien befinden. Beispiel: `app.set('views', './views')`
+- `view engine`, die zu verwendende Template-Engine. Beispiel: `app.set('view engine', 'pug')`
 
 Installieren Sie dann das entsprechende npm-Paket für die Template-Engine:
 

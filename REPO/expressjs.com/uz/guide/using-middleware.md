@@ -11,10 +11,10 @@ An Express application is essentially a series of middleware calls.
 
 Middleware is a function with access to the request object (`req`), the response object (`res`), and the next middleware in line in the request-response cycle of an Express application, commonly denoted by a variable named `next`. Middleware can:
 
- - Execute any code.
- - Make changes to the request and the response objects.
- - End the request-response cycle.
- - Call the next middleware in the stack.
+- Execute any code.
+- Make changes to the request and the response objects.
+- End the request-response cycle.
+- Call the next middleware in the stack.
 
 If the current middleware does not end the request-response cycle, it must call `next()` to pass control to the next middleware, otherwise the request will be left hanging.
 
@@ -23,10 +23,10 @@ Also, a series of middleware functions can be loaded together, creating a sub-st
 
 An Express application can use the following kinds of middleware:
 
- - [Application-level middleware](#middleware.application)
- - [Router-level middleware](#middleware.router)
- - [Built-in middleware](#middleware.built-in)
- - [Third-party middleware](#middleware.third-party)
+- [Application-level middleware](#middleware.application)
+- [Router-level middleware](#middleware.router)
+- [Built-in middleware](#middleware.built-in)
+- [Third-party middleware](#middleware.third-party)
 
 <h3 id='middleware.application'>Application level middleware</h3>
 
@@ -110,6 +110,7 @@ Router level middleware work just like application level middleware except they 
 <pre><code class="language-javascript" translate="no">
 var router = express.Router();
 </code></pre>
+
 Router level middleware are loaded using `router.use()` and `router.VERB()`.
 
 The middleware system created at the application level in the example above, can be replicated at the router level using the following code.
@@ -166,14 +167,14 @@ The `root` argument refers to the root directory from which the static assets ar
 
 The optional `options` object can have the following properties.
 
-* `dotfiles` option for serving dotfiles. Possible values are "allow", "deny", and "ignore"; defaults to "ignore".
-* `etag` enable or disable etag generation, defaults to `true`.
-* `extensions` sets file extension fallbacks, defaults to `false`.
-* `index` sends directory index file, defaults to "index.html". Set `false` to disable directory indexing.
-* `lastModified` enabled by default, sets the `Last-Modified` header to the last modified date of the file on the OS. Set `false` to disable it.
-* `maxAge` sets the max-age property of the Cache-Control header in milliseconds or a string in [ms format](https://www.npmjs.org/package/ms), defaults to 0.
-* `redirect` redirects to trailing "/" when the pathname is a dir, defaults to `true`.
-* `setHeaders` function for setting HTTP headers to serve with the file.
+- `dotfiles` option for serving dotfiles. Possible values are "allow", "deny", and "ignore"; defaults to "ignore".
+- `etag` enable or disable etag generation, defaults to `true`.
+- `extensions` sets file extension fallbacks, defaults to `false`.
+- `index` sends directory index file, defaults to "index.html". Set `false` to disable directory indexing.
+- `lastModified` enabled by default, sets the `Last-Modified` header to the last modified date of the file on the OS. Set `false` to disable it.
+- `maxAge` sets the max-age property of the Cache-Control header in milliseconds or a string in [ms format](https://www.npmjs.org/package/ms), defaults to 0.
+- `redirect` redirects to trailing "/" when the pathname is a dir, defaults to `true`.
+- `setHeaders` function for setting HTTP headers to serve with the file.
 
 Here is an example of using the `express.static` middleware with an elaborate options object.
 

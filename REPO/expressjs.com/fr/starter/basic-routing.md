@@ -7,12 +7,13 @@ lang: fr
 
 # Routage de base
 
-*Routage* fait référence à la détermination de la façon dont une application répond à un 
+_Routage_ fait référence à la détermination de la façon dont une application répond à un
 nœud final spécifique, c'est-à-dire un URI (ou chemin) et une méthode de requête HTTP (GET, POST, etc.).
 
 Chaque route peut avoir une ou plusieurs fonctions de gestionnaire, qui sont exécutées lorsque la route est mise en correspondance.
 
 La définition de la route utilise la structure suivante :
+
 <pre>
 <code class="language-javascript" translate="no">
 app.METHOD(PATH, HANDLER)

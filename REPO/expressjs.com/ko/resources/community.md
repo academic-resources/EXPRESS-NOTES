@@ -39,4 +39,3 @@ API 설계에서부터 인증 및 템플리트 엔진 통합에 이르는 모든
 활기찬 커뮤니티에서는 매우 다양한 확장기능, [미들웨어 모듈](/{{ page.lang }}/resources/middleware.html)
 및 상위 레벨 프레임워크가 개발되어 왔습니다. [wiki](https://github.com/expressjs/express/wiki)에서
 이 모두를 확인해 보십시오.
-

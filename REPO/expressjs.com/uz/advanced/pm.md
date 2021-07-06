@@ -23,7 +23,6 @@ The most popular process managers for Express and other Node applications are:
 - [PM2](#pm2)
 - [Forever](#forever)
 
-
 Using any of these three tools can be very helpful, however StrongLoop Process Manager is the only solution that provides a comprehensive runtime and deployment solution that address entire Node application life cycle with tooling for every step before and after production in an unified interface.
 
 Here's a brief look at each of these tools.
@@ -41,7 +40,7 @@ It enables you to:
 - Easily manage multi-host deployments with Nginx integration.
 - Unify multiple StrongLoop PMs to a distributed microservices runtime managed from Arc.
 
-You can work with StrongLoop PM using a powerful CLI tool, `slc`, or a graphical tool, Arc.  It's open source, with professional support provided by StrongLoop.
+You can work with StrongLoop PM using a powerful CLI tool, `slc`, or a graphical tool, Arc. It's open source, with professional support provided by StrongLoop.
 
 For more information, see [http://strong-pm.io/](http://strong-pm.io/).
 
@@ -51,11 +50,13 @@ Full documentation:
 - [Using StrongLoop Process Manager](http://docs.strongloop.com/display/SLC/Using+Process+Manager).
 
 ### Installation
+
 <pre><code class="language-sh" translate="no">
 $ [sudo] npm install -g strongloop
 </code></pre>
 
 ### Basic use
+
 <pre><code class="language-sh" translate="no">
 $ cd my-app
 $ slc start
@@ -115,7 +116,7 @@ $ slc ctl remove my-app
 
 ## <a id="pm2">PM2</a>
 
-PM2 is a production process manager for Node.js applications with a built-in load balancer. It allows you to keep applications alive forever, to reload them without downtime and will facilitate common system admin tasks.  It also enables you to manage application logging, monitoring, and clustering.
+PM2 is a production process manager for Node.js applications with a built-in load balancer. It allows you to keep applications alive forever, to reload them without downtime and will facilitate common system admin tasks. It also enables you to manage application logging, monitoring, and clustering.
 
 For more information, see [https://github.com/Unitech/pm2](https://github.com/Unitech/pm2).
 
@@ -175,7 +176,6 @@ To remove an app from `pm2`'s registry:
 <pre><code class="language-sh" translate="no">
 $ pm2 delete 0
 </code></pre>
-
 
 ## <a id="forever">Forever</a>
 

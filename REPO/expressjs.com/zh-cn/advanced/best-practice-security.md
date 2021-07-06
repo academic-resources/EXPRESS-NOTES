@@ -25,7 +25,7 @@ Express 2.x 和 3.x 不再得到维护。不会纠正这些版本中的安全问
 
 如果应用程序处理或传输敏感数据，请使用[传输层安全性](https://en.wikipedia.org/wiki/Transport_Layer_Security) (TLS) 来保护连接和数据。这种技术用于加密数据，然后将其从客户机发送到服务器，以防止某些常见的（而且容易的）黑客攻击。虽然 Ajax 和 POST 请求可能不是很明显，似乎“隐藏”在浏览器中，但是其网络流量很容易受到[包嗅探](https://en.wikipedia.org/wiki/Packet_analyzer)攻击和[中间人攻击](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)。
 
-您可能很熟悉安全套接字层 (SSL) 加密。[TLS 就是下一代的 SSL](https://msdn.microsoft.com/en-us/library/windows/desktop/aa380515(v=vs.85).aspx) 。换言之，如果您以前使用 SSL，请考虑升级到 TLS。一般而言，我们建议使用 Nginx 来处理 TLS。要获取在 Nginx（和其他服务器）上配置 TLS 的优秀参考信息，请参阅 [Recommended Server Configurations](https://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_Server_Configurations) (Mozilla Wiki)。
+您可能很熟悉安全套接字层 (SSL) 加密。[TLS 就是下一代的 SSL](<https://msdn.microsoft.com/en-us/library/windows/desktop/aa380515(v=vs.85).aspx>) 。换言之，如果您以前使用 SSL，请考虑升级到 TLS。一般而言，我们建议使用 Nginx 来处理 TLS。要获取在 Nginx（和其他服务器）上配置 TLS 的优秀参考信息，请参阅 [Recommended Server Configurations](https://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_Server_Configurations) (Mozilla Wiki)。
 
 此外，可以使用一种方便的 [Let's Encrypt](https://letsencrypt.org/about/) 工具来获取免费的 TLS 证书，这是由[因特网安全研究组 (ISRG)](https://letsencrypt.org/isrg/) 提供的免费、自动化的开放式认证中心 (CA)。
 
@@ -35,14 +35,14 @@ Express 2.x 和 3.x 不再得到维护。不会纠正这些版本中的安全问
 
 Helmet 实际上只使用以下九个较小中间件函数的集合，这些功能用于设置与安全相关的 HTTP 头：
 
-* [csp](https://github.com/helmetjs/csp) 用于设置 `Content-Security-Policy` 头，帮助抵御跨站点脚本编制攻击和其他跨站点注入攻击。
-* [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) 用于移除 `X-Powered-By` 头。
-* [hsts](https://github.com/helmetjs/hsts) 用于设置 `Strict-Transport-Security` 头，实施安全的服务器连接 (HTTP over SSL/TLS)。
-* [ieNoOpen](https://github.com/helmetjs/ienoopen) 用于为 IE8+ 设置 `X-Download-Options`。
-* [noCache](https://github.com/helmetjs/nocache) 用于设置 `Cache-Control` 和 Pragma 头，以禁用客户端高速缓存。
-* [noSniff](https://github.com/helmetjs/dont-sniff-mimetype) 用于设置 `X-Content-Type-Options`，以防止攻击者以 MIME 方式嗅探浏览器发出的响应中声明的 content-type。
-* [frameguard](https://github.com/helmetjs/frameguard) 用于设置 `X-Frame-Options` 头，提供 [clickjacking](https://www.owasp.org/index.php/Clickjacking) 保护。
-* [xssFilter](https://github.com/helmetjs/x-xss-protection) 用于设置 `X-XSS-Protection`，在最新的 Web 浏览器中启用跨站点脚本编制 (XSS) 过滤器。
+- [csp](https://github.com/helmetjs/csp) 用于设置 `Content-Security-Policy` 头，帮助抵御跨站点脚本编制攻击和其他跨站点注入攻击。
+- [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) 用于移除 `X-Powered-By` 头。
+- [hsts](https://github.com/helmetjs/hsts) 用于设置 `Strict-Transport-Security` 头，实施安全的服务器连接 (HTTP over SSL/TLS)。
+- [ieNoOpen](https://github.com/helmetjs/ienoopen) 用于为 IE8+ 设置 `X-Download-Options`。
+- [noCache](https://github.com/helmetjs/nocache) 用于设置 `Cache-Control` 和 Pragma 头，以禁用客户端高速缓存。
+- [noSniff](https://github.com/helmetjs/dont-sniff-mimetype) 用于设置 `X-Content-Type-Options`，以防止攻击者以 MIME 方式嗅探浏览器发出的响应中声明的 content-type。
+- [frameguard](https://github.com/helmetjs/frameguard) 用于设置 `X-Frame-Options` 头，提供 [clickjacking](https://www.owasp.org/index.php/Clickjacking) 保护。
+- [xssFilter](https://github.com/helmetjs/x-xss-protection) 用于设置 `X-XSS-Protection`，在最新的 Web 浏览器中启用跨站点脚本编制 (XSS) 过滤器。
 
 像安装其他模块一样安装 Helmet：
 
@@ -83,8 +83,8 @@ app.disable('x-powered-by');
 
 有两个主要的中间件 cookie 会话模块：
 
-* [express-session](https://www.npmjs.com/package/express-session)，用于替换 Express 3.x 内置的 `express.session` 中间件。
-* [cookie-session](https://www.npmjs.com/package/cookie-session)，用于替换 Express 3.x 内置的 `express.cookieSession` 中间件。
+- [express-session](https://www.npmjs.com/package/express-session)，用于替换 Express 3.x 内置的 `express.session` 中间件。
+- [cookie-session](https://www.npmjs.com/package/cookie-session)，用于替换 Express 3.x 内置的 `express.cookieSession` 中间件。
 
 这两个模块之间的主要差异是它们保存 cookie 会话数据的方式。[express-session](https://www.npmjs.com/package/express-session) 中间件将会话数据存储在服务器上；它仅将会话标识（而非会话数据）保存在 cookie 中。缺省情况下，它使用内存中存储，并不旨在用于生产环境。在生产环境中，需要设置可扩展的会话存储；请参阅[兼容的会话存储](https://github.com/expressjs/session#compatible-session-stores)列表。
 
@@ -112,11 +112,11 @@ app.use( session({
 
 设置以下 cookie 选项来增强安全性：
 
-* `secure` - 确保浏览器只通过 HTTPS 发送 cookie。
-* `httpOnly` - 确保 cookie 只通过 HTTP(S)（而不是客户机 JavaScript）发送，这有助于防御跨站点脚本编制攻击。
-* `domain` - 表示 cookie 的域；用于和请求 URL 的服务器的域进行比较。如果匹配，那么接下来检查路径属性。
-* `path` - 表示 cookie 的路径；用于和请求路径进行比较。如果路径和域都匹配，那么在请求中发送 cookie。
-* `expires` - 用于为持久性 cookie 设置到期日期。
+- `secure` - 确保浏览器只通过 HTTPS 发送 cookie。
+- `httpOnly` - 确保 cookie 只通过 HTTP(S)（而不是客户机 JavaScript）发送，这有助于防御跨站点脚本编制攻击。
+- `domain` - 表示 cookie 的域；用于和请求 URL 的服务器的域进行比较。如果匹配，那么接下来检查路径属性。
+- `path` - 表示 cookie 的路径；用于和请求路径进行比较。如果路径和域都匹配，那么在请求中发送 cookie。
+- `expires` - 用于为持久性 cookie 设置到期日期。
 
 以下是使用 [cookie-session](https://www.npmjs.com/package/cookie-session) 中间件的示例：
 
@@ -145,13 +145,13 @@ app.use(session({
 
 以下是来自非常出色的 [Node.js 安全核对表](https://blog.risingstack.com/node-js-security-checklist/)的一些进一步建议。请参阅此博客帖子以了解关于这些建议的所有详细信息：
 
-* 实施速率限制，防止针对认证的暴力攻击。实现这一点的一种方式是使用 [StrongLoop API ](https://strongloop.com/node-js/api-gateway/)来强制实施速率限制策略。或者，可以使用诸如 [express-limiter](https://www.npmjs.com/package/express-limiter) 的中间件，但是这样做需要对代码作些修改。
-* 使用 [csurf](https://www.npmjs.com/package/csurf) 中间件来防御跨站点请求伪造 (CSRF)。
-* 始终过滤和净化用户输入，防御跨站点脚本编制 (XSS) 和命令注入攻击。
-* 使用参数化查询或预编译的语句来防御 SQL 注入攻击。
-* 使用开源的 [sqlmap](http://sqlmap.org/) 工具来检测应用程序中的 SQL 注入漏洞。
-* 使用 [nmap](https://nmap.org/) 和 [sslyze](https://github.com/nabla-c0d3/sslyze) 工具来测试 SSL 密码、密钥和重新协商的配置以及证书的有效性。
-* 使用 [safe-regex](https://www.npmjs.com/package/safe-regex) 来确保正则表达式不易受到[正则表达式拒绝服务](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS)攻击。
+- 实施速率限制，防止针对认证的暴力攻击。实现这一点的一种方式是使用 [StrongLoop API ](https://strongloop.com/node-js/api-gateway/)来强制实施速率限制策略。或者，可以使用诸如 [express-limiter](https://www.npmjs.com/package/express-limiter) 的中间件，但是这样做需要对代码作些修改。
+- 使用 [csurf](https://www.npmjs.com/package/csurf) 中间件来防御跨站点请求伪造 (CSRF)。
+- 始终过滤和净化用户输入，防御跨站点脚本编制 (XSS) 和命令注入攻击。
+- 使用参数化查询或预编译的语句来防御 SQL 注入攻击。
+- 使用开源的 [sqlmap](http://sqlmap.org/) 工具来检测应用程序中的 SQL 注入漏洞。
+- 使用 [nmap](https://nmap.org/) 和 [sslyze](https://github.com/nabla-c0d3/sslyze) 工具来测试 SSL 密码、密钥和重新协商的配置以及证书的有效性。
+- 使用 [safe-regex](https://www.npmjs.com/package/safe-regex) 来确保正则表达式不易受到[正则表达式拒绝服务](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS)攻击。
 
 ## 避免其他已知的漏洞
 

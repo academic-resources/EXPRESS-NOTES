@@ -4,6 +4,7 @@ title: Express generátor
 menu: starter
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT

@@ -32,8 +32,8 @@ Se han realizado varios cambios importantes en Express 4:
 
 Vea también:
 
-* [Nuevas características en 4.x.](https://github.com/expressjs/express/wiki/New-features-in-4.x)
-* [Migración de 3.x a 4.x.](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
+- [Nuevas características en 4.x.](https://github.com/expressjs/express/wiki/New-features-in-4.x)
+- [Migración de 3.x a 4.x.](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
 
 <h3 id="core-changes">
 Cambios en el sistema principal y de middleware de Express
@@ -111,8 +111,9 @@ Ahora las aplicaciones cargan implícitamente el middleware de direccionamiento,
 La forma en que define las rutas no varía, pero el sistema de direccionamiento tiene dos nuevas características que permiten organizar las rutas:
 
 {: .doclist }
-* Un nuevo método, `app.route()`, para crear manejadores de rutas encadenables para una vía de acceso de ruta.
-* Una nueva clase, `express.Router`, para crear manejadores de rutas montables modulares.
+
+- Un nuevo método, `app.route()`, para crear manejadores de rutas encadenables para una vía de acceso de ruta.
+- Una nueva clase, `express.Router`, para crear manejadores de rutas montables modulares.
 
 <h4 id="app-route">Método <code>app.route()</code></h4>
 
@@ -379,12 +380,12 @@ $ npm install serve-favicon morgan method-override express-session body-parser m
 Realice los cambios siguientes en `app.js`:
 
 1. Las funciones de middleware de Express incorporadas `express.favicon`,
-    `express.logger`, `express.methodOverride`,
-    `express.session`, `express.bodyParser` y
-    `express.errorHandler` ya no están disponibles en el objeto `express`.  Debe instalar sus alternativas manualmente y cargarlas en la aplicación.
+   `express.logger`, `express.methodOverride`,
+   `express.session`, `express.bodyParser` y
+   `express.errorHandler` ya no están disponibles en el objeto `express`. Debe instalar sus alternativas manualmente y cargarlas en la aplicación.
 
 2. Ya no es necesario cargar la función `app.router`.
-    No es un objeto de aplicación Express 4 válido, por lo que debe eliminar el código `app.use(app.router);`.
+   No es un objeto de aplicación Express 4 válido, por lo que debe eliminar el código `app.use(app.router);`.
 
 3. Asegúrese de que las funciones de middleware se cargan en el orden correcto: cargue `errorHandler` después de cargar las rutas de aplicación.
 
@@ -505,6 +506,7 @@ Si ya ha instalado el generador de aplicaciones Express 3 en el sistema, debe de
 $ npm uninstall -g express
 </code>
 </pre>
+
 Dependiendo de cómo se configuren los privilegios de archivos y directorios, deberá ejecutar este mandato con `sudo`.
 
 A continuación, instale el nuevo generador:
@@ -524,9 +526,10 @@ Ahora el mandato `express` en el sistema se actualiza al generador de Express 4.
 Las opciones de mandato y el uso continúan prácticamente iguales, con las siguientes excepciones:
 
 {: .doclist }
-* Se ha eliminado la opción `--sessions`.
-* Se ha eliminado la opción `--jshtml`.
-* Se ha añadido la opción `--hogan` para dar soporte a [Hogan.js](http://twitter.github.io/hogan.js/).
+
+- Se ha eliminado la opción `--sessions`.
+- Se ha eliminado la opción `--jshtml`.
+- Se ha añadido la opción `--hogan` para dar soporte a [Hogan.js](http://twitter.github.io/hogan.js/).
 
 <h3 id="">Ejemplo</h3>
 
@@ -580,4 +583,4 @@ var debug = require('debug')('app4');
 
 A continuación, cambie `"start": "node ./bin/www"` en el archivo `package.json` por `"start": "node app.js"`.
 
-Ahora ha devuelto la funcionalidad de `./bin/www` a `app.js`.  Este cambio no se recomienda, pero el ejercicio permite entender cómo funciona el archivo `./bin/www` y por qué el archivo `app.js` ya no se inicia solo.
+Ahora ha devuelto la funcionalidad de `./bin/www` a `app.js`. Este cambio no se recomienda, pero el ejercicio permite entender cómo funciona el archivo `./bin/www` y por qué el archivo `app.js` ya no se inicia solo.

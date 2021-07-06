@@ -22,6 +22,7 @@ Anche se l'applicazione non presenterà errori nell'esecuzione se la variabile d
 Se impostato su `true`, l'indirizzo IP del client viene considerato come la voce a sinistra dell'intestazione `X-Forwarded-*`.
 
 Se impostato su `false`, significa che l'applicazione abbia una connessione diretta a Internet e l'indirizzo IP del client sia arrivato da `req.connection.remoteAddress`. Questa è l'impostazione predefinita.
+
 </td>
     </tr>
     <tr>
@@ -29,9 +30,9 @@ Se impostato su `false`, significa che l'applicazione abbia una connessione dire
 <td markdown="1">
 Un indirizzo IP, una subnet o un array di indirizzi IP e subnet a cui fornire attendibilità. Il seguente elenco mostra i nomi di subnet preconfigurate:
 
-* loopback - `127.0.0.1/8`, `::1/128`
-* linklocal - `169.254.0.0/16`, `fe80::/10`
-* uniquelocal - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
+- loopback - `127.0.0.1/8`, `::1/128`
+- linklocal - `169.254.0.0/16`, `fe80::/10`
+- uniquelocal - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
 
 È possibile impostare gli indirizzi IP in uno dei seguenti modi:
 
@@ -43,6 +44,7 @@ app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']) // specify mult
 </pre>
 
 Quando specificati, gli indirizzi IP o le subnet vengono esclusi dal processo di determinazione dell'indirizzo e l'indirizzo IP non attendibile più vicino al server delle applicazioni viene considerato come indirizzo IP del client.
+
 </td>
     </tr>
     <tr>

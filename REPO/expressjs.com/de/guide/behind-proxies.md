@@ -41,6 +41,7 @@ app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']) // specify mult
 </pre>
 
 Sobald die Werte angegeben wurden, werden die betreffenden IP-Adressen und Teilnetze aus dem Adressfeststellungsprozess ausgeschlossen. Die nicht vertrauenswürdige IP-Adresse, die am nächsten zum Anwendungsserver liegt, wird als IP-Adresse des Clients festgelegt.
+
 </td>
     </tr>
     <tr>

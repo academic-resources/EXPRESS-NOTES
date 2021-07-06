@@ -1,48 +1,75 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express 데이터베이스 통합</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express 데이터베이스 통합</h1>
-</header>
-<h1 id="데이터베이스-통합">데이터베이스 통합</h1>
-<p>데이터베이스를 Express 앱에 연결하는 기능을 추가하려면 앱에 포함된 데이터베이스를 위한 적절한 Node.js 드라이버를 로드해야 합니다. 이 문서에서는 Express 앱의 데이터베이스 시스템에 가장 널리 이용되고 있는 Node.js 모듈 중 다음과 같은 몇 개의 모듈을 추가 및 사용하는 방법을 설명합니다.</p>
-<ul>
-<li><a href="#cassandra">Cassandra</a></li>
-<li><a href="#couchdb">CouchDB</a></li>
-<li><a href="#leveldb">LevelDB</a></li>
-<li><a href="#mysql">MySQL</a></li>
-<li><a href="#mongo">MongoDB</a></li>
-<li><a href="#neo4j">Neo4j</a></li>
-<li><a href="#postgres">PostgreSQL</a></li>
-<li><a href="#redis">Redis</a></li>
-<li><a href="#sqlite">SQLite</a></li>
-<li><a href="#elasticsearch">ElasticSearch</a></li>
-</ul>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>위의 데이터베이스 드라이버는 사용 가능한 여러 데이터베이스 드라이버 중 일부입니다. 다른 옵션을 확인하려면, <a href="https://www.npmjs.com/">npm</a> 사이트에서 검색하십시오.</p>
-</div>
-<p><a name="cassandra"></a></p>
-<h2 id="cassandra">Cassandra</h2>
-<p><strong>모듈</strong>: <a href="https://github.com/datastax/nodejs-driver">cassandra-driver</a> <strong>설치</strong></p>
-<pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express 데이터베이스 통합</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express 데이터베이스 통합</h1>
+    </header>
+    <h1 id="데이터베이스-통합">데이터베이스 통합</h1>
+    <p>
+      데이터베이스를 Express 앱에 연결하는 기능을 추가하려면 앱에 포함된
+      데이터베이스를 위한 적절한 Node.js 드라이버를 로드해야 합니다. 이
+      문서에서는 Express 앱의 데이터베이스 시스템에 가장 널리 이용되고 있는
+      Node.js 모듈 중 다음과 같은 몇 개의 모듈을 추가 및 사용하는 방법을
+      설명합니다.
+    </p>
+    <ul>
+      <li><a href="#cassandra">Cassandra</a></li>
+      <li><a href="#couchdb">CouchDB</a></li>
+      <li><a href="#leveldb">LevelDB</a></li>
+      <li><a href="#mysql">MySQL</a></li>
+      <li><a href="#mongo">MongoDB</a></li>
+      <li><a href="#neo4j">Neo4j</a></li>
+      <li><a href="#postgres">PostgreSQL</a></li>
+      <li><a href="#redis">Redis</a></li>
+      <li><a href="#sqlite">SQLite</a></li>
+      <li><a href="#elasticsearch">ElasticSearch</a></li>
+    </ul>
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        위의 데이터베이스 드라이버는 사용 가능한 여러 데이터베이스 드라이버 중
+        일부입니다. 다른 옵션을 확인하려면,
+        <a href="https://www.npmjs.com/">npm</a> 사이트에서 검색하십시오.
+      </p>
+    </div>
+    <p><a name="cassandra"></a></p>
+    <h2 id="cassandra">Cassandra</h2>
+    <p>
+      <strong>모듈</strong>:
+      <a href="https://github.com/datastax/nodejs-driver">cassandra-driver</a>
+      <strong>설치</strong>
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install cassandra-driver
 </code>
 </pre>
-<p><strong>예제</strong></p>
-<pre>
+    <p><strong>예제</strong></p>
+    <pre>
 <code class="language-javascript" translate="no">
 var cassandra = require('cassandra-driver');
 var client = new cassandra.Client({ contactPoints: ['localhost']});
@@ -53,16 +80,19 @@ client.execute('select key from system.local', function(err, result) {
 });
 </code>
 </pre>
-<p><a name="couchdb"></a></p>
-<h2 id="couchdb">CouchDB</h2>
-<p><strong>모듈</strong>: <a href="https://github.com/dscape/nano">nano</a> <strong>설치</strong></p>
-<pre>
+    <p><a name="couchdb"></a></p>
+    <h2 id="couchdb">CouchDB</h2>
+    <p>
+      <strong>모듈</strong>: <a href="https://github.com/dscape/nano">nano</a>
+      <strong>설치</strong>
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install nano
 </code>
 </pre>
-<p><strong>예제</strong></p>
-<pre>
+    <p><strong>예제</strong></p>
+    <pre>
 <code class="language-javascript" translate="no">
 var nano = require('nano')('http://localhost:5984');
 nano.db.create('books');
@@ -81,16 +111,20 @@ books.list(function(err, body){
 });
 </code>
 </pre>
-<p><a name="leveldb"></a></p>
-<h2 id="leveldb">LevelDB</h2>
-<p><strong>모듈</strong>: <a href="https://github.com/rvagg/node-levelup">levelup</a> <strong>설치</strong></p>
-<pre>
+    <p><a name="leveldb"></a></p>
+    <h2 id="leveldb">LevelDB</h2>
+    <p>
+      <strong>모듈</strong>:
+      <a href="https://github.com/rvagg/node-levelup">levelup</a>
+      <strong>설치</strong>
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install level levelup leveldown
 </code>
 </pre>
-<p><strong>예제</strong></p>
-<pre>
+    <p><strong>예제</strong></p>
+    <pre>
 <code class="language-javascript" translate="no">
 var levelup = require('levelup');
 var db = levelup('./mydb');
@@ -106,16 +140,20 @@ db.put('name', 'LevelUP', function (err) {
 });
 </code>
 </pre>
-<p><a name="mysql"></a></p>
-<h2 id="mysql">MySQL</h2>
-<p><strong>모듈</strong>: <a href="https://github.com/felixge/node-mysql/">mysql</a> <strong>설치</strong></p>
-<pre>
+    <p><a name="mysql"></a></p>
+    <h2 id="mysql">MySQL</h2>
+    <p>
+      <strong>모듈</strong>:
+      <a href="https://github.com/felixge/node-mysql/">mysql</a>
+      <strong>설치</strong>
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install mysql
 </code>
 </pre>
-<p><strong>예제</strong></p>
-<pre>
+    <p><strong>예제</strong></p>
+    <pre>
 <code class="language-javascript" translate="no">
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
@@ -134,16 +172,20 @@ connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
 connection.end();
 </code>
 </pre>
-<p><a name="mongo"></a></p>
-<h2 id="mongodb">MongoDB</h2>
-<p><strong>모듈</strong>: <a href="https://github.com/mongodb/node-mongodb-native">mongodb</a> <strong>설치</strong></p>
-<pre>
+    <p><a name="mongo"></a></p>
+    <h2 id="mongodb">MongoDB</h2>
+    <p>
+      <strong>모듈</strong>:
+      <a href="https://github.com/mongodb/node-mongodb-native">mongodb</a>
+      <strong>설치</strong>
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install mongodb
 </code>
 </pre>
-<p><strong>예제</strong></p>
-<pre>
+    <p><strong>예제</strong></p>
+    <pre>
 <code class="language-javascript" translate="no">
 var MongoClient = require('mongodb').MongoClient;
 
@@ -160,17 +202,25 @@ MongoClient.connect('mongodb://localhost:27017/animals', function(err, db) {
 });
 </code>
 </pre>
-<p>MongoDB용 오브젝트 모델 드라이버가 필요한 경우에는 <a href="https://github.com/LearnBoost/mongoose">Mongoose</a>를 확인하십시오.</p>
-<p><a name="neo4j"></a></p>
-<h2 id="neo4j">Neo4j</h2>
-<p><strong>모듈</strong>: <a href="https://github.com/hacksparrow/apoc">apoc</a> <strong>설치</strong></p>
-<pre>
+    <p>
+      MongoDB용 오브젝트 모델 드라이버가 필요한 경우에는
+      <a href="https://github.com/LearnBoost/mongoose">Mongoose</a>를
+      확인하십시오.
+    </p>
+    <p><a name="neo4j"></a></p>
+    <h2 id="neo4j">Neo4j</h2>
+    <p>
+      <strong>모듈</strong>:
+      <a href="https://github.com/hacksparrow/apoc">apoc</a>
+      <strong>설치</strong>
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install apoc
 </code>
 </pre>
-<p><strong>예제</strong></p>
-<pre>
+    <p><strong>예제</strong></p>
+    <pre>
 <code class="language-javascript" translate="no">
 var apoc = require('apoc');
 
@@ -184,16 +234,20 @@ apoc.query('match (n) return n').exec().then(
 );
 </code>
 </pre>
-<p><a name="postgres"></a></p>
-<h2 id="postgresql">PostgreSQL</h2>
-<p><strong>모듈</strong>: <a href="https://github.com/vitaly-t/pg-promise">pg-promise</a> <strong>설치</strong></p>
-<pre>
+    <p><a name="postgres"></a></p>
+    <h2 id="postgresql">PostgreSQL</h2>
+    <p>
+      <strong>모듈</strong>:
+      <a href="https://github.com/vitaly-t/pg-promise">pg-promise</a>
+      <strong>설치</strong>
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install pg-promise
 </code>
 </pre>
-<p><strong>예제</strong></p>
-<pre>
+    <p><strong>예제</strong></p>
+    <pre>
 <code class="language-javascript" translate="no">
 var pgp = require("pg-promise")(/*options*/);
 var db = pgp("postgres://username:password@host:port/database");
@@ -207,16 +261,20 @@ db.one("SELECT $1 AS value", 123)
     });
 </code>
 </pre>
-<p><a name="redis"></a></p>
-<h2 id="redis">Redis</h2>
-<p><strong>모듈</strong>: <a href="https://github.com/mranney/node_redis">redis</a> <strong>설치</strong></p>
-<pre>
+    <p><a name="redis"></a></p>
+    <h2 id="redis">Redis</h2>
+    <p>
+      <strong>모듈</strong>:
+      <a href="https://github.com/mranney/node_redis">redis</a>
+      <strong>설치</strong>
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install redis
 </code>
 </pre>
-<p><strong>예제</strong></p>
-<pre>
+    <p><strong>예제</strong></p>
+    <pre>
 <code class="language-javascript" translate="no">
 var client = require('redis').createClient();
 
@@ -240,16 +298,20 @@ client.hkeys('hash key', function (err, replies) {
 });
 </code>
 </pre>
-<p><a name="sqlite"></a></p>
-<h2 id="sqlite">SQLite</h2>
-<p><strong>모듈</strong>: <a href="https://github.com/mapbox/node-sqlite3">sqlite3</a> <strong>설치</strong></p>
-<pre>
+    <p><a name="sqlite"></a></p>
+    <h2 id="sqlite">SQLite</h2>
+    <p>
+      <strong>모듈</strong>:
+      <a href="https://github.com/mapbox/node-sqlite3">sqlite3</a>
+      <strong>설치</strong>
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install sqlite3
 </code>
 </pre>
-<p><strong>예제</strong></p>
-<pre>
+    <p><strong>예제</strong></p>
+    <pre>
 <code class="language-javascript" translate="no">
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database(':memory:');
@@ -273,16 +335,20 @@ db.serialize(function() {
 db.close();
 </code>
 </pre>
-<p><a name="elasticsearch"></a></p>
-<h2 id="elasticsearch">ElasticSearch</h2>
-<p><strong>모듈</strong>: <a href="https://github.com/elastic/elasticsearch-js">elasticsearch</a> <strong>설치</strong></p>
-<pre>
+    <p><a name="elasticsearch"></a></p>
+    <h2 id="elasticsearch">ElasticSearch</h2>
+    <p>
+      <strong>모듈</strong>:
+      <a href="https://github.com/elastic/elasticsearch-js">elasticsearch</a>
+      <strong>설치</strong>
+    </p>
+    <pre>
 <code class="language-sh" translate="no">
 $ npm install elasticsearch
 </code>
 </pre>
-<p><strong>예제</strong></p>
-<pre>
+    <p><strong>예제</strong></p>
+    <pre>
 <code class="language-javascript" translate="no">
 var elasticsearch = require('elasticsearch');
 var client = elasticsearch.Client({
@@ -307,5 +373,5 @@ client.search({
 });
 </code>
 </pre>
-</body>
+  </body>
 </html>

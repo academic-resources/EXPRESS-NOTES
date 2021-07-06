@@ -1,77 +1,194 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Atualizações de segurança do Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Atualizações de segurança do Express</h1>
-</header>
-<h1 id="atualizações-de-segurança">Atualizações de segurança</h1>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>As vulnerabilidades do Node.js afetam diretamente o Express. Portanto <a href="http://blog.nodejs.org/vulnerability/">fique atento às vulnerabilidades do Node.js</a> e certifique-se de que você está usando a versão estável mais recente do Node.js.</p>
-</div>
-<p>A lista abaixo enumera as vulnerabilidades do Express que foram corrigidas na versão da atualização especificadas.</p>
-<h2 id="x">4.x</h2>
-<ul>
-<li>4.11.1
-<ul>
-<li>Corrigida a vulnerabilidade de divulgação do caminho raiz no <code>express.static</code>, <code>res.sendfile</code>, e <code>res.sendFile</code></li>
-</ul></li>
-<li>4.10.7
-<ul>
-<li>Corrigida a vulnerabilidade de redirecionamento aberto no <code>express.static</code> (<a href="https://npmjs.com/advisories/35">recomendação</a>, <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1164">CVE-2015-1164</a>).</li>
-</ul></li>
-<li>4.8.8
-<ul>
-<li>Corrigida a vulnerabilidade de travessia de diretório no <code>express.static</code> (<a href="http://npmjs.com/advisories/32">recomendação</a>, <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-6394">CVE-2014-6394</a>).</li>
-</ul></li>
-<li>4.8.4
-<ul>
-<li>O Node.js 0.10 pode vazar os <code>fd</code>s em certas situações que afetam o <code>express.static</code> e o <code>res.sendfile</code>. Solicitações maliciosas podem causar os <code>fd</code>s a vazar e eventualmente levar a erros de <code>EMFILE</code> e servidores sem capacidade de resposta.</li>
-</ul></li>
-<li>4.8.0
-<ul>
-<li>Matrizes esparsas que possuem índices extremamente altos na sequência de consulta podem fazer com que o processo sofra um esgotamento de memória e derrubar o servidor.</li>
-<li>Objetos de sequência de consulta extremamente aninhados podem fazer com que o processo fique bloqueado e o servidor temporariamente não responsivo.</li>
-</ul></li>
-</ul>
-<h2 id="x-1">3.x</h2>
-<ul>
-<li>3.19.1
-<ul>
-<li>Corrigida a vulnerabilidade de divulgação do caminho raiz no <code>express.static</code>, <code>res.sendfile</code>, e <code>res.sendFile</code></li>
-</ul></li>
-<li>3.19.0
-<ul>
-<li>Corrigida a vulnerabilidade de redirecionamento aberto no <code>express.static</code> (<a href="https://npmjs.com/advisories/35">recomendação</a>, <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1164">CVE-2015-1164</a>).</li>
-</ul></li>
-<li>3.16.10
-<ul>
-<li>Corrigida a vulnerabilidade de travessia de diretório no <code>express.static</code>.</li>
-</ul></li>
-<li>3.16.6
-<ul>
-<li>O Node.js 0.10 pode vazar os <code>fd</code>s em certas situações que afetam o <code>express.static</code> e o <code>res.sendfile</code>. Solicitações maliciosas podem causar os <code>fd</code>s a vazar e eventualmente levar a erros de <code>EMFILE</code> e servidores sem capacidade de resposta.</li>
-</ul></li>
-<li>3.16.0
-<ul>
-<li>Matrizes esparsas que possuem índices extremamente altos na sequência de consulta podem fazer com que o processo sofra um esgotamento de memória e derrubar o servidor.</li>
-<li>Objetos de sequência de consulta extremamente aninhados podem fazer com que o processo fique bloqueado e o servidor temporariamente não responsivo.</li>
-</ul></li>
-<li>3.3.0
-<ul>
-<li>A resposta 404 de uma tentativa de substituição de um método não suportado era suscetível a ataques de cross-site scripting.</li>
-</ul></li>
-</ul>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Atualizações de segurança do Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Atualizações de segurança do Express</h1>
+    </header>
+    <h1 id="atualizações-de-segurança">Atualizações de segurança</h1>
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        As vulnerabilidades do Node.js afetam diretamente o Express. Portanto
+        <a href="http://blog.nodejs.org/vulnerability/"
+          >fique atento às vulnerabilidades do Node.js</a
+        >
+        e certifique-se de que você está usando a versão estável mais recente do
+        Node.js.
+      </p>
+    </div>
+    <p>
+      A lista abaixo enumera as vulnerabilidades do Express que foram corrigidas
+      na versão da atualização especificadas.
+    </p>
+    <h2 id="x">4.x</h2>
+    <ul>
+      <li>
+        4.11.1
+        <ul>
+          <li>
+            Corrigida a vulnerabilidade de divulgação do caminho raiz no
+            <code>express.static</code>, <code>res.sendfile</code>, e
+            <code>res.sendFile</code>
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.10.7
+        <ul>
+          <li>
+            Corrigida a vulnerabilidade de redirecionamento aberto no
+            <code>express.static</code> (<a
+              href="https://npmjs.com/advisories/35"
+              >recomendação</a
+            >,
+            <a
+              href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1164"
+              >CVE-2015-1164</a
+            >).
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.8.8
+        <ul>
+          <li>
+            Corrigida a vulnerabilidade de travessia de diretório no
+            <code>express.static</code> (<a
+              href="http://npmjs.com/advisories/32"
+              >recomendação</a
+            >,
+            <a
+              href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-6394"
+              >CVE-2014-6394</a
+            >).
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.8.4
+        <ul>
+          <li>
+            O Node.js 0.10 pode vazar os <code>fd</code>s em certas situações
+            que afetam o <code>express.static</code> e o
+            <code>res.sendfile</code>. Solicitações maliciosas podem causar os
+            <code>fd</code>s a vazar e eventualmente levar a erros de
+            <code>EMFILE</code> e servidores sem capacidade de resposta.
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.8.0
+        <ul>
+          <li>
+            Matrizes esparsas que possuem índices extremamente altos na
+            sequência de consulta podem fazer com que o processo sofra um
+            esgotamento de memória e derrubar o servidor.
+          </li>
+          <li>
+            Objetos de sequência de consulta extremamente aninhados podem fazer
+            com que o processo fique bloqueado e o servidor temporariamente não
+            responsivo.
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <h2 id="x-1">3.x</h2>
+    <ul>
+      <li>
+        3.19.1
+        <ul>
+          <li>
+            Corrigida a vulnerabilidade de divulgação do caminho raiz no
+            <code>express.static</code>, <code>res.sendfile</code>, e
+            <code>res.sendFile</code>
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.19.0
+        <ul>
+          <li>
+            Corrigida a vulnerabilidade de redirecionamento aberto no
+            <code>express.static</code> (<a
+              href="https://npmjs.com/advisories/35"
+              >recomendação</a
+            >,
+            <a
+              href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1164"
+              >CVE-2015-1164</a
+            >).
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.16.10
+        <ul>
+          <li>
+            Corrigida a vulnerabilidade de travessia de diretório no
+            <code>express.static</code>.
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.16.6
+        <ul>
+          <li>
+            O Node.js 0.10 pode vazar os <code>fd</code>s em certas situações
+            que afetam o <code>express.static</code> e o
+            <code>res.sendfile</code>. Solicitações maliciosas podem causar os
+            <code>fd</code>s a vazar e eventualmente levar a erros de
+            <code>EMFILE</code> e servidores sem capacidade de resposta.
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.16.0
+        <ul>
+          <li>
+            Matrizes esparsas que possuem índices extremamente altos na
+            sequência de consulta podem fazer com que o processo sofra um
+            esgotamento de memória e derrubar o servidor.
+          </li>
+          <li>
+            Objetos de sequência de consulta extremamente aninhados podem fazer
+            com que o processo fique bloqueado e o servidor temporariamente não
+            responsivo.
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.3.0
+        <ul>
+          <li>
+            A resposta 404 de uma tentativa de substituição de um método não
+            suportado era suscetível a ataques de cross-site scripting.
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </body>
 </html>

@@ -1,101 +1,264 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express のセキュリティー更新</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express のセキュリティー更新</h1>
-</header>
-<h1 id="セキュリティー更新">セキュリティー更新</h1>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>Node.js の脆弱性は Express に直接影響を与えます。そのため、<a href="http://blog.nodejs.org/vulnerability/">Node.js の脆弱性の監視を続けて</a>、必ず、安定した最新バージョンの Node.js を使用してください。</p>
-</div>
-<p>次のリストに、示されているバージョンの更新で修正された Express の脆弱性を列挙します。</p>
-<p><strong>注意</strong>: Expressでセキュリティ上の脆弱性を発見したと思われる場合は、<a href="/%7B%7Bpage.lang%7D%7D/resources/contributing.html#security-policies-and-procedures">セキュリティポリシーと手順</a>を参照してください。</p>
-<h2 id="x">4.x</h2>
-<ul>
-<li>4.16.0
-<ul>
-<li>依存関係<code>forwarded</code>は、<a href="https://npmjs.com/advisories/527">脆弱性</a>に対処するために更新されました。これは、<code>req.host</code>、<code>req.hostname</code>、<code>req.ip</code>、<code>req.ips</code>、<code>req.protocol</code>のAPIが使用されている場合、アプリケーションに影響を与える可能性があります。</li>
-<li>依存関係<code>mime</code>は<a href="https://npmjs.com/advisories/535">脆弱性</a>に対処するために更新されましたが、この問題はExpressには影響しません。</li>
-<li>依存関係<code>send</code>が更新され、<a href="https://nodejs.org/en/blog/vulnerability/september-2017-path-validation/">Node.js 8.5.0の脆弱性</a>に対する保護が提供されています。これは特定のNode.jsバージョン8.5.0でExpressを実行する場合にのみ影響します。</li>
-</ul></li>
-<li>4.15.5
-<ul>
-<li>依存関係<code>debug</code>は<a href="https://snyk.io/vuln/npm:debug:20170905">脆弱性</a>に対処するために更新されましたが、この問題はExpressには影響しません。</li>
-<li>依存関係<code>fresh</code>は、<a href="https://npmjs.com/advisories/526">脆弱性</a>に対処するために更新されました。これは、次のAPIが使用されている場合、アプリケーションに影響します：<code>express.static</code>、<code>req.fresh</code>、<code>res.json</code>、<code>res.jsonp</code>、<code>res.send</code>、<code>res.sendfile</code>、<code>res.sendFile</code>、<code>res.sendStatus</code></li>
-</ul></li>
-<li>4.15.3
-<ul>
-<li>依存関係<code>ms</code>は、<a href="https://snyk.io/vuln/npm:ms:20170412">脆弱性</a>に対処するために更新されました。<code>express.static</code>、<code>res.sendfile</code>、および<code>res.sendFile</code>のAPIで、信頼できない文字列が入力され<code>maxAge</code>オプションに渡されると、アプリケーションに影響を与える可能性があります。</li>
-</ul></li>
-<li>4.15.2
-<ul>
-<li>依存関係<code>qs</code>は<a href="https://snyk.io/vuln/npm:qs:20170213">脆弱性</a>に対処するために更新されましたが、この問題はExpressには影響しません。4.15.2へのアップデートは良い習慣ですが、この脆弱性に対処する必要はありません。</li>
-</ul></li>
-<li>4.11.1
-<ul>
-<li><code>express.static</code>、<code>res.sendfile</code>、および <code>res.sendFile</code> のルート・パス開示の脆弱性を修正しました。</li>
-</ul></li>
-<li>4.10.7
-<ul>
-<li><code>express.static</code> のオープン・リダイレクトの脆弱性を修正しました (<a href="https://npmjs.com/advisories/35">アドバイザリー</a>、<a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1164">CVE-2015-1164</a>)。</li>
-</ul></li>
-<li>4.8.8
-<ul>
-<li><code>express.static</code> のディレクトリー・トラバーサルの脆弱性を修正しました (<a href="http://npmjs.com/advisories/32">アドバイザリー</a>、<a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-6394">CVE-2014-6394</a>)。</li>
-</ul></li>
-<li>4.8.4
-<ul>
-<li>Node.js 0.10 は、特定の状況で <code>fd</code> をリークして、<code>express.static</code> および <code>res.sendfile</code> に影響を及ぼす可能性があります。悪意ある要求によって <code>fd</code> がリークされ、最終的に <code>EMFILE</code> エラーが発生したり、サーバーが応答しなくなったりする可能性があります。</li>
-</ul></li>
-<li>4.8.0
-<ul>
-<li>クエリストリングに極めて多数の索引が含まれる疎な配列により、プロセスがメモリー不足になり、サーバーが異常終了する可能性があります。</li>
-<li>過度にネストされたクエリストリング・オブジェクトにより、プロセスがサーバーをブロックして、サーバーが一時的に応答できなくなる可能性があります。</li>
-</ul></li>
-</ul>
-<h2 id="x-1">3.x</h2>
-<div class="doc-box doc-warn" data-markdown="1">
-<p><strong>Express 3.x はもうメンテナンスされていません</strong></p>
-<p>3.xの既知および未知のセキュリティ問題は、最終更新（2015年8月1日）以降は対処されていません。3.x系を使用することは安全であると見なされるべきではありません。</p>
-</div>
-<ul>
-<li>3.19.1
-<ul>
-<li><code>express.static</code>、<code>res.sendfile</code>、および <code>res.sendFile</code> のルート・パス開示の脆弱性を修正しました。</li>
-</ul></li>
-<li>3.19.0
-<ul>
-<li><code>express.static</code> のオープン・リダイレクトの脆弱性を修正しました (<a href="https://npmjs.com/advisories/35">アドバイザリー</a>、<a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1164">CVE-2015-1164</a>)。</li>
-</ul></li>
-<li>3.16.10
-<ul>
-<li><code>express.static</code> のディレクトリー・トラバーサルの脆弱性を修正しました。</li>
-</ul></li>
-<li>3.16.6
-<ul>
-<li>Node.js 0.10 は、特定の状況で <code>fd</code> をリークして、<code>express.static</code> および <code>res.sendfile</code> に影響を及ぼす可能性があります。悪意ある要求によって <code>fd</code> がリークされ、最終的に <code>EMFILE</code> エラーが発生したり、サーバーが応答しなくなったりする可能性があります。</li>
-</ul></li>
-<li>3.16.0
-<ul>
-<li>クエリストリングに極めて多数の索引が含まれる疎配列により、プロセスがメモリー不足になり、サーバーが異常終了する可能性があります。</li>
-<li>過度にネストされたクエリストリング・オブジェクトにより、プロセスがサーバーをブロックして、サーバーが一時的に応答できなくなる可能性があります。</li>
-</ul></li>
-<li>3.3.0
-<ul>
-<li>サポートされていないメソッドのオーバーライドの 404 応答は、クロスサイト・スクリプティングの攻撃を受ける可能性がありました。</li>
-</ul></li>
-</ul>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express のセキュリティー更新</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express のセキュリティー更新</h1>
+    </header>
+    <h1 id="セキュリティー更新">セキュリティー更新</h1>
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        Node.js の脆弱性は Express に直接影響を与えます。そのため、<a
+          href="http://blog.nodejs.org/vulnerability/"
+          >Node.js の脆弱性の監視を続けて</a
+        >、必ず、安定した最新バージョンの Node.js を使用してください。
+      </p>
+    </div>
+    <p>
+      次のリストに、示されているバージョンの更新で修正された Express
+      の脆弱性を列挙します。
+    </p>
+    <p>
+      <strong>注意</strong>:
+      Expressでセキュリティ上の脆弱性を発見したと思われる場合は、<a
+        href="/%7B%7Bpage.lang%7D%7D/resources/contributing.html#security-policies-and-procedures"
+        >セキュリティポリシーと手順</a
+      >を参照してください。
+    </p>
+    <h2 id="x">4.x</h2>
+    <ul>
+      <li>
+        4.16.0
+        <ul>
+          <li>
+            依存関係<code>forwarded</code>は、<a
+              href="https://npmjs.com/advisories/527"
+              >脆弱性</a
+            >に対処するために更新されました。これは、<code>req.host</code>、<code>req.hostname</code>、<code>req.ip</code>、<code>req.ips</code>、<code>req.protocol</code>のAPIが使用されている場合、アプリケーションに影響を与える可能性があります。
+          </li>
+          <li>
+            依存関係<code>mime</code>は<a
+              href="https://npmjs.com/advisories/535"
+              >脆弱性</a
+            >に対処するために更新されましたが、この問題はExpressには影響しません。
+          </li>
+          <li>
+            依存関係<code>send</code>が更新され、<a
+              href="https://nodejs.org/en/blog/vulnerability/september-2017-path-validation/"
+              >Node.js 8.5.0の脆弱性</a
+            >に対する保護が提供されています。これは特定のNode.jsバージョン8.5.0でExpressを実行する場合にのみ影響します。
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.15.5
+        <ul>
+          <li>
+            依存関係<code>debug</code>は<a
+              href="https://snyk.io/vuln/npm:debug:20170905"
+              >脆弱性</a
+            >に対処するために更新されましたが、この問題はExpressには影響しません。
+          </li>
+          <li>
+            依存関係<code>fresh</code>は、<a
+              href="https://npmjs.com/advisories/526"
+              >脆弱性</a
+            >に対処するために更新されました。これは、次のAPIが使用されている場合、アプリケーションに影響します：<code>express.static</code>、<code>req.fresh</code>、<code>res.json</code>、<code>res.jsonp</code>、<code>res.send</code>、<code>res.sendfile</code>、<code>res.sendFile</code>、<code
+              >res.sendStatus</code
+            >
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.15.3
+        <ul>
+          <li>
+            依存関係<code>ms</code>は、<a
+              href="https://snyk.io/vuln/npm:ms:20170412"
+              >脆弱性</a
+            >に対処するために更新されました。<code>express.static</code>、<code>res.sendfile</code>、および<code>res.sendFile</code>のAPIで、信頼できない文字列が入力され<code>maxAge</code>オプションに渡されると、アプリケーションに影響を与える可能性があります。
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.15.2
+        <ul>
+          <li>
+            依存関係<code>qs</code>は<a
+              href="https://snyk.io/vuln/npm:qs:20170213"
+              >脆弱性</a
+            >に対処するために更新されましたが、この問題はExpressには影響しません。4.15.2へのアップデートは良い習慣ですが、この脆弱性に対処する必要はありません。
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.11.1
+        <ul>
+          <li>
+            <code>express.static</code>、<code>res.sendfile</code>、および
+            <code>res.sendFile</code> のルート・パス開示の脆弱性を修正しました。
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.10.7
+        <ul>
+          <li>
+            <code>express.static</code>
+            のオープン・リダイレクトの脆弱性を修正しました (<a
+              href="https://npmjs.com/advisories/35"
+              >アドバイザリー</a
+            >、<a
+              href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1164"
+              >CVE-2015-1164</a
+            >)。
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.8.8
+        <ul>
+          <li>
+            <code>express.static</code>
+            のディレクトリー・トラバーサルの脆弱性を修正しました (<a
+              href="http://npmjs.com/advisories/32"
+              >アドバイザリー</a
+            >、<a
+              href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-6394"
+              >CVE-2014-6394</a
+            >)。
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.8.4
+        <ul>
+          <li>
+            Node.js 0.10 は、特定の状況で <code>fd</code> をリークして、<code
+              >express.static</code
+            >
+            および
+            <code>res.sendfile</code>
+            に影響を及ぼす可能性があります。悪意ある要求によって
+            <code>fd</code> がリークされ、最終的に
+            <code>EMFILE</code>
+            エラーが発生したり、サーバーが応答しなくなったりする可能性があります。
+          </li>
+        </ul>
+      </li>
+      <li>
+        4.8.0
+        <ul>
+          <li>
+            クエリストリングに極めて多数の索引が含まれる疎な配列により、プロセスがメモリー不足になり、サーバーが異常終了する可能性があります。
+          </li>
+          <li>
+            過度にネストされたクエリストリング・オブジェクトにより、プロセスがサーバーをブロックして、サーバーが一時的に応答できなくなる可能性があります。
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <h2 id="x-1">3.x</h2>
+    <div class="doc-box doc-warn" data-markdown="1">
+      <p><strong>Express 3.x はもうメンテナンスされていません</strong></p>
+      <p>
+        3.xの既知および未知のセキュリティ問題は、最終更新（2015年8月1日）以降は対処されていません。3.x系を使用することは安全であると見なされるべきではありません。
+      </p>
+    </div>
+    <ul>
+      <li>
+        3.19.1
+        <ul>
+          <li>
+            <code>express.static</code>、<code>res.sendfile</code>、および
+            <code>res.sendFile</code> のルート・パス開示の脆弱性を修正しました。
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.19.0
+        <ul>
+          <li>
+            <code>express.static</code>
+            のオープン・リダイレクトの脆弱性を修正しました (<a
+              href="https://npmjs.com/advisories/35"
+              >アドバイザリー</a
+            >、<a
+              href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1164"
+              >CVE-2015-1164</a
+            >)。
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.16.10
+        <ul>
+          <li>
+            <code>express.static</code>
+            のディレクトリー・トラバーサルの脆弱性を修正しました。
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.16.6
+        <ul>
+          <li>
+            Node.js 0.10 は、特定の状況で <code>fd</code> をリークして、<code
+              >express.static</code
+            >
+            および
+            <code>res.sendfile</code>
+            に影響を及ぼす可能性があります。悪意ある要求によって
+            <code>fd</code> がリークされ、最終的に
+            <code>EMFILE</code>
+            エラーが発生したり、サーバーが応答しなくなったりする可能性があります。
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.16.0
+        <ul>
+          <li>
+            クエリストリングに極めて多数の索引が含まれる疎配列により、プロセスがメモリー不足になり、サーバーが異常終了する可能性があります。
+          </li>
+          <li>
+            過度にネストされたクエリストリング・オブジェクトにより、プロセスがサーバーをブロックして、サーバーが一時的に応答できなくなる可能性があります。
+          </li>
+        </ul>
+      </li>
+      <li>
+        3.3.0
+        <ul>
+          <li>
+            サポートされていないメソッドのオーバーライドの 404
+            応答は、クロスサイト・スクリプティングの攻撃を受ける可能性がありました。
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </body>
 </html>

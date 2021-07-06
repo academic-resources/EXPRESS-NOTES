@@ -9,24 +9,24 @@ lang: it
 
 Express è un framework Web di routing e middleware, con funzionalità sua propria minima: un'applicazione Express è essenzialmente a serie di chiamate a funzioni middleware.
 
-Le funzioni *middleware* sono funzioni con accesso all'[oggetto richiesta](/{{ page.lang }}/4x/api.html#req)  (`req`), all'[oggetto risposta](/{{ page.lang }}/4x/api.html#res) (`res`) e alla successiva funzione middleware nel ciclo richiesta-risposta dell'applicazione. La successiva funzione middleware viene comunemente denotata da una variabile denominata `next`.
+Le funzioni _middleware_ sono funzioni con accesso all'[oggetto richiesta](/{{ page.lang }}/4x/api.html#req) (`req`), all'[oggetto risposta](/{{ page.lang }}/4x/api.html#res) (`res`) e alla successiva funzione middleware nel ciclo richiesta-risposta dell'applicazione. La successiva funzione middleware viene comunemente denotata da una variabile denominata `next`.
 
 Le funzioni middleware possono eseguire le attività elencate di seguito:
 
-* Eseguire qualsiasi codice.
-* Apportare modifiche agli oggetti richiesta e risposta.
-* Terminare il ciclo richiesta-risposta.
-* Chiamare la successiva funzione middleware nello stack.
+- Eseguire qualsiasi codice.
+- Apportare modifiche agli oggetti richiesta e risposta.
+- Terminare il ciclo richiesta-risposta.
+- Chiamare la successiva funzione middleware nello stack.
 
 Se la funzione middleware corrente non termina il ciclo richiesta-risposta, deve richiamare `next()` per passare il controllo alla successiva funzione middleware. Altrimenti, la richiesta verrà lasciata in sospeso.
 
 Un'applicazione Express può utilizzare i seguenti tipi di middleware:
 
- - [Middleware a livello dell'applicazione](#middleware.application)
- - [Middleware a livello del router](#middleware.router)
- - [Middleware di gestione degli errori](#middleware.error-handling)
- - [Middleware integrato](#middleware.built-in)
- - [Middleware di terzi](#middleware.third-party)
+- [Middleware a livello dell'applicazione](#middleware.application)
+- [Middleware a livello del router](#middleware.router)
+- [Middleware di gestione degli errori](#middleware.error-handling)
+- [Middleware integrato](#middleware.built-in)
+- [Middleware di terzi](#middleware.third-party)
 
 È possibile caricare il middleware a livello dell'applicazione e del router con un percorso di montaggio facoltativo.
 È possibile inoltre caricare una serie di funzioni middleware contemporaneamente e, in questo modo, si crea un sotto-stack del sistema middleware in un punto di montaggio.
@@ -138,6 +138,7 @@ Il middleware a livello del router funziona nello stesso modo di quello a livell
 var router = express.Router();
 </code>
 </pre>
+
 Caricare il middleware a livello del router utilizzando le funzioni `router.use()` e `router.METHOD()`.
 
 Il seguente codice di esempio replica il sistema middleware mostrato sopra per il middleware a livello dell'applicazione, utilizzando il middleware a livello del router:
@@ -216,16 +217,16 @@ L'argomento `root` specifica la directory root da cui fornire gli asset statici.
 
 L'oggetto facoltativo `options` può avere le seguenti proprietà:
 
-| Proprietà      | Descrizione                                                           |   Tipo      | Valore predefinito         |
-|---------------|-----------------------------------------------------------------------|-------------|-----------------|
-| `dotfiles`    | Opzione per la fornitura di dotfiles. Valori possibili sono "allow", "deny" e "ignore" | Stringa | "ignore" |
-| `etag`        | Abilitare o disabilitare la generazione di etag  | Booleano | `true` |
-| `extensions`  | Imposta i fallback dell'estensione file. | Array | `[]` |
-| `index`       | Invia un file di indice di directory. Impostare su `false` per disabilitare l'indicizzazione della directory. | Misto | "index.html" |
- `lastModified` | Impostare l'intestazione `Last-Modified`sulla data dell'ultima modifica del file nel sistema operativo. I valori possibili sono `true` o `false`. | Booleano | `true` |
-| `maxAge`      | Impostare la proprietà dell'intestazione Cache-Control, in millisecondi o una stringa in [formato ms](https://www.npmjs.org/package/ms) | Numero | 0 |
-| `redirect`    | Reindirizzare al carattere "/" finale, quando il nome percorso è una directory. | Booleano | `true` |
-| `setHeaders`  | Funzione per l'impostazione delle intestazioni HTTP perché siano adatte al file. | Funzione |  |
+| Proprietà      | Descrizione                                                                                                                                       | Tipo     | Valore predefinito |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------ |
+| `dotfiles`     | Opzione per la fornitura di dotfiles. Valori possibili sono "allow", "deny" e "ignore"                                                            | Stringa  | "ignore"           |
+| `etag`         | Abilitare o disabilitare la generazione di etag                                                                                                   | Booleano | `true`             |
+| `extensions`   | Imposta i fallback dell'estensione file.                                                                                                          | Array    | `[]`               |
+| `index`        | Invia un file di indice di directory. Impostare su `false` per disabilitare l'indicizzazione della directory.                                     | Misto    | "index.html"       |
+| `lastModified` | Impostare l'intestazione `Last-Modified`sulla data dell'ultima modifica del file nel sistema operativo. I valori possibili sono `true` o `false`. | Booleano | `true`             |
+| `maxAge`       | Impostare la proprietà dell'intestazione Cache-Control, in millisecondi o una stringa in [formato ms](https://www.npmjs.org/package/ms)           | Numero   | 0                  |
+| `redirect`     | Reindirizzare al carattere "/" finale, quando il nome percorso è una directory.                                                                   | Booleano | `true`             |
+| `setHeaders`   | Funzione per l'impostazione delle intestazioni HTTP perché siano adatte al file.                                                                  | Funzione |                    |
 
 Ecco un esempio di utilizzo della funzione middleware `express.static` con un oggetto opzioni elaborato:
 

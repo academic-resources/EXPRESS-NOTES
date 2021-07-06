@@ -1,5 +1,4 @@
-connect-rid
-=======
+# connect-rid
 
 [![Build Status](https://secure.travis-ci.org/fengmk2/connect-rid.png)](http://travis-ci.org/fengmk2/connect-rid) [![Coverage Status](https://coveralls.io/repos/fengmk2/connect-rid/badge.png)](https://coveralls.io/r/fengmk2/connect-rid) [![Dependency Status](https://gemnasium.com/fengmk2/connect-rid.png)](https://gemnasium.com/fengmk2/connect-rid)
 
@@ -18,11 +17,13 @@ $ npm install connect-rid
 ## Usage
 
 ```js
-var rid = require('connect-rid');
+var rid = require("connect-rid");
 
-app.use(rid({
-  // headerName: 'X-RID'
-}));
+app.use(
+  rid({
+    // headerName: 'X-RID'
+  })
+);
 ```
 
 ## License

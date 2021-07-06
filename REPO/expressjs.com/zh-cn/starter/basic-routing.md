@@ -12,6 +12,7 @@ lang: zh-cn
 每个路由可以具有一个或多个处理程序函数，这些函数在路由匹配时执行。
 
 路由定义采用以下结构：
+
 <pre>
 <code class="language-javascript" translate="no">
 app.METHOD(PATH, HANDLER)

@@ -96,7 +96,6 @@ No Windows, use este comando:
 
 Em seguida carregue `http://localhost:3000/` no seu navegador para acessar o aplicativo.
 
-
 O aplicativo gerado possui a seguinte estrutura de diretórios:
 
 <pre>

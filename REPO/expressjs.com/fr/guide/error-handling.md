@@ -93,7 +93,7 @@ Si vous transmettez tout à la fonction `next()` (sauf la chaîne `'route'`), Ex
 comme étant erronée et ignorera tout routage de gestion non lié à une erreur et toute fonction middleware restants. Si vous voulez gérer cette erreur de quelque façon que ce soit, vous devrez créer
 une route de gestion d'erreur tel que décrit dans la section suivante.
 
-Si vous disposez d'un gestionnaire de routage avec plusieurs fonctions callback, vour pouvez utiliser le paramètre `route` pour passer au gestionnaire de routage suivant.  Par exemple :
+Si vous disposez d'un gestionnaire de routage avec plusieurs fonctions callback, vour pouvez utiliser le paramètre `route` pour passer au gestionnaire de routage suivant. Par exemple :
 
 <pre>
 <code class="language-javascript" translate="no">

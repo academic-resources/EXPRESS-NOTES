@@ -36,7 +36,9 @@ app.set('view engine', 'ntl'); // register the template engine
 #message#
 </code>
 </pre>
+
 然后，在应用程序中创建以下路径：
+
 <pre>
 <code class="language-javascript" translate="no">
 app.get('/', function (req, res) {
@@ -44,4 +46,5 @@ app.get('/', function (req, res) {
 });
 </code>
 </pre>
+
 您向主页发出请求时，`index.ntl` 将呈现为 HTML。

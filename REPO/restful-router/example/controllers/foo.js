@@ -11,9 +11,13 @@
  */
 
 exports.list = function (req, res, next) {
-  next(new Error('mock foo.list error, uid: ' + req.params.uid));
+  next(new Error("mock foo.list error, uid: " + req.params.uid));
 };
 
 exports.show = function (req, res, next) {
-  res.end(req.method + ' /users/:uid/foos/:date => show, params: ' + JSON.stringify(req.params));
+  res.end(
+    req.method +
+      " /users/:uid/foos/:date => show, params: " +
+      JSON.stringify(req.params)
+  );
 };

@@ -1,119 +1,319 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express ile statik dosyalar</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-  <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express ile statik dosyalar</h1>
-</header>
-<h1 id="express-ile-statik-dosyaları-sunmak">Express ile statik dosyaları sunmak</h1>
-<p>Görseller, CSS dosyaları ve JavaScript dosyaları gibi statik dosyaları sunmak için, Express’te bulunan <code>express.static</code> ara katmanını kullanın.</p>
-<p>Fonksiyonun yapısı şu şekildedir:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb1-1" title="1"><span class="va">express</span>.<span class="at">static</span>(root<span class="op">,</span> [options])</a></code></pre></div>
-<p><code>root</code> argümanı statik dosyaların bulunduğu ana dizine karşılık gelir. <code>options</code> argümanı hakkında detaylı bilgi için, <a href="/%7B%7Bpage.lang%7D%7D/4x/api.html#express.static">express.static</a> sayfasını ziyaret edin.</p>
-<p>Örneğin, <code>public</code> dizininde bulunan görselleri, CSS dosyalarını ve JavaScript dosyalarını sunmak için bunu kullanın:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb2-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;public&#39;</span>))</a></code></pre></div>
-<p>Artık <code>public</code> dizininde bulunan statik dosyaları görebilirsiniz:</p>
-<pre class="plain-text"><code>http://localhost:3000/images/kitten.jpg
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express ile statik dosyalar</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+    <style type="text/css">
+      a.sourceLine {
+        display: inline-block;
+        line-height: 1.25;
+      }
+      a.sourceLine {
+        pointer-events: none;
+        color: inherit;
+        text-decoration: inherit;
+      }
+      a.sourceLine:empty {
+        height: 1.2em;
+      }
+      .sourceCode {
+        overflow: visible;
+      }
+      code.sourceCode {
+        white-space: pre;
+        position: relative;
+      }
+      div.sourceCode {
+        margin: 1em 0;
+      }
+      pre.sourceCode {
+        margin: 0;
+      }
+      @media screen {
+        div.sourceCode {
+          overflow: auto;
+        }
+      }
+      @media print {
+        code.sourceCode {
+          white-space: pre-wrap;
+        }
+        a.sourceLine {
+          text-indent: -1em;
+          padding-left: 1em;
+        }
+      }
+      pre.numberSource a.sourceLine {
+        position: relative;
+        left: -4em;
+      }
+      pre.numberSource a.sourceLine::before {
+        content: attr(title);
+        position: relative;
+        left: -1em;
+        text-align: right;
+        vertical-align: baseline;
+        border: none;
+        pointer-events: all;
+        display: inline-block;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        padding: 0 4px;
+        width: 4em;
+        color: #aaaaaa;
+      }
+      pre.numberSource {
+        margin-left: 3em;
+        border-left: 1px solid #aaaaaa;
+        padding-left: 4px;
+      }
+      div.sourceCode {
+      }
+      @media screen {
+        a.sourceLine::before {
+          text-decoration: underline;
+        }
+      }
+      code span.al {
+        color: #ff0000;
+        font-weight: bold;
+      } /* Alert */
+      code span.an {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Annotation */
+      code span.at {
+        color: #7d9029;
+      } /* Attribute */
+      code span.bn {
+        color: #40a070;
+      } /* BaseN */
+      code span.bu {
+      } /* BuiltIn */
+      code span.cf {
+        color: #007020;
+        font-weight: bold;
+      } /* ControlFlow */
+      code span.ch {
+        color: #4070a0;
+      } /* Char */
+      code span.cn {
+        color: #880000;
+      } /* Constant */
+      code span.co {
+        color: #60a0b0;
+        font-style: italic;
+      } /* Comment */
+      code span.cv {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* CommentVar */
+      code span.do {
+        color: #ba2121;
+        font-style: italic;
+      } /* Documentation */
+      code span.dt {
+        color: #902000;
+      } /* DataType */
+      code span.dv {
+        color: #40a070;
+      } /* DecVal */
+      code span.er {
+        color: #ff0000;
+        font-weight: bold;
+      } /* Error */
+      code span.ex {
+      } /* Extension */
+      code span.fl {
+        color: #40a070;
+      } /* Float */
+      code span.fu {
+        color: #06287e;
+      } /* Function */
+      code span.im {
+      } /* Import */
+      code span.in {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Information */
+      code span.kw {
+        color: #007020;
+        font-weight: bold;
+      } /* Keyword */
+      code span.op {
+        color: #666666;
+      } /* Operator */
+      code span.ot {
+        color: #007020;
+      } /* Other */
+      code span.pp {
+        color: #bc7a00;
+      } /* Preprocessor */
+      code span.sc {
+        color: #4070a0;
+      } /* SpecialChar */
+      code span.ss {
+        color: #bb6688;
+      } /* SpecialString */
+      code span.st {
+        color: #4070a0;
+      } /* String */
+      code span.va {
+        color: #19177c;
+      } /* Variable */
+      code span.vs {
+        color: #4070a0;
+      } /* VerbatimString */
+      code span.wa {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Warning */
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express ile statik dosyalar</h1>
+    </header>
+    <h1 id="express-ile-statik-dosyaları-sunmak">
+      Express ile statik dosyaları sunmak
+    </h1>
+    <p>
+      Görseller, CSS dosyaları ve JavaScript dosyaları gibi statik dosyaları
+      sunmak için, Express’te bulunan <code>express.static</code> ara katmanını
+      kullanın.
+    </p>
+    <p>Fonksiyonun yapısı şu şekildedir:</p>
+    <div class="sourceCode" id="cb1">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb1-1" title="1"><span class="va">express</span>.<span class="at">static</span>(root<span class="op">,</span> [options])</a></code></pre>
+    </div>
+    <p>
+      <code>root</code> argümanı statik dosyaların bulunduğu ana dizine karşılık
+      gelir. <code>options</code> argümanı hakkında detaylı bilgi için,
+      <a href="/%7B%7Bpage.lang%7D%7D/4x/api.html#express.static"
+        >express.static</a
+      >
+      sayfasını ziyaret edin.
+    </p>
+    <p>
+      Örneğin, <code>public</code> dizininde bulunan görselleri, CSS dosyalarını
+      ve JavaScript dosyalarını sunmak için bunu kullanın:
+    </p>
+    <div class="sourceCode" id="cb2">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb2-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;public&#39;</span>))</a></code></pre>
+    </div>
+    <p>
+      Artık <code>public</code> dizininde bulunan statik dosyaları
+      görebilirsiniz:
+    </p>
+    <pre class="plain-text"><code>http://localhost:3000/images/kitten.jpg
 http://localhost:3000/css/style.css
 http://localhost:3000/js/app.js
 http://localhost:3000/images/bg.png
 http://localhost:3000/hello.html</code></pre>
-<div class="doc-box doc-info">
-<p>Express statik dosyaların yerlerine ana dizine bağlı olarak bakar. Bu yüzden statik dosyaları barındıran ana dizin URL’de bulunmaz.</p>
-</div>
-<p>Birden fazla statik dosya dizini kullanmak için <code>express.static</code> fonksiyonun birden fazla kullanabilirsiniz.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb4-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;public&#39;</span>))</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="va">app</span>.<span class="at">use</span>(<span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;files&#39;</span>))</a></code></pre></div>
-<p>Express statik dosyalara <code>express.static</code> ile tanımladığınız sırayla bakar.</p>
-<div class="doc-box doc-info" data-markdown="1">
-<p>NOT: En iyi sonuç için, statik dosyaları sunarken performansı artırmak için [reverse proxy](/{{page.lang}}/advanced/ önbelleği kullanın.</p>
-</div>
-<p><code>express.static</code> ile sunulan dosyalar için sanal bir yol (statik dizinin aslında gerçekte bulunmadığı) yaratmak için, statik dizine aşağıdaki gibi bir <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.use">path tanımlayın</a>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb5-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/static&#39;</span><span class="op">,</span> <span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;public&#39;</span>))</a></code></pre></div>
-<p>Artık <code>public</code> dizinindeki dosyalara <code>/static</code> önekiyle ulaşabilirsiniz.</p>
-<pre class="plain-text"><code>http://localhost:3000/static/images/kitten.jpg
+    <div class="doc-box doc-info">
+      <p>
+        Express statik dosyaların yerlerine ana dizine bağlı olarak bakar. Bu
+        yüzden statik dosyaları barındıran ana dizin URL’de bulunmaz.
+      </p>
+    </div>
+    <p>
+      Birden fazla statik dosya dizini kullanmak için
+      <code>express.static</code> fonksiyonun birden fazla kullanabilirsiniz.
+    </p>
+    <div class="sourceCode" id="cb4">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb4-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;public&#39;</span>))</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="va">app</span>.<span class="at">use</span>(<span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;files&#39;</span>))</a></code></pre>
+    </div>
+    <p>
+      Express statik dosyalara <code>express.static</code> ile tanımladığınız
+      sırayla bakar.
+    </p>
+    <div class="doc-box doc-info" data-markdown="1">
+      <p>
+        NOT: En iyi sonuç için, statik dosyaları sunarken performansı artırmak
+        için [reverse proxy](/{{page.lang}}/advanced/ önbelleği kullanın.
+      </p>
+    </div>
+    <p>
+      <code>express.static</code> ile sunulan dosyalar için sanal bir yol
+      (statik dizinin aslında gerçekte bulunmadığı) yaratmak için, statik dizine
+      aşağıdaki gibi bir
+      <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.use"
+        >path tanımlayın</a
+      >.
+    </p>
+    <div class="sourceCode" id="cb5">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb5-1" title="1"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/static&#39;</span><span class="op">,</span> <span class="va">express</span>.<span class="at">static</span>(<span class="st">&#39;public&#39;</span>))</a></code></pre>
+    </div>
+    <p>
+      Artık <code>public</code> dizinindeki dosyalara
+      <code>/static</code> önekiyle ulaşabilirsiniz.
+    </p>
+    <pre class="plain-text"><code>http://localhost:3000/static/images/kitten.jpg
 http://localhost:3000/static/css/style.css
 http://localhost:3000/static/js/app.js
 http://localhost:3000/static/images/bg.png
 http://localhost:3000/static/hello.html</code></pre>
-<p><code>express.static</code> fonksiyonu ile tanımladığınız yollar <code>node</code> processini çalıştırdığınız dizine bağlıdır. Bu yüzden, eğer express uygulamasını başka bir dizinden çalıştırıyorsanız, statik dizini tam adres olarak tanımlamanız daha güvenli olur.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">const</span> path <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;path&#39;</span>)</a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/static&#39;</span><span class="op">,</span> <span class="va">express</span>.<span class="at">static</span>(<span class="va">path</span>.<span class="at">join</span>(__dirname<span class="op">,</span> <span class="st">&#39;public&#39;</span>)))</a></code></pre></div>
-<p><code>serve-static</code> hakkında daha fazla bilgi almak için, <a href="/resources/middleware/serve-static.html">serve-static</a> sayfasına göz atın.</p>
-<h3 id="önceki-basit-yol-atama-sonraki-sıkça-sorulan-sorular"><a href="/%7B%7B%20page.lang%20%7D%7D/starter/basic-routing.html">Önceki: Basit Yol Atama</a>    <a href="/%7B%7B%20page.lang%20%7D%7D/starter/faq.html">Sonraki: Sıkça Sorulan Sorular</a></h3>
-</body>
+    <p>
+      <code>express.static</code> fonksiyonu ile tanımladığınız yollar
+      <code>node</code> processini çalıştırdığınız dizine bağlıdır. Bu yüzden,
+      eğer express uygulamasını başka bir dizinden çalıştırıyorsanız, statik
+      dizini tam adres olarak tanımlamanız daha güvenli olur.
+    </p>
+    <div class="sourceCode" id="cb7">
+      <pre
+        class="sourceCode js"
+      ><code class="sourceCode javascript"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">const</span> path <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;path&#39;</span>)</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="va">app</span>.<span class="at">use</span>(<span class="st">&#39;/static&#39;</span><span class="op">,</span> <span class="va">express</span>.<span class="at">static</span>(<span class="va">path</span>.<span class="at">join</span>(__dirname<span class="op">,</span> <span class="st">&#39;public&#39;</span>)))</a></code></pre>
+    </div>
+    <p>
+      <code>serve-static</code> hakkında daha fazla bilgi almak için,
+      <a href="/resources/middleware/serve-static.html">serve-static</a>
+      sayfasına göz atın.
+    </p>
+    <h3 id="önceki-basit-yol-atama-sonraki-sıkça-sorulan-sorular">
+      <a href="/%7B%7B%20page.lang%20%7D%7D/starter/basic-routing.html"
+        >Önceki: Basit Yol Atama</a
+      >    <a href="/%7B%7B%20page.lang%20%7D%7D/starter/faq.html"
+        >Sonraki: Sıkça Sorulan Sorular</a
+      >
+    </h3>
+  </body>
 </html>

@@ -6,6 +6,7 @@ lang: uz
 ---
 
 # Expressda server statik fayllar
+
 Serverda statik fayllar bu rasmlar, CSS, JavaScript va fayllarni misol qilish mumkin, ular Expressda o'rnatilgan Expressda o'rnatilgan `express.static` middleware orqali ko'rsatiladi.
 
 Statik fayllarni qayerda joylashini ko'rsatish uchun `express.static` oraliq qayta ishlovchisiga direktoriya nomini jo'nating.
@@ -53,6 +54,7 @@ http://localhost:3000/static/js/app.js
 http://localhost:3000/static/images/bg.png
 http://localhost:3000/static/hello.html
 </code></pre>
+
 Agarda siz `express.static` orqali ko'rsatgan direktoriyangiz boshqa joyda ishga tushmasa, Siz uning absolyut manzilini ko'rsatishingiz kerak bo'ladi, masalan u mana bunday bo'ladi:
 
 <pre><code class="language-javascript" translate="no">

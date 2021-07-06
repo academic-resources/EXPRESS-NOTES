@@ -16,8 +16,8 @@ lang: ko
 A load balancer uses health checks to determine if an application instance is healthy and can accept requests. For example, [Kubernetes has two health checks](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/):
 로드 밸런서는 상태 확인을 애플리케이션이 장상 작동하고 요청을 받을 수 있는지 판단하는데 사용합니다. 예시로, [Kubernetes는 2개의 상태 확인을 가지고 있습니다.](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
 
-* `liveness`: 언제 컨테이너를 재시작할지 결정합니다.
-* `readiness`: 컨테이너가 트래픽을 받기 시작할 준비가 되었는지 결정합니다. 컨테이너가 준비되지 않았다면, 서비스 로드 밸런서들에게서 제거됩니다.
+- `liveness`: 언제 컨테이너를 재시작할지 결정합니다.
+- `readiness`: 컨테이너가 트래픽을 받기 시작할 준비가 되었는지 결정합니다. 컨테이너가 준비되지 않았다면, 서비스 로드 밸런서들에게서 제거됩니다.
 
 ## 서드 파티 솔루션
 
@@ -36,37 +36,37 @@ npm i @godaddy/terminus --save
 다음은 Terminus를 사용하는 쉬운 예제입니다. 자세한 정보는 <https://github.com/godaddy/terminus> 를 참고하세요.
 
 ```js
-const http = require('http')
-const express = require('express')
-const terminus = require('@godaddy/terminus')
+const http = require("http");
+const express = require("express");
+const terminus = require("@godaddy/terminus");
 
-const app = express()
+const app = express();
 
-app.get('/', (req, res) => {
-  res.send('ok')
-})
+app.get("/", (req, res) => {
+  res.send("ok");
+});
 
-const server = http.createServer(app)
+const server = http.createServer(app);
 
-function onSignal () {
-  console.log('server is starting cleanup')
+function onSignal() {
+  console.log("server is starting cleanup");
   // start cleanup of resource, like databases or file descriptors
 }
 
-async function onHealthCheck () {
+async function onHealthCheck() {
   // checks if the system is healthy, like the db connection is live
   // resolves, if health, rejects if not
 }
 
 terminus(server, {
-  signal: 'SIGINT',
+  signal: "SIGINT",
   healthChecks: {
-    '/healthcheck': onHealthCheck
+    "/healthcheck": onHealthCheck,
   },
-  onSignal
-})
+  onSignal,
+});
 
-server.listen(3000)
+server.listen(3000);
 ```
 
 ### Lightship
@@ -83,24 +83,22 @@ npm install lightship
 Lightship을 사용하는 쉬운 예제입니다.
 
 ```js
-const http = require('http')
-const express = require('express')
-const {
-  createLightship
-} = require('lightship')
+const http = require("http");
+const express = require("express");
+const { createLightship } = require("lightship");
 
 // Lightship will start a HTTP service on port 9000.
-const lightship = createLightship()
+const lightship = createLightship();
 
-const app = express()
+const app = express();
 
-app.get('/', (req, res) => {
-  res.send('ok')
-})
+app.get("/", (req, res) => {
+  res.send("ok");
+});
 
 app.listen(3000, () => {
-  lightship.signalReady()
-})
+  lightship.signalReady();
+});
 
 // You can signal that the service is not ready using `lightship.signalNotReady()`.
 ```

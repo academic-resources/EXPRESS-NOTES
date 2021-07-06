@@ -11,14 +11,14 @@ redirect_from: "/resources/community.html"
 Express and the other projects in the [expressjs organization on GitHub](https://github.com/expressjs) are projects of the [Node.js Foundation](https://nodejs.org/foundation/).
 These projects are governed under the general policies and guidelines of the Node.js Foundation along with the additional guidelines below.
 
-* [Technical committee](#technical-committee)
-* [Community contributing guide](#community-contributing-guide)
-* [Collaborator's guide](#collaborators-guide)
-* [Security policies and procedures](#security-policies-and-procedures)
+- [Technical committee](#technical-committee)
+- [Community contributing guide](#community-contributing-guide)
+- [Collaborator's guide](#collaborators-guide)
+- [Security policies and procedures](#security-policies-and-procedures)
 
 ## Technical committee
 
-The Express technical committee consists of active project members, and guides development and maintenance of the Express project.  For more information, see [Express Community - Technical committee](community.html#technical-committee).
+The Express technical committee consists of active project members, and guides development and maintenance of the Express project. For more information, see [Express Community - Technical committee](community.html#technical-committee).
 
 ## Community contributing guide
 
@@ -26,19 +26,19 @@ The Express technical committee consists of active project members, and guides d
 
 The goal of this document is to create a contribution process that:
 
-* Encourages new contributions.
-* Encourages contributors to remain involved.
-* Avoids unnecessary processes and bureaucracy whenever possible.
-* Creates a transparent decision making process that makes it clear how
-contributors can be involved in decision making.
+- Encourages new contributions.
+- Encourages contributors to remain involved.
+- Avoids unnecessary processes and bureaucracy whenever possible.
+- Creates a transparent decision making process that makes it clear how
+  contributors can be involved in decision making.
 
 ### Vocabulary
 
-* A **Contributor** is any individual creating or commenting on an issue or pull request.
-* A **Committer** is a subset of contributors who have been given write access to the repository.
-* A **TC (Technical Committee)** is a group of committers representing the required technical
-expertise to resolve rare disputes.
-* A **Triager** is a subset of contributors who have been given triage access to the repository.
+- A **Contributor** is any individual creating or commenting on an issue or pull request.
+- A **Committer** is a subset of contributors who have been given write access to the repository.
+- A **TC (Technical Committee)** is a group of committers representing the required technical
+  expertise to resolve rare disputes.
+- A **Triager** is a subset of contributors who have been given triage access to the repository.
 
 ### Logging Issues
 
@@ -146,9 +146,9 @@ Open issues for the expressjs.com website in https://github.com/expressjs/expres
 
 ### PRs and Code contributions
 
-* Tests must pass.
-* Follow the [JavaScript Standard Style](http://standardjs.com/) and `npm run lint`.
-* If you fix a bug, add a test.
+- Tests must pass.
+- Follow the [JavaScript Standard Style](http://standardjs.com/) and `npm run lint`.
+- If you fix a bug, add a test.
 
 ### Branches
 
@@ -182,10 +182,10 @@ being trigger happy with posting a question issue.
 
 Things that will help get your question issue looked at:
 
-* Full and runnable JS code.
-* Clear description of the problem or unexpected behavior.
-* Clear description of the expected result.
-* Steps you have taken to debug it yourself.
+- Full and runnable JS code.
+- Clear description of the problem or unexpected behavior.
+- Clear description of the expected result.
+- Steps you have taken to debug it yourself.
 
 If you post a question and do not outline the above items or make it easy for
 us to understand and reproduce your issue, it will be closed.
@@ -197,9 +197,9 @@ us to understand and reproduce your issue, it will be closed.
 This document outlines security procedures and general policies for the Express
 project.
 
-  * [Reporting a Bug](#reporting-a-bug)
-  * [Disclosure Policy](#disclosure-policy)
-  * [Comments on this Policy](#comments-on-this-policy)
+- [Reporting a Bug](#reporting-a-bug)
+- [Disclosure Policy](#disclosure-policy)
+- [Comments on this Policy](#comments-on-this-policy)
 
 ### Reporting a Bug
 
@@ -226,13 +226,12 @@ When the security team receives a security bug report, they will assign it to a
 primary handler. This person will coordinate the fix and release process,
 involving the following steps:
 
-  * Confirm the problem and determine the affected versions.
-  * Audit code to find any potential similar problems.
-  * Prepare fixes for all releases still under maintenance. These fixes will be
-    released as fast as possible to npm.
+- Confirm the problem and determine the affected versions.
+- Audit code to find any potential similar problems.
+- Prepare fixes for all releases still under maintenance. These fixes will be
+  released as fast as possible to npm.
 
 ### Comments on this Policy
 
 If you have suggestions on how this process could be improved please submit a
 pull request.
-

@@ -9,14 +9,14 @@ lang: it
 
 <h2>Panoramica</h2>
 
-Le funzioni *middleware* sono funzioni con accesso all'[oggetto richiesta](/{{ page.lang }}/4x/api.html#req)  (`req`), all'[oggetto risposta](/{{ page.lang }}/4x/api.html#res) (`res`) e alla successiva funzione middleware nel ciclo richiesta-risposta dell'applicazione. La successiva funzione middleware viene comunemente denotata da una variabile denominata `next`.
+Le funzioni _middleware_ sono funzioni con accesso all'[oggetto richiesta](/{{ page.lang }}/4x/api.html#req) (`req`), all'[oggetto risposta](/{{ page.lang }}/4x/api.html#res) (`res`) e alla successiva funzione middleware nel ciclo richiesta-risposta dell'applicazione. La successiva funzione middleware viene comunemente denotata da una variabile denominata `next`.
 
 Le funzioni middleware possono eseguire le attività elencate di seguito:
 
-* Eseguire qualsiasi codice.
-* Apportare modifiche agli oggetti richiesta e risposta.
-* Terminare il ciclo richiesta-risposta.
-* Chiamare il successivo middleware nello stack.
+- Eseguire qualsiasi codice.
+- Apportare modifiche agli oggetti richiesta e risposta.
+- Terminare il ciclo richiesta-risposta.
+- Chiamare il successivo middleware nello stack.
 
 Se la funzione middleware corrente non termina il ciclo richiesta-risposta, deve richiamare `next()` per passare il controllo alla successiva funzione middleware. Altrimenti, la richiesta verrà lasciata in sospeso.
 

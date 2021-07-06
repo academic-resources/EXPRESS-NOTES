@@ -103,7 +103,7 @@ Express 5 は、シグニチャー `res.send(obj, status)` をサポートしな
 
 <h4 id="res.send.status">res.send(status)</h4>
 
-Express 5 は、シグニチャー <code>res.send(<em>status</em>)</code> をサポートしなくなりました。ここで、*`status`* は数値です。代わりに、`res.sendStatus(statusCode)` 関数を使用します。この関数は、HTTP 応答ヘッダーの状況コードを設定して、コードのテキスト版 (「Not Found」、「Internal Server Error」など) を送信します。
+Express 5 は、シグニチャー <code>res.send(<em>status</em>)</code> をサポートしなくなりました。ここで、_`status`_ は数値です。代わりに、`res.sendStatus(statusCode)` 関数を使用します。この関数は、HTTP 応答ヘッダーの状況コードを設定して、コードのテキスト版 (「Not Found」、「Internal Server Error」など) を送信します。
 `res.send()` 関数を使用して数値を送信する必要がある場合は、数値を引用してストリングに変換し、Express によって、サポートされない以前のシグニチャーを使用しようとしていると解釈されないようにします。
 
 <h4 id="res.sendfile">res.sendfile()</h4>

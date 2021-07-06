@@ -4,6 +4,7 @@ title: Servovanie statických súborov pomocou Express
 menu: starter
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT

@@ -10,7 +10,7 @@
  * Module dependencies.
  */
 
-var debug = require('debug')('restful-router');
+var debug = require("debug")("restful-router");
 
 /**
  * Auto generate RESTful url routes.
@@ -36,30 +36,30 @@ module.exports = function restfulRouter(options) {
   var app = options.app;
   var controller = options.controller;
   var name = options.name || controller.name;
-  var baseURL = options.baseURL || '/';
-  var key = options.key || 'id';
-  if (baseURL[baseURL.length - 1] !== '/') {
-    baseURL += '/';
+  var baseURL = options.baseURL || "/";
+  var key = options.key || "id";
+  if (baseURL[baseURL.length - 1] !== "/") {
+    baseURL += "/";
   }
   var url = baseURL + name;
-  debug('%s => %s', name, url);
+  debug("%s => %s", name, url);
   var routes = [
-    [ 'get', url, 'list' ],
-    [ 'get', url + '/new', 'new' ],
-    [ 'get', url + '/:' + key, 'show' ],
-    [ 'get', url + '/:' + key + '/edit', 'edit' ],
+    ["get", url, "list"],
+    ["get", url + "/new", "new"],
+    ["get", url + "/:" + key, "show"],
+    ["get", url + "/:" + key + "/edit", "edit"],
 
-    [ 'post', url, 'create' ],
-    [ 'patch', url + '/:' + key, 'update' ],
-    [ 'delete', url + '/:' + key, 'destroy' ],
+    ["post", url, "create"],
+    ["patch", url + "/:" + key, "update"],
+    ["delete", url + "/:" + key, "destroy"],
   ];
-  
+
   for (var i = 0; i < routes.length; i++) {
     var route = routes[i];
     var handle = controller[route[2]];
-    if (typeof handle === 'function') {
+    if (typeof handle === "function") {
       app[route[0]](route[1], handle);
-      debug('%s %s', route[0], route[1]);
+      debug("%s %s", route[0], route[1]);
     }
   }
 };

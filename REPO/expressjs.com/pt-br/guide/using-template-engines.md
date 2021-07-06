@@ -10,11 +10,10 @@ lang: pt-br
 Antes do Express poder renderizar arquivos de modelo, as
 seguintes configurações do aplicativo devem ser configuradas:
 
-* `views`, é o diretório onde os arquivos de
-modelo estão localizados. Por exemplo: `app.set('views',
-'./views')`
-* `view engine`, o mecanismo de modelo a ser
-usado. Por Exemplo: `app.set('view engine', 'pug')`
+- `views`, é o diretório onde os arquivos de
+  modelo estão localizados. Por exemplo: `app.set('views', './views')`
+- `view engine`, o mecanismo de modelo a ser
+  usado. Por Exemplo: `app.set('view engine', 'pug')`
 
 Em seguida instale o pacote npm correspondente ao mecanismo de modelo:
 
@@ -34,6 +33,7 @@ Alguns mecanismos de modelo não seguem esta convenção. A
 biblioteca [Consolidate.js](https://www.npmjs.org/package/consolidate)
 segue esta convenção mapeando todos os mecanismos de modelo populares
 do Node.js, e portanto funciona de forma harmoniosa com o Express.
+
 </div>
 
 Após o mecanismo de visualização estar configurado, você não
@@ -62,8 +62,7 @@ html
 </pre>
 
 Em seguida crie uma rota para renderizar o arquivo
-`index.pug`. Se a propriedade `view
-engine` não estiver configurada, é preciso especificar a
+`index.pug`. Se a propriedade `view engine` não estiver configurada, é preciso especificar a
 extensão do arquivo `view`. Caso contrário, é
 possível omití-la.
 

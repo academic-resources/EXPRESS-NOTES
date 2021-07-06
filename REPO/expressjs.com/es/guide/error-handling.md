@@ -88,7 +88,7 @@ function errorHandler(err, req, res, next) {
 
 Si pasa cualquier valor a la función `next()` (excepto la serie `'route'`), Express considera que la solicitud actual tiene un error y omitirá las restantes funciones de middleware y direccionamiento que no son de manejo de errores. Si desea manejar ese error de alguna manera, deberá crear una ruta de manejo de errores como se describe en la siguiente sección.
 
-Si tiene un manejador de rutas con varias funciones de devolución de llamada, puede utilizar el parámetro `route` para omitir el siguiente manejador de rutas.  Por ejemplo:
+Si tiene un manejador de rutas con varias funciones de devolución de llamada, puede utilizar el parámetro `route` para omitir el siguiente manejador de rutas. Por ejemplo:
 
 <pre>
 <code class="language-javascript" translate="no">

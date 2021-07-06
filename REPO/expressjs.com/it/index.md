@@ -4,6 +4,7 @@ title: Express - Framework per applicazioni web Node.js
 menu: home
 lang: it
 ---
+
 <section id="home-content">
   {% include header/header-{{ page.lang }}.html %}
   <div id="overlay"></div>
@@ -42,6 +43,7 @@ lang: it
       <div id="sponsorship">
           <a href="http://loopback.io/"><h3>LoopBack</h3> Sviluppare applicazioni basate sul modello con un framework basato su Express.<br/>Ulteriori informazioni su loopback.io.</a>
       </div>
+
   </div>
 
 </section>

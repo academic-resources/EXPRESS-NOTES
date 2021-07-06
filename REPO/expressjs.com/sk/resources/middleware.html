@@ -1,90 +1,246 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express middleware</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express middleware</h1>
-</header>
-<!---
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express middleware</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express middleware</h1>
+    </header>
+    <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
 -->
-<h1 id="third-party-middleware">Third-party middleware</h1>
-<p>Tu je zoznam niektorých Express middleware modulov:</p>
-<ul>
-<li><a href="https://github.com/expressjs/body-parser">body-parser</a>: kedysi <code>express.bodyParser</code>, <code>json</code> a <code>urlencoded</code>. Pozrite sa taktiež na:</li>
-<li><a href="https://github.com/raynos/body">body</a></li>
-<li><a href="https://github.com/visionmedia/co-body">co-body</a></li>
-<li><a href="https://github.com/stream-utils/raw-body">raw-body</a></li>
-<li><a href="https://github.com/expressjs/compression">compression</a>: kedysi <code>express.compress</code></li>
-<li><a href="https://github.com/msemenistyi/connect-image-optimus">connect-image-optimus</a>: Connect/Express middleware moduly pre optimálne servovanie obrázkov. V prípade podpory transformuje obrázky na <code>.webp</code> príp. <code>.jxr</code>.</li>
-<li><a href="https://github.com/expressjs/timeout">connect-timeout</a>: kedysi <code>express.timeout</code></li>
-<li><a href="https://github.com/expressjs/cookie-parser">cookie-parser</a>: kedysi <code>express.cookieParser</code></li>
-<li><a href="https://github.com/expressjs/cookie-session">cookie-session</a>: kedysi <code>express.cookieSession</code></li>
-<li><a href="https://github.com/expressjs/csurf">csurf</a>: kedysi <code>express.csrf</code></li>
-<li><a href="https://github.com/expressjs/errorhandler">errorhandler</a>: kedysi <code>express.errorHandler</code></li>
-<li><a href="https://github.com/devoidfury/express-debug">express-debug</a>: nenápadný development tool, ktorý pridá panel s informáciami ohľadom template premenných, aktuálnej session, informácie o request dátach a ďalšie užitočné informácie.</li>
-<li><a href="https://github.com/nemtsov/express-partial-response">express-partial-response</a>: Express middleware modul slúžiaci k odfiltrovaniu častí JSON odpovedi na podľa hodnoty query parametra <code>fields</code>.</li>
-<li><a href="https://github.com/expressjs/session">express-session</a>: predtým <code>express.session</code></li>
-<li><a href="https://github.com/jamiesteven/express-simple-cdn">express-simple-cdn</a>: Express middleware modul pre používanie CDN na statické assety s podporou viacerých hostov (napr.: cdn1.host.com, cdn2.host.com).</li>
-<li><a href="https://github.com/ericf/express-slash">express-slash</a>: Express middleware modul pre ľudí ktorí to s trailing slashes myslia vážne.</li>
-<li><a href="https://github.com/stormpath/stormpath-express">express-stormpath</a>: Express middleware modul pre ukladanie, autentifikáciu, autorizáciu, SSO a bezpečnosť dát.</li>
-<li><a href="https://github.com/jamiesteven/express-uncapitalize">express-uncapitalize</a>: middleware modul slúžiaci na presmerovávanie HTTP requestov obsahujúcich uppercase na canonical lowercase formu.</li>
-<li><a href="https://github.com/helmetjs/helmet">helmet</a>: modul ktorý vám pomôže zabezpečiť vašu aplikáciu pomocou nastavenia rozličných HTTP hlavičiek.</li>
-<li><a href="https://github.com/coderaiser/join-io" title="join-io">join-io</a>: modul slúžiaci na spájanie súborov “on the fly” kvoli zredukovaniu počtu volaní.</li>
-<li><a href="https://github.com/expressjs/method-override">method-override</a>: kedysi <code>express.methodOverride</code></li>
-<li><a href="https://github.com/expressjs/morgan">morgan</a>: kedysi <code>logger</code></li>
-<li><a href="https://github.com/jaredhanson/passport">passport</a>: Express middleware modul slúžiaci na autentifikáciu.</li>
-<li><a href="https://github.com/expressjs/response-time">response-time</a>: kedysi <code>express.responseTime</code></li>
-<li><a href="https://github.com/expressjs/serve-favicon">serve-favicon</a>: kedysi <code>express.favicon</code></li>
-<li><a href="https://github.com/expressjs/serve-index">serve-index</a>: kedysi <code>express.directory</code></li>
-<li><a href="https://github.com/expressjs/serve-static">serve-static</a>: modul pre servovanie statického obsahu.</li>
-<li><a href="https://github.com/paulwalker/connect-static-expiry">static-expiry</a>: modul na tvorbu tzv. fingerprinted URL a caching hlavičiek pre statický obsah s podporou jednej i viacerých domén.</li>
-<li><a href="https://github.com/expressjs/vhost">vhost</a>: kedysi <code>express.vhost</code></li>
-<li><a href="https://github.com/madhums/node-view-helpers">view-helpers</a>: Express middleware modul poskytujúci bežné helper metódy pre views.</li>
-<li><a href="https://github.com/hdngr/siracha">sriracha-admin</a>: Express middleware modul ktorý dynamicky generuje admin stránky pre Mongoose.</li>
-</ul>
-<p>Niektoré middleware moduly, ktoré kedysi boli súčasťou Connect-u už viac nie sú podporované Connect/Express tímom. Tieto moduly boli, alebo by mali byť, nahradené alternatívnymi lepšími modulmi. Používajte niektoré z nasledujúcich alternatív:</p>
-<ul>
-<li>express.cookieParser
-<ul>
-<li><a href="https://github.com/jed/cookies">cookies</a> a <a href="https://github.com/jed/keygrip">keygrip</a></li>
-</ul></li>
-<li>express.limit
-<ul>
-<li><a href="https://github.com/stream-utils/raw-body">raw-body</a></li>
-</ul></li>
-<li>express.multipart
-<ul>
-<li><a href="https://github.com/mscdex/connect-busboy">connect-busboy</a></li>
-<li><a href="https://github.com/expressjs/multer">multer</a></li>
-<li><a href="https://github.com/superjoe30/connect-multiparty">connect-multiparty</a></li>
-</ul></li>
-<li>express.query
-<ul>
-<li><a href="https://github.com/visionmedia/node-querystring">qs</a></li>
-</ul></li>
-<li>express.staticCache
-<ul>
-<li><a href="https://github.com/isaacs/st">st</a></li>
-<li><a href="https://github.com/andrewrk/connect-static">connect-static</a></li>
-</ul></li>
-</ul>
-<p>Ďalšie middleware moduly nájdete tu:</p>
-<ul>
-<li><a href="https://github.com/Raynos/http-framework/wiki/Modules">http-framework</a></li>
-<li><a href="https://github.com/expressjs">expressjs</a></li>
-</ul>
-</body>
+    <h1 id="third-party-middleware">Third-party middleware</h1>
+    <p>Tu je zoznam niektorých Express middleware modulov:</p>
+    <ul>
+      <li>
+        <a href="https://github.com/expressjs/body-parser">body-parser</a>:
+        kedysi <code>express.bodyParser</code>, <code>json</code> a
+        <code>urlencoded</code>. Pozrite sa taktiež na:
+      </li>
+      <li><a href="https://github.com/raynos/body">body</a></li>
+      <li><a href="https://github.com/visionmedia/co-body">co-body</a></li>
+      <li><a href="https://github.com/stream-utils/raw-body">raw-body</a></li>
+      <li>
+        <a href="https://github.com/expressjs/compression">compression</a>:
+        kedysi <code>express.compress</code>
+      </li>
+      <li>
+        <a href="https://github.com/msemenistyi/connect-image-optimus"
+          >connect-image-optimus</a
+        >: Connect/Express middleware moduly pre optimálne servovanie obrázkov.
+        V prípade podpory transformuje obrázky na <code>.webp</code> príp.
+        <code>.jxr</code>.
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/timeout">connect-timeout</a>:
+        kedysi <code>express.timeout</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/cookie-parser">cookie-parser</a>:
+        kedysi <code>express.cookieParser</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/cookie-session">cookie-session</a
+        >: kedysi <code>express.cookieSession</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/csurf">csurf</a>: kedysi
+        <code>express.csrf</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/errorhandler">errorhandler</a>:
+        kedysi <code>express.errorHandler</code>
+      </li>
+      <li>
+        <a href="https://github.com/devoidfury/express-debug">express-debug</a>:
+        nenápadný development tool, ktorý pridá panel s informáciami ohľadom
+        template premenných, aktuálnej session, informácie o request dátach a
+        ďalšie užitočné informácie.
+      </li>
+      <li>
+        <a href="https://github.com/nemtsov/express-partial-response"
+          >express-partial-response</a
+        >: Express middleware modul slúžiaci k odfiltrovaniu častí JSON odpovedi
+        na podľa hodnoty query parametra <code>fields</code>.
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/session">express-session</a>:
+        predtým <code>express.session</code>
+      </li>
+      <li>
+        <a href="https://github.com/jamiesteven/express-simple-cdn"
+          >express-simple-cdn</a
+        >: Express middleware modul pre používanie CDN na statické assety s
+        podporou viacerých hostov (napr.: cdn1.host.com, cdn2.host.com).
+      </li>
+      <li>
+        <a href="https://github.com/ericf/express-slash">express-slash</a>:
+        Express middleware modul pre ľudí ktorí to s trailing slashes myslia
+        vážne.
+      </li>
+      <li>
+        <a href="https://github.com/stormpath/stormpath-express"
+          >express-stormpath</a
+        >: Express middleware modul pre ukladanie, autentifikáciu, autorizáciu,
+        SSO a bezpečnosť dát.
+      </li>
+      <li>
+        <a href="https://github.com/jamiesteven/express-uncapitalize"
+          >express-uncapitalize</a
+        >: middleware modul slúžiaci na presmerovávanie HTTP requestov
+        obsahujúcich uppercase na canonical lowercase formu.
+      </li>
+      <li>
+        <a href="https://github.com/helmetjs/helmet">helmet</a>: modul ktorý vám
+        pomôže zabezpečiť vašu aplikáciu pomocou nastavenia rozličných HTTP
+        hlavičiek.
+      </li>
+      <li>
+        <a href="https://github.com/coderaiser/join-io" title="join-io"
+          >join-io</a
+        >: modul slúžiaci na spájanie súborov “on the fly” kvoli zredukovaniu
+        počtu volaní.
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/method-override"
+          >method-override</a
+        >: kedysi <code>express.methodOverride</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/morgan">morgan</a>: kedysi
+        <code>logger</code>
+      </li>
+      <li>
+        <a href="https://github.com/jaredhanson/passport">passport</a>: Express
+        middleware modul slúžiaci na autentifikáciu.
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/response-time">response-time</a>:
+        kedysi <code>express.responseTime</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/serve-favicon">serve-favicon</a>:
+        kedysi <code>express.favicon</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/serve-index">serve-index</a>:
+        kedysi <code>express.directory</code>
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/serve-static">serve-static</a>:
+        modul pre servovanie statického obsahu.
+      </li>
+      <li>
+        <a href="https://github.com/paulwalker/connect-static-expiry"
+          >static-expiry</a
+        >: modul na tvorbu tzv. fingerprinted URL a caching hlavičiek pre
+        statický obsah s podporou jednej i viacerých domén.
+      </li>
+      <li>
+        <a href="https://github.com/expressjs/vhost">vhost</a>: kedysi
+        <code>express.vhost</code>
+      </li>
+      <li>
+        <a href="https://github.com/madhums/node-view-helpers">view-helpers</a>:
+        Express middleware modul poskytujúci bežné helper metódy pre views.
+      </li>
+      <li>
+        <a href="https://github.com/hdngr/siracha">sriracha-admin</a>: Express
+        middleware modul ktorý dynamicky generuje admin stránky pre Mongoose.
+      </li>
+    </ul>
+    <p>
+      Niektoré middleware moduly, ktoré kedysi boli súčasťou Connect-u už viac
+      nie sú podporované Connect/Express tímom. Tieto moduly boli, alebo by mali
+      byť, nahradené alternatívnymi lepšími modulmi. Používajte niektoré z
+      nasledujúcich alternatív:
+    </p>
+    <ul>
+      <li>
+        express.cookieParser
+        <ul>
+          <li>
+            <a href="https://github.com/jed/cookies">cookies</a> a
+            <a href="https://github.com/jed/keygrip">keygrip</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        express.limit
+        <ul>
+          <li>
+            <a href="https://github.com/stream-utils/raw-body">raw-body</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        express.multipart
+        <ul>
+          <li>
+            <a href="https://github.com/mscdex/connect-busboy"
+              >connect-busboy</a
+            >
+          </li>
+          <li><a href="https://github.com/expressjs/multer">multer</a></li>
+          <li>
+            <a href="https://github.com/superjoe30/connect-multiparty"
+              >connect-multiparty</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li>
+        express.query
+        <ul>
+          <li>
+            <a href="https://github.com/visionmedia/node-querystring">qs</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        express.staticCache
+        <ul>
+          <li><a href="https://github.com/isaacs/st">st</a></li>
+          <li>
+            <a href="https://github.com/andrewrk/connect-static"
+              >connect-static</a
+            >
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <p>Ďalšie middleware moduly nájdete tu:</p>
+    <ul>
+      <li>
+        <a href="https://github.com/Raynos/http-framework/wiki/Modules"
+          >http-framework</a
+        >
+      </li>
+      <li><a href="https://github.com/expressjs">expressjs</a></li>
+    </ul>
+  </body>
 </html>

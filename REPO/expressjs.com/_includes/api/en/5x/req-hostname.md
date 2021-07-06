@@ -18,6 +18,6 @@ values or be present more than once.
 
 ```js
 // Host: "example.com:3000"
-console.dir(req.hostname)
+console.dir(req.hostname);
 // => 'example.com'
 ```

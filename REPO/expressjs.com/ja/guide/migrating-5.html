@@ -1,218 +1,432 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express 5 への移行</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-  <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express 5 への移行</h1>
-</header>
-<h1 id="express-5-への移行">Express 5 への移行</h1>
-<h2 id="overview">
-概説
-</h2>
-<p>Express 5.0 は、まだアルファ・リリースの段階ですが、ここでは本リリースにおける変更のプレビューを示し、Express 4 アプリケーションを Express 5 に移行する方法を説明します。</p>
-<p>Express 5 は Express 4 とあまり変わりません。API の変更は、3.0 から 4.0 への変更ほど大きいものではありません。基本的な API は同じままですが、それでも互換性のない変更が行われています。つまり、Express 5 を使用するように既存の Express 4 を更新すると、機能しなくなる可能性があります。</p>
-<p>最新のアルファをインストールして Express 5 をプレビューするには、アプリケーションのルート・ディレクトリーで次のコマンドを入力します。</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1">$ <span class="ex">npm</span> install express@<span class="op">&gt;</span>=5.0.0-alpha.1 --save</a></code></pre></div>
-<p>その後、自動テストを実行して、どの機能が失敗するかを確認し、下記の更新に従って問題を修正することができます。テストの失敗に対応した後、アプリケーションを実行して、どのようなエラーが発生するかを確認します。サポートされていないメソッドまたはプロパティーをアプリケーションが使用している場合は、すぐに判明します。</p>
-<h2 id="changes">
-Express 5 における変更点
-</h2>
-<p>次に、Express のユーザーに影響を与える (アルファ 2 リリースの時点での) 変更のリストを示します。 予定されているすべての機能のリストについては、<a href="https://github.com/expressjs/express/pull/2237">プル要求</a>を参照してください。</p>
-<p><strong>削除されたメソッドとプロパティー</strong></p>
-<ul class="doclist">
-<li>
-<a href="#app.del">app.del()</a>
-</li>
-<li>
-<a href="#app.param">app.param(fn)</a>
-</li>
-<li>
-<a href="#plural">メソッド名の複数化</a>
-</li>
-<li>
-<a href="#leading">app.param(name, fn) の name 引数の先頭コロン</a>
-</li>
-<li>
-<a href="#req.param">req.param(name)</a>
-</li>
-<li>
-<a href="#res.json">res.json(obj, status)</a>
-</li>
-<li>
-<a href="#res.jsonp">res.jsonp(obj, status)</a>
-</li>
-<li>
-<a href="#res.send.body">res.send(body, status)</a>
-</li>
-<li>
-<a href="#res.send.status">res.send(status)</a>
-</li>
-<li>
-<a href="#res.sendfile">res.sendfile()</a>
-</li>
-</ul>
-<p><strong>変更</strong></p>
-<ul class="doclist">
-<li>
-<a href="#app.router">app.router</a>
-</li>
-<li>
-<a href="#req.host">req.host</a>
-</li>
-<li>
-<a href="#req.query">req.query</a>
-</li>
-</ul>
-<p><strong>改善</strong></p>
-<ul class="doclist">
-<li>
-<a href="#res.render">res.render()</a>
-</li>
-</ul>
-<h3>
-削除されたメソッドとプロパティー
-</h3>
-<p>アプリケーションで以下のいずれかのメソッドまたはプロパティーを使用すると、異常終了します。そのため、バージョン 5 に更新した後で、アプリケーションを変更する必要があります。</p>
-<h4 id="app.del">
-app.del()
-</h4>
-<p>Express 5 は、<code>app.del()</code> 関数をサポートしなくなりました。この関数を使用すると、エラーがスローされます。HTTP DELETE ルートを登録するには、代わりに <code>app.delete()</code> 関数を使用してください。</p>
-<p>最初は <code>del</code> が <code>delete</code> の代わりに使用されていました。<code>delete</code> は、JavaScript で予約されているキーワードであるためです。しかし、ECMAScript 6 以降では、<code>delete</code> およびその他の予約済みキーワードを正式にプロパティー名として使用できます。ここで、<code>app.del</code> 関数の非推奨につながった議論を読むことができます。</p>
-<h4 id="app.param">
-app.param(fn)
-</h4>
-<p><code>app.param(fn)</code> シグニチャーは、<code>app.param(name, fn)</code> 関数の動作を変更するために使用されていました。v4.11.0 以降では非推奨になったため、Express 5 は完全にサポートしなくなりました。</p>
-<h4 id="plural">
-メソッド名の複数化
-</h4>
-<p>以下のメソッド名は複数形になりました。Express 4 では、以前のメソッドを使用すると、非推奨の警告が出されていました。Express 5 では、完全にサポートされなくなりました。</p>
-<p><code>req.acceptsCharset()</code> は <code>req.acceptsCharsets()</code> に置き換えられます。</p>
-<p><code>req.acceptsEncoding()</code> は <code>req.acceptsEncodings()</code> に置き換えられます。</p>
-<p><code>req.acceptsLanguage()</code> は <code>req.acceptsLanguages()</code> に置き換えられます。</p>
-<h4 id="leading">
-app.param(name, fn) の name の先頭コロン (:)
-</h4>
-<p><code>app.param(name, fn)</code> 関数の name の先頭コロン文字 (:) は、Express 3 の残余物であり、Express 4 では後方互換性のためにサポートされていましたが、非推奨の通知が出されてました。Express 5 では、サイレントに無視して、先頭にコロンを付けない name パラメーターを使用します。</p>
-<p><a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.param">app.param</a> に関する Express 4 の資料では、先頭のコロンについて言及していないため、この資料に従う場合には、コードに影響は及ばないはずです。</p>
-<h4 id="req.param">
-req.param(name)
-</h4>
-<p>この混乱を招く可能性がある危険なメソッドは、フォーム・データを取得するためのものでしたが、削除されました。今後は、実行依頼されたパラメーター名を <code>req.params</code>、<code>req.body</code>、または <code>req.query</code> オブジェクトで具体的に見つける必要があります。</p>
-<h4 id="res.json">
-res.json(obj, status)
-</h4>
-<p>Express 5 は、シグニチャー <code>res.json(obj, status)</code> をサポートしなくなりました。代わりに、状況を設定してから、<code>res.status(status).json(obj)</code> のように <code>res.json()</code> メソッドにチェーニングします。</p>
-<h4 id="res.jsonp">
-res.jsonp(obj, status)
-</h4>
-<p>Express 5 は、シグニチャー <code>res.jsonp(obj, status)</code> をサポートしなくなりました。代わりに、状況を設定してから、<code>res.status(status).jsonp(obj)</code> のように <code>res.jsonp()</code> メソッドにチェーニングします。</p>
-<h4 id="res.send.body">
-res.send(body, status)
-</h4>
-<p>Express 5 は、シグニチャー <code>res.send(obj, status)</code> をサポートしなくなりました。代わりに、状況を設定してから、<code>res.status(status).send(obj)</code> のように <code>res.send()</code> メソッドにチェーニングします。</p>
-<h4 id="res.send.status">
-res.send(status)
-</h4>
-<p>Express 5 は、シグニチャー <code>res.send(<em>status</em>)</code> をサポートしなくなりました。ここで、<em><code>status</code></em> は数値です。代わりに、<code>res.sendStatus(statusCode)</code> 関数を使用します。この関数は、HTTP 応答ヘッダーの状況コードを設定して、コードのテキスト版 (「Not Found」、「Internal Server Error」など) を送信します。 <code>res.send()</code> 関数を使用して数値を送信する必要がある場合は、数値を引用してストリングに変換し、Express によって、サポートされない以前のシグニチャーを使用しようとしていると解釈されないようにします。</p>
-<h4 id="res.sendfile">
-res.sendfile()
-</h4>
-<p><code>res.sendfile()</code> 関数は、Express 5 ではキャメルケース版の <code>res.sendFile()</code> に置き換えられます。</p>
-<h3>
-変更
-</h3>
-<h4 id="app.router">
-app.router
-</h4>
-<p><code>app.router</code> オブジェクトは、Express 4 で削除されましたが、Express 5 で復帰しました。アプリケーションが明示的にロードする必要があった Express 3 とは異なり、新しいバージョンでは、このオブジェクトは基本の Express ルーターの単なる参照です。</p>
-<h4 id="req.host">
-req.host
-</h4>
-<p>Express 4 では、<code>req.host</code> 関数は、ポート番号が存在する場合に、ポート番号を誤って削除していました。Express 5 では、ポート番号は維持されます。</p>
-<h4 id="req.query">
-req.query
-</h4>
-<p>Express 4.7 および Express 5 以降では、照会ストリング解析ロジックで独自の関数を使用する場合に、照会パーサー・オプションは <code>false</code> を受け入れて、照会ストリングの解析を無効にすることができます。</p>
-<h3>
-改善
-</h3>
-<h4 id="res.render">
-res.render()
-</h4>
-<p>このメソッドは、すべてのビュー・エンジンに非同期動作を適用するようになり、同期実装を使用して推奨インターフェースに違反していたビュー・エンジンに起因するバグを回避します。</p>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express 5 への移行</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+    <style type="text/css">
+      a.sourceLine {
+        display: inline-block;
+        line-height: 1.25;
+      }
+      a.sourceLine {
+        pointer-events: none;
+        color: inherit;
+        text-decoration: inherit;
+      }
+      a.sourceLine:empty {
+        height: 1.2em;
+      }
+      .sourceCode {
+        overflow: visible;
+      }
+      code.sourceCode {
+        white-space: pre;
+        position: relative;
+      }
+      div.sourceCode {
+        margin: 1em 0;
+      }
+      pre.sourceCode {
+        margin: 0;
+      }
+      @media screen {
+        div.sourceCode {
+          overflow: auto;
+        }
+      }
+      @media print {
+        code.sourceCode {
+          white-space: pre-wrap;
+        }
+        a.sourceLine {
+          text-indent: -1em;
+          padding-left: 1em;
+        }
+      }
+      pre.numberSource a.sourceLine {
+        position: relative;
+        left: -4em;
+      }
+      pre.numberSource a.sourceLine::before {
+        content: attr(title);
+        position: relative;
+        left: -1em;
+        text-align: right;
+        vertical-align: baseline;
+        border: none;
+        pointer-events: all;
+        display: inline-block;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        padding: 0 4px;
+        width: 4em;
+        color: #aaaaaa;
+      }
+      pre.numberSource {
+        margin-left: 3em;
+        border-left: 1px solid #aaaaaa;
+        padding-left: 4px;
+      }
+      div.sourceCode {
+      }
+      @media screen {
+        a.sourceLine::before {
+          text-decoration: underline;
+        }
+      }
+      code span.al {
+        color: #ff0000;
+        font-weight: bold;
+      } /* Alert */
+      code span.an {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Annotation */
+      code span.at {
+        color: #7d9029;
+      } /* Attribute */
+      code span.bn {
+        color: #40a070;
+      } /* BaseN */
+      code span.bu {
+      } /* BuiltIn */
+      code span.cf {
+        color: #007020;
+        font-weight: bold;
+      } /* ControlFlow */
+      code span.ch {
+        color: #4070a0;
+      } /* Char */
+      code span.cn {
+        color: #880000;
+      } /* Constant */
+      code span.co {
+        color: #60a0b0;
+        font-style: italic;
+      } /* Comment */
+      code span.cv {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* CommentVar */
+      code span.do {
+        color: #ba2121;
+        font-style: italic;
+      } /* Documentation */
+      code span.dt {
+        color: #902000;
+      } /* DataType */
+      code span.dv {
+        color: #40a070;
+      } /* DecVal */
+      code span.er {
+        color: #ff0000;
+        font-weight: bold;
+      } /* Error */
+      code span.ex {
+      } /* Extension */
+      code span.fl {
+        color: #40a070;
+      } /* Float */
+      code span.fu {
+        color: #06287e;
+      } /* Function */
+      code span.im {
+      } /* Import */
+      code span.in {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Information */
+      code span.kw {
+        color: #007020;
+        font-weight: bold;
+      } /* Keyword */
+      code span.op {
+        color: #666666;
+      } /* Operator */
+      code span.ot {
+        color: #007020;
+      } /* Other */
+      code span.pp {
+        color: #bc7a00;
+      } /* Preprocessor */
+      code span.sc {
+        color: #4070a0;
+      } /* SpecialChar */
+      code span.ss {
+        color: #bb6688;
+      } /* SpecialString */
+      code span.st {
+        color: #4070a0;
+      } /* String */
+      code span.va {
+        color: #19177c;
+      } /* Variable */
+      code span.vs {
+        color: #4070a0;
+      } /* VerbatimString */
+      code span.wa {
+        color: #60a0b0;
+        font-weight: bold;
+        font-style: italic;
+      } /* Warning */
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express 5 への移行</h1>
+    </header>
+    <h1 id="express-5-への移行">Express 5 への移行</h1>
+    <h2 id="overview">概説</h2>
+    <p>
+      Express 5.0
+      は、まだアルファ・リリースの段階ですが、ここでは本リリースにおける変更のプレビューを示し、Express
+      4 アプリケーションを Express 5 に移行する方法を説明します。
+    </p>
+    <p>
+      Express 5 は Express 4 とあまり変わりません。API の変更は、3.0 から 4.0
+      への変更ほど大きいものではありません。基本的な API
+      は同じままですが、それでも互換性のない変更が行われています。つまり、Express
+      5 を使用するように既存の Express 4
+      を更新すると、機能しなくなる可能性があります。
+    </p>
+    <p>
+      最新のアルファをインストールして Express 5
+      をプレビューするには、アプリケーションのルート・ディレクトリーで次のコマンドを入力します。
+    </p>
+    <div class="sourceCode" id="cb1">
+      <pre
+        class="sourceCode sh"
+      ><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1">$ <span class="ex">npm</span> install express@<span class="op">&gt;</span>=5.0.0-alpha.1 --save</a></code></pre>
+    </div>
+    <p>
+      その後、自動テストを実行して、どの機能が失敗するかを確認し、下記の更新に従って問題を修正することができます。テストの失敗に対応した後、アプリケーションを実行して、どのようなエラーが発生するかを確認します。サポートされていないメソッドまたはプロパティーをアプリケーションが使用している場合は、すぐに判明します。
+    </p>
+    <h2 id="changes">Express 5 における変更点</h2>
+    <p>
+      次に、Express のユーザーに影響を与える (アルファ 2 リリースの時点での)
+      変更のリストを示します。 予定されているすべての機能のリストについては、<a
+        href="https://github.com/expressjs/express/pull/2237"
+        >プル要求</a
+      >を参照してください。
+    </p>
+    <p><strong>削除されたメソッドとプロパティー</strong></p>
+    <ul class="doclist">
+      <li>
+        <a href="#app.del">app.del()</a>
+      </li>
+      <li>
+        <a href="#app.param">app.param(fn)</a>
+      </li>
+      <li>
+        <a href="#plural">メソッド名の複数化</a>
+      </li>
+      <li>
+        <a href="#leading">app.param(name, fn) の name 引数の先頭コロン</a>
+      </li>
+      <li>
+        <a href="#req.param">req.param(name)</a>
+      </li>
+      <li>
+        <a href="#res.json">res.json(obj, status)</a>
+      </li>
+      <li>
+        <a href="#res.jsonp">res.jsonp(obj, status)</a>
+      </li>
+      <li>
+        <a href="#res.send.body">res.send(body, status)</a>
+      </li>
+      <li>
+        <a href="#res.send.status">res.send(status)</a>
+      </li>
+      <li>
+        <a href="#res.sendfile">res.sendfile()</a>
+      </li>
+    </ul>
+    <p><strong>変更</strong></p>
+    <ul class="doclist">
+      <li>
+        <a href="#app.router">app.router</a>
+      </li>
+      <li>
+        <a href="#req.host">req.host</a>
+      </li>
+      <li>
+        <a href="#req.query">req.query</a>
+      </li>
+    </ul>
+    <p><strong>改善</strong></p>
+    <ul class="doclist">
+      <li>
+        <a href="#res.render">res.render()</a>
+      </li>
+    </ul>
+    <h3>削除されたメソッドとプロパティー</h3>
+    <p>
+      アプリケーションで以下のいずれかのメソッドまたはプロパティーを使用すると、異常終了します。そのため、バージョン
+      5 に更新した後で、アプリケーションを変更する必要があります。
+    </p>
+    <h4 id="app.del">app.del()</h4>
+    <p>
+      Express 5 は、<code>app.del()</code>
+      関数をサポートしなくなりました。この関数を使用すると、エラーがスローされます。HTTP
+      DELETE ルートを登録するには、代わりに
+      <code>app.delete()</code> 関数を使用してください。
+    </p>
+    <p>
+      最初は <code>del</code> が
+      <code>delete</code> の代わりに使用されていました。<code>delete</code>
+      は、JavaScript
+      で予約されているキーワードであるためです。しかし、ECMAScript 6
+      以降では、<code>delete</code>
+      およびその他の予約済みキーワードを正式にプロパティー名として使用できます。ここで、<code
+        >app.del</code
+      >
+      関数の非推奨につながった議論を読むことができます。
+    </p>
+    <h4 id="app.param">app.param(fn)</h4>
+    <p>
+      <code>app.param(fn)</code> シグニチャーは、<code
+        >app.param(name, fn)</code
+      >
+      関数の動作を変更するために使用されていました。v4.11.0
+      以降では非推奨になったため、Express 5 は完全にサポートしなくなりました。
+    </p>
+    <h4 id="plural">メソッド名の複数化</h4>
+    <p>
+      以下のメソッド名は複数形になりました。Express 4
+      では、以前のメソッドを使用すると、非推奨の警告が出されていました。Express
+      5 では、完全にサポートされなくなりました。
+    </p>
+    <p>
+      <code>req.acceptsCharset()</code> は
+      <code>req.acceptsCharsets()</code> に置き換えられます。
+    </p>
+    <p>
+      <code>req.acceptsEncoding()</code> は
+      <code>req.acceptsEncodings()</code> に置き換えられます。
+    </p>
+    <p>
+      <code>req.acceptsLanguage()</code> は
+      <code>req.acceptsLanguages()</code> に置き換えられます。
+    </p>
+    <h4 id="leading">app.param(name, fn) の name の先頭コロン (:)</h4>
+    <p>
+      <code>app.param(name, fn)</code> 関数の name の先頭コロン文字 (:)
+      は、Express 3 の残余物であり、Express 4
+      では後方互換性のためにサポートされていましたが、非推奨の通知が出されてました。Express
+      5 では、サイレントに無視して、先頭にコロンを付けない name
+      パラメーターを使用します。
+    </p>
+    <p>
+      <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#app.param">app.param</a>
+      に関する Express 4
+      の資料では、先頭のコロンについて言及していないため、この資料に従う場合には、コードに影響は及ばないはずです。
+    </p>
+    <h4 id="req.param">req.param(name)</h4>
+    <p>
+      この混乱を招く可能性がある危険なメソッドは、フォーム・データを取得するためのものでしたが、削除されました。今後は、実行依頼されたパラメーター名を
+      <code>req.params</code>、<code>req.body</code>、または
+      <code>req.query</code> オブジェクトで具体的に見つける必要があります。
+    </p>
+    <h4 id="res.json">res.json(obj, status)</h4>
+    <p>
+      Express 5 は、シグニチャー
+      <code>res.json(obj, status)</code>
+      をサポートしなくなりました。代わりに、状況を設定してから、<code
+        >res.status(status).json(obj)</code
+      >
+      のように <code>res.json()</code> メソッドにチェーニングします。
+    </p>
+    <h4 id="res.jsonp">res.jsonp(obj, status)</h4>
+    <p>
+      Express 5 は、シグニチャー
+      <code>res.jsonp(obj, status)</code>
+      をサポートしなくなりました。代わりに、状況を設定してから、<code
+        >res.status(status).jsonp(obj)</code
+      >
+      のように <code>res.jsonp()</code> メソッドにチェーニングします。
+    </p>
+    <h4 id="res.send.body">res.send(body, status)</h4>
+    <p>
+      Express 5 は、シグニチャー
+      <code>res.send(obj, status)</code>
+      をサポートしなくなりました。代わりに、状況を設定してから、<code
+        >res.status(status).send(obj)</code
+      >
+      のように <code>res.send()</code> メソッドにチェーニングします。
+    </p>
+    <h4 id="res.send.status">res.send(status)</h4>
+    <p>
+      Express 5 は、シグニチャー
+      <code>res.send(<em>status</em>)</code>
+      をサポートしなくなりました。ここで、<em><code>status</code></em>
+      は数値です。代わりに、<code>res.sendStatus(statusCode)</code>
+      関数を使用します。この関数は、HTTP
+      応答ヘッダーの状況コードを設定して、コードのテキスト版 (「Not
+      Found」、「Internal Server Error」など) を送信します。
+      <code>res.send()</code>
+      関数を使用して数値を送信する必要がある場合は、数値を引用してストリングに変換し、Express
+      によって、サポートされない以前のシグニチャーを使用しようとしていると解釈されないようにします。
+    </p>
+    <h4 id="res.sendfile">res.sendfile()</h4>
+    <p>
+      <code>res.sendfile()</code> 関数は、Express 5 ではキャメルケース版の
+      <code>res.sendFile()</code> に置き換えられます。
+    </p>
+    <h3>変更</h3>
+    <h4 id="app.router">app.router</h4>
+    <p>
+      <code>app.router</code> オブジェクトは、Express 4
+      で削除されましたが、Express 5
+      で復帰しました。アプリケーションが明示的にロードする必要があった Express 3
+      とは異なり、新しいバージョンでは、このオブジェクトは基本の Express
+      ルーターの単なる参照です。
+    </p>
+    <h4 id="req.host">req.host</h4>
+    <p>
+      Express 4 では、<code>req.host</code>
+      関数は、ポート番号が存在する場合に、ポート番号を誤って削除していました。Express
+      5 では、ポート番号は維持されます。
+    </p>
+    <h4 id="req.query">req.query</h4>
+    <p>
+      Express 4.7 および Express 5
+      以降では、照会ストリング解析ロジックで独自の関数を使用する場合に、照会パーサー・オプションは
+      <code>false</code>
+      を受け入れて、照会ストリングの解析を無効にすることができます。
+    </p>
+    <h3>改善</h3>
+    <h4 id="res.render">res.render()</h4>
+    <p>
+      このメソッドは、すべてのビュー・エンジンに非同期動作を適用するようになり、同期実装を使用して推奨インターフェースに違反していたビュー・エンジンに起因するバグを回避します。
+    </p>
+  </body>
 </html>

@@ -10,9 +10,9 @@
  * Module dependencies.
  */
 
-var urlparse = require('url').parse;
-var utils = require('./utils');
-var METHODS = require('methods');
+var urlparse = require("url").parse;
+var utils = require("./utils");
+var METHODS = require("methods");
 
 /**
  * Default page not found handler.
@@ -22,7 +22,7 @@ var METHODS = require('methods');
  */
 function pageNotFound(req, res) {
   res.statusCode = 404;
-  res.end(req.method !== 'HEAD' && req.method + ' ' + req.url + ' Not Found ');
+  res.end(req.method !== "HEAD" && req.method + " " + req.url + " Not Found ");
 }
 
 /**
@@ -47,7 +47,7 @@ function errorHandler(err, req, res) {
  */
 function redirect(res, url, status) {
   res.statusCode = status;
-  res.setHeader('Location', url);
+  res.setHeader("Location", url);
   res.end();
 }
 
@@ -65,12 +65,12 @@ function router(fn, options) {
   var routes = [];
   var methods = {};
   options = options || {};
-  options.paramsName = options.paramsName || 'params';
+  options.paramsName = options.paramsName || "params";
   options.pageNotFound = options.pageNotFound || pageNotFound;
   options.errorHandler = options.errorHandler || errorHandler;
 
   function createMethod(name) {
-    var localRoutes = routes[name.toUpperCase()] = [];
+    var localRoutes = (routes[name.toUpperCase()] = []);
     // fn(url[, middleware[s]], handle)
     return function routeMethod(urlpattern, handle) {
       var middleware = null;
@@ -83,8 +83,8 @@ function router(fn, options) {
       }
 
       var t = typeof handle;
-      if (t !== 'function') {
-        throw new TypeError('handle must be function, not ' + t);
+      if (t !== "function") {
+        throw new TypeError("handle must be function, not " + t);
       }
 
       localRoutes.push([utils.createRouter(urlpattern), handle, middleware]);
@@ -94,18 +94,21 @@ function router(fn, options) {
   METHODS.forEach(function (method) {
     methods[method] = createMethod(method);
   });
-  methods.all = createMethod('all');
+  methods.all = createMethod("all");
   methods.redirect = function (urlpattern, to) {
-    if (!to || typeof to !== 'string') {
-      throw new TypeError(JSON.stringify(to) + ' must be string');
+    if (!to || typeof to !== "string") {
+      throw new TypeError(JSON.stringify(to) + " must be string");
     }
 
     if (!routes.redirects) {
       routes.redirects = [];
     }
-    routes.redirects.push([utils.createRouter(urlpattern, true), function (req, res) {
-      redirect(res, to, 301);
-    }]);
+    routes.redirects.push([
+      utils.createRouter(urlpattern, true),
+      function (req, res) {
+        redirect(res, to, 301);
+      },
+    ]);
   };
 
   fn(methods);

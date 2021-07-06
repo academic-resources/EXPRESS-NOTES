@@ -122,8 +122,7 @@ Um aplicativo gerado pelo comando `express`
 também usa o módulo de `debug` e o seu namespace de
 depuração está com o escopo definido para o nome do aplicativo.
 
-Por exemplo, se você gerou o aplicativo com o `$ express
-sample-app`, é possível ativar as instruções de depuração
+Por exemplo, se você gerou o aplicativo com o `$ express sample-app`, é possível ativar as instruções de depuração
 com o seguinte comando:
 
 <pre>

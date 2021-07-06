@@ -7,7 +7,7 @@ lang: fr
 
 # Routage
 
-*Routage* fait référence à la définition de points finaux d'application (URI) et à la façon dont ils répondent aux demandes client.
+_Routage_ fait référence à la définition de points finaux d'application (URI) et à la façon dont ils répondent aux demandes client.
 Pour une introduction au routage, voir [Basic routing](/{{ page.lang }}/starter/basic-routing.html).
 
 Le code suivant est un exemple de routage très basique.
@@ -182,7 +182,7 @@ Vous pouvez fournir plusieurs fonctions de rappel qui se comportent comme des [m
 
 Les gestionnaires de route se trouvent sous la forme d'une fonction, d'un tableau de fonctions ou d'une combinaison des deux, tel qu'indiqué dans les exemples suivants.
 
-Une fonction de rappel unique peut traiter une route.  Par exemple :
+Une fonction de rappel unique peut traiter une route. Par exemple :
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -205,7 +205,7 @@ app.get('/example/b', function (req, res, next) {
 </code>
 </pre>
 
-Un tableau de fonctions de rappel peut traiter une route.  Par exemple :
+Un tableau de fonctions de rappel peut traiter une route. Par exemple :
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -227,7 +227,7 @@ app.get('/example/c', [cb0, cb1, cb2]);
 </code>
 </pre>
 
-Une combinaison de fonctions indépendantes et des tableaux de fonctions peuvent gérer une route.  Par exemple :
+Une combinaison de fonctions indépendantes et des tableaux de fonctions peuvent gérer une route. Par exemple :
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -254,17 +254,17 @@ app.get('/example/d', [cb0, cb1], function (req, res, next) {
 
 Les méthodes de l'objet de réponse (`res`) décrites dans le tableau suivant peuvent envoyer une réponse au client, et mettre fin au cycle de demande-réponse. Si aucune de ces méthodes n'est appelée par un gestionnaire de routage, la demande du client restera bloquée.
 
-| Méthode               | Description
-|----------------------|--------------------------------------
-| [res.download()](/{{ page.lang }}/4x/api.html#res.download)   | Vous invite à télécharger un fichier.
-| [res.end()](/{{ page.lang }}/4x/api.html#res.end)        | Met fin au processus de réponse.
-| [res.json()](/{{ page.lang }}/4x/api.html#res.json)       | Envoie une réponse JSON.
-| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)      | Envoie une réponse JSON avec une prise en charge JSONP.
-| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)   | Redirige une demande.
-| [res.render()](/{{ page.lang }}/4x/api.html#res.render)     | Génère un modèle de vue.
-| [res.send()](/{{ page.lang }}/4x/api.html#res.send)        | Envoie une réponse de divers types.
-| [res.sendFile()](/{{ page.lang }}/4x/api.html#res.sendFile)     | Envoie une réponse sous forme de flux d'octets.
-| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | Définit le code de statut de réponse et envoie sa représentation sous forme de chaîne comme corps de réponse.
+| Méthode                                                         | Description                                                                                                   |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| [res.download()](/{{ page.lang }}/4x/api.html#res.download)     | Vous invite à télécharger un fichier.                                                                         |
+| [res.end()](/{{ page.lang }}/4x/api.html#res.end)               | Met fin au processus de réponse.                                                                              |
+| [res.json()](/{{ page.lang }}/4x/api.html#res.json)             | Envoie une réponse JSON.                                                                                      |
+| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)           | Envoie une réponse JSON avec une prise en charge JSONP.                                                       |
+| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)     | Redirige une demande.                                                                                         |
+| [res.render()](/{{ page.lang }}/4x/api.html#res.render)         | Génère un modèle de vue.                                                                                      |
+| [res.send()](/{{ page.lang }}/4x/api.html#res.send)             | Envoie une réponse de divers types.                                                                           |
+| [res.sendFile()](/{{ page.lang }}/4x/api.html#res.sendFile)     | Envoie une réponse sous forme de flux d'octets.                                                               |
+| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | Définit le code de statut de réponse et envoie sa représentation sous forme de chaîne comme corps de réponse. |
 
 <h2 id="app-route">app.route()</h2>
 

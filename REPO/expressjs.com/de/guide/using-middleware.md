@@ -9,24 +9,24 @@ lang: de
 
 Express ist ein Weiterleitungs- und Middleware-Web-Framework, das selbst nur minimale Funktionalität aufweist: Eine Express-Anwendung besteht im Wesentlichen aus einer Reihe von Middlewarefunktionsaufrufen.
 
-*Middlewarefunktionen* sind Funktionen, die Zugriff auf das [Anforderungsobjekt](/{{ page.lang }}/4x/api.html#req) (`req`), das [Antwortobjekt](/{{ page.lang }}/4x/api.html#res) (`res`) und die nächste Middlewarefunktion im Anforderung/Antwort-Zyklus der Anwendung haben. Die nächste Middlewarefunktion wird im Allgemeinen durch die Variable `next` bezeichnet.
+_Middlewarefunktionen_ sind Funktionen, die Zugriff auf das [Anforderungsobjekt](/{{ page.lang }}/4x/api.html#req) (`req`), das [Antwortobjekt](/{{ page.lang }}/4x/api.html#res) (`res`) und die nächste Middlewarefunktion im Anforderung/Antwort-Zyklus der Anwendung haben. Die nächste Middlewarefunktion wird im Allgemeinen durch die Variable `next` bezeichnet.
 
 Über Middlewarefunktionen lassen sich die folgenden Tasks ausführen:
 
-* Ausführen von Code
-* Vornehmen von Änderungen an der Anforderung und an Antwortobjekten
-* Beenden des Anforderung/Antwort-Zyklus
-* Aufrufen der nächsten Middlewarefunktion im Stack
+- Ausführen von Code
+- Vornehmen von Änderungen an der Anforderung und an Antwortobjekten
+- Beenden des Anforderung/Antwort-Zyklus
+- Aufrufen der nächsten Middlewarefunktion im Stack
 
 Wenn über die aktuelle Middlewarefunktion der Anforderung/Antwort-Zyklus nicht beendet werden kann, muss `next()` aufgerufen werden, um die Steuerung an die nächste Middlewarefunktion zu übergeben. Andernfalls geht die Anforderung in den Status "Blockiert" über.
 
 Eine Express-Anwendung kann die folgenden Middlewaretypen verwenden:
 
- - [Middleware auf Anwendungsebene](#middleware.application)
- - [Middleware auf Routerebene](#middleware.router)
- - [Middleware für die Fehlerbehandlung](#middleware.error-handling)
- - [Integrierte Middleware](#middleware.built-in)
- - [Middleware anderer Anbieter](#middleware.third-party)
+- [Middleware auf Anwendungsebene](#middleware.application)
+- [Middleware auf Routerebene](#middleware.router)
+- [Middleware für die Fehlerbehandlung](#middleware.error-handling)
+- [Integrierte Middleware](#middleware.built-in)
+- [Middleware anderer Anbieter](#middleware.third-party)
 
 Sie können Middleware auf Anwendungsebene und Routerebene mit einem optionalen Mountpfad laden. Sie können auch eine Reihe von Middlewarefunktionen zusammen laden. Dadurch wird ein Sub-Stack des Middlewaresystems am Mountpunkt erstellt.
 
@@ -68,7 +68,7 @@ app.get('/user/:id', function (req, res, next) {
 </code>
 </pre>
 
-Dies ist ein Beispiel zum Laden einer Reihe von Middlewarefunktionen an einem Mountpunkt mit einem Mountpfad. Das Beispiel veranschaulicht einen Middleware-Stack, über den Anforderungsinformationen  zu einer HTTP-Anforderung zum Pfad `/user/:id` ausgegeben werden.
+Dies ist ein Beispiel zum Laden einer Reihe von Middlewarefunktionen an einem Mountpunkt mit einem Mountpfad. Das Beispiel veranschaulicht einen Middleware-Stack, über den Anforderungsinformationen zu einer HTTP-Anforderung zum Pfad `/user/:id` ausgegeben werden.
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -134,6 +134,7 @@ Middleware auf Routerebene funktioniert in der gleichen Weise wie Middleware auf
 var router = express.Router();
 </code>
 </pre>
+
 Laden Sie Middleware auf Routerebene über die Funktionen `router.use()` und `router.METHOD()`.
 Der folgende Beispielcode repliziert das Middlewaresystem, das oben für die Middleware auf Anwendungsebene gezeigt wird, durch Verwendung von Middleware auf Routerebene.
 
@@ -210,16 +211,16 @@ Das Argument `root` gibt das Stammverzeichnis an, von dem aus statische Assets b
 
 Das optionale Objekt `options` kann folgende Eigenschaften aufweisen:
 
-| Eigenschaft      | Beschreibung                                                           |   Typ      | Standard         |
-|---------------|-----------------------------------------------------------------------|-------------|-----------------|
-| `dotfiles`    | Option für Dateien mit Punkterweiterung (dotfiles). Mögliche Werte sind "allow", "deny" und "ignore" | Zeichenfolge | "ignore" |
-| `etag`        | Aktiviert oder inaktiviert die etag-Generierung.  | Boolesch | `true` |
-| `extensions`  | Legt Dateierweiterungs-Fallbacks fest. | Bereich | `[]` |
-| `index`       | Sendet die verzeichnissspezifische indexierte Datei. Bei `false` wird die Verzeichnisindexierung inaktiviert.  | Gemischt | "index.html" |
- `lastModified` | Legt den Header `Last-Modified` auf das Datum der letzten Änderung der Datei im Betriebssystem fest. Mögliche Werte sind`true` und `false`. | Boolesch | `true` |
-| `maxAge`      | Legt die Eigenschaft "max-age" des Headers "Cache-Control" in Millisekunden oder als Zeichenfolge im [ms-Format](https://www.npmjs.org/package/ms) fest. | Zahl | 0 |
-| `redirect`    | Umleitung zu einem abschließenden "/", wenn der Pfadname ein Verzeichnis ist. | Boolesch | `true` |
-| `setHeaders`  | Funktion zum Festlegen von HTTP-Headern für die Datei.  | Funktion |  |
+| Eigenschaft    | Beschreibung                                                                                                                                             | Typ          | Standard     |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------ |
+| `dotfiles`     | Option für Dateien mit Punkterweiterung (dotfiles). Mögliche Werte sind "allow", "deny" und "ignore"                                                     | Zeichenfolge | "ignore"     |
+| `etag`         | Aktiviert oder inaktiviert die etag-Generierung.                                                                                                         | Boolesch     | `true`       |
+| `extensions`   | Legt Dateierweiterungs-Fallbacks fest.                                                                                                                   | Bereich      | `[]`         |
+| `index`        | Sendet die verzeichnissspezifische indexierte Datei. Bei `false` wird die Verzeichnisindexierung inaktiviert.                                            | Gemischt     | "index.html" |
+| `lastModified` | Legt den Header `Last-Modified` auf das Datum der letzten Änderung der Datei im Betriebssystem fest. Mögliche Werte sind`true` und `false`.              | Boolesch     | `true`       |
+| `maxAge`       | Legt die Eigenschaft "max-age" des Headers "Cache-Control" in Millisekunden oder als Zeichenfolge im [ms-Format](https://www.npmjs.org/package/ms) fest. | Zahl         | 0            |
+| `redirect`     | Umleitung zu einem abschließenden "/", wenn der Pfadname ein Verzeichnis ist.                                                                            | Boolesch     | `true`       |
+| `setHeaders`   | Funktion zum Festlegen von HTTP-Headern für die Datei.                                                                                                   | Funktion     |              |
 
 Dies ist ein Beispiel zur Verwendung der Middlewarefunktion `express.static` mit einem ausführlich dargestellten Optionsobjekt:
 

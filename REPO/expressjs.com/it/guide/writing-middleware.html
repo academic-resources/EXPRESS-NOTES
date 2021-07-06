@@ -1,63 +1,108 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Compilazione del middleware per l’utilizzo nelle applicazioni Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Compilazione del middleware per l’utilizzo nelle applicazioni Express</h1>
-</header>
-<h1 id="compilazione-del-middleware-per-lutilizzo-nelle-applicazioni-express">Compilazione del middleware per l’utilizzo nelle applicazioni Express</h1>
-<h2>
-Panoramica
-</h2>
-<p>Le funzioni <em>middleware</em> sono funzioni con accesso all’<a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#req">oggetto richiesta</a> (<code>req</code>), all’<a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res">oggetto risposta</a> (<code>res</code>) e alla successiva funzione middleware nel ciclo richiesta-risposta dell’applicazione. La successiva funzione middleware viene comunemente denotata da una variabile denominata <code>next</code>.</p>
-<p>Le funzioni middleware possono eseguire le attività elencate di seguito:</p>
-<ul>
-<li>Eseguire qualsiasi codice.</li>
-<li>Apportare modifiche agli oggetti richiesta e risposta.</li>
-<li>Terminare il ciclo richiesta-risposta.</li>
-<li>Chiamare il successivo middleware nello stack.</li>
-</ul>
-<p>Se la funzione middleware corrente non termina il ciclo richiesta-risposta, deve richiamare <code>next()</code> per passare il controllo alla successiva funzione middleware. Altrimenti, la richiesta verrà lasciata in sospeso.</p>
-<p>I seguenti esempi mostrano gli elementi di una chiamata alla funzione middleware:</p>
-<table style="padding: 0; border: 0; width: 960px; margin-bottom: 10px;">
-<tr>
-<td style="margin: 0; padding: 0px; border: 0; width: 410px;">
-<img src="/images/express-mw.png" style="margin: 0px; padding: 0px; width: 410px; height: 308px;" />
-</td>
-<td style="margin: 0; padding: 0 0 0 5px; border: 0; width: 550px;">
-<div id="callout1" class="callout">
-Metodo HTTP per cui si applica la funzione middleware.
-</div>
-<div id="callout2" class="callout">
-Percorso (route) per cui si applica la funzione middleware.
-</div>
-<div id="callout3" class="callout">
-La funzione middleware.
-</div>
-<div id="callout4" class="callout">
-Argomento di callback nella funzione middleware, denominata per convenzione “next”.
-</div>
-<div id="callout5" class="callout">
-Argomento <a href="../4x/api.html#res">risposta</a> HTTP nella funzione middleware, denominato “res” per convenzione.
-</div>
-<div id="callout6" class="callout">
-Argomento <a href="../4x/api.html#req">richiesta</a> HTTP nella funzione middleware, denominato “req” per convenzione.
-</div>
-</td>
-</tr>
-</table>
-<!--
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>
+      Compilazione del middleware per l’utilizzo nelle applicazioni Express
+    </title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">
+        Compilazione del middleware per l’utilizzo nelle applicazioni Express
+      </h1>
+    </header>
+    <h1
+      id="compilazione-del-middleware-per-lutilizzo-nelle-applicazioni-express"
+    >
+      Compilazione del middleware per l’utilizzo nelle applicazioni Express
+    </h1>
+    <h2>Panoramica</h2>
+    <p>
+      Le funzioni <em>middleware</em> sono funzioni con accesso all’<a
+        href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#req"
+        >oggetto richiesta</a
+      >
+      (<code>req</code>), all’<a
+        href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#res"
+        >oggetto risposta</a
+      >
+      (<code>res</code>) e alla successiva funzione middleware nel ciclo
+      richiesta-risposta dell’applicazione. La successiva funzione middleware
+      viene comunemente denotata da una variabile denominata <code>next</code>.
+    </p>
+    <p>
+      Le funzioni middleware possono eseguire le attività elencate di seguito:
+    </p>
+    <ul>
+      <li>Eseguire qualsiasi codice.</li>
+      <li>Apportare modifiche agli oggetti richiesta e risposta.</li>
+      <li>Terminare il ciclo richiesta-risposta.</li>
+      <li>Chiamare il successivo middleware nello stack.</li>
+    </ul>
+    <p>
+      Se la funzione middleware corrente non termina il ciclo
+      richiesta-risposta, deve richiamare <code>next()</code> per passare il
+      controllo alla successiva funzione middleware. Altrimenti, la richiesta
+      verrà lasciata in sospeso.
+    </p>
+    <p>
+      I seguenti esempi mostrano gli elementi di una chiamata alla funzione
+      middleware:
+    </p>
+    <table style="padding: 0; border: 0; width: 960px; margin-bottom: 10px">
+      <tr>
+        <td style="margin: 0; padding: 0px; border: 0; width: 410px">
+          <img
+            src="/images/express-mw.png"
+            style="margin: 0px; padding: 0px; width: 410px; height: 308px"
+          />
+        </td>
+        <td style="margin: 0; padding: 0 0 0 5px; border: 0; width: 550px">
+          <div id="callout1" class="callout">
+            Metodo HTTP per cui si applica la funzione middleware.
+          </div>
+          <div id="callout2" class="callout">
+            Percorso (route) per cui si applica la funzione middleware.
+          </div>
+          <div id="callout3" class="callout">La funzione middleware.</div>
+          <div id="callout4" class="callout">
+            Argomento di callback nella funzione middleware, denominata per
+            convenzione “next”.
+          </div>
+          <div id="callout5" class="callout">
+            Argomento <a href="../4x/api.html#res">risposta</a> HTTP nella
+            funzione middleware, denominato “res” per convenzione.
+          </div>
+          <div id="callout6" class="callout">
+            Argomento <a href="../4x/api.html#req">richiesta</a> HTTP nella
+            funzione middleware, denominato “req” per convenzione.
+          </div>
+        </td>
+      </tr>
+    </table>
+    <!--
 <pre>
 <code class="language-javascript" translate="no">
 var express = require('express');
@@ -80,8 +125,11 @@ app.get('/', function(req, res, next) {
 
 * <code>next</code>: Argomento di callback nella funzione middleware, denominata per convenzione "next".
 -->
-<p>Ecco un esempio di una semplice applicazione Express “Hello World”, per cui si definiranno due funzioni middleware:</p>
-<pre>
+    <p>
+      Ecco un esempio di una semplice applicazione Express “Hello World”, per
+      cui si definiranno due funzioni middleware:
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var express = require('express');
 var app = express();
@@ -93,11 +141,14 @@ app.get('/', function (req, res) {
 app.listen(3000);
 </code>
 </pre>
-<h2>
-Sviluppo
-</h2>
-<p>Ecco un semplice esempio di una funzione middleware, denominata “myLogger”. Questa funzione stampa semplicemente la dicitura “LOGGED” quando una richiesta all’applicazione la attraversa. La funzione middleware è assegnata ad una variabile denominata <code>myLogger</code>.</p>
-<pre>
+    <h2>Sviluppo</h2>
+    <p>
+      Ecco un semplice esempio di una funzione middleware, denominata
+      “myLogger”. Questa funzione stampa semplicemente la dicitura “LOGGED”
+      quando una richiesta all’applicazione la attraversa. La funzione
+      middleware è assegnata ad una variabile denominata <code>myLogger</code>.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var myLogger = function (req, res, next) {
   console.log('LOGGED');
@@ -105,11 +156,24 @@ var myLogger = function (req, res, next) {
 };
 </code>
 </pre>
-<div class="doc-box doc-notice" data-markdown="1">
-<p>Si noti la chiamata precedente a <code>next()</code>. Richiamando questa funzione si richiama la successiva funzione middleware nell’applicazione. La funzione <code>next()</code> non fa parte dell’API Express o Node.js, ma è il terzo argomento trasmesso alla funzione middleware. La funzione <code>next()</code> potrebbe essere denominata in qualsiasi modo, ma per convenzione viene sempre denominata “next”. Per evitare confusione, utilizzare sempre questa convenzione.</p>
-</div>
-<p>Per caricare la funzione middleware, richiamare <code>app.use()</code>, specificando la funzione middleware. Ad esempio, il seguente codice carica la funzione middleware <code>myLogger</code> prima della route al percorso root (/).</p>
-<pre>
+    <div class="doc-box doc-notice" data-markdown="1">
+      <p>
+        Si noti la chiamata precedente a <code>next()</code>. Richiamando questa
+        funzione si richiama la successiva funzione middleware
+        nell’applicazione. La funzione <code>next()</code> non fa parte dell’API
+        Express o Node.js, ma è il terzo argomento trasmesso alla funzione
+        middleware. La funzione <code>next()</code> potrebbe essere denominata
+        in qualsiasi modo, ma per convenzione viene sempre denominata “next”.
+        Per evitare confusione, utilizzare sempre questa convenzione.
+      </p>
+    </div>
+    <p>
+      Per caricare la funzione middleware, richiamare <code>app.use()</code>,
+      specificando la funzione middleware. Ad esempio, il seguente codice carica
+      la funzione middleware <code>myLogger</code> prima della route al percorso
+      root (/).
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var express = require('express');
 var app = express();
@@ -128,12 +192,32 @@ app.get('/', function (req, res) {
 app.listen(3000);
 </code>
 </pre>
-<p>Ogni volta che un’applicazione riceve una richiesta, viene stampato il messaggio “LOGGED” sul terminale.</p>
-<p>L’ordine di caricamento del middleware è importante: le funzioni middleware che vengono caricate per prime vengono anche eseguite per prime.</p>
-<p>Se <code>myLogger</code> viene caricato dopo la route sul percorso root, la richiesta non lo raggiunge mai e l’applicazione non stampa “LOGGED”, poiché l’handler di route del percorso root termina il ciclo richiesta-risposta.</p>
-<p>La funzione middleware <code>myLogger</code> stampa semplicemente un messaggio, successivamente passa la richiesta alla successiva funzione middleware nello stack chiamando la funzione <code>next()</code>.</p>
-<p>Nel successivo esempio viene aggiunta una proprietà denominata <code>requestTime</code> all’oggetto richiesta. Questa funzione middleware verrà denominata “requestTime”.</p>
-<pre>
+    <p>
+      Ogni volta che un’applicazione riceve una richiesta, viene stampato il
+      messaggio “LOGGED” sul terminale.
+    </p>
+    <p>
+      L’ordine di caricamento del middleware è importante: le funzioni
+      middleware che vengono caricate per prime vengono anche eseguite per
+      prime.
+    </p>
+    <p>
+      Se <code>myLogger</code> viene caricato dopo la route sul percorso root,
+      la richiesta non lo raggiunge mai e l’applicazione non stampa “LOGGED”,
+      poiché l’handler di route del percorso root termina il ciclo
+      richiesta-risposta.
+    </p>
+    <p>
+      La funzione middleware <code>myLogger</code> stampa semplicemente un
+      messaggio, successivamente passa la richiesta alla successiva funzione
+      middleware nello stack chiamando la funzione <code>next()</code>.
+    </p>
+    <p>
+      Nel successivo esempio viene aggiunta una proprietà denominata
+      <code>requestTime</code> all’oggetto richiesta. Questa funzione middleware
+      verrà denominata “requestTime”.
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var requestTime = function (req, res, next) {
   req.requestTime = Date.now();
@@ -141,8 +225,13 @@ var requestTime = function (req, res, next) {
 };
 </code>
 </pre>
-<p>L’applicazione utilizza ora la funzione middleware <code>requestTime</code>. Inoltre, la funzione di callback della route percorso root utilizza la proprietà che la funzione middleware aggiunge a <code>req</code> (l’oggetto richiesta).</p>
-<pre>
+    <p>
+      L’applicazione utilizza ora la funzione middleware
+      <code>requestTime</code>. Inoltre, la funzione di callback della route
+      percorso root utilizza la proprietà che la funzione middleware aggiunge a
+      <code>req</code> (l’oggetto richiesta).
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var express = require('express');
 var app = express();
@@ -163,8 +252,20 @@ app.get('/', function (req, res) {
 app.listen(3000);
 </code>
 </pre>
-<p>Quando si effettua una richiesta al root dell’applicazione, l’applicazione mostra la cronologia data e ora della richiesta nel browser.</p>
-<p>Poiché si dispone dell’accesso all’oggetto richiesta, l’oggetto risposta, la successiva funzione middleware nello stack e l’API Node.js completo, le possibilità con le funzioni middleware sono infinite.</p>
-<p>Per ulteriori informazioni sul middleware Express, consultare: <a href="/%7B%7B%20page.lang%20%7D%7D/guide/using-middleware.html">Utilizzo del middleware Express</a>.</p>
-</body>
+    <p>
+      Quando si effettua una richiesta al root dell’applicazione, l’applicazione
+      mostra la cronologia data e ora della richiesta nel browser.
+    </p>
+    <p>
+      Poiché si dispone dell’accesso all’oggetto richiesta, l’oggetto risposta,
+      la successiva funzione middleware nello stack e l’API Node.js completo, le
+      possibilità con le funzioni middleware sono infinite.
+    </p>
+    <p>
+      Per ulteriori informazioni sul middleware Express, consultare:
+      <a href="/%7B%7B%20page.lang%20%7D%7D/guide/using-middleware.html"
+        >Utilizzo del middleware Express</a
+      >.
+    </p>
+  </body>
 </html>

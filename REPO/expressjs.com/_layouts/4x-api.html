@@ -4,25 +4,18 @@
  License: MIT
 -->
 <html lang="{{ page.lang }}">
-
   {% include head.html %}
 
   <body>
-
     <section class="content">
-
-      {% include header/header-{{ page.lang }}.html %}
-
-      {% include api/en/4x/menu.md %}
+      {% include header/header-{{ page.lang }}.html %} {% include
+      api/en/4x/menu.md %}
 
       <div id="overlay"></div>
 
       {{ content }}
-
     </section>
 
     {% include footer/footer-{{ page.lang }}.html %}
-
   </body>
-
 </html>

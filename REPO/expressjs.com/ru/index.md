@@ -4,6 +4,7 @@ title: Express - фреймворк веб-приложений Node.js
 menu: home
 lang: ru
 ---
+
 <section id="home-content">
   {% include header/header-{{ page.lang }}.html %}
   <div id="overlay"></div>
@@ -41,6 +42,7 @@ lang: ru
       <div id="sponsorship">
           <a href="http://loopback.io/"><h3>LoopBack</h3> Разработка приложений, управляемых моделями, с помощью фреймворка на основе Express.<br/>Дополнительную информацию можно найти на странице loopback.io.</a>
       </div>
+
   </div>
 
 </section>

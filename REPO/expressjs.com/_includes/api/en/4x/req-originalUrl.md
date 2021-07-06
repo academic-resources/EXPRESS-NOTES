@@ -10,7 +10,7 @@ the "mounting" feature of [app.use()](#app.use) will rewrite `req.url` to strip 
 
 ```js
 // GET /search?q=something
-console.dir(req.originalUrl)
+console.dir(req.originalUrl);
 // => '/search?q=something'
 ```
 
@@ -18,10 +18,11 @@ console.dir(req.originalUrl)
 combination of `req.baseUrl` and `req.url`. Consider following example:
 
 ```js
-app.use('/admin', function (req, res, next) { // GET 'http://www.example.com/admin/new?sort=desc'
-  console.dir(req.originalUrl) // '/admin/new?sort=desc'
-  console.dir(req.baseUrl) // '/admin'
-  console.dir(req.path) // '/new'
-  next()
-})
+app.use("/admin", function (req, res, next) {
+  // GET 'http://www.example.com/admin/new?sort=desc'
+  console.dir(req.originalUrl); // '/admin/new?sort=desc'
+  console.dir(req.baseUrl); // '/admin'
+  console.dir(req.path); // '/new'
+  next();
+});
 ```

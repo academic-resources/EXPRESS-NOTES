@@ -1,48 +1,117 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-tw" xml:lang="zh-tw">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Express 名詞解釋</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Express 名詞解釋</h1>
-</header>
-<h1 id="名詞解釋">名詞解釋</h1>
-<h3 id="api">API</h3>
-<p>應用程式設計介面。在第一次使用時，會拼寫出縮寫。</p>
-<h3 id="express">Express</h3>
-<p>快速、集思廣益、極簡的 Node.js 應用程式 Web 架構。一般而言，“Express” 比 “Express.js” 合適，不過，也能接受後者。</p>
-<h3 id="libuv">libuv</h3>
-<p>多平台支援的程式庫，著重在非同步 I/O，主要開發供 Node.js 使用。</p>
-<h3 id="node.js">Node.js</h3>
-<p>一種軟體平台，用來建置可調式網路應用程式。Node.js 使用 JavaScript 作為其 Scripting 語言，並透過非封鎖 I/O 和單一執行緒事件迴圈，來達到高傳輸量。請參閱 <a href="http://nodejs.org/">nodejs.org</a>。<strong>使用注意事項</strong>：一開始稱為 “Node.js”，之後稱為 “Node”。</p>
-<h3 id="中介軟體-middleware">中介軟體 (middleware)</h3>
-<p>Express 路由層在最終要求處理程式之前所呼叫的函數，因此它位於原始要求與最終預期的路由中間。中介軟體周圍會有少許合宜的專有名詞點：</p>
-<ul>
-<li><code>var foo = require('middleware')</code> 可稱為<em>需要</em>或<em>使用</em> Node.js 模組。接著，<code>var mw = foo()</code> 陳述式通常會傳回中介軟體。</li>
-<li><code>app.use(mw)</code> 可稱為<em>將中介軟體新增至廣域處理程序堆疊</em>。</li>
-<li><code>app.get('/foo', mw, function (req, res) { ... })</code> 可稱為<em>將中介軟體新增至 “GET /foo” 處理程序堆疊</em>。</li>
-</ul>
-<h3 id="回應-response">回應 (response)</h3>
-<p>一種 HTTP 回應。伺服器傳回 HTTP 回應訊息給用戶端。回應包含要求的相關完成狀態資訊，也可能將要求內容包含在其訊息內文中。</p>
-<h3 id="要求-request">要求 (request)</h3>
-<p>一種 HTTP 要求。用戶端提交 HTTP 要求訊息給伺服器，再由伺服器傳回回應。要求必須使用其中一種<a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods">要求方法</a>，例如 GET、POST 等。</p>
-<h3 id="開放程式碼-open-source-open-source">開放程式碼 (open-source, open source)</h3>
-<p>當作為形容詞時，會加連號；例如：“This is open-source software.” 請參閱<a href="http://en.wikipedia.org/wiki/Open-source_software">維基百科上的開放程式碼軟體</a>。附註：雖然此術語通常不會加連號，我們仍採用標準的英文規則，加上連號來代表複合形容詞。</p>
-<h3 id="路由-route">路由 (route)</h3>
-<p>URL 的一部分，用來識別資源。例如，在 <code>http://foo.com/products/id</code> 中，“/products/id” 就是路由。</p>
-<h3 id="路由器-router">路由器 (router)</h3>
-<p>請參閱 API 參照中的<a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router">路由器</a>。</p>
-<h3 id="應用程式-application">應用程式 (application)</h3>
-<p>通常是指設計成實行作業以達特定目的的一或多個程式。就 Express 環境定義來說，是指使用 Express API（在 Node.js 平台上執行）的程式。亦可稱為<a href="/%7B%7B%20page.lang%20%7D%7D/api.html#express">應用程式物件 (app object)</a>。</p>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Express 名詞解釋</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Express 名詞解釋</h1>
+    </header>
+    <h1 id="名詞解釋">名詞解釋</h1>
+    <h3 id="api">API</h3>
+    <p>應用程式設計介面。在第一次使用時，會拼寫出縮寫。</p>
+    <h3 id="express">Express</h3>
+    <p>
+      快速、集思廣益、極簡的 Node.js 應用程式 Web 架構。一般而言，“Express” 比
+      “Express.js” 合適，不過，也能接受後者。
+    </p>
+    <h3 id="libuv">libuv</h3>
+    <p>多平台支援的程式庫，著重在非同步 I/O，主要開發供 Node.js 使用。</p>
+    <h3 id="node.js">Node.js</h3>
+    <p>
+      一種軟體平台，用來建置可調式網路應用程式。Node.js 使用 JavaScript 作為其
+      Scripting 語言，並透過非封鎖 I/O
+      和單一執行緒事件迴圈，來達到高傳輸量。請參閱
+      <a href="http://nodejs.org/">nodejs.org</a
+      >。<strong>使用注意事項</strong>：一開始稱為 “Node.js”，之後稱為 “Node”。
+    </p>
+    <h3 id="中介軟體-middleware">中介軟體 (middleware)</h3>
+    <p>
+      Express
+      路由層在最終要求處理程式之前所呼叫的函數，因此它位於原始要求與最終預期的路由中間。中介軟體周圍會有少許合宜的專有名詞點：
+    </p>
+    <ul>
+      <li>
+        <code>var foo = require('middleware')</code> 可稱為<em>需要</em>或<em
+          >使用</em
+        >
+        Node.js 模組。接著，<code>var mw = foo()</code>
+        陳述式通常會傳回中介軟體。
+      </li>
+      <li>
+        <code>app.use(mw)</code>
+        可稱為<em>將中介軟體新增至廣域處理程序堆疊</em>。
+      </li>
+      <li>
+        <code>app.get('/foo', mw, function (req, res) { ... })</code> 可稱為<em
+          >將中介軟體新增至 “GET /foo” 處理程序堆疊</em
+        >。
+      </li>
+    </ul>
+    <h3 id="回應-response">回應 (response)</h3>
+    <p>
+      一種 HTTP 回應。伺服器傳回 HTTP
+      回應訊息給用戶端。回應包含要求的相關完成狀態資訊，也可能將要求內容包含在其訊息內文中。
+    </p>
+    <h3 id="要求-request">要求 (request)</h3>
+    <p>
+      一種 HTTP 要求。用戶端提交 HTTP
+      要求訊息給伺服器，再由伺服器傳回回應。要求必須使用其中一種<a
+        href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods"
+        >要求方法</a
+      >，例如 GET、POST 等。
+    </p>
+    <h3 id="開放程式碼-open-source-open-source">
+      開放程式碼 (open-source, open source)
+    </h3>
+    <p>
+      當作為形容詞時，會加連號；例如：“This is open-source software.” 請參閱<a
+        href="http://en.wikipedia.org/wiki/Open-source_software"
+        >維基百科上的開放程式碼軟體</a
+      >。附註：雖然此術語通常不會加連號，我們仍採用標準的英文規則，加上連號來代表複合形容詞。
+    </p>
+    <h3 id="路由-route">路由 (route)</h3>
+    <p>
+      URL 的一部分，用來識別資源。例如，在
+      <code>http://foo.com/products/id</code> 中，“/products/id” 就是路由。
+    </p>
+    <h3 id="路由器-router">路由器 (router)</h3>
+    <p>
+      請參閱 API 參照中的<a
+        href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router"
+        >路由器</a
+      >。
+    </p>
+    <h3 id="應用程式-application">應用程式 (application)</h3>
+    <p>
+      通常是指設計成實行作業以達特定目的的一或多個程式。就 Express
+      環境定義來說，是指使用 Express API（在 Node.js
+      平台上執行）的程式。亦可稱為<a
+        href="/%7B%7B%20page.lang%20%7D%7D/api.html#express"
+        >應用程式物件 (app object)</a
+      >。
+    </p>
+  </body>
 </html>

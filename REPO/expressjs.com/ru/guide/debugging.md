@@ -30,7 +30,7 @@ $ DEBUG=express:* node index.js
 </code>
 </pre>
 
-При запуске этой команды в стандартном приложении, созданном с помощью  [генератора приложений Express](/{{ page.lang }}/starter/generator.html), будет получен следующий вывод:
+При запуске этой команды в стандартном приложении, созданном с помощью [генератора приложений Express](/{{ page.lang }}/starter/generator.html), будет получен следующий вывод:
 
 <pre>
 <code class="language-sh" translate="no">

@@ -105,7 +105,7 @@ Express 5 不再支持特征符 `res.send(obj, status)`。而是设置状态，�
 
 <h4 id="res.send.status">res.send(status)</h4>
 
-Express 5 不再支持特征符 <code>res.send(<em>status</em>)</code>，其中 *`status`* 是数字。而是使用 `res.sendStatus(statusCode)` 函数，它会设置 HTTP 响应头状态码并发送该代码的文字版：“Not Found”、“Internal Server Error”等。
+Express 5 不再支持特征符 <code>res.send(<em>status</em>)</code>，其中 _`status`_ 是数字。而是使用 `res.sendStatus(statusCode)` 函数，它会设置 HTTP 响应头状态码并发送该代码的文字版：“Not Found”、“Internal Server Error”等。
 如果需要使用 `res.send()` 函数来发送数字，请对该数字加上引号以将其转换为字符串，以便 Express 不会将其解释为尝试使用不受支持的旧特征符。
 
 <h4 id="res.sendfile">res.sendfile()</h4>

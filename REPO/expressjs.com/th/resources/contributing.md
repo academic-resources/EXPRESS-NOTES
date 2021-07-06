@@ -10,14 +10,14 @@ lang: th
 Express and the other projects in the [expressjs organization on GitHub](https://github.com/expressjs) are projects of the [Node.js Foundation](https://nodejs.org/foundation/).
 These projects are governed under the general policies and guidelines of the Node.js Foundation along with the additional guidelines below.
 
-* [Technical committee](#technical-committee)
-* [Community contributing guide](#community-contributing-guide)
-* [Collaborator's guide](#collaborators-guide)
-* [Security policies and procedures](#security-policies-and-procedures)
+- [Technical committee](#technical-committee)
+- [Community contributing guide](#community-contributing-guide)
+- [Collaborator's guide](#collaborators-guide)
+- [Security policies and procedures](#security-policies-and-procedures)
 
 ## Technical committee
 
-The Express technical committee consists of active project members, and guides development and maintenance of the Express project.  For more information, see [Express Community - Technical committee](community.html#technical-committee).
+The Express technical committee consists of active project members, and guides development and maintenance of the Express project. For more information, see [Express Community - Technical committee](community.html#technical-committee).
 
 ## Community contributing guide
 
@@ -25,21 +25,21 @@ The Express technical committee consists of active project members, and guides d
 
 The goal of this guide is to create a contribution process that:
 
-* Encourages new contributions.
-* Encourages contributors to remain involved.
-* Avoids unnecessary processes and bureaucracy whenever possible.
-* Creates a transparent decision making process which makes it clear how
-contributors can be involved in decision making.
+- Encourages new contributions.
+- Encourages contributors to remain involved.
+- Avoids unnecessary processes and bureaucracy whenever possible.
+- Creates a transparent decision making process which makes it clear how
+  contributors can be involved in decision making.
 
 This document is based on much prior art in the Node.js community, io.js,
 and the Node.js project.
 
 Vocabulary:
 
-* A **Contributor** is any individual creating or commenting on an issue or pull request.
-* A **Committer** is a subset of contributors who have been given write access to the repository.
-* A **TC (Technical Committee)** is a group of committers representing the required technical
-expertise to resolve rare disputes.
+- A **Contributor** is any individual creating or commenting on an issue or pull request.
+- A **Committer** is a subset of contributors who have been given write access to the repository.
+- A **TC (Technical Committee)** is a group of committers representing the required technical
+  expertise to resolve rare disputes.
 
 ### Logging issues
 
@@ -110,7 +110,7 @@ a majority of the other members are expected to resign.
 
 ## Collaborator's guide
 
-> NOTE: This is copied from the [Collaborator guide in the Express  repository](https://github.com/expressjs/express/blob/master/Collaborator-Guide.md).
+> NOTE: This is copied from the [Collaborator guide in the Express repository](https://github.com/expressjs/express/blob/master/Collaborator-Guide.md).
 
 ### Website Issues
 
@@ -118,22 +118,22 @@ Open issues for the expressjs.com website in https://github.com/expressjs/expres
 
 ### PRs and code contributions
 
-* Tests must pass.
-* Follow existing coding style.
-* If you fix a bug, add a test.
+- Tests must pass.
+- Follow existing coding style.
+- If you fix a bug, add a test.
 
 ### Branches
 
-* Use the `master` branch for bug fixes or minor work that is intended for the current release stream
-* Use the correspondingly named branch, e.g. `5.0`, for anything intended for a future release of Express
+- Use the `master` branch for bug fixes or minor work that is intended for the current release stream
+- Use the correspondingly named branch, e.g. `5.0`, for anything intended for a future release of Express
 
 ### Steps for contributing
 
-* [Create an issue](https://github.com/expressjs/express/issues/new) for the bug you want to fix or the feature that you want to add.
-* Create your own [fork](https://github.com/expressjs/express) on github, then checkout your fork.
-* Write your code in your local copy. It's good practice to create a branch for each new issue you work on, although not compulsory.
-* To run the test suite, first install the dependencies by running `npm install`, then run `npm test`.
-* If the tests pass, you can commit your changes to your fork and then create a pull request from there. Make sure to reference your issue from the pull request comments by including the issue number e.g. #123.
+- [Create an issue](https://github.com/expressjs/express/issues/new) for the bug you want to fix or the feature that you want to add.
+- Create your own [fork](https://github.com/expressjs/express) on github, then checkout your fork.
+- Write your code in your local copy. It's good practice to create a branch for each new issue you work on, although not compulsory.
+- To run the test suite, first install the dependencies by running `npm install`, then run `npm test`.
+- If the tests pass, you can commit your changes to your fork and then create a pull request from there. Make sure to reference your issue from the pull request comments by including the issue number e.g. #123.
 
 ### Issues which are questions
 
@@ -141,23 +141,23 @@ We will typically close any vague issues or questions that are specific to some 
 
 Things that will help get your question issue looked at:
 
-* Full and runnable JS code.
-* Clear description of the problem or unexpected behavior.
-* Clear description of the expected result.
-* Steps you have taken to debug it yourself.
+- Full and runnable JS code.
+- Clear description of the problem or unexpected behavior.
+- Clear description of the expected result.
+- Steps you have taken to debug it yourself.
 
 If you post a question and do not outline the above items or make it easy for us to understand and reproduce your issue, it will be closed.
 
 ## Security Policies and Procedures
 
-> NOTE: This is copied from [Security Policies and Procedures in the Express  repository](https://github.com/expressjs/express/blob/master/Security.md).
+> NOTE: This is copied from [Security Policies and Procedures in the Express repository](https://github.com/expressjs/express/blob/master/Security.md).
 
 This document outlines security procedures and general policies for the Express
 project.
 
-  * [Reporting a Bug](#reporting-a-bug)
-  * [Disclosure Policy](#disclosure-policy)
-  * [Comments on this Policy](#comments-on-this-policy)
+- [Reporting a Bug](#reporting-a-bug)
+- [Disclosure Policy](#disclosure-policy)
+- [Comments on this Policy](#comments-on-this-policy)
 
 ### Reporting a Bug
 
@@ -184,10 +184,10 @@ When the security team receives a security bug report, they will assign it to a
 primary handler. This person will coordinate the fix and release process,
 involving the following steps:
 
-  * Confirm the problem and determine the affected versions.
-  * Audit code to find any potential similar problems.
-  * Prepare fixes for all releases still under maintenance. These fixes will be
-    released as fast as possible to npm.
+- Confirm the problem and determine the affected versions.
+- Audit code to find any potential similar problems.
+- Prepare fixes for all releases still under maintenance. These fixes will be
+  released as fast as possible to npm.
 
 ### Comments on this Policy
 

@@ -4,6 +4,7 @@ title: Express - Node.js webový aplikačný framework
 menu: home
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -41,6 +42,7 @@ lang: sk
       <div id="frameworks">
         <h3>Frameworky</h3> Mnohé <a href="/sk/resources/frameworks.html">známe frameworky</a> sú založené na Express-e.
       </div>
+
   </div>
 
 </section>

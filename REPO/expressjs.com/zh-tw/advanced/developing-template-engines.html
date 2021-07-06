@@ -1,25 +1,49 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-tw" xml:lang="zh-tw">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>開發 Express 範本引擎</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">開發 Express 範本引擎</h1>
-</header>
-<h1 id="開發-express-範本引擎">開發 Express 範本引擎</h1>
-<p>利用 <code>app.engine(ext, callback)</code> 方法，來建立您自己的範本引擎。<code>ext</code> 是指副檔名，<code>callback</code> 是範本引擎函數，它可接受下列項目作為參數：檔案的位置、options 物件，以及回呼函數。</p>
-<p>下列程式碼範例說明如何實作一個相當簡單的範本引擎，以呈現 <code>.ntl</code> 檔。</p>
-<pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>開發 Express 範本引擎</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">開發 Express 範本引擎</h1>
+    </header>
+    <h1 id="開發-express-範本引擎">開發 Express 範本引擎</h1>
+    <p>
+      利用
+      <code>app.engine(ext, callback)</code> 方法，來建立您自己的範本引擎。<code
+        >ext</code
+      >
+      是指副檔名，<code>callback</code>
+      是範本引擎函數，它可接受下列項目作為參數：檔案的位置、options
+      物件，以及回呼函數。
+    </p>
+    <p>
+      下列程式碼範例說明如何實作一個相當簡單的範本引擎，以呈現
+      <code>.ntl</code> 檔。
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 var fs = require('fs'); // this engine requires the fs module
 app.engine('ntl', function (filePath, options, callback) { // define the template engine
@@ -35,21 +59,25 @@ app.set('views', './views'); // specify the views directory
 app.set('view engine', 'ntl'); // register the template engine
 </code>
 </pre>
-<p>現在，您的應用程式能夠呈現 <code>.ntl</code> 檔。請在 <code>views</code> 目錄中建立一個名稱是 <code>index.ntl</code> 的檔案，內含下列內容。</p>
-<pre>
+    <p>
+      現在，您的應用程式能夠呈現 <code>.ntl</code> 檔。請在
+      <code>views</code> 目錄中建立一個名稱是
+      <code>index.ntl</code> 的檔案，內含下列內容。
+    </p>
+    <pre>
 <code class="language-javascript" translate="no">
 #title#
 #message#
 </code>
 </pre>
-<p>然後在應用程式中建立下列路由。</p>
-<pre>
+    <p>然後在應用程式中建立下列路由。</p>
+    <pre>
 <code class="language-javascript" translate="no">
 app.get('/', function (req, res) {
   res.render('index', { title: 'Hey', message: 'Hello there!'});
 });
 </code>
 </pre>
-<p>當您向首頁提出要求時，<code>index.ntl</code> 會呈現成 HTML。</p>
-</body>
+    <p>當您向首頁提出要求時，<code>index.ntl</code> 會呈現成 HTML。</p>
+  </body>
 </html>

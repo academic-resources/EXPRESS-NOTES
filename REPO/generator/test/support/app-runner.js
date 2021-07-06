@@ -1,84 +1,84 @@
-'use strict'
+"use strict";
 
-var exec = require('child_process').exec
-var kill = require('tree-kill')
-var net = require('net')
-var utils = require('./utils')
+var exec = require("child_process").exec;
+var kill = require("tree-kill");
+var net = require("net");
+var utils = require("./utils");
 
-module.exports = AppRunner
+module.exports = AppRunner;
 
-function AppRunner (dir) {
-  this.child = null
-  this.dir = dir
-  this.host = '127.0.0.1'
-  this.port = 3000
+function AppRunner(dir) {
+  this.child = null;
+  this.dir = dir;
+  this.host = "127.0.0.1";
+  this.port = 3000;
 }
 
-AppRunner.prototype.address = function address () {
-  return { port: this.port }
-}
+AppRunner.prototype.address = function address() {
+  return { port: this.port };
+};
 
-AppRunner.prototype.start = function start (callback) {
-  var app = this
-  var done = false
-  var env = utils.childEnvironment()
+AppRunner.prototype.start = function start(callback) {
+  var app = this;
+  var done = false;
+  var env = utils.childEnvironment();
 
-  env.PORT = String(app.port)
+  env.PORT = String(app.port);
 
-  this.child = exec('npm start', {
+  this.child = exec("npm start", {
     cwd: this.dir,
-    env: env
-  })
+    env: env,
+  });
 
-  this.child.stderr.pipe(process.stderr, { end: false })
+  this.child.stderr.pipe(process.stderr, { end: false });
 
-  this.child.on('exit', function onExit (code) {
-    app.child = null
+  this.child.on("exit", function onExit(code) {
+    app.child = null;
 
     if (!done) {
-      done = true
-      callback(new Error('Unexpected app exit with code ' + code))
+      done = true;
+      callback(new Error("Unexpected app exit with code " + code));
     }
-  })
+  });
 
-  function tryConnect () {
-    if (done || !app.child) return
+  function tryConnect() {
+    if (done || !app.child) return;
 
-    var socket = net.connect(app.port, app.host)
+    var socket = net.connect(app.port, app.host);
 
-    socket.on('connect', function onConnect () {
-      socket.end()
+    socket.on("connect", function onConnect() {
+      socket.end();
 
       if (!done) {
-        done = true
-        callback(null)
+        done = true;
+        callback(null);
       }
-    })
+    });
 
-    socket.on('error', function onError (err) {
-      socket.destroy()
+    socket.on("error", function onError(err) {
+      socket.destroy();
 
-      if (err.syscall !== 'connect') {
-        return callback(err)
+      if (err.syscall !== "connect") {
+        return callback(err);
       }
 
-      setImmediate(tryConnect)
-    })
+      setImmediate(tryConnect);
+    });
   }
 
-  setImmediate(tryConnect)
-}
+  setImmediate(tryConnect);
+};
 
-AppRunner.prototype.stop = function stop (callback) {
+AppRunner.prototype.stop = function stop(callback) {
   if (!this.child) {
-    setImmediate(callback)
-    return
+    setImmediate(callback);
+    return;
   }
 
-  this.child.stderr.unpipe()
-  this.child.removeAllListeners('exit')
+  this.child.stderr.unpipe();
+  this.child.removeAllListeners("exit");
 
-  kill(this.child.pid, 'SIGTERM', callback)
+  kill(this.child.pid, "SIGTERM", callback);
 
-  this.child = null
-}
+  this.child = null;
+};

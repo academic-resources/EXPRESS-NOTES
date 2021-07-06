@@ -4,6 +4,7 @@ title: Osvedčené postupy pre Express v produkcii - výkonnosť a spoľahlivos�
 menu: advanced
 lang: sk
 ---
+
 <!---
  Copyright (c) 2016 StrongLoop, IBM, and Express Contributors
  License: MIT
@@ -17,8 +18,8 @@ Tento článok popisuje niektoré osvedčené postupy z pohľadu výkonnosti a s
 
 Táto časť jasne spadá do tzv. "devops" sveta, dotýkajúca sa tradičného vývoja a prevádzky. Podľa toho sú tieto informácie rozdelené do dvoch častí:
 
-* [Kroky, ktoré je potrebné vykonať vo vašom kóde](#code) (časť vývoja).
-* [Kroky, ktoré je potrebné vykonať na vašom prostredí](#env) (časť prevádzky).
+- [Kroky, ktoré je potrebné vykonať vo vašom kóde](#code) (časť vývoja).
+- [Kroky, ktoré je potrebné vykonať na vašom prostredí](#env) (časť prevádzky).
 
 <a name="code"></a>
 
@@ -26,11 +27,11 @@ Táto časť jasne spadá do tzv. "devops" sveta, dotýkajúca sa tradičného v
 
 Dodržiavanie nasledujúcich postupov vo vašom kóde môže viesť k zlepšeniu výkonnosti vašej aplikácie:
 
-* Používajte gzip kompresiu
-* Nepoužívajte synchrónne funkcie
-* Pre servovanie statických súborov používajte middleware
-* Správne logujte
-* Správne odchytávajte a spracovávajte výnimky
+- Používajte gzip kompresiu
+- Nepoužívajte synchrónne funkcie
+- Pre servovanie statických súborov používajte middleware
+- Správne logujte
+- Správne odchytávajte a spracovávajte výnimky
 
 ### Používajte gzip kompresiu
 
@@ -69,7 +70,7 @@ Vo všeobecnosti existujú dva dôvody k logovaniu vo vašej aplkácii a to debu
 
 #### Logovanie z dôvodu debugovania
 
-Ak používate na debugovanie logovanie pomocou `console.log()`, používajte radšej špeciálny modul na debugovanie, ako napr. [debug](https://www.npmjs.com/package/debug). Tento modul vám umožňuje použivať environment premennú DEBUG, pomocou ktorej dokážete kontrolovať, ktoré debug výpisy budú vypísané pomocou `console.err()`, príp. žiadne. Ak chcete, aby vaša aplikácia bola čisto asynchrónna, budete stále potrebovať presmerovať výstup  `console.err()` do iného programu. Ale v skutočnosti asi nechcete debugovať v produkcii, však?
+Ak používate na debugovanie logovanie pomocou `console.log()`, používajte radšej špeciálny modul na debugovanie, ako napr. [debug](https://www.npmjs.com/package/debug). Tento modul vám umožňuje použivať environment premennú DEBUG, pomocou ktorej dokážete kontrolovať, ktoré debug výpisy budú vypísané pomocou `console.err()`, príp. žiadne. Ak chcete, aby vaša aplikácia bola čisto asynchrónna, budete stále potrebovať presmerovať výstup `console.err()` do iného programu. Ale v skutočnosti asi nechcete debugovať v produkcii, však?
 
 #### Logovanie aktivít aplikácie
 
@@ -83,21 +84,21 @@ V prípade neodchytenia výnimky Node.js aplikácia spadne. Tzn, že v prípade 
 
 K uisteniu sa, že spracovávate všetky výnimky, používajte tieto techniky:
 
-* [Používajte try-catch](#try-catch)
-* [Používajte promises](#promises)
+- [Používajte try-catch](#try-catch)
+- [Používajte promises](#promises)
 
 Predtým, ako sa hlbšie pustíme do týchto tém, mali by ste mať základné znalosti Node/Express error handlingu, akými sú používanie error-first callback-ov a šírenie errorov middlewarmi. Node používa pre návrat errorov z asynchrónnych funkcií konvenciu "error-first callbackov", kde prvým argumentom callback funkcie je error objekt, nasledovaný ostatnými návratovými hodnotami úspešného spracovanie funkcie. Ak nenastal žiaden error zabezpečte, aby prvým parametrom bol null. Definícia callback funkcie musí korešpondovať s error-first callback konvenciou a musí zmysluplne spracovať error. V Express aplikáciách je pre šírenie erroru middlewarmi osvedčenou a odporúčanou technikou použitie next() funkcie.
 
 Pre viac informácií ohľadom základov error handlingu sa pozrite na:
 
-* [Error Handling in Node.js](https://www.joyent.com/developers/node/design/errors)
-* [Building Robust Node Applications: Error Handling](https://strongloop.com/strongblog/robust-node-applications-error-handling/) (StrongLoop blog)
+- [Error Handling in Node.js](https://www.joyent.com/developers/node/design/errors)
+- [Building Robust Node Applications: Error Handling](https://strongloop.com/strongblog/robust-node-applications-error-handling/) (StrongLoop blog)
 
 #### Čo nerobiť
 
 Jedna z vecí, ktorú by ste robiť _nemali_ je počúvať na `uncaughtException` event, ktorý je emitovaný v okamihu kedy výnimka "bublá" celou cestu späť do event loop-u. Pridanie event listenera `uncaughtException` zmení defaultné chovanie procesu, ktorý narazil na výnimku; proces bude pokračovať napriek výnimke. Toto sa môže zdať ako dobrým riešením, ako predísť pádu vašej aplikácie, avšak pokračovanie behu vašej aplikácie, v prípade neodchytenej výnimky je nebezpečnou praktikou a nepodporúča sa, pretože sa tým stav procesu stáva nespoľahlivým a nepredpovedateľným.
 
-Navyše, použitie `uncaughtException` je oficiálne uznané ako [hrubé](https://nodejs.org/api/process.html#process_event_uncaughtexception) a existuje [návrh](https://github.com/nodejs/node-v0.x-archive/issues/2582) na jeho odstránenie z jadra. Takže počúvanie na  `uncaughtException` nie je dobrým nápadom. To je dôvod, prečo odporúčame veci ako viacero procesov a supervisorov: pád a reštartovanie je často najspolalivejším spôsobom zotavenia sa z erorru.
+Navyše, použitie `uncaughtException` je oficiálne uznané ako [hrubé](https://nodejs.org/api/process.html#process_event_uncaughtexception) a existuje [návrh](https://github.com/nodejs/node-v0.x-archive/issues/2582) na jeho odstránenie z jadra. Takže počúvanie na `uncaughtException` nie je dobrým nápadom. To je dôvod, prečo odporúčame veci ako viacero procesov a supervisorov: pád a reštartovanie je často najspolalivejším spôsobom zotavenia sa z erorru.
 
 Taktiež neodporúčame používať [domain](https://nodejs.org/api/domain.html) modul. Všeobecne nerieši žiaden problém a je označený ako deprecated modul.
 
@@ -164,7 +165,7 @@ Avšak, dve upozornenia:
 
 1.  Všetky vaše asynchrónne kódy musia vracať promises (okrem emitorov). Ak niektorá z knižníc nevracia promises, konvertnite základný objekt použitím funkcie ako napr. [Bluebird.promisifyAll()](http://bluebirdjs.com/docs/api/promise.promisifyall.html).
 2.  Event emitory (ako sú streams) môžu spôsobiť neodchytené výnimky. Preto sa uistite, že správne spracovávate error eventy.
-Napr.:
+    Napr.:
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -178,8 +179,8 @@ app.get('/', wrap(async (req, res, next) => {
 
 Pre viac informácií ohľadom error handling-u použitím promises si prečítajte:
 
-* [Asynchronous Error Handling in Express with Promises, Generators and ES7](https://strongloop.com/strongblog/async-error-handling-expressjs-es7-promises-generators/)
-* [Promises in Node.js with Q – An Alternative to Callbacks](https://strongloop.com/strongblog/promises-in-node-js-with-q-an-alternative-to-callbacks/)
+- [Asynchronous Error Handling in Express with Promises, Generators and ES7](https://strongloop.com/strongblog/async-error-handling-expressjs-es7-promises-generators/)
+- [Promises in Node.js with Q – An Alternative to Callbacks](https://strongloop.com/strongblog/promises-in-node-js-with-q-an-alternative-to-callbacks/)
 
 <a name="env"></a>
 
@@ -187,12 +188,12 @@ Pre viac informácií ohľadom error handling-u použitím promises si prečíta
 
 Tu je niekoľko krokov, ktoré môžete vykonať na vašom environment-e pre zlepšenie výkonnosti vašej aplikácie:
 
-* Nastavte NODE_ENV premennú na "production"
-* Zabezpečte automatický reštart vašej aplikácie
-* Zabezpečte, aby vaša aplikácia bežala v clusteri
-* Cachujte request resulty
-* Používajte load balancer
-* Používajte reverse proxy
+- Nastavte NODE_ENV premennú na "production"
+- Zabezpečte automatický reštart vašej aplikácie
+- Zabezpečte, aby vaša aplikácia bežala v clusteri
+- Cachujte request resulty
+- Používajte load balancer
+- Používajte reverse proxy
 
 ### Nastavte NODE_ENV premennú na "production"
 
@@ -200,9 +201,9 @@ NODE_ENV environment premenná špecifikuje, v ktorom environmente vaša apliká
 
 Nastavenie NODE_ENV na "production" zabezpečí, aby Express:
 
-* Cachoval view templates.
-* Cachoval CSS súbory generované z CSS extenzií.
-* Generoval "menej ukecané" error messages.
+- Cachoval view templates.
+- Cachoval CSS súbory generované z CSS extenzií.
+- Generoval "menej ukecané" error messages.
 
 [Testy ukazujú](http://apmblog.dynatrace.com/2015/07/22/the-drastic-effects-of-omitting-node_env-in-your-express-js-applications/), že tym dokážete zlepšiť výkonnosť aplikácie až trojnásobne!
 
@@ -238,26 +239,26 @@ Ak používate StrongLoop Process Manager, môžete [nastaviť environment preme
 
 V produkcii zvyčajne nechcete, aby vaša aplikácia bola offline, nikdy. To znamená, že musíte zabezpečiť, aby sa reštartovala v obidvoch prípadoch, či už je to pád aplikácie, alebo servera samotného. Hoci si určite želáte, aby sa ani jedna z týchto vecí nestala, musíte s tým počítať pomocou:
 
-* Použitím správcu procesov k reštartovaniu aplikácie (a Node procesu) v prípade pádu.
-* Použitím init systému poskytovaného vašim OS na reštartovanie správcu procesov v prípade pádu OS. Taktiež je možné použiť init systém bez správcu procesov.
+- Použitím správcu procesov k reštartovaniu aplikácie (a Node procesu) v prípade pádu.
+- Použitím init systému poskytovaného vašim OS na reštartovanie správcu procesov v prípade pádu OS. Taktiež je možné použiť init systém bez správcu procesov.
 
 Node aplikácie zhavarujú v prípade výskytu neodchytenej výnimky. Ako prvé by ste sa mali uistiť, že vaša aplikácia je dostatočne otestovaná a spracováva všetky výnimky (pre viac detailov si pozrite časť [Správne odchytávajte a spracovávajte výnimky](#exceptions)). Ako záchranu vytvorte/nastavte mechanizmus automatického reštartu.
 
 #### Používajte správcu procesov
 
-Počas vývoja štartujete vašu aplikáciu jednoducho z príkazového riadka pomocou `node server.js`,  príp. niečoho podobného. Tento spôsob je však v prípade produkcie cesta do pekla. Ak vaša aplikácia spadne, bude offline až dokým ju nereštartujete. Aby ste sa uistili, že sa vaša aplikácia v prípade pádu reštartuje, používajte správcu procesov. Správca procesov je "kontainer" pre aplikácie, ktorý vám pomáha pri deploymente, poskytuje vysokú dostupnosť a umožňuje správu aplikácie v runtime.
+Počas vývoja štartujete vašu aplikáciu jednoducho z príkazového riadka pomocou `node server.js`, príp. niečoho podobného. Tento spôsob je však v prípade produkcie cesta do pekla. Ak vaša aplikácia spadne, bude offline až dokým ju nereštartujete. Aby ste sa uistili, že sa vaša aplikácia v prípade pádu reštartuje, používajte správcu procesov. Správca procesov je "kontainer" pre aplikácie, ktorý vám pomáha pri deploymente, poskytuje vysokú dostupnosť a umožňuje správu aplikácie v runtime.
 
 Správca procesov umožňuje okrem automatického reštartu vašej aplikácie taktiež:
 
-* Získať pohľad o výkonnosti runtime a spotrebe resourcov.
-* Dynamicky upravovať nastavenia pre zlepšenie výkonnosti.
-* Kontrolu clusteringu (StrongLoop PM a pm2).
+- Získať pohľad o výkonnosti runtime a spotrebe resourcov.
+- Dynamicky upravovať nastavenia pre zlepšenie výkonnosti.
+- Kontrolu clusteringu (StrongLoop PM a pm2).
 
 Spomedzi správcov procesov pre Node sú najpopulárnejši:
 
-* [StrongLoop Process Manager](http://strong-pm.io/)
-* [PM2](https://github.com/Unitech/pm2)
-* [Forever](https://www.npmjs.com/package/forever)
+- [StrongLoop Process Manager](http://strong-pm.io/)
+- [PM2](https://github.com/Unitech/pm2)
+- [Forever](https://www.npmjs.com/package/forever)
 
 Pre detailnejšie porovnanie vlastností si pozrite [http://strong-pm.io/compare/](http://strong-pm.io/compare/). Pre detailnejšie intro si pozrite [Process managers for Express apps](/{{ page.lang }}/advanced/pm.html).
 
@@ -265,12 +266,12 @@ Použitím hociktorého z týchto správcov procesov zabezpečíte, aby vaša ap
 
 Avšak, StrongLoop PM má veľa ďalších features špeciálne určené pre produkčné prostredie. Môžete ich použiť na:
 
-* Vytvorenie buildu vašej aplikácie lokálne a následný bezpečný deployment do produkcie.
-* Automatický reštart vašej aplikácie v prípade pádu.
-* Vzdialenú správu vášho clustera.
-* Zobrazenie CPU profilov a heap snapshotov k optimalizácii výkonnosti a diagnostike memory leakov.
-* Zabrazenie performance metrík vašej aplikácie.
-* Jednoduchú škálovateľnosť na viacero hostov s intergrovanou kontrolou pre Nginx load balancer.
+- Vytvorenie buildu vašej aplikácie lokálne a následný bezpečný deployment do produkcie.
+- Automatický reštart vašej aplikácie v prípade pádu.
+- Vzdialenú správu vášho clustera.
+- Zobrazenie CPU profilov a heap snapshotov k optimalizácii výkonnosti a diagnostike memory leakov.
+- Zabrazenie performance metrík vašej aplikácie.
+- Jednoduchú škálovateľnosť na viacero hostov s intergrovanou kontrolou pre Nginx load balancer.
 
 Ako je vysvetlené nižšie, pri inštalácii StrongLoop PM pomocou init systému, ako služby operačného systému, sa služba automaticky reštartuje po reštartovaní systému. Takto bude vaša aplikácia a cluster bežať navždy.
 
@@ -280,8 +281,8 @@ Ako je vysvetlené nižšie, pri inštalácii StrongLoop PM pomocou init systém
 
 Existujú dva spôsoby použitia init systémov s vašou Express aplikáciou:
 
-* Spustite vašu aplikáciu v správcovi procesov a nainštalujte správcu procesov ako službu s init systémom. Správca procesov zabezpečí reštart aplikácie pri jej páde a init systém reštartuje správcu procesov v prípade reštartu OS. Jedná sa o odporúčaný postup.
-* Spustite vašu aplikáciu (a Node) priamo s init systémom. Tento postup je trocha jednoduchší, ale prídete tým o ďalšie výhody plynúce z použitia správcu procesov.
+- Spustite vašu aplikáciu v správcovi procesov a nainštalujte správcu procesov ako službu s init systémom. Správca procesov zabezpečí reštart aplikácie pri jej páde a init systém reštartuje správcu procesov v prípade reštartu OS. Jedná sa o odporúčaný postup.
+- Spustite vašu aplikáciu (a Node) priamo s init systémom. Tento postup je trocha jednoduchší, ale prídete tým o ďalšie výhody plynúce z použitia správcu procesov.
 
 ##### Systemd
 
@@ -320,6 +321,7 @@ Restart=always
 WantedBy=multi-user.target
 </code>
 </pre>
+
 Pre viac informácií ohľadom systemd si prečítajte [systemd reference (man page)](http://www.freedesktop.org/software/systemd/man/systemd.unit.html).
 
 ##### StrongLoop PM ako systemd služba
@@ -346,7 +348,7 @@ Pre viac informácií si prečítajte [Setting up a production host (StrongLoop 
 
 ##### Upstart
 
-Upstart je systémový nástroj dostupný v mnohých linuxových distribúciách slúžiaci na  spúšťanie taskov a služieb počas štartu systému, ich zastavenie počas vypnutia a dohľadu nad nimi. Vašu Express aplikáciu, alebo správcu procesov môžete nakonfigurovať ako službu a potom Upstart zabezpečí jej reštart v prípade pádu.
+Upstart je systémový nástroj dostupný v mnohých linuxových distribúciách slúžiaci na spúšťanie taskov a služieb počas štartu systému, ich zastavenie počas vypnutia a dohľadu nad nimi. Vašu Express aplikáciu, alebo správcu procesov môžete nakonfigurovať ako službu a potom Upstart zabezpečí jej reštart v prípade pádu.
 
 Upstart služba je definovaná v konfiguračnom súbore (tiež nazývaný "job") s názvom súboru končiacim `.conf`. Nasledujúci príklad ukazuje, ako vytvoriť job súbor s názvom "myapp" pre aplikáciu s názvom "myapp" s hlavným súbor umiestneným v `/projects/myapp/index.js`.
 
@@ -390,9 +392,9 @@ Potom, ako je job nakonfigurovaný k spusteniu po štarte systému, bude vaša a
 
 Okrem automatického reštartovania aplikácie, Upstart umožňuje použíť tieto príkazy:
 
-* `start myapp` – Start the app
-* `restart myapp` – Restart the app
-* `stop myapp` – Stop the app.
+- `start myapp` – Start the app
+- `restart myapp` – Restart the app
+- `stop myapp` – Stop the app.
 
 Pre viac informácií ohľadom Upstart si prečítajte tu: [Upstart Intro, Cookbook and Best Practises](http://upstart.ubuntu.com/cookbook).
 

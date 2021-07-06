@@ -30,4 +30,3 @@ lang: zh-tw
 ## 協力廠商
 
 我們的熱情活躍的社群已建立各式各樣的延伸項目、[中介軟體模組](/{{ page.lang }}/resources/middleware.html)，以及更高層次的架構。相關資訊請參閱 [Wiki](https://github.com/expressjs/express/wiki)。
-

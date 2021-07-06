@@ -32,8 +32,8 @@ Express 4 有數項明顯的變更：
 
 另請參閱：
 
-* [New features in 4.x](https://github.com/expressjs/express/wiki/New-features-in-4.x)
-* [Migrating from 3.x to 4.x](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
+- [New features in 4.x](https://github.com/expressjs/express/wiki/New-features-in-4.x)
+- [Migrating from 3.x to 4.x](https://github.com/expressjs/express/wiki/Migrating-from-3.x-to-4.x)
 
 <h3 id="core-changes">
 Express 核心和中介軟體系統的變更
@@ -92,7 +92,6 @@ Express 4 不再相依於 Connect，除了 `express.static` 函數，其他所�
 
 在第 4 版中，您可以使用變數參數，來定義中介軟體函數的載入路徑，然後從路由處理程式讀取參數值。例如：
 
-
 <pre>
 <code class="language-javascript" translate="no">
 app.use('/book/:id', function(req, res, next) {
@@ -110,8 +109,9 @@ Apps 現在隱含地載入了路由中介軟體，因此您不用再擔心該中
 路由的定義方式不變，但是路由系統多了兩個新特性，可協助您組織路由：
 
 {: .doclist }
-* 新方法 `app.route()`，用來為路由路徑建立可鏈接的路由處理程式。
-* 新類別 `express.Router`，用來建立可裝載的模組路由處理程式。
+
+- 新方法 `app.route()`，用來為路由路徑建立可鏈接的路由處理程式。
+- 新類別 `express.Router`，用來建立可裝載的模組路由處理程式。
 
 <h4 id="app-route"><code>app.route()</code> 方法</h4>
 
@@ -376,7 +376,7 @@ $ npm install serve-favicon morgan method-override express-session body-parser m
 對 `app.js` 進行下列變更：
 
 1. `express` 物件中不再提供內建 Express 中介軟體函數
-`express.favicon`、`express.logger`, `express.methodOverride`、`express.session`、`express.bodyParser` 和 `express.errorHandler`。您必須手動安裝其替代項目，並將它們載入到應用程式。
+   `express.favicon`、`express.logger`, `express.methodOverride`、`express.session`、`express.bodyParser` 和 `express.errorHandler`。您必須手動安裝其替代項目，並將它們載入到應用程式。
 
 2. 不再需要載入 `app.router` 函數。它不是有效的 Express 4 應用程式物件，因此請移除 `app.use(app.router);` 程式碼。
 
@@ -498,6 +498,7 @@ $ node .
 $ npm uninstall -g express
 </code>
 </pre>
+
 視您如何配置檔案與目錄專用權而定，您可能需要使用 `sudo` 來執行這個指令。
 
 現在安裝新的產生器：
@@ -517,9 +518,10 @@ $ npm install -g express-generator
 除了以下，指令的選項與用法大致不變：
 
 {: .doclist }
-* 已移除 `--sessions` 選項。
-* 已移除 `--jshtml` 選項。
-* 新增了 `--hogan` 選項，以支援 [Hogan.js](http://twitter.github.io/hogan.js/)。
+
+- 已移除 `--sessions` 選項。
+- 已移除 `--jshtml` 選項。
+- 新增了 `--hogan` 選項，以支援 [Hogan.js](http://twitter.github.io/hogan.js/)。
 
 <h3 id="">範例</h3>
 

@@ -4,6 +4,7 @@ title: Express yönlendirmesi
 menu: guide
 lang: tr
 ---
+
 <div id="page-doc" markdown="1">
 # Yönlendirme
 
@@ -19,13 +20,13 @@ Aslında yönlendirme metodları birden fazla geri çağırma fonksiyonunu argü
 Aşağıdaki kod çok temel bir rota örneğidir.
 
 ```js
-var express = require('express')
-var app = express()
+var express = require("express");
+var app = express();
 
 // anasayfaya bir GET isteği yapıldığında "merhaba dünya" ile yanıt verir
-app.get('/', function (req, res) {
-  res.send('merhaba dünya')
-})
+app.get("/", function (req, res) {
+  res.send("merhaba dünya");
+});
 ```
 
 <h2 id="route-methods">Rota metodları</h2>
@@ -36,14 +37,14 @@ Aşağıdaki kod uygulamanın köküne GET ve POST metodları için tanımlanan 
 
 ```js
 // GET metodu rotası
-app.get('/', function (req, res) {
-  res.send('anasayfaya GET isteği')
-})
+app.get("/", function (req, res) {
+  res.send("anasayfaya GET isteği");
+});
 
 // POST metodu rotası
-app.post('/', function (req, res) {
-  res.send('anasayfaya POST isteği')
-})
+app.post("/", function (req, res) {
+  res.send("anasayfaya POST isteği");
+});
 ```
 
 Express, HTTP metodlarına karşılık gelen bu yönlendirme metodlarını destekler: `get`, `post`, `put`, `head`, `delete`, `options`, `trace`, `copy`, `lock`, `mkcol`, `move`, `purge`, `propfind`, `proppatch`, `unlock`, `report`, `mkactivity`, `checkout`, `merge`, `m-search`, `notify`, `subscribe`, `unsubscribe`, `patch`, `search`, ve `connect`.
@@ -58,10 +59,10 @@ Hiçbir HTTP metodundan türemeyen özel bir yönlendirme metodu olan `app.all()
 Bir sonraki örnekte, "/secret" rotasına yapılan isteklerde, GET, POST, PUT, DELETE veya [http modülü](https://nodejs.org/api/http.html#http_http_methods)'nde desteklenen herhangi bir HTTP istek metodu farketmeksizin bu işleyici çalıştırılacak.
 
 ```js
-app.all('/secret', function (req, res, next) {
-  console.log('Gizli bölümlere erişiliyor...')
-  next() // bir sonraki işleyiciye kontrolü verir
-})
+app.all("/secret", function (req, res, next) {
+  console.log("Gizli bölümlere erişiliyor...");
+  next(); // bir sonraki işleyiciye kontrolü verir
+});
 ```
 
 <h2 id="route-paths">Rota yolları</h2>
@@ -85,25 +86,25 @@ Karakter dizininlerine dayalı bazı rota yolları örnekleri.
 Bu rota yolu, istekleri kök rotaya eşleştirecek, `/`.
 
 ```js
-app.get('/', function (req, res) {
-  res.send('root')
-})
+app.get("/", function (req, res) {
+  res.send("root");
+});
 ```
 
 Bu rota yolu istekleri `/about` ile eşleştirecek
 
 ```js
-app.get('/about', function (req, res) {
-  res.send('about')
-})
+app.get("/about", function (req, res) {
+  res.send("about");
+});
 ```
 
 Bu rota yolu istekleri `/random.text` ile eşleştirecek
 
 ```js
-app.get('/random.text', function (req, res) {
-  res.send('random.text')
-})
+app.get("/random.text", function (req, res) {
+  res.send("random.text");
+});
 ```
 
 Aşağıda, dizin modellerine dayalı rota yollarının bazı örnekleri verilmiştir.
@@ -111,33 +112,33 @@ Aşağıda, dizin modellerine dayalı rota yollarının bazı örnekleri verilmi
 Bu rota yolu, `acd` ve `abcd` ile eşleşecek.
 
 ```js
-app.get('/ab?cd', function (req, res) {
-  res.send('ab?cd')
-})
+app.get("/ab?cd", function (req, res) {
+  res.send("ab?cd");
+});
 ```
 
 Bu rota yolu, `abcd`, `abbcd`, `abbbcd` vb. ile eşleşecek.
 
 ```js
-app.get('/ab+cd', function (req, res) {
-  res.send('ab+cd')
-})
+app.get("/ab+cd", function (req, res) {
+  res.send("ab+cd");
+});
 ```
 
 Bu rota yolu, `abcd`, `abxcd`, `abRANDOMcd`, `ab123cd` vb. ile eşleşecek.
 
 ```js
-app.get('/ab*cd', function (req, res) {
-  res.send('ab*cd')
-})
+app.get("/ab*cd", function (req, res) {
+  res.send("ab*cd");
+});
 ```
 
 Bu rota yolu, `/abe` ve `/abcde` ile eşleşecek.
 
 ```js
-app.get('/ab(cd)?e', function (req, res) {
-  res.send('ab(cd)?e')
-})
+app.get("/ab(cd)?e", function (req, res) {
+  res.send("ab(cd)?e");
+});
 ```
 
 Düzenli ifadelere dayalı rota yolları örnekleri:
@@ -146,16 +147,16 @@ Bu rota yolu, rota isminde "a" karakteri olan herhangi bir şey ile eşleşecek.
 
 ```js
 app.get(/a/, function (req, res) {
-  res.send('/a/')
-})
+  res.send("/a/");
+});
 ```
 
 Bu rota yolu `butterfly` ve `dragonfly` ile eşleşir, ancak `butterflyman`, `dragonflyman` vb. ile değil.
 
 ```js
 app.get(/.*fly$/, function (req, res) {
-  res.send('/.*fly$/')
-})
+  res.send("/.*fly$/");
+});
 ```
 
 <h3 id="route-parameters">Rota parametreleri</h3>
@@ -171,9 +172,9 @@ req.params: { "userId": "34", "bookId": "8989" }
 Parametreli rota tanımlamak için, aşağıda gösterildiği gibi rota parametrelerini rotanın yolunda belirtmeniz yeterlidir.
 
 ```js
-app.get('/users/:userId/books/:bookId', function (req, res) {
-  res.send(req.params)
-})
+app.get("/users/:userId/books/:bookId", function (req, res) {
+  res.send(req.params);
+});
 ```
 
 <div class="doc-box doc-notice" markdown="1">
@@ -214,83 +215,92 @@ Express 4.x'te, <a href="https://github.com/expressjs/express/issues/2495">düze
 
 Bir isteği işlemek için, [ara-katman](/{{ page.lang }}/guide/using-middleware.html) gibi davranan birden fazla geri çağırma fonksiyonu sağlayabilirsiniz. Bunun tek istisnası, bu geri çağırmalar, arda kalan rota metodlarını atlatmak için `next('route')` metodunu çağırabilir. Bir rotaya ön koşullar uygulamak için bu mekanizmayı kullanabilirsiniz, ve sonra geçerli rotaya devam etmek için bir neden yoksa kontrolü sonraki rotalara aktarabilirsiniz.
 
-
 Rota işleyicileri, aşağıdaki örneklerde gösterildiği gibi bir fonksiyon, fonksiyonlar dizisi veya her ikisinin birleşimi biçiminde olabilir.
 
 Bir geri çağırma fonksiyonu, bir rotayı işleyebilir. Örneğin:
 
 ```js
-app.get('/example/a', function (req, res) {
-  res.send('A\'dan merhaba')
-})
+app.get("/example/a", function (req, res) {
+  res.send("A'dan merhaba");
+});
 ```
 
 Birden fazla geri çağırma fonksiyonu bir rotayı işleyebilir (`next` objesini belirttiğinizden emin olun). Örneğin:
 
 ```js
-app.get('/example/b', function (req, res, next) {
-  console.log('yanıt bir sonraki fonksiyon tarafından gönderilecek')
-  next()
-}, function (req, res) {
-  res.send('B\'den merhaba')
-})
+app.get(
+  "/example/b",
+  function (req, res, next) {
+    console.log("yanıt bir sonraki fonksiyon tarafından gönderilecek");
+    next();
+  },
+  function (req, res) {
+    res.send("B'den merhaba");
+  }
+);
 ```
+
 Geri çağırma fonksiyonları dizini bir rotayı işleyebilir. Örneğin:
 
 ```js
 var cb0 = function (req, res, next) {
-  console.log('Geri çağırma 0')
-  next()
-}
+  console.log("Geri çağırma 0");
+  next();
+};
 
 var cb1 = function (req, res, next) {
-  console.log('Geri çağırma 1')
-  next()
-}
+  console.log("Geri çağırma 1");
+  next();
+};
 
 var cb2 = function (req, res) {
-  res.send('C\'den merhaba')
-}
+  res.send("C'den merhaba");
+};
 
-app.get('/example/c', [cb0, cb1, cb2])
+app.get("/example/c", [cb0, cb1, cb2]);
 ```
 
 Bağımsız fonksiyonlar ve fonksiyon dizilerinin bir kombinasyonu bir rotayı işleyebilir. Örneğin:
 
 ```js
 var cb0 = function (req, res, next) {
-  console.log('Geri çağırma 0')
-  next()
-}
+  console.log("Geri çağırma 0");
+  next();
+};
 
 var cb1 = function (req, res, next) {
-  console.log('Geri çağırma 1')
-  next()
-}
+  console.log("Geri çağırma 1");
+  next();
+};
 
-app.get('/example/d', [cb0, cb1], function (req, res, next) {
-  console.log('yanıt bir sonraki fonksiyon tarafından gönderilecek')
-  next()
-}, function (req, res) {
-  res.send('D\'den merhaba')
-})
+app.get(
+  "/example/d",
+  [cb0, cb1],
+  function (req, res, next) {
+    console.log("yanıt bir sonraki fonksiyon tarafından gönderilecek");
+    next();
+  },
+  function (req, res) {
+    res.send("D'den merhaba");
+  }
+);
 ```
 
 <h2 id="response-methods">Yanıt metodları</h2>
 
 Aşağıdaki tabloda yanıt nesnesindeki (`res`) metodlar istemciye yanıt gönderebilir ve istek-yanıt döngüsünü sonlandırabilir. Bu metodlardan hiçbiri bir rota işleyiciden çağrılmazsa, istemci isteği asılı kalır.
 
-| Metod                | Açıklama
-|----------------------|--------------------------------------
-| [res.download()](/{{ page.lang }}/4x/api.html#res.download)   | Bir dosyanın indirilmesini iste.
-| [res.end()](/{{ page.lang }}/4x/api.html#res.end)        | Yanıt sürecini sonlandır.
-| [res.json()](/{{ page.lang }}/4x/api.html#res.json)       | JSON yanıtı gönder.
-| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)      | JSONP destekli bir JSON yanıtı gönder
-| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)   | Bir isteği yeniden yönlendir.
-| [res.render()](/{{ page.lang }}/4x/api.html#res.render)     | Bir görünüm şablonu görüntüle.
-| [res.send()](/{{ page.lang }}/4x/api.html#res.send)       | Çeşitli tiplerde yanıt gönder.
-| [res.sendFile()](/{{ page.lang }}/4x/api.html#res.sendFile)     | Dosyayı sekizli akış olarak gönder.
-| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | Yanıt durum kodunu ayarla ve karakter dize temsilini yanıt gövdesi olarak gönder.
+| Metod                                                           | Açıklama                                                                          |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| [res.download()](/{{ page.lang }}/4x/api.html#res.download)     | Bir dosyanın indirilmesini iste.                                                  |
+| [res.end()](/{{ page.lang }}/4x/api.html#res.end)               | Yanıt sürecini sonlandır.                                                         |
+| [res.json()](/{{ page.lang }}/4x/api.html#res.json)             | JSON yanıtı gönder.                                                               |
+| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)           | JSONP destekli bir JSON yanıtı gönder                                             |
+| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)     | Bir isteği yeniden yönlendir.                                                     |
+| [res.render()](/{{ page.lang }}/4x/api.html#res.render)         | Bir görünüm şablonu görüntüle.                                                    |
+| [res.send()](/{{ page.lang }}/4x/api.html#res.send)             | Çeşitli tiplerde yanıt gönder.                                                    |
+| [res.sendFile()](/{{ page.lang }}/4x/api.html#res.sendFile)     | Dosyayı sekizli akış olarak gönder.                                               |
+| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | Yanıt durum kodunu ayarla ve karakter dize temsilini yanıt gövdesi olarak gönder. |
 
 <h2 id="app-route">app.route()</h2>
 
@@ -300,16 +310,17 @@ Yol tek bir konumda belirtildiğinden, fazlalık ve yazım hatalarını azaltmak
 Burada `app.route()` kullanılarak tanımlanan zincirleme rota işleyicilerine bir örnek verilmiştir.
 
 ```js
-app.route('/book')
+app
+  .route("/book")
   .get(function (req, res) {
-    res.send('Rastgele bir kitap getir')
+    res.send("Rastgele bir kitap getir");
   })
   .post(function (req, res) {
-    res.send('Bir kitap ekle')
+    res.send("Bir kitap ekle");
   })
   .put(function (req, res) {
-    res.send('Kitabı güncelle')
-  })
+    res.send("Kitabı güncelle");
+  });
 ```
 
 <h2 id="express-router">express.Router</h2>
@@ -321,35 +332,36 @@ Aşağıdaki örnek, bir yönlendiriciyi modül olarak oluşturur, içine bir ar
 Uygulama dizininde aşağıdaki içeriğe sahip `birds.js` adlı bir yönlendirici dosyası oluşturun:
 
 ```js
-var express = require('express')
-var router = express.Router()
+var express = require("express");
+var router = express.Router();
 
 // bu yönlendiriciye özel ara katman yazılım
-router.use(function timeLog (req, res, next) {
-  console.log('Time: ', Date.now())
-  next()
-})
+router.use(function timeLog(req, res, next) {
+  console.log("Time: ", Date.now());
+  next();
+});
 // anasayfa rotası tanımla
-router.get('/', function (req, res) {
-  res.send('Birds home page')
-})
+router.get("/", function (req, res) {
+  res.send("Birds home page");
+});
 // define the about route
-router.get('/about', function (req, res) {
-  res.send('About birds')
-})
+router.get("/about", function (req, res) {
+  res.send("About birds");
+});
 
-module.exports = router
+module.exports = router;
 ```
 
 Daha sonra, yönlendirici modülünü uygulamada yükle:
 
 ```js
-var birds = require('./birds')
+var birds = require("./birds");
 
 // ...
 
-app.use('/birds', birds)
+app.use("/birds", birds);
 ```
 
 Uygulama artık `/birds` ve `/birds/about` isteklerini işleyebileceği gibi, rotaya özgü `timeLog` ara katman yazılımı fonksiyonunu da çağırabilecektir.
+
 </div>

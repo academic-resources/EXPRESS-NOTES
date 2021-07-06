@@ -1,48 +1,131 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Glossaire Express</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-</head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Glossaire Express</h1>
-</header>
-<h1 id="glossaire">Glossaire</h1>
-<h3 id="application">application</h3>
-<p>En général, un ou plusieurs programmes conçus pour réaliser des opérations dans un but précis. Dans le contexte d’Express, il s’agit d’un programme qui utilise l’API Express s’exécutant sur la plateforme Node.js. Peut également faire référence à un <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#express">objet d’application</a>.</p>
-<h3 id="api">API</h3>
-<p>Interface de programme d’application. Développez l’abréviation lorsqu’elle est utilisée pour la première fois.</p>
-<h3 id="demande">demande</h3>
-<p>Demande HTTP. Un client soumet un message de demande HTTP à un serveur, qui renvoie une réponse. La demande doit utiliser une des <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods">méthodes de demande</a> telles que GET, POST…</p>
-<h3 id="express">Express</h3>
-<p>Infrastructure Web minimaliste, souple et rapide pour les applications Node.js. En général, on préfère utiliser “Express” que “Express.js,” bien que ce dernier soit acceptable.</p>
-<h3 id="libuv">libuv</h3>
-<p>Bibliothèque de prise en charge multiplateforme qui se centralise sur les E-S asynchrones, développée principalement pour être utilisée par Node.js.</p>
-<h3 id="middleware">middleware</h3>
-<p>Fonction qui est appelée par la couche de routage Express avant le gestionnaire de demande final, et qui se trouve entre une demande brute et la route finale prévue. Quelques points subtiles de terminologie autour des middleware :</p>
-<ul>
-<li><code>var foo = require('middleware')</code> est appelé <em>demande</em> ou <em>utilisation</em> d’un module Node.js. Ensuite, l’instruction <code>var mw = foo()</code> renvoie généralement le middleware.</li>
-<li><code>app.use(mw)</code> est appelé <em>ajout du middleware à la pile de processus global</em>.</li>
-<li><code>app.get('/foo', mw, function (req, res) { ... })</code> est appelé <em>ajout du middleware à la pile de processus “GET /foo”</em>.</li>
-</ul>
-<h3 id="node.js">Node.js</h3>
-<p>Plateforme logicielle utilisée pour générer des applications réseau évolutives. Node.js utilise JavaScript comme langage de script, et atteint un rendement élevé via une E-S non bloquante et une boucle d’événements à une seule unité d’exécution. Voir <a href="http://nodejs.org/">nodejs.org</a>. <strong>Note d’utilisation</strong> : En général, “Node.js,” “Node” par la suite.</p>
-<h3 id="open-source-open-source">open-source, open source</h3>
-<p>Lorsqu’il est utilisé comme adjectif, utilisez la forme avec le trait d’union. Par exemple : “Il s’agit d’un logiciel open-source.” Voir <a href="http://en.wikipedia.org/wiki/Open-source_software">Open-source software sur Wikipedia</a>. Remarque : Bien qu’open-source ne soit pas commun, nous utilisons les règles anglaises standard pour unir par un trait d’union un adjectif composé.</p>
-<h3 id="réponse">réponse</h3>
-<p>Réponse HTTP. Un serveur renvoie un message de réponse HTTP au client. La réponse contient des informations relatives à l’état d’achèvement de la demande et peut également contenir le contenu demandé dans le corps du message.</p>
-<h3 id="route">route</h3>
-<p>Partie de l’URL qui permet d’identifier une ressource. Par exemple, dans <code>http://foo.com/products/id</code>, “/products/id” est la route.</p>
-<h3 id="routeur">routeur</h3>
-<p>Voir <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router">routeur</a> dans Référence de l’API.</p>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Glossaire Express</title>
+    <style type="text/css">
+      code {
+        white-space: pre-wrap;
+      }
+      span.smallcaps {
+        font-variant: small-caps;
+      }
+      span.underline {
+        text-decoration: underline;
+      }
+      div.column {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="title-block-header">
+      <h1 class="title">Glossaire Express</h1>
+    </header>
+    <h1 id="glossaire">Glossaire</h1>
+    <h3 id="application">application</h3>
+    <p>
+      En général, un ou plusieurs programmes conçus pour réaliser des opérations
+      dans un but précis. Dans le contexte d’Express, il s’agit d’un programme
+      qui utilise l’API Express s’exécutant sur la plateforme Node.js. Peut
+      également faire référence à un
+      <a href="/%7B%7B%20page.lang%20%7D%7D/api.html#express"
+        >objet d’application</a
+      >.
+    </p>
+    <h3 id="api">API</h3>
+    <p>
+      Interface de programme d’application. Développez l’abréviation lorsqu’elle
+      est utilisée pour la première fois.
+    </p>
+    <h3 id="demande">demande</h3>
+    <p>
+      Demande HTTP. Un client soumet un message de demande HTTP à un serveur,
+      qui renvoie une réponse. La demande doit utiliser une des
+      <a
+        href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods"
+        >méthodes de demande</a
+      >
+      telles que GET, POST…
+    </p>
+    <h3 id="express">Express</h3>
+    <p>
+      Infrastructure Web minimaliste, souple et rapide pour les applications
+      Node.js. En général, on préfère utiliser “Express” que “Express.js,” bien
+      que ce dernier soit acceptable.
+    </p>
+    <h3 id="libuv">libuv</h3>
+    <p>
+      Bibliothèque de prise en charge multiplateforme qui se centralise sur les
+      E-S asynchrones, développée principalement pour être utilisée par Node.js.
+    </p>
+    <h3 id="middleware">middleware</h3>
+    <p>
+      Fonction qui est appelée par la couche de routage Express avant le
+      gestionnaire de demande final, et qui se trouve entre une demande brute et
+      la route finale prévue. Quelques points subtiles de terminologie autour
+      des middleware :
+    </p>
+    <ul>
+      <li>
+        <code>var foo = require('middleware')</code> est appelé
+        <em>demande</em> ou <em>utilisation</em> d’un module Node.js. Ensuite,
+        l’instruction <code>var mw = foo()</code> renvoie généralement le
+        middleware.
+      </li>
+      <li>
+        <code>app.use(mw)</code> est appelé
+        <em>ajout du middleware à la pile de processus global</em>.
+      </li>
+      <li>
+        <code>app.get('/foo', mw, function (req, res) { ... })</code> est appelé
+        <em>ajout du middleware à la pile de processus “GET /foo”</em>.
+      </li>
+    </ul>
+    <h3 id="node.js">Node.js</h3>
+    <p>
+      Plateforme logicielle utilisée pour générer des applications réseau
+      évolutives. Node.js utilise JavaScript comme langage de script, et atteint
+      un rendement élevé via une E-S non bloquante et une boucle d’événements à
+      une seule unité d’exécution. Voir
+      <a href="http://nodejs.org/">nodejs.org</a>.
+      <strong>Note d’utilisation</strong> : En général, “Node.js,” “Node” par la
+      suite.
+    </p>
+    <h3 id="open-source-open-source">open-source, open source</h3>
+    <p>
+      Lorsqu’il est utilisé comme adjectif, utilisez la forme avec le trait
+      d’union. Par exemple : “Il s’agit d’un logiciel open-source.” Voir
+      <a href="http://en.wikipedia.org/wiki/Open-source_software"
+        >Open-source software sur Wikipedia</a
+      >. Remarque : Bien qu’open-source ne soit pas commun, nous utilisons les
+      règles anglaises standard pour unir par un trait d’union un adjectif
+      composé.
+    </p>
+    <h3 id="réponse">réponse</h3>
+    <p>
+      Réponse HTTP. Un serveur renvoie un message de réponse HTTP au client. La
+      réponse contient des informations relatives à l’état d’achèvement de la
+      demande et peut également contenir le contenu demandé dans le corps du
+      message.
+    </p>
+    <h3 id="route">route</h3>
+    <p>
+      Partie de l’URL qui permet d’identifier une ressource. Par exemple, dans
+      <code>http://foo.com/products/id</code>, “/products/id” est la route.
+    </p>
+    <h3 id="routeur">routeur</h3>
+    <p>
+      Voir
+      <a href="/%7B%7B%20page.lang%20%7D%7D/4x/api.html#router">routeur</a> dans
+      Référence de l’API.
+    </p>
+  </body>
 </html>

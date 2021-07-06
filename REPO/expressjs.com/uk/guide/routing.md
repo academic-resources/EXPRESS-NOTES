@@ -158,7 +158,7 @@ You can provide multiple callback functions that behave like [middleware](/{{ pa
 
 Route handlers can be in the form of a function, an array of functions, or combinations of both, as shown in the following examples.
 
-A single callback function can handle a route.  For example:
+A single callback function can handle a route. For example:
 
 <pre><code class="language-javascript" translate="no">
 app.get('/example/a', function (req, res) {
@@ -177,7 +177,7 @@ app.get('/example/b', function (req, res, next) {
 });
 </code></pre>
 
-An array of callback functions can handle a route.  For example:
+An array of callback functions can handle a route. For example:
 
 <pre><code class="language-javascript" translate="no">
 var cb0 = function (req, res, next) {
@@ -197,7 +197,7 @@ var cb2 = function (req, res) {
 app.get('/example/c', [cb0, cb1, cb2]);
 </code></pre>
 
-A combination of independent functions and arrays of functions can handle a route.  For example:
+A combination of independent functions and arrays of functions can handle a route. For example:
 
 <pre><code class="language-javascript" translate="no">
 var cb0 = function (req, res, next) {
@@ -222,17 +222,17 @@ app.get('/example/d', [cb0, cb1], function (req, res, next) {
 
 The methods on the response object (`res`) in the following table can send a response to the client, and terminate the request-response cycle. If none of these methods are called from a route handler, the client request will be left hanging.
 
-| Method               | Description
-|----------------------|--------------------------------------
-| [res.download()](/{{ page.lang }}/4x/api.html#res.download)   | Prompt a file to be downloaded.
-| [res.end()](/{{ page.lang }}/4x/api.html#res.end)        | End the response process.
-| [res.json()](/{{ page.lang }}/4x/api.html#res.json)       | Send a JSON response.
-| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)      | Send a JSON response with JSONP support.
-| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)   | Redirect a request.
-| [res.render()](/{{ page.lang }}/4x/api.html#res.render)     | Render a view template.
-| [res.send()](/{{ page.lang }}/4x/api.html#res.send)       | Send a response of various types.
-| [res.sendFile()](/{{ page.lang }}/4x/api.html#res.sendFile)     | Send a file as an octet stream.
-| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | Set the response status code and send its string representation as the response body.
+| Method                                                          | Description                                                                           |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| [res.download()](/{{ page.lang }}/4x/api.html#res.download)     | Prompt a file to be downloaded.                                                       |
+| [res.end()](/{{ page.lang }}/4x/api.html#res.end)               | End the response process.                                                             |
+| [res.json()](/{{ page.lang }}/4x/api.html#res.json)             | Send a JSON response.                                                                 |
+| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)           | Send a JSON response with JSONP support.                                              |
+| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)     | Redirect a request.                                                                   |
+| [res.render()](/{{ page.lang }}/4x/api.html#res.render)         | Render a view template.                                                               |
+| [res.send()](/{{ page.lang }}/4x/api.html#res.send)             | Send a response of various types.                                                     |
+| [res.sendFile()](/{{ page.lang }}/4x/api.html#res.sendFile)     | Send a file as an octet stream.                                                       |
+| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | Set the response status code and send its string representation as the response body. |
 
 <h2 id="app-route">app.route()</h2>
 

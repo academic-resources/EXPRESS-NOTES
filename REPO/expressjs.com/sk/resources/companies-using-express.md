@@ -7,7 +7,6 @@ lang: sk
 
 # Firmy používajúce Express v produkcii
 
-
 <div style="text-align:center;">
     <a target="_new" class="imagelink" href="http://www.accenture.com/">
       <img alt="accenture" class="memberlogo" src="/images/companies/accenture-logo.png" />

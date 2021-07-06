@@ -13,8 +13,8 @@ lang: zh-tw
 
 顯然地，這個主題屬於 "devops" 領域，涵蓋了傳統開發和作業兩者。因此，資訊分為兩大部分：
 
-* [在程式碼中的作法](#code)（開發部分）。
-* [在環境 / 設定中的作法](#env)（作業部分）。
+- [在程式碼中的作法](#code)（開發部分）。
+- [在環境 / 設定中的作法](#env)（作業部分）。
 
 <a name="code"></a>
 
@@ -22,16 +22,15 @@ lang: zh-tw
 
 以下是您可以在程式碼中執行的一些作法，藉以改良您應用程式的效能：
 
-* 採用 gzip 壓縮
-* 不使用同步函數
-* 使用中介軟體來提供靜態檔案
-* 正確執行記載
-* 適當處理異常狀況
+- 採用 gzip 壓縮
+- 不使用同步函數
+- 使用中介軟體來提供靜態檔案
+- 正確執行記載
+- 適當處理異常狀況
 
 ### 採用 gzip 壓縮
 
 Gzip 壓縮可以大幅減少回應內文的大小，從而提高 Web 應用程式的速度。請使用 [compression](https://www.npmjs.com/package/compression) 中介軟體，在您的 Express 應用程式中進行 gzip 壓縮。例如：
-
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -81,15 +80,15 @@ Node 應用程式一旦遇到未捕捉到的異常狀況，就會當機。如果
 
 為了確保您能處理所有的異常狀況，請使用下列技術：
 
-* [使用 try-catch](#try-catch)
-* [使用 promise](#promises)
+- [使用 try-catch](#try-catch)
+- [使用 promise](#promises)
 
 在分別討論這兩個主題之前，您對 Node/Express 錯誤處理方式應有基本的瞭解：使用「錯誤優先回呼」，並將錯誤傳播至中介軟體。Node 從非同步函數傳回錯誤時，會採用「錯誤優先回呼」慣例，其中，回呼函數的第一個參數是錯誤物件，接著是後續參數中的結果資料。如果要指出無錯誤，會傳遞 null 作為第一個參數。回呼函數必須同樣遵循「錯誤優先回呼」慣例，才能實際處理錯誤。在 Express 中，最佳作法是使用 next() 函數，透過中介軟體鏈來傳播錯誤。
 
 如需進一步瞭解錯誤處理的基本概念，請參閱：
 
-* [Error Handling in Node.js](https://www.joyent.com/developers/node/design/errors)
-* [Building Robust Node Applications: Error Handling](https://strongloop.com/strongblog/robust-node-applications-error-handling/) (StrongLoop blog)
+- [Error Handling in Node.js](https://www.joyent.com/developers/node/design/errors)
+- [Building Robust Node Applications: Error Handling](https://strongloop.com/strongblog/robust-node-applications-error-handling/) (StrongLoop blog)
 
 #### 禁止事項
 
@@ -134,7 +133,6 @@ app.get('/search', function (req, res) {
 
 只要非同步程式碼區塊使用 `then()`，promise 就會處理其中的任何異常狀況（包括明確和隱含）。只需在 promise 鏈尾端新增 `.catch(next)` 即可。例如：
 
-
 <pre>
 <code class="language-javascript" translate="no">
 app.get('/', function (req, res, next) {
@@ -175,8 +173,8 @@ app.get('/', wrap(async (req, res, next) => {
 
 如需使用 promise 來處理錯誤的相關資訊，請參閱：
 
-* [Asynchronous Error Handling in Express with Promises, Generators and ES7](https://strongloop.com/strongblog/async-error-handling-expressjs-es7-promises-generators/)
-* [Promises in Node.js with Q – An Alternative to Callbacks](https://strongloop.com/strongblog/promises-in-node-js-with-q-an-alternative-to-callbacks/)
+- [Asynchronous Error Handling in Express with Promises, Generators and ES7](https://strongloop.com/strongblog/async-error-handling-expressjs-es7-promises-generators/)
+- [Promises in Node.js with Q – An Alternative to Callbacks](https://strongloop.com/strongblog/promises-in-node-js-with-q-an-alternative-to-callbacks/)
 
 <a name="env"></a>
 
@@ -184,12 +182,12 @@ app.get('/', wrap(async (req, res, next) => {
 
 以下是您可以在系統環境中執行的一些作法，藉以改良您應用程式的效能：
 
-* 將 NODE_ENV 設為 "production"
-* 確定您的應用程式自動重新啟動
-* 在叢集中執行應用程式
-* 快取要求結果
-* 使用負載平衡器
-* 使用反向 Proxy
+- 將 NODE_ENV 設為 "production"
+- 確定您的應用程式自動重新啟動
+- 在叢集中執行應用程式
+- 快取要求結果
+- 使用負載平衡器
+- 使用反向 Proxy
 
 ### 將 NODE_ENV 設為 "production"
 
@@ -197,9 +195,9 @@ NODE_ENV 環境變數用來指定應用程式的執行環境（通常是開發�
 
 將 NODE_ENV 設為 "production"，可讓 Express：
 
-* 快取視圖範本。
-* 快取從 CSS 延伸項目產生的 CSS 檔案。
-* 產生簡略的錯誤訊息。
+- 快取視圖範本。
+- 快取從 CSS 延伸項目產生的 CSS 檔案。
+- 產生簡略的錯誤訊息。
 
 [測試指出](http://apmblog.dynatrace.com/2015/07/22/the-drastic-effects-of-omitting-node_env-in-your-express-js-applications/)單單這樣做，就能提高 3 倍的應用程式效能！
 
@@ -208,7 +206,6 @@ NODE_ENV 環境變數用來指定應用程式的執行環境（通常是開發�
 在開發中，您通常是在互動式 Shell 中設定環境變數，例如，使用 `export` 或您的 `.bash_profile` 檔。但是在正式作業伺服器中，通常您應該不會這樣做；反而是使用您作業系統的 init 系統（systemd 或 Upstart）。下一節詳述一般性的 init 系統用法，但由於設定 NODE_ENV 對於效能來說很重要（而且輕而易舉），這裡仍特別強調。
 
 採用 Upstart 時，請在您的工作檔中使用 `env` 關鍵字。例如：
-
 
 <pre>
 <code class="language-sh" translate="no">
@@ -220,7 +217,6 @@ NODE_ENV 環境變數用來指定應用程式的執行環境（通常是開發�
 如需相關資訊，請參閱 [Upstart Intro, Cookbook and Best Practices](http://upstart.ubuntu.com/cookbook/#environment-variables)。
 
 採用 systemd 時，請在單位檔案中使用 `Environment` 指引。例如：
-
 
 <pre>
 <code class="language-sh" translate="no">
@@ -239,8 +235,8 @@ Environment=NODE_ENV=production
 
 在正式作業中，您始終不希望您的應用程式離線。也就是說，不論是應用程式當機，或是伺服器本身當機，您都需要確保它會重新啟動。儘管最好這些事件都不要發生，您仍必須務實看待這兩種可能的情況，其作法如下：
 
-* 當應用程式（和 Node）當機時，使用程序管理程式重新啟動它。
-* 當作業系統當機時，使用您作業系統提供的 init 系統，來重新啟動程序管理程式。也有可能可以使用 init 系統，而不使用程序管理程式。
+- 當應用程式（和 Node）當機時，使用程序管理程式重新啟動它。
+- 當作業系統當機時，使用您作業系統提供的 init 系統，來重新啟動程序管理程式。也有可能可以使用 init 系統，而不使用程序管理程式。
 
 Node 應用程式一旦遇到未捕捉到的異常狀況，就會當機。首要之務是確定您的應用程式已妥善測試，且已處理所有的異常狀況（請參閱[適當處理異常狀況](#exceptions)，以取得詳細資料）。但是萬全的作法是落實執行機制，以確保萬一您的應用程式當機，它會自動重新啟動。
 
@@ -250,15 +246,15 @@ Node 應用程式一旦遇到未捕捉到的異常狀況，就會當機。首要
 
 除了在應用程式當機時重新啟動它，程序管理程式還可讓您：
 
-* 洞察執行時期效能和資源的耗用情況。
-* 動態修改設定，以改良效能。
-* 控制叢集作業（StrongLoop PM 和 pm2）。
+- 洞察執行時期效能和資源的耗用情況。
+- 動態修改設定，以改良效能。
+- 控制叢集作業（StrongLoop PM 和 pm2）。
 
 最普及的 Node 程序管理程式如下：
 
-* [StrongLoop Process Manager](http://strong-pm.io/)
-* [PM2](https://github.com/Unitech/pm2)
-* [Forever](https://www.npmjs.com/package/forever)
+- [StrongLoop Process Manager](http://strong-pm.io/)
+- [PM2](https://github.com/Unitech/pm2)
+- [Forever](https://www.npmjs.com/package/forever)
 
 有關這三種程序管理程式的特性比較，請參閱 [http://strong-pm.io/compare/](http://strong-pm.io/compare/)。如需這三種的詳細介紹，請參閱 [Express 應用程式的程序管理程式](/{{ page.lang }}/advanced/pm.html)。
 
@@ -266,12 +262,12 @@ Node 應用程式一旦遇到未捕捉到的異常狀況，就會當機。首要
 
 不過，StrongLoop PM 有許多特性明確以正式作業部署為目標。您可以使用它和相關的 StrongLoop 工具來：
 
-* 在本端建置和包裝您的應用程式，然後安全地部署到正式作業系統。
-* 在應用程式當機時（不論任何原因），自動重新啟動。
-* 遠端管理叢集。
-* 檢視 CPU 設定檔和資料堆 Snapshot，使效能達到最佳，並診斷記憶體洩漏情況。
-* 檢視您應用程式的效能度量。
-* 藉由 Nginx 負載平衡器的整合控制，輕鬆調整至多部主機。
+- 在本端建置和包裝您的應用程式，然後安全地部署到正式作業系統。
+- 在應用程式當機時（不論任何原因），自動重新啟動。
+- 遠端管理叢集。
+- 檢視 CPU 設定檔和資料堆 Snapshot，使效能達到最佳，並診斷記憶體洩漏情況。
+- 檢視您應用程式的效能度量。
+- 藉由 Nginx 負載平衡器的整合控制，輕鬆調整至多部主機。
 
 如同以下說明，當您使用 init 系統將 StrongLoop PM 安裝成作業系統服務時，它會自動隨系統一起重新啟動。因此，它會讓您的應用程式程序和叢集永遠維持作用中。
 
@@ -281,8 +277,8 @@ Node 應用程式一旦遇到未捕捉到的異常狀況，就會當機。首要
 
 init 系統若要與 Express 應用程式搭配使用，其作法有二：
 
-* 在程序管理程式中執行應用程式，並利用 init 系統將程序管理程式安裝成服務。當應用程式當機時，程序管理程式會重新啟動應用程式，且 init 系統會在作業系統重新啟動時，重新啟動程序管理程式。這是建議的作法。
-* 直接使用 init 系統來執行應用程式（和 Node）。這樣做比較簡單，但卻少了使用程序管理程式時的其他好處。
+- 在程序管理程式中執行應用程式，並利用 init 系統將程序管理程式安裝成服務。當應用程式當機時，程序管理程式會重新啟動應用程式，且 init 系統會在作業系統重新啟動時，重新啟動程序管理程式。這是建議的作法。
+- 直接使用 init 系統來執行應用程式（和 Node）。這樣做比較簡單，但卻少了使用程序管理程式時的其他好處。
 
 ##### Systemd
 
@@ -321,6 +317,7 @@ Restart=always
 WantedBy=multi-user.target
 </code>
 </pre>
+
 如需 systemd 的相關資訊，請參閱 [systemd 參照（線上指令說明）](http://www.freedesktop.org/software/systemd/man/systemd.unit.html)。
 
 ##### 將 StrongLoop PM 當成 systemd 服務
@@ -391,9 +388,9 @@ respawn limit 10 10
 
 除了自動重新啟動應用程式，Upstart 可讓您使用下列指令：
 
-* `start myapp` – 啟動應用程式
-* `restart myapp` – 重新啟動應用程式
-* `stop myapp` – 停止應用程式。
+- `start myapp` – 啟動應用程式
+- `restart myapp` – 重新啟動應用程式
+- `stop myapp` – 停止應用程式。
 
 如需 Upstart 的相關資訊，請參閱 [Upstart Intro, Cookbook and Best Practises](http://upstart.ubuntu.com/cookbook)。
 

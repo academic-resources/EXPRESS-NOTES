@@ -5,14 +5,14 @@
  * MIT Licensed
  */
 
-'use strict';
+"use strict";
 
 /**
  * Module dependencies.
  */
 
-var cookie = require('cookie')
-var deprecate = require('depd')('express-session')
+var cookie = require("cookie");
+var deprecate = require("depd")("express-session");
 
 /**
  * Initialize a new `Cookie` with the given `options`.
@@ -22,34 +22,33 @@ var deprecate = require('depd')('express-session')
  * @api private
  */
 
-var Cookie = module.exports = function Cookie(options) {
-  this.path = '/';
+var Cookie = (module.exports = function Cookie(options) {
+  this.path = "/";
   this.maxAge = null;
   this.httpOnly = true;
 
   if (options) {
-    if (typeof options !== 'object') {
-      throw new TypeError('argument options must be a object')
+    if (typeof options !== "object") {
+      throw new TypeError("argument options must be a object");
     }
 
     for (var key in options) {
-      if (key !== 'data') {
-        this[key] = options[key]
+      if (key !== "data") {
+        this[key] = options[key];
       }
     }
   }
 
   if (this.originalMaxAge === undefined || this.originalMaxAge === null) {
-    this.originalMaxAge = this.maxAge
+    this.originalMaxAge = this.maxAge;
   }
-};
+});
 
 /*!
  * Prototype.
  */
 
 Cookie.prototype = {
-
   /**
    * Set expires `date`.
    *
@@ -81,17 +80,15 @@ Cookie.prototype = {
    */
 
   set maxAge(ms) {
-    if (ms && typeof ms !== 'number' && !(ms instanceof Date)) {
-      throw new TypeError('maxAge must be a number or Date')
+    if (ms && typeof ms !== "number" && !(ms instanceof Date)) {
+      throw new TypeError("maxAge must be a number or Date");
     }
 
     if (ms instanceof Date) {
-      deprecate('maxAge as Date; pass number of milliseconds instead')
+      deprecate("maxAge as Date; pass number of milliseconds instead");
     }
 
-    this.expires = typeof ms === 'number'
-      ? new Date(Date.now() + ms)
-      : ms;
+    this.expires = typeof ms === "number" ? new Date(Date.now() + ms) : ms;
   },
 
   /**
@@ -116,14 +113,14 @@ Cookie.prototype = {
 
   get data() {
     return {
-      originalMaxAge: this.originalMaxAge
-      , expires: this._expires
-      , secure: this.secure
-      , httpOnly: this.httpOnly
-      , domain: this.domain
-      , path: this.path
-      , sameSite: this.sameSite
-    }
+      originalMaxAge: this.originalMaxAge,
+      expires: this._expires,
+      secure: this.secure,
+      httpOnly: this.httpOnly,
+      domain: this.domain,
+      path: this.path,
+      sameSite: this.sameSite,
+    };
   },
 
   /**
@@ -133,7 +130,7 @@ Cookie.prototype = {
    * @api public
    */
 
-  serialize: function(name, val){
+  serialize: function (name, val) {
     return cookie.serialize(name, val, this.data);
   },
 
@@ -144,7 +141,7 @@ Cookie.prototype = {
    * @api private
    */
 
-  toJSON: function(){
+  toJSON: function () {
     return this.data;
-  }
+  },
 };

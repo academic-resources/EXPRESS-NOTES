@@ -31,4 +31,6 @@
   margin: 0;
 }
 
-.dropit .dropit-open .dropit-submenu { display: block; }
+.dropit .dropit-open .dropit-submenu {
+  display: block;
+}

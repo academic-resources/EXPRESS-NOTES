@@ -13,8 +13,8 @@ lang: zh-cn
 
 本主题明显属于“DevOps”范畴，涵盖了传统的开发和运行流程。因此，本信息也相应地分为两个部分：
 
-* [代码中的注意事项](#code)（开发部分）。
-* [环境/设置中的注意事项](#env)（运行部分）。
+- [代码中的注意事项](#code)（开发部分）。
+- [环境/设置中的注意事项](#env)（运行部分）。
 
 <a name="code"></a>
 
@@ -22,11 +22,11 @@ lang: zh-cn
 
 以下是为改进应用程序性能而在代码中要注意的事项：
 
-* 使用 gzip 压缩
-* 不使用同步函数
-* 使用中间件提供静态文件
-* 正确进行日志记录
-* 正确处理异常
+- 使用 gzip 压缩
+- 不使用同步函数
+- 使用中间件提供静态文件
+- 正确进行日志记录
+- 正确处理异常
 
 ### 使用 gzip 压缩
 
@@ -71,15 +71,15 @@ Node 应用程序在遇到未捕获的异常时会崩溃。不处理异常并采
 
 要确保处理所有异常，请使用以下方法：
 
-* [使用 try-catch](#try-catch)
-* [使用 promise](#promises)
+- [使用 try-catch](#try-catch)
+- [使用 promise](#promises)
 
 在深入了解这些主题之前，应该对 Node/Express 错误处理有基本的了解：使用 error-first 回调并在中间件中传播错误。Node 将“error-first 回调”约定用于从异步函数返回错误，回调函数的第一个参数是错误对象，后续参数中包含结果数据。为了表明没有错误，可将 null 值作为第一个参数传递。回调函数必须相应地遵循“error-first”回调约定，以便有意义地处理错误。在 Express 中，最佳做法是使用 next() 函数，通过中间件链来传播错误。
 
 有关错误处理基本知识的更多信息，请参阅：
 
-* [Error Handling in Node.js](https://www.joyent.com/developers/node/design/errors)
-* [Building Robust Node Applications: Error Handling](https://strongloop.com/strongblog/robust-node-applications-error-handling/)（StrongLoop 博客）
+- [Error Handling in Node.js](https://www.joyent.com/developers/node/design/errors)
+- [Building Robust Node Applications: Error Handling](https://strongloop.com/strongblog/robust-node-applications-error-handling/)（StrongLoop 博客）
 
 #### 请勿执行以下操作
 
@@ -165,8 +165,8 @@ app.get('/', wrap(async (req, res, next) => {
 
 有关使用 Promise 来处理错误的更多信息，请参阅：
 
-* [Asynchronous Error Handling in Express with Promises, Generators and ES7](https://strongloop.com/strongblog/async-error-handling-expressjs-es7-promises-generators/)
-* [Promises in Node.js with Q – An Alternative to Callbacks](https://strongloop.com/strongblog/promises-in-node-js-with-q-an-alternative-to-callbacks/)
+- [Asynchronous Error Handling in Express with Promises, Generators and ES7](https://strongloop.com/strongblog/async-error-handling-expressjs-es7-promises-generators/)
+- [Promises in Node.js with Q – An Alternative to Callbacks](https://strongloop.com/strongblog/promises-in-node-js-with-q-an-alternative-to-callbacks/)
 
 <a name="env"></a>
 
@@ -174,12 +174,12 @@ app.get('/', wrap(async (req, res, next) => {
 
 以下是为改进应用程序性能而在系统环境中要注意的事项：
 
-* 将 NODE_ENV 设置为“production”
-* 确保应用程序能够自动重新启动
-* 在集群中运行应用程序
-* 高速缓存请求结果
-* 使用负载均衡器
-* 使用逆向代理
+- 将 NODE_ENV 设置为“production”
+- 确保应用程序能够自动重新启动
+- 在集群中运行应用程序
+- 高速缓存请求结果
+- 使用负载均衡器
+- 使用逆向代理
 
 ### 将 NODE_ENV 设置为“production”
 
@@ -187,9 +187,9 @@ NODE_ENV 环境变量指定运行应用程序的环境（通常是开发或者�
 
 将 NODE_ENV 设置为“production”会使 Express：
 
-* 高速缓存视图模板。
-* 高速缓存从 CSS 扩展生成的 CSS 文件。
-* 生成简短的错误消息。
+- 高速缓存视图模板。
+- 高速缓存从 CSS 扩展生成的 CSS 文件。
+- 生成简短的错误消息。
 
 [测试表明](http://apmblog.dynatrace.com/2015/07/22/the-drastic-effects-of-omitting-node_env-in-your-express-js-applications/)仅仅这样做就可以使应用程序性能提高 3 倍多！
 
@@ -225,8 +225,8 @@ Environment=NODE_ENV=production
 
 在生产环境中，您肯定不希望应用程序脱机。这意味着需要确保在应用程序崩溃的情况下以及服务器自身崩溃的情况下应用程序都能够重新启动。虽然您不希望这两种情况发生，但是必须未雨绸缪，以防不测：
 
-* 使用进程管理器在应用程序（和 Node）崩溃时将其重新启动。
-* 在操作系统崩溃时，使用操作系统提供的初始化系统重新启动进程管理器。还可以在没有进程管理器的情况下使用初始化系统。
+- 使用进程管理器在应用程序（和 Node）崩溃时将其重新启动。
+- 在操作系统崩溃时，使用操作系统提供的初始化系统重新启动进程管理器。还可以在没有进程管理器的情况下使用初始化系统。
 
 Node 应用程序在遇到未捕获的异常时会崩溃。您需要确保应用程序经过彻底测试，能够处理所有异常，这一点最为重要（请参阅[正确处理异常](#exceptions)以了解详细信息）。但是，作为一种防故障措施，请实施一种机制，确保应用程序崩溃后可以自动重新启动。
 
@@ -236,15 +236,15 @@ Node 应用程序在遇到未捕获的异常时会崩溃。您需要确保应用
 
 除了在应用程序崩溃时将其重新启动外，进程管理器还可以执行以下操作：
 
-* 获得对运行时性能和资源消耗的洞察。
-* 动态修改设置以改善性能。
-* 控制集群（StrongLoop PM 和 pm2）。
+- 获得对运行时性能和资源消耗的洞察。
+- 动态修改设置以改善性能。
+- 控制集群（StrongLoop PM 和 pm2）。
 
 Node 的最流行进程管理器包括：
 
-* [StrongLoop Process Manager](http://strong-pm.io/)
-* [PM2](https://github.com/Unitech/pm2)
-* [Forever](https://www.npmjs.com/package/forever)
+- [StrongLoop Process Manager](http://strong-pm.io/)
+- [PM2](https://github.com/Unitech/pm2)
+- [Forever](https://www.npmjs.com/package/forever)
 
 要了解对这三种进程管理器的逐个功能的比较，请参阅 [http://strong-pm.io/compare/](http://strong-pm.io/compare/)。有关这所有三种进程管理器的更详细介绍，请参阅 [Express 应用程序的进程管理器](/{{ page.lang }}/advanced/pm.html)。
 
@@ -252,12 +252,12 @@ Node 的最流行进程管理器包括：
 
 但 StrongLoop PM 有许多专门针对生产部署的功能。您可以使用该管理器以及相关的 StrongLoop 工具执行以下功能：
 
-* 在本地构建和打包应用程序，然后将其安全地部署到生产系统。
-* 在应用程序由于任何原因而崩溃时自动将其重新启动。
-* 远程管理集群。
-* 查看 CPU 概要文件和堆快照，以优化性能和诊断内存泄漏。
-* 查看应用程序的性能指标。
-* 轻松地扩展到具有 Nginx 负载均衡器集成控制的多个主机。
+- 在本地构建和打包应用程序，然后将其安全地部署到生产系统。
+- 在应用程序由于任何原因而崩溃时自动将其重新启动。
+- 远程管理集群。
+- 查看 CPU 概要文件和堆快照，以优化性能和诊断内存泄漏。
+- 查看应用程序的性能指标。
+- 轻松地扩展到具有 Nginx 负载均衡器集成控制的多个主机。
 
 如以下所述，在使用初始化系统将 StrongLoop PM 作为操作系统服务安装后，StrongLoop PM 会在系统重新启动时自动重新启动。这样，就可以确保应用程序进程和集群持久保持运行。
 
@@ -267,8 +267,8 @@ Node 的最流行进程管理器包括：
 
 有两种方法将初始化系统用于 Express 应用程序：
 
-* 在进程管理器中运行应用程序，使用初始化系统将进程管理器安装为服务。进程管理器将在应用程序崩溃时将其重新启动，初始化系统则在操作系统重新启动时重新启动进程管理器。这是建议使用的方法。
-* 通过初始化系统直接运行应用程序（和 Node）。这样做要简单些，但是无法发挥使用进程管理器的额外优点。
+- 在进程管理器中运行应用程序，使用初始化系统将进程管理器安装为服务。进程管理器将在应用程序崩溃时将其重新启动，初始化系统则在操作系统重新启动时重新启动进程管理器。这是建议使用的方法。
+- 通过初始化系统直接运行应用程序（和 Node）。这样做要简单些，但是无法发挥使用进程管理器的额外优点。
 
 ##### Systemd
 
@@ -307,7 +307,9 @@ Restart=always
 WantedBy=multi-user.target
 </code>
 </pre>
+
 有关 systemd 的更多信息，请参阅 [systemd 参考（联机帮助页）](http://www.freedesktop.org/software/systemd/man/systemd.unit.html)。
+
 ##### 作为 systemd 服务的 StrongLoop PM
 
 可以轻松地将 StrongLoop Process Manager 作为 systemd 服务安装。这样做之后，当服务器重新启动时，它会自动重新启动 StrongLoop PM，后者又会重新启动所管理的所有应用程序。
@@ -376,9 +378,9 @@ respawn limit 10 10
 
 除了自动重新启动此应用程序，Upstart 还支持您使用以下命令：
 
-* `start myapp` - 启动应用程序
-* `restart myapp` - 重新启动应用程序
-* `stop myapp` - 停止应用程序。
+- `start myapp` - 启动应用程序
+- `restart myapp` - 重新启动应用程序
+- `stop myapp` - 停止应用程序。
 
 有关 Upstart 的更多信息，请参阅 [Upstart Intro, Cookbook and Best Practises](http://upstart.ubuntu.com/cookbook)。
 

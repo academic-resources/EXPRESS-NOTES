@@ -7,8 +7,8 @@ lang: pt-br
 
 # Roteamento
 
-O *Roteamento* refere-se à definição de terminais
-do aplicativo (URIs) e como eles respondem  às solicitações do
+O _Roteamento_ refere-se à definição de terminais
+do aplicativo (URIs) e como eles respondem às solicitações do
 cliente.
 Para obter uma introdução a roteamento, consulte
 [Roteamento básico](/{{ page.lang }}/starter/basic-routing.html).
@@ -217,7 +217,7 @@ Manipuladores de rota podem estar na forma de uma função, uma
 matriz de funções, ou combinações de ambas, como mostrado nos
 seguintes exemplos.
 
-Uma única função de retorno de chamada pode manipular uma rota.  Por exemplo:
+Uma única função de retorno de chamada pode manipular uma rota. Por exemplo:
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -242,7 +242,7 @@ app.get('/example/b', function (req, res, next) {
 </pre>
 
 Uma matriz de funções de retorno de chamada podem manipular uma
-rota.  Por exemplo:
+rota. Por exemplo:
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -265,7 +265,7 @@ app.get('/example/c', [cb0, cb1, cb2]);
 </pre>
 
 Uma combinação de funções independentes e matrizes de funções
-podem manipular uma rota.  Por exemplo:
+podem manipular uma rota. Por exemplo:
 
 <pre>
 <code class="language-javascript" translate="no">
@@ -291,22 +291,22 @@ app.get('/example/d', [cb0, cb1], function (req, res, next) {
 <h2 id="response-methods">Métodos de resposta</h2>
 
 Os métodos do objeto de resposta (`res`) na
-seguinte tabela  podem enviar uma resposta ao cliente, e finalizar o
+seguinte tabela podem enviar uma resposta ao cliente, e finalizar o
 ciclo solicitação-resposta. Se nenhum destes métodos forem chamados a
 partir de um manipulador de rota, a solicitação do cliente será
 deixada em suspenso.
 
-| Método               | Descrição
-|----------------------|--------------------------------------
-| [res.download()](/{{ page.lang }}/4x/api.html#res.download)   | Solicita que seja efetuado o download de um arquivo
-| [res.end()](/{{ page.lang }}/4x/api.html#res.end)        | Termina o processo de resposta.
-| [res.json()](/{{ page.lang }}/4x/api.html#res.json)       | Envia uma resposta JSON.
-| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)      | Envia uma resposta JSON com suporta ao JSONP.
-| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)   | Redireciona uma solicitação.
-| [res.render()](/{{ page.lang }}/4x/api.html#res.render)     | Renderiza um modelo de visualização.
-| [res.send()](/{{ page.lang }}/4x/api.html#res.send)       | Envia uma resposta de vários tipos.
-| [res.sendFile](/{{ page.lang }}/4x/api.html#res.sendFile)     | Envia um arquivo como um fluxo de octeto.
-| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | Configura o código do status de resposta e envia a sua representação em sequência de caracteres como o corpo de resposta.
+| Método                                                          | Descrição                                                                                                                 |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| [res.download()](/{{ page.lang }}/4x/api.html#res.download)     | Solicita que seja efetuado o download de um arquivo                                                                       |
+| [res.end()](/{{ page.lang }}/4x/api.html#res.end)               | Termina o processo de resposta.                                                                                           |
+| [res.json()](/{{ page.lang }}/4x/api.html#res.json)             | Envia uma resposta JSON.                                                                                                  |
+| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)           | Envia uma resposta JSON com suporta ao JSONP.                                                                             |
+| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)     | Redireciona uma solicitação.                                                                                              |
+| [res.render()](/{{ page.lang }}/4x/api.html#res.render)         | Renderiza um modelo de visualização.                                                                                      |
+| [res.send()](/{{ page.lang }}/4x/api.html#res.send)             | Envia uma resposta de vários tipos.                                                                                       |
+| [res.sendFile](/{{ page.lang }}/4x/api.html#res.sendFile)       | Envia um arquivo como um fluxo de octeto.                                                                                 |
+| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | Configura o código do status de resposta e envia a sua representação em sequência de caracteres como o corpo de resposta. |
 
 <h2 id="app-route">app.route()</h2>
 

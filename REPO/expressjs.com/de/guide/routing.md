@@ -7,7 +7,7 @@ lang: de
 
 # Weiterleitung (Routing)
 
-Der Begriff *Weiterleitung* (Routing) bezieht sich auf die Definition von Anwendungsendpunkten (URIs) und deren Antworten auf Clientanforderungen. Eine Einführung in dieses Routing siehe [Basisrouting](/{{ page.lang }}/starter/basic-routing.html).
+Der Begriff _Weiterleitung_ (Routing) bezieht sich auf die Definition von Anwendungsendpunkten (URIs) und deren Antworten auf Clientanforderungen. Eine Einführung in dieses Routing siehe [Basisrouting](/{{ page.lang }}/starter/basic-routing.html).
 
 Der folgende Code ist ein Beispiel für ein sehr einfaches Basisrouting.
 
@@ -252,17 +252,17 @@ app.get('/example/d', [cb0, cb1], function (req, res, next) {
 
 Über die Methoden für das Antwortobjekt (`res`) in der folgenden Tabelle kann eine Antwort an den Client gesendet und der Anforderung/Antwort-Zyklus beendet werden. Wenn keine dieser Methoden über einen Routenhandler aufgerufen wird, bleibt die Clientanforderung im Status "blockiert".
 
-| Methode               | Beschreibung
-|----------------------|--------------------------------------
-| [res.download()](/{{ page.lang }}/4x/api.html#res.download)   | Gibt eine Eingabeaufforderung zum Herunterladen einer Datei aus.
-| [res.end()](/{{ page.lang }}/4x/api.html#res.end)        | Beendet den Prozess "Antwort".
-| [res.json()](/{{ page.lang }}/4x/api.html#res.json)       | Sendet eine JSON-Antwort.
-| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)      | Sendet eine JSON-Antwort mit JSONP-Unterstützung.
-| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)   | Leitet eine Anforderung um.
-| [res.render()](/{{ page.lang }}/4x/api.html#res.render)     | Gibt eine Anzeigevorlage aus.
-| [res.send()](/{{ page.lang }}/4x/api.html#res.send)       | Sendet eine Antwort mit unterschiedlichen Typen.
-| [res.sendFile](/{{ page.lang }}/4x/api.html#res.sendFile)     | Sendet eine Datei als Oktett-Stream.
-| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | Legt den Antwortstatuscode fest und sendet dessen Zeichenfolgedarstellung als Antworthauptteil.
+| Methode                                                         | Beschreibung                                                                                    |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| [res.download()](/{{ page.lang }}/4x/api.html#res.download)     | Gibt eine Eingabeaufforderung zum Herunterladen einer Datei aus.                                |
+| [res.end()](/{{ page.lang }}/4x/api.html#res.end)               | Beendet den Prozess "Antwort".                                                                  |
+| [res.json()](/{{ page.lang }}/4x/api.html#res.json)             | Sendet eine JSON-Antwort.                                                                       |
+| [res.jsonp()](/{{ page.lang }}/4x/api.html#res.jsonp)           | Sendet eine JSON-Antwort mit JSONP-Unterstützung.                                               |
+| [res.redirect()](/{{ page.lang }}/4x/api.html#res.redirect)     | Leitet eine Anforderung um.                                                                     |
+| [res.render()](/{{ page.lang }}/4x/api.html#res.render)         | Gibt eine Anzeigevorlage aus.                                                                   |
+| [res.send()](/{{ page.lang }}/4x/api.html#res.send)             | Sendet eine Antwort mit unterschiedlichen Typen.                                                |
+| [res.sendFile](/{{ page.lang }}/4x/api.html#res.sendFile)       | Sendet eine Datei als Oktett-Stream.                                                            |
+| [res.sendStatus()](/{{ page.lang }}/4x/api.html#res.sendStatus) | Legt den Antwortstatuscode fest und sendet dessen Zeichenfolgedarstellung als Antworthauptteil. |
 
 <h2 id="app-route">app.route()</h2>
 

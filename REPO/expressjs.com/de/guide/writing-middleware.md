@@ -9,14 +9,14 @@ lang: de
 
 <h2>Überblick</h2>
 
-*Middlewarefunktionen* sind Funktionen, die Zugriff auf das [Anforderungsobjekt](/{{ page.lang }}/4x/api.html#req) (`req`), das [Antwortobjekt](/{{ page.lang }}/4x/api.html#res) (`res`) und die nächste Middlewarefunktion im Anforderung/Antwort-Zyklus der Anwendung haben. Die nächste Middlewarefunktion wird im Allgemeinen durch die Variable `next` bezeichnet.
+_Middlewarefunktionen_ sind Funktionen, die Zugriff auf das [Anforderungsobjekt](/{{ page.lang }}/4x/api.html#req) (`req`), das [Antwortobjekt](/{{ page.lang }}/4x/api.html#res) (`res`) und die nächste Middlewarefunktion im Anforderung/Antwort-Zyklus der Anwendung haben. Die nächste Middlewarefunktion wird im Allgemeinen durch die Variable `next` bezeichnet.
 
 Über Middlewarefunktionen lassen sich die folgenden Tasks ausführen:
 
-* Ausführen von Code
-* Vornehmen von Änderungen an der Anforderung und an Antwortobjekten
-* Beenden des Anforderung/Antwort-Zyklus
-* Aufrufen der nächsten Middleware im Stack
+- Ausführen von Code
+- Vornehmen von Änderungen an der Anforderung und an Antwortobjekten
+- Beenden des Anforderung/Antwort-Zyklus
+- Aufrufen der nächsten Middleware im Stack
 
 Wenn über die aktuelle Middlewarefunktion der Anforderung/Antwort-Zyklus nicht beendet werden kann, muss `next()` aufgerufen werden, um die Steuerung an die nächste Middlewarefunktion zu übergeben. Andernfalls geht die Anforderung in den Status "Blockiert" über.
 
@@ -70,7 +70,6 @@ var myLogger = function (req, res, next) {
 <div class="doc-box doc-notice" markdown="1">
 Beachten Sie den Aufruf oben zu `next()`. Durch den Aufruf dieser Funktion wird die nächste Middlewarefunktion in der Anwendung aufgerufen. Die Funktion `next()` ist nicht Teil der Node.js- oder Express-API, sondern das dritte Argument, das an die Middlewarefunktion übergeben wird. Die Funktion `next()` kann jeden beliebigen Namen haben, per Konvention erhält sie jedoch immer den Namen "next". Um Unklarheiten zu vermeiden, sollten Sie immer diese Konvention verwenden.
 </div>
-
 
 Zum Laden der Middlewarefunktion rufen Sie `app.use()` auf und geben die Middlewarefunktion an. Beispiel: Durch den folgenden Code wird die Middlewarefunktion `myLogger` vor der Weiterleitung zum Stammverzeichnispfad (/) geladen.
 

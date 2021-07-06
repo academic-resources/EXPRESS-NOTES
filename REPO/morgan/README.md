@@ -24,7 +24,7 @@ $ npm install morgan
 <!-- eslint-disable no-unused-vars -->
 
 ```js
-var morgan = require('morgan')
+var morgan = require("morgan");
 ```
 
 ### morgan(format, options)
@@ -43,7 +43,7 @@ line, or `undefined` / `null` to skip logging.
 <!-- eslint-disable no-undef -->
 
 ```js
-morgan('tiny')
+morgan("tiny");
 ```
 
 #### Using format string of predefined tokens
@@ -51,23 +51,25 @@ morgan('tiny')
 <!-- eslint-disable no-undef -->
 
 ```js
-morgan(':method :url :status :res[content-length] - :response-time ms')
+morgan(":method :url :status :res[content-length] - :response-time ms");
 ```
 
 #### Using a custom format function
 
 <!-- eslint-disable no-undef -->
 
-``` js
+```js
 morgan(function (tokens, req, res) {
   return [
     tokens.method(req, res),
     tokens.url(req, res),
     tokens.status(req, res),
-    tokens.res(req, res, 'content-length'), '-',
-    tokens['response-time'](req, res), 'ms'
-  ].join(' ')
-})
+    tokens.res(req, res, "content-length"),
+    "-",
+    tokens["response-time"](req, res),
+    "ms",
+  ].join(" ");
+});
 ```
 
 #### Options
@@ -89,9 +91,11 @@ will be called as `skip(req, res)`.
 
 ```js
 // EXAMPLE: only log error responses
-morgan('combined', {
-  skip: function (req, res) { return res.statusCode < 400 }
-})
+morgan("combined", {
+  skip: function (req, res) {
+    return res.statusCode < 400;
+  },
+});
 ```
 
 ##### stream
@@ -156,7 +160,9 @@ available as ":type" in this case:
 <!-- eslint-disable no-undef -->
 
 ```js
-morgan.token('type', function (req, res) { return req.headers['content-type'] })
+morgan.token("type", function (req, res) {
+  return req.headers["content-type"];
+});
 ```
 
 Calling `morgan.token()` using the same name as an existing token will overwrite that
@@ -170,9 +176,9 @@ it's choosing to customize behavior.
 
 The current date and time in UTC. The available formats are:
 
-  - `clf` for the common log format (`"10/Oct/2000:13:55:36 +0000"`)
-  - `iso` for the common ISO 8601 date time format (`2000-10-10T13:55:36.000Z`)
-  - `web` for the common RFC 1123 date time format (`Tue, 10 Oct 2000 13:55:36 GMT`)
+- `clf` for the common log format (`"10/Oct/2000:13:55:36 +0000"`)
+- `iso` for the common ISO 8601 date time format (`2000-10-10T13:55:36.000Z`)
+- `web` for the common RFC 1123 date time format (`Tue, 10 Oct 2000 13:55:36 GMT`)
 
 If no format is given, then the default is `web`.
 
@@ -261,16 +267,16 @@ advanced uses, this compile function is directly available.
 Sample app that will log all request in the Apache combined format to STDOUT
 
 ```js
-var express = require('express')
-var morgan = require('morgan')
+var express = require("express");
+var morgan = require("morgan");
 
-var app = express()
+var app = express();
 
-app.use(morgan('combined'))
+app.use(morgan("combined"));
 
-app.get('/', function (req, res) {
-  res.send('hello, world!')
-})
+app.get("/", function (req, res) {
+  res.send("hello, world!");
+});
 ```
 
 ### vanilla http server
@@ -278,23 +284,23 @@ app.get('/', function (req, res) {
 Sample app that will log all request in the Apache combined format to STDOUT
 
 ```js
-var finalhandler = require('finalhandler')
-var http = require('http')
-var morgan = require('morgan')
+var finalhandler = require("finalhandler");
+var http = require("http");
+var morgan = require("morgan");
 
 // create "middleware"
-var logger = morgan('combined')
+var logger = morgan("combined");
 
 http.createServer(function (req, res) {
-  var done = finalhandler(req, res)
+  var done = finalhandler(req, res);
   logger(req, res, function (err) {
-    if (err) return done(err)
+    if (err) return done(err);
 
     // respond to request
-    res.setHeader('content-type', 'text/plain')
-    res.end('hello, world!')
-  })
-})
+    res.setHeader("content-type", "text/plain");
+    res.end("hello, world!");
+  });
+});
 ```
 
 ### write logs to a file
@@ -305,22 +311,24 @@ Sample app that will log all requests in the Apache combined format to the file
 `access.log`.
 
 ```js
-var express = require('express')
-var fs = require('fs')
-var morgan = require('morgan')
-var path = require('path')
+var express = require("express");
+var fs = require("fs");
+var morgan = require("morgan");
+var path = require("path");
 
-var app = express()
+var app = express();
 
 // create a write stream (in append mode)
-var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+var accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
+  flags: "a",
+});
 
 // setup the logger
-app.use(morgan('combined', { stream: accessLogStream }))
+app.use(morgan("combined", { stream: accessLogStream }));
 
-app.get('/', function (req, res) {
-  res.send('hello, world!')
-})
+app.get("/", function (req, res) {
+  res.send("hello, world!");
+});
 ```
 
 #### log file rotation
@@ -330,25 +338,25 @@ file per day in the `log/` directory using the
 [rotating-file-stream module](https://www.npmjs.com/package/rotating-file-stream).
 
 ```js
-var express = require('express')
-var morgan = require('morgan')
-var path = require('path')
-var rfs = require('rotating-file-stream') // version 2.x
+var express = require("express");
+var morgan = require("morgan");
+var path = require("path");
+var rfs = require("rotating-file-stream"); // version 2.x
 
-var app = express()
+var app = express();
 
 // create a rotating write stream
-var accessLogStream = rfs.createStream('access.log', {
-  interval: '1d', // rotate daily
-  path: path.join(__dirname, 'log')
-})
+var accessLogStream = rfs.createStream("access.log", {
+  interval: "1d", // rotate daily
+  path: path.join(__dirname, "log"),
+});
 
 // setup the logger
-app.use(morgan('combined', { stream: accessLogStream }))
+app.use(morgan("combined", { stream: accessLogStream }));
 
-app.get('/', function (req, res) {
-  res.send('hello, world!')
-})
+app.get("/", function (req, res) {
+  res.send("hello, world!");
+});
 ```
 
 ### split / dual logging
@@ -356,34 +364,42 @@ app.get('/', function (req, res) {
 The `morgan` middleware can be used as many times as needed, enabling
 combinations like:
 
-  * Log entry on request and one on response
-  * Log all requests to file, but errors to console
-  * ... and more!
+- Log entry on request and one on response
+- Log all requests to file, but errors to console
+- ... and more!
 
 Sample app that will log all requests to a file using Apache format, but
 error responses are logged to the console:
 
 ```js
-var express = require('express')
-var fs = require('fs')
-var morgan = require('morgan')
-var path = require('path')
+var express = require("express");
+var fs = require("fs");
+var morgan = require("morgan");
+var path = require("path");
 
-var app = express()
+var app = express();
 
 // log only 4xx and 5xx responses to console
-app.use(morgan('dev', {
-  skip: function (req, res) { return res.statusCode < 400 }
-}))
+app.use(
+  morgan("dev", {
+    skip: function (req, res) {
+      return res.statusCode < 400;
+    },
+  })
+);
 
 // log all requests to access.log
-app.use(morgan('common', {
-  stream: fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
-}))
+app.use(
+  morgan("common", {
+    stream: fs.createWriteStream(path.join(__dirname, "access.log"), {
+      flags: "a",
+    }),
+  })
+);
 
-app.get('/', function (req, res) {
-  res.send('hello, world!')
-})
+app.get("/", function (req, res) {
+  res.send("hello, world!");
+});
 ```
 
 ### use custom token formats
@@ -391,26 +407,26 @@ app.get('/', function (req, res) {
 Sample app that will use custom token formats. This adds an ID to all requests and displays it using the `:id` token.
 
 ```js
-var express = require('express')
-var morgan = require('morgan')
-var uuid = require('node-uuid')
+var express = require("express");
+var morgan = require("morgan");
+var uuid = require("node-uuid");
 
-morgan.token('id', function getId (req) {
-  return req.id
-})
+morgan.token("id", function getId(req) {
+  return req.id;
+});
 
-var app = express()
+var app = express();
 
-app.use(assignId)
-app.use(morgan(':id :method :url :response-time'))
+app.use(assignId);
+app.use(morgan(":id :method :url :response-time"));
 
-app.get('/', function (req, res) {
-  res.send('hello, world!')
-})
+app.get("/", function (req, res) {
+  res.send("hello, world!");
+});
 
-function assignId (req, res, next) {
-  req.id = uuid.v4()
-  next()
+function assignId(req, res, next) {
+  req.id = uuid.v4();
+  next();
 }
 ```
 

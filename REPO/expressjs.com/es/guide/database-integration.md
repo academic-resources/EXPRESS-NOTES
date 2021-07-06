@@ -9,17 +9,17 @@ lang: es
 
 La adición de la funcionalidad de conectar bases de datos a las aplicaciones Express se consigue simplemente cargando el controlador de Node.js adecuado para la base de datos en la aplicación. En este documento se describe brevemente cómo añadir y utilizar algunos de los módulos de Node.js más conocidos para los sistemas de base de datos en la aplicación Express:
 
-* [Cassandra](#cassandra)
-* [CouchDB](#couchdb)
-* [LevelDB](#leveldb)
-* [MySQL](#mysql)
-* [MongoDB](#mongo)
-* [Neo4j](#neo4j)
-* [Oracle](#oracle)
-* [PostgreSQL](#postgres)
-* [Redis](#redis)
-* [SQLite](#sqlite)
-* [ElasticSearch](#elasticsearch)
+- [Cassandra](#cassandra)
+- [CouchDB](#couchdb)
+- [LevelDB](#leveldb)
+- [MySQL](#mysql)
+- [MongoDB](#mongo)
+- [Neo4j](#neo4j)
+- [Oracle](#oracle)
+- [PostgreSQL](#postgres)
+- [Redis](#redis)
+- [SQLite](#sqlite)
+- [ElasticSearch](#elasticsearch)
 
 <div class="doc-box doc-notice" markdown="1">
 Estos son algunos de los muchos controladores de base de datos que hay disponibles.  Para ver otras opciones, realice búsquedas en el sitio [npm](https://www.npmjs.com/).
@@ -236,37 +236,37 @@ $ npm install oracledb
 ### Ejemplo
 
 ```js
-const oracledb = require('oracledb')
+const oracledb = require("oracledb");
 const config = {
-  user: '<your db user>',
-  password: '<your db password>',
-  connectString: 'localhost:1521/orcl'
-}
+  user: "<your db user>",
+  password: "<your db password>",
+  connectString: "localhost:1521/orcl",
+};
 
-async function getEmployee (empId) {
-  let conn
+async function getEmployee(empId) {
+  let conn;
 
   try {
-    conn = await oracledb.getConnection(config)
+    conn = await oracledb.getConnection(config);
 
     const result = await conn.execute(
-      'select * from employees where employee_id = :id',
+      "select * from employees where employee_id = :id",
       [empId]
-    )
+    );
 
-    console.log(result.rows[0])
+    console.log(result.rows[0]);
   } catch (err) {
-    console.log('Ouch!', err)
+    console.log("Ouch!", err);
   } finally {
-    if (conn) { // conn assignment worked, need to close
-      await conn.close()
+    if (conn) {
+      // conn assignment worked, need to close
+      await conn.close();
     }
   }
 }
 
-getEmployee(101)
+getEmployee(101);
 ```
-
 
 <a name="postgres"></a>
 

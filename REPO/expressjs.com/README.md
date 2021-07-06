@@ -50,9 +50,9 @@ app.listen(3000)
 The result looks like this:
 
 ```js
-var express = require('express')
-var app = express()
-app.listen(3000)
+var express = require("express");
+var app = express();
+app.listen(3000);
 ```
 
 The default GitHub Pages syntax highlighting has been disabled in `_config.yml` to allow highlighting with [prism.js](https://prismjs.com/).

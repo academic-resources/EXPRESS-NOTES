@@ -4,6 +4,7 @@ title: Express - Node.js Web Uygulama Çatısı
 menu: home
 lang: tr
 ---
+
 <section id="home-content">
   {% include header/header-{{ page.lang }}.html %}
   <div id="overlay"></div>
@@ -28,17 +29,18 @@ lang: tr
     </div>
 
     <div id="apis">
-      <h3>API'ler</h3> 
-	  Sınırsız HTTP yardımcı araç ve katmanlar sayesinde sağlam bir API oluşturmak hızlı ve kolaydır.
+      <h3>API'ler</h3>
+      Sınırsız HTTP yardımcı araç ve katmanlar sayesinde sağlam bir API oluşturmak hızlı ve kolaydır.
     </div>
 
     <div id="performance">
-      <h3>Performans</h3> Express, bildiğiniz ve sevdiğiniz Node.js özelliklerini gizlemeden ince bir temel web uygulaması özellikleri katmanı sağlar.	  
+      <h3>Performans</h3> Express, bildiğiniz ve sevdiğiniz Node.js özelliklerini gizlemeden ince bir temel web uygulaması özellikleri katmanı sağlar.
     </div>
 
     <div id="frameworks">
       <h3>Çatılar</h3> Birçok <a href="resources/frameworks.html">popüler çatı</a> Express tabanlıdır.
     </div>
+
   </div>
 
 </section>

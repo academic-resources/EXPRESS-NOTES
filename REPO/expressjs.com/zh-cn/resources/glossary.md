@@ -35,9 +35,9 @@ HTTP 响应。服务器将 HTTP 响应消息返回给客户机。此响应包含
 
 在最终请求处理程序之前由 Express 路由层调用的函数，因此位于原始请求与最终期望的路由之间的中间位置。有关中间件的术语有几点说明：
 
-  * 调用 `var foo = require('middleware')`：*需要*或*使用* Node.js 模块。随后 `var mw = foo()` 语句通常返回中间件。
-  * 调用 `app.use(mw)`：*将中间件添加到全局处理堆栈*。
-  * 调用 `app.get('/foo', mw, function (req, res) { ... })`：*将中间件添加到“GET /foo”处理堆栈*。
+- 调用 `var foo = require('middleware')`：*需要*或*使用* Node.js 模块。随后 `var mw = foo()` 语句通常返回中间件。
+- 调用 `app.use(mw)`：_将中间件添加到全局处理堆栈_。
+- 调用 `app.get('/foo', mw, function (req, res) { ... })`：_将中间件添加到“GET /foo”处理堆栈_。
 
 ### API
 

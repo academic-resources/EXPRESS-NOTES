@@ -9,7 +9,7 @@ lang: pt-br
 
 <h2>Visão Geral</h2>
 
-Funções de *Middleware* são funções que tem acesso
+Funções de _Middleware_ são funções que tem acesso
 ao [objeto de solicitação](/{{ page.lang }}/4x/api.html#req)
 (`req`), o [objeto de resposta](/{{ page.lang }}/4x/api.html#res)
 (`res`), e a próxima função de middleware no ciclo
@@ -18,10 +18,10 @@ comumente denotada por uma variável chamada `next`.
 
 Funções de middleware podem executar as seguintes tarefas:
 
-* Executar qualquer código.
-* Fazer mudanças nos objetos de solicitação e resposta.
-* Encerrar o ciclo de solicitação-resposta.
-* Chamar o próximo middleware na pilha.
+- Executar qualquer código.
+- Fazer mudanças nos objetos de solicitação e resposta.
+- Encerrar o ciclo de solicitação-resposta.
+- Chamar o próximo middleware na pilha.
 
 Se a atual função de middleware não terminar o ciclo de
 solicitação-resposta, ela precisa chamar `next()`
@@ -116,7 +116,6 @@ app.listen(3000);
 Sempre que o aplicativo recebe uma chamada, ele imprime a mensagem "LOGGED" no terminal.
 
 A ordem de carregamento do middleware é importante: funções de middleware que são carregadas primeiro também são executadas primeiro.
-
 
 Se `myLogger` é carregada após a rota para o
 caminho raiz, a chamada nunca chegará a ela e o aplicativo não

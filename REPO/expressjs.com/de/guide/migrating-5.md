@@ -68,7 +68,7 @@ Anfänglich wurde `del` statt `delete` verwendet, weil `delete` in JavaScript ei
 
 <h4 id="app.param">app.param(fn)</h4>
 
-Die Signatur `app.param(fn)` wurde für die Änderung der Verhaltensweise der Funktion `app.param(name, fn)` verwendet. Seit v4.11.0 wurde sie nicht mehr verwendet.  In Express 5 wird sie überhaupt nicht mehr unterstützt.
+Die Signatur `app.param(fn)` wurde für die Änderung der Verhaltensweise der Funktion `app.param(name, fn)` verwendet. Seit v4.11.0 wurde sie nicht mehr verwendet. In Express 5 wird sie überhaupt nicht mehr unterstützt.
 
 <h4 id="plural">Pluralisierte Methodennamen</h4>
 
@@ -92,19 +92,19 @@ Dieses potenziell verwirrende und durchaus riskante Verfahren des Abrufens von F
 
 <h4 id="res.json">res.json(obj, status)</h4>
 
-Express 5 unterstützt die Signatur `res.json(obj, status)` nicht mehr. Stattdessen müssen Sie den Status festlegen und diesen dann mit `res.json()`-Methoden wie  dieser verketten: `res.status(status).json(obj)`.
+Express 5 unterstützt die Signatur `res.json(obj, status)` nicht mehr. Stattdessen müssen Sie den Status festlegen und diesen dann mit `res.json()`-Methoden wie dieser verketten: `res.status(status).json(obj)`.
 
 <h4 id="res.jsonp">res.jsonp(obj, status)</h4>
 
-Express 5 unterstützt die Signatur `res.jsonp(obj, status)` nicht mehr. Stattdessen müssen Sie den Status festlegen und diesen dann mit `res.jsonp()`-Methoden wie  dieser verketten: `res.status(status).jsonp(obj)`.
+Express 5 unterstützt die Signatur `res.jsonp(obj, status)` nicht mehr. Stattdessen müssen Sie den Status festlegen und diesen dann mit `res.jsonp()`-Methoden wie dieser verketten: `res.status(status).jsonp(obj)`.
 
 <h4 id="res.send.body">res.send(body, status)</h4>
 
-Express 5 unterstützt die Signatur `res.send(obj, status)` nicht mehr. Stattdessen müssen Sie den Status festlegen und diesen dann mit `res.send()`-Methoden wie  dieser verketten: `res.status(status).send(obj)`.
+Express 5 unterstützt die Signatur `res.send(obj, status)` nicht mehr. Stattdessen müssen Sie den Status festlegen und diesen dann mit `res.send()`-Methoden wie dieser verketten: `res.status(status).send(obj)`.
 
 <h4 id="res.send.status">res.send(status)</h4>
 
-Express 5 unterstützt die Signatur <code>res.send(<em>status</em>)</code>, nicht mehr, wobei *`status`* für eine Zahl steht. Verwenden Sie stattdessen die Funktion `res.sendStatus(statusCode)`, mit der der Statuscode für den HTTP-Antwort-Header festgelegt und die Textversion des Codes gesendet wird: "Not Found" (Nicht gefunden), "Internal Server Error" (Interner Serverfehler) usw. Wenn Sie eine Zahl senden und hierfür die Funktion `res.send()` verwenden müssen, müssen Sie die Zahl in Anführungszeichen setzen, um diese in eine Zeichenfolge zu konvertieren. Dadurch interpretiert Express diese Zahl nicht als Versuch, die nicht mehr unterstützte alte Signatur zu verwenden.
+Express 5 unterstützt die Signatur <code>res.send(<em>status</em>)</code>, nicht mehr, wobei _`status`_ für eine Zahl steht. Verwenden Sie stattdessen die Funktion `res.sendStatus(statusCode)`, mit der der Statuscode für den HTTP-Antwort-Header festgelegt und die Textversion des Codes gesendet wird: "Not Found" (Nicht gefunden), "Internal Server Error" (Interner Serverfehler) usw. Wenn Sie eine Zahl senden und hierfür die Funktion `res.send()` verwenden müssen, müssen Sie die Zahl in Anführungszeichen setzen, um diese in eine Zeichenfolge zu konvertieren. Dadurch interpretiert Express diese Zahl nicht als Versuch, die nicht mehr unterstützte alte Signatur zu verwenden.
 
 <h4 id="res.sendfile">res.sendfile()</h4>
 

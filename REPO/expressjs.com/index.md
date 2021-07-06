@@ -5,6 +5,7 @@ menu: home
 lang: en
 redirect_from: "/en/index.html"
 ---
+
 <section id="home-content">
   {% include header/header-{{ page.lang }}.html %}
   <div id="overlay"></div>
@@ -38,6 +39,7 @@ redirect_from: "/en/index.html"
     <div id="frameworks">
       <h3>Frameworks</h3> Many <a href="{{ page.lang }}/resources/frameworks.html">popular frameworks</a> are based on Express.
     </div>
+
   </div>
 
 </section>
