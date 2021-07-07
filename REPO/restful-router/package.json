@@ -24,7 +24,7 @@
     "travis-cov": "*",
     "coveralls": "*",
     "mocha-lcov-reporter": "*",
-    "urlrouter": ">=0.4.0",
+    "urlrouter": "0.5.4",
     "supertest": "*",
     "connect": "*",
     "mocha": "*",

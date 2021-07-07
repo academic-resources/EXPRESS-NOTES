@@ -10,15 +10,15 @@
   "repository": "expressjs/body-parser",
   "dependencies": {
     "bytes": "3.1.0",
-    "content-type": "~1.0.4",
+    "content-type": "1.0.4",
     "debug": "2.6.9",
-    "depd": "~1.1.2",
+    "depd": "1.1.2",
     "http-errors": "1.7.3",
     "iconv-lite": "0.4.24",
-    "on-finished": "~2.3.0",
+    "on-finished": "2.3.0",
     "qs": "6.9.3",
     "raw-body": "2.4.1",
-    "type-is": "~1.6.18"
+    "type-is": "1.6.18"
   },
   "devDependencies": {
     "eslint": "6.8.0",
