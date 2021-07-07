@@ -28,7 +28,7 @@
     "commander": "2.15.1",
     "ejs": "2.6.1",
     "minimatch": "3.0.4",
-    "mkdirp": "0.5.1",
+    "mkdirp": "0.5.5",
     "sorted-object": "2.0.1"
   },
   "main": "bin/express-cli.js",
