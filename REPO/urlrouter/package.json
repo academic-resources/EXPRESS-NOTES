@@ -43,7 +43,7 @@
     "travis-cov": "*",
     "coveralls": "*",
     "mocha-lcov-reporter": "*",
-    "connect": ">=1.8.0"
+    "connect": "3.7.0"
   },
   "engines": {
     "node": ">=0.6.7"

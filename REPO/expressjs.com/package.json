@@ -6,13 +6,13 @@
     "test": "eslint --ignore-path .gitignore --ignore-pattern _includes/readmes/ \"**/*.md\""
   },
   "devDependencies": {
-    "eslint": "^7.29.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-markdown": "^2.2.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.1.0"
+    "eslint": "7.30.0",
+    "eslint-config-standard": "14.1.1",
+    "eslint-plugin-import": "2.23.4",
+    "eslint-plugin-markdown": "2.2.0",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-promise": "4.3.1",
+    "eslint-plugin-standard": "4.1.0"
   },
   "eslintConfig": {
     "extends": [
