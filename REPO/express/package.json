@@ -73,7 +73,7 @@
     "method-override": "3.0.0",
     "mocha": "8.2.1",
     "morgan": "1.9.1",
-    "multiparty": "4.2.1",
+    "multiparty": "4.2.2",
     "pbkdf2-password": "1.2.1",
     "should": "13.2.3",
     "supertest": "6.1.3",
