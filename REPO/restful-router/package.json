@@ -16,7 +16,7 @@
     }
   },
   "dependencies": {
-    "debug": "0.7.2"
+    "debug": "0.8.1"
   },
   "devDependencies": {
     "should": "*",
