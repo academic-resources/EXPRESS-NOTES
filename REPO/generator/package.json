@@ -27,7 +27,7 @@
   "dependencies": {
     "commander": "2.15.1",
     "ejs": "2.6.1",
-    "minimatch": "3.0.4",
+    "minimatch": "3.0.5",
     "mkdirp": "0.5.1",
     "sorted-object": "2.0.1"
   },
