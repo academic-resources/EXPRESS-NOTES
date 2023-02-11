@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "eslint": "7.30.0",
-    "nodemon": "2.0.9"
+    "nodemon": "2.0.20"
   },
   "dependencies": {
     "express": "^4.17.1",
